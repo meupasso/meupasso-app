@@ -14,31 +14,41 @@ export async function GET(req: NextRequest) {
 
   const supabase = createServiceClient();
 
-  let query = supabase
+  // Count query (head = true returns count only)
+  let countQuery = supabase
     .from("vagas")
-    .select("*", { count: "exact" })
-    .eq("ativa", true)
-    .order("publicada_em", { ascending: false, nullsFirst: false });
+    .select("*", { count: "exact", head: true })
+    .eq("ativa", true);
 
-  if (tecnologia) {
-    query = query.contains("tecnologias", [tecnologia]);
+  if (tecnologia) countQuery = countQuery.contains("tecnologias", [tecnologia]);
+  if (tipo) countQuery = countQuery.eq("tipo", tipo);
+  if (remoto === "true") countQuery = countQuery.eq("remoto", true);
+
+  const { count, error: countError } = await countQuery;
+
+  if (countError) {
+    return NextResponse.json({ error: countError.message }, { status: 500 });
   }
 
-  if (tipo) {
-    query = query.eq("tipo", tipo);
-  }
+  // Data query with pagination
+  let dataQuery = supabase
+    .from("vagas")
+    .select("*")
+    .eq("ativa", true);
 
-  if (remoto === "true") {
-    query = query.eq("remoto", true);
-  }
+  if (tecnologia) dataQuery = dataQuery.contains("tecnologias", [tecnologia]);
+  if (tipo) dataQuery = dataQuery.eq("tipo", tipo);
+  if (remoto === "true") dataQuery = dataQuery.eq("remoto", true);
 
   const from = (pagina - 1) * porPagina;
-  const to = from + porPagina - 1;
+  const to = pagina * porPagina - 1;
 
-  const { data: vagas, error, count } = await query.range(from, to);
+  const { data: vagas, error: dataError } = await dataQuery
+    .order("publicada_em", { ascending: false, nullsFirst: false })
+    .range(from, to);
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  if (dataError) {
+    return NextResponse.json({ error: dataError.message }, { status: 500 });
   }
 
   return NextResponse.json({
