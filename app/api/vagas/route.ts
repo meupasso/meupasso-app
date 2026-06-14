@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
 
 export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+export const revalidate = 0;
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -14,7 +16,7 @@ export async function GET(req: NextRequest) {
 
   const supabase = createServiceClient();
 
-  // Count query (head = true returns count only)
+  // Count query
   let countQuery = supabase
     .from("vagas")
     .select("*", { count: "exact", head: true })
@@ -51,9 +53,21 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: dataError.message }, { status: 500 });
   }
 
-  return NextResponse.json({
+  const body = JSON.stringify({
     vagas: vagas || [],
     total: count || 0,
     paginas: Math.ceil((count || 0) / porPagina),
+  });
+
+  return new Response(body, {
+    status: 200,
+    headers: {
+      "Content-Type": "application/json",
+      "Cache-Control": "no-store, max-age=0, must-revalidate",
+      "CDN-Cache-Control": "no-store",
+      "Vercel-CDN-Cache-Control": "no-store",
+      "Pragma": "no-cache",
+      "Expires": "0",
+    },
   });
 }
