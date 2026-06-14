@@ -58,6 +58,16 @@ function BookIcon() {
   );
 }
 
+function BriefcaseIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2.5" y="6.5" width="15" height="11" rx="1.25" />
+      <rect x="7.5" y="3" width="5" height="3.5" />
+      <path d="M2.5 10.5h15" />
+    </svg>
+  );
+}
+
 function BlogIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -134,6 +144,7 @@ const links = [
   { href: "/gerador", label: "Gerador", icon: DiceIcon },
   { href: "/guias", label: "Guias", icon: BookIcon },
   { href: "/blog", label: "Blog", icon: BlogIcon },
+  { href: "/vagas", label: "Vagas", icon: BriefcaseIcon },
 ];
 
 export default function Sidebar() {

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { createServiceClient } from "@/lib/supabase/service";
 
 export const metadata: Metadata = {
   title: "MeuPasso — Aprenda Programação com Exercícios e Tutor IA",
@@ -19,7 +20,49 @@ const subtituloSecao: React.CSSProperties = {
   marginBottom: "3rem", lineHeight: 1.5,
 };
 
-export default function Home() {
+function formatarData(data: string | null): string {
+  if (!data) return "";
+  const d = new Date(data + "T12:00:00");
+  const agora = new Date();
+  const diffMs = agora.getTime() - d.getTime();
+  const diffDias = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  if (diffDias === 0) return "hoje";
+  if (diffDias === 1) return "há 1 dia";
+  if (diffDias < 7) return `há ${diffDias} dias`;
+  if (diffDias < 30) return `há ${Math.floor(diffDias / 7)} semanas`;
+  return d.toLocaleDateString("pt-BR");
+}
+
+type Vaga = {
+  id: string;
+  titulo: string;
+  empresa: string | null;
+  cidade: string | null;
+  remoto: boolean;
+  tipo: string | null;
+  tecnologias: string[];
+  url: string;
+  publicada_em: string | null;
+};
+
+async function getVagasRecentes(): Promise<Vaga[]> {
+  try {
+    const supabase = createServiceClient();
+    const { data } = await supabase
+      .from("vagas")
+      .select("*")
+      .eq("ativa", true)
+      .order("publicada_em", { ascending: false, nullsFirst: false })
+      .limit(8);
+    return (data || []) as Vaga[];
+  } catch {
+    return [];
+  }
+}
+
+export default async function Home() {
+  const vagas = await getVagasRecentes();
+
   return (
     <main style={{ background: "var(--bg-primary)" }}>
       {/* Hero */}
@@ -81,6 +124,70 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      {/* Vagas — carrossel */}
+      {vagas.length > 0 && (
+        <section style={secaoStyle}>
+          <h2 style={tituloSecao}>Vagas para quem está aprendendo 🚀</h2>
+          <p style={subtituloSecao}>Oportunidades reais para iniciantes — atualizadas toda semana</p>
+          <div
+            className="vagas-carrossel"
+            style={{
+              display: "flex",
+              gap: "1rem",
+              overflowX: "auto",
+              scrollSnapType: "x mandatory",
+              paddingBottom: "1rem",
+              marginBottom: "1.5rem",
+            }}
+          >
+            {vagas.map((vaga) => (
+              <a
+                key={vaga.id}
+                href={vaga.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="vaga-card-carrossel"
+                style={{
+                  minWidth: "280px",
+                  maxWidth: "300px",
+                  scrollSnapAlign: "start",
+                  textDecoration: "none",
+                  borderRadius: "0.75rem",
+                  background: "var(--bg-card)",
+                  border: "1px solid var(--border)",
+                  padding: "1.25rem",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "0.5rem",
+                  flexShrink: 0,
+                }}
+              >
+                <h3 style={{ fontSize: "0.9375rem", fontWeight: 600, color: "var(--text-primary)", lineHeight: 1.3 }}>{vaga.titulo}</h3>
+                <div style={{ fontSize: "0.8125rem", color: "var(--text-secondary)" }}>
+                  <span>🏢 {vaga.empresa || "Empresa"}</span>
+                  <span style={{ marginLeft: "0.75rem" }}>{vaga.remoto ? "🏠 Remoto" : `📍 ${vaga.cidade || "Brasil"}`}</span>
+                </div>
+                {vaga.tecnologias && vaga.tecnologias.length > 0 && (
+                  <div style={{ display: "flex", gap: "0.375rem", flexWrap: "wrap", marginTop: "0.25rem" }}>
+                    {vaga.tecnologias.map((tech) => (
+                      <span key={tech} style={{ fontSize: "0.6rem", fontWeight: 600, padding: "0.125rem 0.4rem", borderRadius: "0.25rem", background: "var(--accent)", color: "#fff", opacity: 0.85 }}>{tech}</span>
+                    ))}
+                  </div>
+                )}
+                <div style={{ fontSize: "0.7rem", color: "var(--text-secondary)", opacity: 0.6, marginTop: "auto", paddingTop: "0.5rem" }}>
+                  {formatarData(vaga.publicada_em)}
+                </div>
+              </a>
+            ))}
+          </div>
+          <div style={{ textAlign: "center" }}>
+            <Link href="/vagas" className="btn-secondary" style={{ display: "inline-block", padding: "0.75rem 2rem", borderRadius: "0.5rem", fontWeight: 600, fontSize: "0.9375rem", textDecoration: "none", background: "transparent", color: "var(--text-primary)", border: "1px solid var(--border)" }}>
+              Ver todas as vagas →
+            </Link>
+          </div>
+        </section>
+      )}
 
       {/* Para quem */}
       <section style={secaoStyle}>
@@ -145,6 +252,13 @@ export default function Home() {
       <style>{`
         .btn-primary:hover { opacity: 0.85; }
         .btn-secondary:hover { border-color: var(--accent) !important; color: var(--accent) !important; }
+        .vaga-card-carrossel:hover {
+          border-color: var(--accent) !important;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .vagas-carrossel::-webkit-scrollbar { height: 6px; }
+        .vagas-carrossel::-webkit-scrollbar-track { background: var(--bg-secondary); border-radius: 3px; }
+        .vagas-carrossel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
       `}</style>
     </main>
   );
