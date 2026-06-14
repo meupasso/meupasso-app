@@ -1,0 +1,250 @@
+---
+titulo: "Strings e Template Literals"
+slug: "strings"
+ordem: 6
+---
+
+# Strings e Template Literals em JavaScript
+
+Fala, dev! Vamos mergulhar no mundo das strings em JavaScript. As strings são sequências de caracteres que usamos para representar texto. Elas são fundamentais em qualquer programa, então bora dominar isso!
+
+## Aspas Simples, Duplas e Backticks
+
+No JavaScript, você tem três jeitos de criar strings:
+
+```javascript
+// Aspas simples
+let nome = 'João';
+
+// Aspas duplas
+let sobrenome = "Silva";
+
+// Backticks (template strings)
+let completo = `João Silva`;
+```
+
+**Qual usar?** Não tem regra fixa. Escolha uma e seja consistente. Mas tem uma dica importante:
+
+```javascript
+// Quando sua string tem aspas simples, use duplas
+let frase1 = "Ela disse: 'Olá!'";
+
+// Quando tem aspas duplas, use simples
+let frase2 = 'Ele respondeu: "Oi!"';
+
+// Backticks salvam quando você precisa de ambos
+let frase3 = `Ela disse: "Olá!" e ele respondeu: 'Oi!'`;
+```
+
+## Template Literals com ${}
+
+Aqui mora a mágica! Template literals (com backticks) permitem interpolar variáveis e expressões:
+
+```javascript
+let nome = "Maria";
+let idade = 25;
+
+// Sem template literal (concatenação antiga)
+let mensagem1 = "Olá, " + nome + "! Você tem " + idade + " anos.";
+
+// Com template literal
+let mensagem2 = `Olá, ${nome}! Você tem ${idade} anos.`;
+
+console.log(mensagem1);
+console.log(mensagem2);
+```
+
+Dentro de `${}` você pode colocar qualquer expressão JavaScript:
+
+```javascript
+let a = 10;
+let b = 5;
+
+console.log(`A soma de ${a} e ${b} é ${a + b}`);
+console.log(`O dobro de ${a} é ${a * 2}`);
+console.log(`É maior? ${a > b ? 'Sim' : 'Não'}`);
+```
+
+## Métodos Úteis de String
+
+Vamos explorar os métodos mais usados. Pega aí!
+
+### length - Tamanho da string
+
+```javascript
+let texto = "JavaScript";
+console.log(texto.length); // 10
+```
+
+### toUpperCase e toLowerCase - Maiúsculo e minúsculo
+
+```javascript
+let nome = "João Silva";
+console.log(nome.toUpperCase()); // "JOÃO SILVA"
+console.log(nome.toLowerCase()); // "joão silva"
+```
+
+### trim - Remove espaços das pontas
+
+```javascript
+let email = "   usuario@email.com   ";
+console.log(email.trim()); // "usuario@email.com"
+```
+
+### includes - Verifica se contém
+
+```javascript
+let frase = "Aprendendo JavaScript é divertido";
+console.log(frase.includes("JavaScript")); // true
+console.log(frase.includes("Python")); // false
+```
+
+### startsWith e endsWith - Começa/Termina com
+
+```javascript
+let url = "https://exemplo.com";
+console.log(url.startsWith("https")); // true
+console.log(url.endsWith(".com")); // true
+```
+
+### slice - Corta a string
+
+```javascript
+let texto = "JavaScript";
+console.log(texto.slice(0, 4)); // "Java"
+console.log(texto.slice(4)); // "Script"
+console.log(texto.slice(-6)); // "Script"
+```
+
+### split - Divide em array
+
+```javascript
+let dados = "João,25,São Paulo";
+let partes = dados.split(",");
+console.log(partes); // ["João", "25", "São Paulo"]
+```
+
+### replace - Substitui texto
+
+```javascript
+let frase = "Eu gosto de gatos";
+console.log(frase.replace("gatos", "cachorros")); // "Eu gosto de cachorros"
+```
+
+### indexOf - Encontra posição
+
+```javascript
+let texto = "JavaScript é legal";
+console.log(texto.indexOf("legal")); // 13
+console.log(texto.indexOf("Python")); // -1 (não encontrou)
+```
+
+## Concatenação: + vs Template Literal
+
+A forma antiga de juntar strings:
+
+```javascript
+let nome = "Ana";
+let idade = 30;
+let cidade = "Rio";
+
+// Concatenação com +
+let apresentacao = "Olá, eu sou " + nome + ", tenho " + idade + " anos e moro no " + cidade + ".";
+```
+
+A forma moderna (e muito melhor):
+
+```javascript
+let apresentacao = `Olá, eu sou ${nome}, tenho ${idade} anos e moro no ${cidade}.`;
+```
+
+**Vantagens do template literal:**
+- Mais legível
+- Menos chance de erro
+- Permite expressões complexas
+- Suporta múltiplas linhas
+
+## Exemplo Prático Completo
+
+Vamos criar um validador de email simples:
+
+```javascript
+function validarEmail(email) {
+  email = email.trim().toLowerCase();
+  
+  if (!email.includes('@')) {
+    return 'Email inválido: falta o @';
+  }
+  
+  if (!email.endsWith('.com') && !email.endsWith('.br')) {
+    return 'Email inválido: domínio não reconhecido';
+  }
+  
+  let partes = email.split('@');
+  let usuario = partes[0];
+  let dominio = partes[1];
+  
+  return `Email válido! Usuário: ${usuario}, Domínio: ${dominio}`;
+}
+
+console.log(validarEmail("  Joao@Email.com  "));
+// "Email válido! Usuário: Joao, Domínio: Email.com"
+```
+
+## Erros Comuns
+
+### 1. Esquecer de fechar a string
+
+```javascript
+let texto = "Olá mundo; // ❌ Erro!
+let texto = "Olá mundo"; // ✅ Correto
+```
+
+### 2. Confundir número com string
+
+```javascript
+let numero = "5";
+console.log(numero + 3); // "53" (concatena, não soma)
+console.log(Number(numero) + 3); // 8 (soma correta)
+```
+
+### 3. Usar + em vez de ${} em template literals
+
+```javascript
+let nome = "João";
+console.log(`Olá ${nome}!`); // ✅ Correto
+console.log(`Olá + nome + !`); // ❌ Errado (vai mostrar literalmente)
+```
+
+### 4. Não tratar espaços extras
+
+```javascript
+let email = " usuario@email.com ";
+if (email === "usuario@email.com") {
+  console.log("Igual"); // Nunca vai executar!
+}
+
+// Solução: use trim()
+if (email.trim() === "usuario@email.com") {
+  console.log("Igual"); // ✅ Agora funciona
+}
+```
+
+## Dicas Finais
+
+1. **Prefira template literals** para strings com variáveis
+2. **Use trim()** antes de comparar strings de formulários
+3. **Métodos de string não modificam a original**, sempre retornam uma nova
+4. **String é imutável** em JavaScript - qualquer operação cria uma nova string
+
+```javascript
+let texto = "Olá";
+texto.toUpperCase(); // Isso não modifica 'texto'
+console.log(texto); // "Olá"
+
+// Correto: atribua o resultado
+let textoMaiusculo = texto.toUpperCase();
+console.log(textoMaiusculo); // "OLÁ"
+```
+
+Agora você já domina strings em JavaScript! Pratique esses conceitos, use template literals sempre que possível, e lembre-se: strings são seus amigos, não inimigos. Bons códigos! 🚀

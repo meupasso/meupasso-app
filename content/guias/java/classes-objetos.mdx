@@ -1,0 +1,446 @@
+---
+titulo: "Classes e Objetos"
+slug: "classes-objetos"
+ordem: 14
+---
+
+# 🚗 Classes e Objetos em Java: O Guia Completo para Iniciantes
+
+Fala, dev! Vamos aprender um dos conceitos mais importantes da programação orientada a objetos: **classes e objetos**. Pensa nisso como a diferença entre uma planta de uma casa (classe) e a casa de verdade (objeto). Bora nessa!
+
+## 📦 O que é uma Classe?
+
+Uma **classe** é como um molde, uma receita ou uma planta. Ela define **o que** um objeto vai ter (atributos) e **o que** ele vai fazer (métodos). Mas a classe em si não é algo que existe de verdade no seu programa - ela é só o projeto!
+
+```java
+// Isso é uma CLASSE - um molde para criar carros
+public class Carro {
+    // Atributos: características que todo carro terá
+    String marca;
+    String modelo;
+    int ano;
+    double velocidade;
+    
+    // Métodos: ações que todo carro pode fazer
+    void acelerar() {
+        velocidade = velocidade + 10;
+    }
+    
+    void frear() {
+        velocidade = velocidade - 5;
+    }
+}
+```
+
+## 🎯 O que é um Objeto?
+
+Um **objeto** é uma **instância** da classe. É o "carro de verdade" que existe na memória do seu computador. Cada objeto tem seus próprios valores para os atributos.
+
+```java
+// Isso são OBJETOS - instâncias reais da classe Carro
+Carro meuCarro = new Carro();     // Um carro específico
+Carro carroDaMae = new Carro();   // Outro carro diferente
+```
+
+## 🏗️ Como Declarar uma Classe
+
+A estrutura básica é:
+
+```java
+// Palavra 'public' = qualquer um pode usar
+// Palavra 'class' = estou criando uma classe
+// 'Pessoa' = nome da classe (sempre com letra maiúscula!)
+public class Pessoa {
+    // Atributos (variáveis que pertencem ao objeto)
+    String nome;
+    int idade;
+    double altura;
+    
+    // Métodos (funções que pertencem ao objeto)
+    void apresentar() {
+        System.out.println("Olá, eu sou " + nome);
+    }
+}
+```
+
+## 🎭 Criando Objetos com `new`
+
+O operador `new` é essencial! Ele cria o objeto de verdade na memória:
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        // Passo 1: Declarar a variável do tipo Pessoa
+        // Passo 2: Usar 'new' para criar o objeto de verdade
+        Pessoa pessoa1 = new Pessoa();
+        
+        // Agora pessoa1 é um objeto real!
+        pessoa1.nome = "João";
+        pessoa1.idade = 25;
+        pessoa1.altura = 1.75;
+        
+        // Podemos usar os métodos
+        pessoa1.apresentar(); // Vai imprimir: "Olá, eu sou João"
+    }
+}
+```
+
+## 🔗 Acessando Atributos com Ponto (`.`)
+
+O ponto é como uma "ponte" que conecta o objeto aos seus atributos e métodos:
+
+```java
+public class TesteCarro {
+    public static void main(String[] args) {
+        Carro carro = new Carro();
+        
+        // Usando o ponto para acessar atributos
+        carro.marca = "Fiat";       // Atribuindo valor
+        carro.modelo = "Uno";
+        carro.ano = 2020;
+        
+        System.out.println(carro.marca);  // Lendo valor: Fiat
+        
+        // Usando o ponto para chamar métodos
+        carro.acelerar();  // Chama o método acelerar
+        System.out.println(carro.velocidade); // 10.0
+    }
+}
+```
+
+## 🆚 Diferença entre Classe e Objeto
+
+| Classe | Objeto |
+|--------|--------|
+| É o molde | É a coisa real |
+| Existe no código fonte | Existe na memória |
+| Define o que terá | Tem valores específicos |
+| `class Carro { }` | `Carro c = new Carro();` |
+| Só um molde | Pode ter vários |
+
+**Pense assim:** A classe `ReceitaDeBolo` não é um bolo! Só quando você segue a receita (usa `new`) é que você tem um bolo de verdade (objeto).
+
+## 👥 Múltiplos Objetos da Mesma Classe
+
+Cada objeto é independente! Mudar um não afeta o outro:
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        Pessoa pessoa1 = new Pessoa();
+        pessoa1.nome = "Maria";
+        pessoa1.idade = 30;
+        
+        Pessoa pessoa2 = new Pessoa();
+        pessoa2.nome = "José";
+        pessoa2.idade = 35;
+        
+        System.out.println(pessoa1.nome); // Maria
+        System.out.println(pessoa2.nome); // José (diferente!)
+        
+        // Mudando só a pessoa1
+        pessoa1.idade = 31;
+        System.out.println(pessoa1.idade); // 31
+        System.out.println(pessoa2.idade); // 35 (continua igual!)
+    }
+}
+```
+
+## 🔍 Entendendo o `this`
+
+O `this` é uma referência ao **próprio objeto**. Usamos quando temos ambiguidade entre o atributo e um parâmetro:
+
+```java
+public class Aluno {
+    String nome;
+    int idade;
+    
+    // Sem this - PROBLEMA!
+    void configurarSemThis(String nomeParam, int idadeParam) {
+        nome = nomeParam;      // OK, mas confuso
+        idade = idadeParam;
+    }
+    
+    // Com this - MAIS CLARO!
+    void configurar(String nome, int idade) {
+        this.nome = nome;   // this.nome = atributo da classe
+        this.idade = idade; // nome = parâmetro do método
+    }
+}
+```
+
+```java
+public class TesteThis {
+    public static void main(String[] args) {
+        Aluno aluno = new Aluno();
+        aluno.configurar("Ana", 20);
+        System.out.println(aluno.nome); // Ana
+    }
+}
+```
+
+## 🚗 Exemplo Prático Completo: Classe Carro
+
+Vamos criar um sistema completo de carros:
+
+```java
+// Arquivo: Carro.java
+public class Carro {
+    // Atributos
+    String marca;
+    String modelo;
+    int ano;
+    String cor;
+    double velocidade;
+    boolean ligado;
+    
+    // Métodos
+    void ligar() {
+        ligado = true;
+        System.out.println("Carro ligado! " + marca + " " + modelo);
+    }
+    
+    void desligar() {
+        ligado = false;
+        velocidade = 0;
+        System.out.println("Carro desligado.");
+    }
+    
+    void acelerar() {
+        if (ligado) {
+            velocidade = velocidade + 10;
+            System.out.println("Acelerando... Velocidade: " + velocidade + " km/h");
+        } else {
+            System.out.println("Não dá pra acelerar, carro desligado!");
+        }
+    }
+    
+    void frear() {
+        if (velocidade > 0) {
+            velocidade = velocidade - 5;
+            System.out.println("Freando... Velocidade: " + velocidade + " km/h");
+        } else {
+            System.out.println("Carro já está parado.");
+        }
+    }
+    
+    void exibirInfo() {
+        System.out.println("=== DADOS DO CARRO ===");
+        System.out.println("Marca: " + this.marca);
+        System.out.println("Modelo: " + this.modelo);
+        System.out.println("Ano: " + this.ano);
+        System.out.println("Cor: " + this.cor);
+        System.out.println("Velocidade: " + this.velocidade);
+        System.out.println("Ligado: " + (this.ligado ? "Sim" : "Não"));
+        System.out.println("======================");
+    }
+}
+```
+
+```java
+// Arquivo: TesteCarro.java
+public class TesteCarro {
+    public static void main(String[] args) {
+        // Criando dois carros diferentes
+        Carro carro1 = new Carro();
+        carro1.marca = "Fiat";
+        carro1.modelo = "Uno";
+        carro1.ano = 2020;
+        carro1.cor = "Vermelho";
+        
+        Carro carro2 = new Carro();
+        carro2.marca = "Honda";
+        carro2.modelo = "Civic";
+        carro2.ano = 2022;
+        carro2.cor = "Preto";
+        
+        // Usando o carro1
+        System.out.println("--- Usando o Fiat Uno ---");
+        carro1.exibirInfo();
+        carro1.ligar();
+        carro1.acelerar();
+        carro1.acelerar();
+        carro1.frear();
+        carro1.desligar();
+        
+        System.out.println();
+        
+        // Usando o carro2
+        System.out.println("--- Usando o Honda Civic ---");
+        carro2.exibirInfo();
+        carro2.acelerar(); // Vai falar que tá desligado!
+        carro2.ligar();
+        carro2.acelerar();
+        carro2.acelerar();
+        carro2.acelerar();
+        carro2.frear();
+    }
+}
+```
+
+## 👤 Exemplo Prático: Classe Pessoa
+
+```java
+// Arquivo: Pessoa.java
+public class Pessoa {
+    String nome;
+    int idade;
+    String profissao;
+    double salario;
+    
+    void aniversario() {
+        this.idade = this.idade + 1;
+        System.out.println("Feliz aniversário, " + this.nome + "! Agora você tem " + this.idade + " anos!");
+    }
+    
+    void trabalhar() {
+        System.out.println(this.nome + " está trabalhando como " + this.profissao + "...");
+    }
+    
+    void receberAumento(double valor) {
+        this.salario = this.salario + valor;
+        System.out.println(this.nome + " recebeu um aumento de R$" + valor);
+        System.out.println("Novo salário: R$" + this.salario);
+    }
+    
+    void exibirInfo() {
+        System.out.println("=== DADOS DA PESSOA ===");
+        System.out.println("Nome: " + this.nome);
+        System.out.println("Idade: " + this.idade);
+        System.out.println("Profissão: " + this.profissao);
+        System.out.println("Salário: R$" + this.salario);
+        System.out.println("========================");
+    }
+}
+```
+
+```java
+// Arquivo: SistemaPessoas.java
+public class SistemaPessoas {
+    public static void main(String[] args) {
+        // Criando pessoas
+        Pessoa pessoa1 = new Pessoa();
+        pessoa1.nome = "Carlos Silva";
+        pessoa1.idade = 28;
+        pessoa1.profissao = "Programador";
+        pessoa1.salario = 5000.0;
+        
+        Pessoa pessoa2 = new Pessoa();
+        pessoa2.nome = "Ana Oliveira";
+        pessoa2.idade = 32;
+        pessoa2.profissao = "Designer";
+        pessoa2.salario = 4500.0;
+        
+        // Interagindo com pessoa1
+        System.out.println("=== PESSOA 1 ===");
+        pessoa1.exibirInfo();
+        pessoa1.trabalhar();
+        pessoa1.receberAumento(1000);
+        pessoa1.aniversario();
+        
+        System.out.println();
+        
+        // Interagindo com pessoa2
+        System.out.println("=== PESSOA 2 ===");
+        pessoa2.exibirInfo();
+        pessoa2.trabalhar();
+        pessoa2.aniversario();
+    }
+}
+```
+
+## ⚠️ Erros Comuns e Como Evitá-los
+
+### 1. NullPointerException - O Inimigo Número 1!
+
+```java
+public class ErroComum {
+    public static void main(String[] args) {
+        Carro carro; // Só declarou, não criou!
+        
+        // ERRO! NullPointerException!
+        // carro.marca = "Fiat"; 
+        
+        // CORRETO: sempre use new antes de usar
+        carro = new Carro();
+        carro.marca = "Fiat"; // Agora funciona!
+    }
+}
+```
+
+**💡 Dica:** Sempre que ver `NullPointerException`, procure onde você esqueceu o `new`!
+
+### 2. Esquecer o `new`
+
+```java
+public class OutroErro {
+    public static void main(String[] args) {
+        Pessoa p; // Isso NÃO cria uma pessoa!
+        
+        // p.nome = "João"; // Isso daria NullPointerException!
+        
+        // Tem que fazer:
+        p = new Pessoa();
+        p.nome = "João"; // Agora sim!
+    }
+}
+```
+
+### 3. Confundir Classe com Objeto
+
+```java
+// ERRADO - tentar usar a classe como se fosse objeto
+// Carro.marca = "Fiat"; // Isso não funciona!
+
+// CERTO - primeiro cria o objeto
+Carro c = new Carro();
+c.marca = "Fiat";
+```
+
+### 4. Esquecer o `this` quando necessário
+
+```java
+public class ExemploThis {
+    String nome;
+    
+    // PROBLEMA: parâmetro com mesmo nome do atributo
+    void setNome(String nome) {
+        nome = nome; // Isso não funciona! Só mexe no parâmetro
+    }
+    
+    // SOLUÇÃO: usar this
+    void setNomeCorreto(String nome) {
+        this.nome = nome; // this.nome = atributo, nome = parâmetro
+    }
+}
+```
+
+## 🎯 Resumo Rápido
+
+| Conceito | O que é | Exemplo |
+|----------|---------|---------|
+| **Classe** | O molde, a planta | `public class Carro { }` |
+| **Objeto** | A coisa real na memória | `Carro c = new Carro();` |
+| **new** | Cria o objeto | `new Carro()` |
+| **Ponto (`.`)** | Acessa atributos/métodos | `c.marca`, `c.acelerar()` |
+| **this** | Referência ao próprio objeto | `this.nome = nome;` |
+| **Atributo** | Característica do objeto | `String marca;` |
+| **Método** | Ação do objeto | `void acelerar() { }` |
+
+## 📝 Checklist para Não Errar
+
+- [ ] Usei `new` antes de usar o objeto?
+- [ ] Atribuí valores aos atributos antes de usar?
+- [ ] Usei `this` quando tinha parâmetro com mesmo nome?
+- [ ] O nome da classe começa com letra maiúscula?
+- [ ] Criei objetos separados para cada instância?
+
+## 🚀 Desafio para Você
+
+Crie uma classe `Livro` com os atributos: titulo, autor, paginas, estaAberto. Depois crie métodos: `abrir()`, `fechar()`, `lerPagina()`. Crie dois livros diferentes no `main()` e teste tudo!
+
+**Bônus:** Adicione um atributo `paginaAtual` que aumenta quando você "lê" uma página!
+
+---
+
+Lembre-se: **classe é o molde, objeto é a coisa real**. Pratique criando suas próprias classes e objetos, e logo isso vai se tornar natural! Qualquer dúvida, volta aqui e revisa os exemplos. Bons estudos! 🎉

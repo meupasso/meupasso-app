@@ -1,0 +1,440 @@
+---
+titulo: "Herança"
+slug: "heranca"
+ordem: 17
+---
+
+# 🧬 Herança em Java: O Guia Completo para Iniciantes
+
+Fala, dev! Vamos mergulhar em um dos conceitos mais importantes da programação orientada a objetos: a **herança**. Preparado? Vamos nessa! 🚀
+
+## O que é Herança?
+
+Herança é um mecanismo que permite criar uma nova classe baseada em uma classe existente. Pense nisso como uma **relação "é um"** entre classes.
+
+**Exemplo do mundo real:**
+- Um Cachorro **é um** Animal
+- Um Labrador **é um** Cachorro
+
+A classe filha (subclasse) herda tudo que a classe pai (superclasse) tem: atributos e métodos.
+
+## extends: A Palavra Mágica
+
+Para criar herança em Java, usamos a palavra-chave `extends`:
+
+```java
+// Classe pai (superclasse)
+class Animal {
+    String nome;
+    int idade;
+    
+    void dormir() {
+        System.out.println("Zzzzz...");
+    }
+}
+
+// Classe filha (subclasse)
+class Cachorro extends Animal {
+    // Cachorro herda nome, idade e dormir() de Animal
+}
+```
+
+## Herança de Atributos e Métodos
+
+Quando uma classe herda de outra, ela ganha automaticamente todos os atributos e métodos **não privados** da classe pai.
+
+```java
+class Animal {
+    String nome;
+    private String segredo; // Não será herdado!
+    
+    void comer() {
+        System.out.println("Comendo...");
+    }
+    
+    public void fazerSom() {
+        System.out.println("Som genérico");
+    }
+}
+
+class Cachorro extends Animal {
+    void latir() {
+        System.out.println("Au au!");
+        // Podemos acessar nome, comer() e fazerSom()
+        // Mas NÃO podemos acessar segredo (é private)
+    }
+}
+
+public class TesteHeranca {
+    public static void main(String[] args) {
+        Cachorro rex = new Cachorro();
+        rex.nome = "Rex";        // Herdado de Animal
+        rex.comer();             // Herdado de Animal
+        rex.fazerSom();          // Herdado de Animal
+        rex.latir();             // Próprio de Cachorro
+    }
+}
+```
+
+## super: Chamando o Construtor Pai
+
+O `super()` é usado para chamar o construtor da classe pai. **Regra de ouro:** se a classe pai não tem construtor padrão (sem parâmetros), você PRECISA chamar `super()` com os parâmetros corretos.
+
+```java
+class Animal {
+    String nome;
+    int idade;
+    
+    // Construtor com parâmetros
+    Animal(String nome, int idade) {
+        this.nome = nome;
+        this.idade = idade;
+        System.out.println("Animal criado: " + nome);
+    }
+}
+
+class Cachorro extends Animal {
+    String raca;
+    
+    Cachorro(String nome, int idade, String raca) {
+        super(nome, idade); // OBRIGATÓRIO! Chama construtor de Animal
+        this.raca = raca;
+        System.out.println("Cachorro criado: " + nome + " - " + raca);
+    }
+}
+
+public class TesteSuper {
+    public static void main(String[] args) {
+        Cachorro rex = new Cachorro("Rex", 3, "Labrador");
+    }
+}
+```
+
+**Saída:**
+```
+Animal criado: Rex
+Cachorro criado: Rex - Labrador
+```
+
+## super: Chamando Método da Classe Pai
+
+Além de construtores, `super` também serve para chamar métodos da classe pai que foram sobrescritos:
+
+```java
+class Animal {
+    void fazerSom() {
+        System.out.println("Animal fazendo som...");
+    }
+}
+
+class Cachorro extends Animal {
+    @Override
+    void fazerSom() {
+        super.fazerSom(); // Chama o método da classe pai
+        System.out.println("AU AU!");
+    }
+}
+
+public class TesteSuperMetodo {
+    public static void main(String[] args) {
+        Cachorro rex = new Cachorro();
+        rex.fazerSom();
+    }
+}
+```
+
+**Saída:**
+```
+Animal fazendo som...
+AU AU!
+```
+
+## @Override: A Anotação que Salva Vidas
+
+A anotação `@Override` indica que você está sobrescrevendo um método da classe pai. **Sempre use!** Ela ajuda o compilador a detectar erros.
+
+```java
+class Animal {
+    void fazerSom() {
+        System.out.println("Som genérico");
+    }
+}
+
+class Cachorro extends Animal {
+    @Override // O compilador verifica se esse método realmente existe na classe pai
+    void fazerSom() {
+        System.out.println("Au au!");
+    }
+}
+```
+
+**Por que usar @Override?**
+- Evita erros de digitação (ex: `fazerSom` vs `fazerSsom`)
+- Torna o código mais legível
+- O compilador avisa se você "achou" que estava sobrescrevendo, mas na verdade criou um método novo
+
+## Object: A Superclasse de Todas as Classes
+
+Toda classe em Java herda implicitamente de `Object`. É por isso que toda classe tem métodos como `toString()`, `equals()`, `hashCode()`.
+
+```java
+class MinhaClasse {
+    // Mesmo sem extends, herda de Object
+}
+
+// É equivalente a:
+class MinhaClasse extends Object {
+    // Herda toString(), equals(), hashCode()...
+}
+```
+
+## toString(): O Método que Você SEMPRE Deve Sobrescrever
+
+O `toString()` da classe Object retorna algo feio como `MinhaClasse@1a2b3c`. Vamos melhorar isso:
+
+```java
+class Animal {
+    String nome;
+    int idade;
+    
+    Animal(String nome, int idade) {
+        this.nome = nome;
+        this.idade = idade;
+    }
+    
+    @Override
+    public String toString() {
+        return "Animal{" +
+               "nome='" + nome + '\'' +
+               ", idade=" + idade +
+               '}';
+    }
+}
+
+class Cachorro extends Animal {
+    String raca;
+    
+    Cachorro(String nome, int idade, String raca) {
+        super(nome, idade);
+        this.raca = raca;
+    }
+    
+    @Override
+    public String toString() {
+        return "Cachorro{" +
+               "nome='" + nome + '\'' +
+               ", idade=" + idade +
+               ", raca='" + raca + '\'' +
+               '}';
+    }
+}
+
+public class TesteToString {
+    public static void main(String[] args) {
+        Cachorro rex = new Cachorro("Rex", 3, "Labrador");
+        System.out.println(rex); // Chama toString() automaticamente!
+    }
+}
+```
+
+**Saída:**
+```
+Cachorro{nome='Rex', idade=3, raca='Labrador'}
+```
+
+## Herança Simples: Java Não Tem Herança Múltipla
+
+Diferente de C++, Java só permite herança **simples** - uma classe só pode ter UMA classe pai direta.
+
+```java
+// ISSO NÃO FUNCIONA EM JAVA:
+class Animal {}
+class Mamifero {}
+class Cachorro extends Animal, Mamifero {} // ERRO!
+```
+
+Mas calma, temos interfaces para contornar isso (assunto para outro artigo! 😉).
+
+## Exemplo Prático: Animal → Cachorro → Labrador
+
+Vamos juntar tudo que aprendemos:
+
+```java
+// CLASSE PAI
+class Animal {
+    protected String nome;
+    protected int idade;
+    
+    public Animal(String nome, int idade) {
+        this.nome = nome;
+        this.idade = idade;
+    }
+    
+    public void dormir() {
+        System.out.println(nome + " está dormindo... Zzzz");
+    }
+    
+    public void fazerSom() {
+        System.out.println(nome + " faz um som");
+    }
+    
+    @Override
+    public String toString() {
+        return "Animal: " + nome + ", " + idade + " anos";
+    }
+}
+
+// CLASSE FILHA
+class Cachorro extends Animal {
+    protected String raca;
+    
+    public Cachorro(String nome, int idade, String raca) {
+        super(nome, idade);
+        this.raca = raca;
+    }
+    
+    @Override
+    public void fazerSom() {
+        System.out.println(nome + " late: Au au!");
+    }
+    
+    public void abanarRabo() {
+        System.out.println(nome + " está abanando o rabo!");
+    }
+    
+    @Override
+    public String toString() {
+        return "Cachorro: " + nome + ", " + idade + " anos, raça " + raca;
+    }
+}
+
+// CLASSE NETA
+class Labrador extends Cachorro {
+    private String cor;
+    
+    public Labrador(String nome, int idade, String cor) {
+        super(nome, idade, "Labrador"); // Raça sempre será Labrador
+        this.cor = cor;
+    }
+    
+    @Override
+    public void fazerSom() {
+        System.out.println(nome + " late feliz: Au au au!");
+    }
+    
+    public void nadar() {
+        System.out.println(nome + " está nadando!");
+    }
+    
+    @Override
+    public String toString() {
+        return "Labrador: " + nome + ", " + idade + " anos, cor " + cor;
+    }
+}
+
+// TESTE
+public class TesteHerancaCompleta {
+    public static void main(String[] args) {
+        Labrador buddy = new Labrador("Buddy", 2, "Chocolate");
+        
+        buddy.dormir();      // Herdado de Animal
+        buddy.abanarRabo();  // Herdado de Cachorro
+        buddy.fazerSom();    // Sobrescrito em Labrador
+        buddy.nadar();       // Próprio de Labrador
+        
+        System.out.println(buddy); // toString() de Labrador
+    }
+}
+```
+
+## ⚠️ Erros Comuns (e Como Evitá-los)
+
+### 1️⃣ Esquecer super() no Construtor
+
+```java
+class Animal {
+    Animal(String nome) {
+        System.out.println("Animal: " + nome);
+    }
+}
+
+class Cachorro extends Animal {
+    Cachorro() {
+        // ERRO! Animal não tem construtor sem parâmetros
+        // Precisa chamar super("algumNome")
+    }
+}
+```
+
+✅ **Correto:**
+```java
+class Cachorro extends Animal {
+    Cachorro() {
+        super("Rex"); // Agora funciona!
+    }
+}
+```
+
+### 2️⃣ Confundir Overload com Override
+
+**Overload** = mesmo nome, parâmetros diferentes (na MESMA classe)
+**Override** = mesmo nome, mesmos parâmetros (em classes DIFERENTES)
+
+```java
+class Animal {
+    void fazerSom() { }           // Método original
+}
+
+class Cachorro extends Animal {
+    // OVERRIDE (correto)
+    @Override
+    void fazerSom() { }           // Mesmo nome, mesmos parâmetros
+    
+    // OVERLOAD (não é override!)
+    void fazerSom(String tipo) { } // Mesmo nome, parâmetro diferente
+}
+```
+
+### 3️⃣ Tentar Herdar de Múltiplas Classes
+
+```java
+class A {}
+class B {}
+class C extends A, B {} // ERRO! Java não permite
+```
+
+### 4️⃣ Esquecer @Override
+
+```java
+class Animal {
+    void fazerSom() { }
+}
+
+class Cachorro extends Animal {
+    void fazerSsom() { }  // Sem @Override, isso é um NOVO método, não override!
+}
+```
+
+## 🎯 Resumo Rápido
+
+| Conceito | Como usar |
+|----------|-----------|
+| Herança | `class Filha extends Pai` |
+| Chamar construtor pai | `super(parametros)` |
+| Chamar método pai | `super.metodo()` |
+| Sobrescrever método | `@Override` + mesmo nome/parâmetros |
+| Herança múltipla | ❌ Não existe em Java |
+| Classe mais importante | `Object` (tudo herda dela) |
+
+## 💪 Desafio para Você
+
+Crie uma hierarquia de classes para veículos:
+1. Classe `Veiculo` (marca, ano, ligar(), desligar())
+2. Classe `Carro` (portas, acelerar())
+3. Classe `Moto` (cilindradas, empinar())
+
+Implemente `toString()` em todas e teste!
+
+Lembre-se: herança é uma ferramenta poderosa, mas use com sabedoria. Nem toda relação "é um" precisa ser implementada com herança - às vezes composição é melhor!
+
+Bons estudos e continue codando! 🚀

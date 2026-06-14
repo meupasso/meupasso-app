@@ -1,0 +1,266 @@
+---
+titulo: "Sintaxe"
+slug: "sintaxe"
+ordem: 3
+---
+
+# Guia Completo de Sintaxe Java para Iniciantes
+
+Olá! Vamos aprender a sintaxe básica do Java. Java é uma linguagem rigorosa, mas depois que você pega o jeito, fica tranquilo. Vamos direto ao ponto!
+
+## Estrutura Obrigatória
+
+Todo programa Java precisa de uma estrutura básica. Pense nela como a "receita de bolo" que sempre vai se repetir:
+
+```java
+// A classe precisa ter o mesmo nome do arquivo!
+public class MeuPrograma {
+    
+    // O método main é o ponto de entrada do programa
+    public static void main(String[] args) {
+        // Seu código vai aqui dentro
+    }
+}
+```
+
+**Regras importantes:**
+- O nome do arquivo `.java` precisa ser **exatamente igual** ao nome da classe
+- A classe precisa ser declarada como `public class`
+- O método `main` sempre tem essa assinatura exata
+
+## Ponto e Vírgula (;) - Obrigatório!
+
+No Java, toda instrução termina com ponto e vírgula. É como colocar um ponto final na frase:
+
+```java
+public class Exemplo {
+    public static void main(String[] args) {
+        int idade = 25;  // <-- ponto e vírgula aqui!
+        String nome = "Maria";  // <-- aqui também!
+        System.out.println("Olá");  // <-- e aqui!
+    }
+}
+```
+
+**Erro comum #1:** Esquecer o ponto e vírgula. O compilador vai reclamar!
+
+## Chaves {} para Blocos
+
+As chaves delimitam blocos de código. Tudo que está dentro das chaves pertence àquele bloco:
+
+```java
+public class Exemplo {
+    // Este bloco pertence à classe Exemplo
+    
+    public static void main(String[] args) {
+        // Este bloco pertence ao método main
+        
+        if (true) {
+            // Este bloco pertence ao if
+            System.out.println("Verdadeiro!");
+        }
+    }
+}
+```
+
+**Erro comum #2:** Esquecer de fechar uma chave. Sempre confira se cada `{` tem seu `}` correspondente!
+
+## Indentação (Não Obrigatória, Mas Importante)
+
+Java não exige indentação, mas seu código fica muito mais legível com ela. Veja a diferença:
+
+**Código sem indentação (funciona, mas é horrível):**
+```java
+public class Exemplo {
+public static void main(String[] args) {
+int idade = 25;
+if (idade >= 18) {
+System.out.println("Maior de idade");
+}
+}
+}
+```
+
+**Código com indentação (muito melhor!):**
+```java
+public class Exemplo {
+    public static void main(String[] args) {
+        int idade = 25;
+        if (idade >= 18) {
+            System.out.println("Maior de idade");
+        }
+    }
+}
+```
+
+**Dica:** Use 4 espaços para cada nível de indentação. A maioria das IDEs faz isso automaticamente!
+
+## Comentários
+
+Comentários são ignorados pelo Java e servem para você documentar seu código:
+
+```java
+public class Exemplo {
+    public static void main(String[] args) {
+        // Comentário de uma linha - útil para explicações curtas
+        
+        /* 
+           Comentário de múltiplas linhas
+           Perfeito para explicações mais longas
+           ou para "desativar" blocos de código
+        */
+        
+        System.out.println("Código executando..."); // comentário no final da linha
+    }
+}
+```
+
+## Case Sensitive (Maiúsculas vs Minúsculas)
+
+Java diferencia letras maiúsculas de minúsculas. Isso é CRÍTICO:
+
+```java
+public class Exemplo {
+    public static void main(String[] args) {
+        int numero = 10;
+        int Numero = 20;  // Isso é UMA VARIÁVEL DIFERENTE!
+        
+        System.out.println(numero);  // imprime 10
+        System.out.println(Numero);  // imprime 20
+    }
+}
+```
+
+**Erro comum #3:** Escrever `system` em vez de `System`, ou `Public` em vez de `public`. O Java é implacável com isso!
+
+## System.out.println vs System.out.print
+
+Esses dois comandos são seus melhores amigos para mostrar resultados:
+
+```java
+public class Diferenca {
+    public static void main(String[] args) {
+        // println - pula uma linha no final
+        System.out.println("Primeira linha");
+        System.out.println("Segunda linha");
+        
+        // print - NÃO pula linha
+        System.out.print("Isso ");
+        System.out.print("fica ");
+        System.out.print("tudo junto");
+        System.out.println(); // linha em branco
+        
+        // Resultado final:
+        // Primeira linha
+        // Segunda linha
+        // Isso fica tudo junto
+    }
+}
+```
+
+## Erros Comuns e Como Evitá-los
+
+Aqui estão os erros que mais pegam iniciantes:
+
+### 1. Esquecer ponto e vírgula
+```java
+// ERRADO
+int idade = 25
+String nome = "João"
+
+// CERTO
+int idade = 25;
+String nome = "João";
+```
+
+### 2. Esquecer chaves
+```java
+// ERRADO - falta fechar a chave do método
+public class Teste {
+    public static void main(String[] args) {
+        System.out.println("Oi");
+
+// CERTO
+public class Teste {
+    public static void main(String[] args) {
+        System.out.println("Oi");
+    }  // <-- chave fechando o método
+}  // <-- chave fechando a classe
+```
+
+### 3. Nome da classe diferente do arquivo
+```java
+// Se o arquivo se chama "MeuPrograma.java"
+// ERRADO
+public class Programa {  // nome diferente!
+    public static void main(String[] args) {
+        System.out.println("Erro!");
+    }
+}
+
+// CERTO
+public class MeuPrograma {  // mesmo nome do arquivo
+    public static void main(String[] args) {
+        System.out.println("Funciona!");
+    }
+}
+```
+
+### 4. Esquecer que é case sensitive
+```java
+// ERRADO
+Public class Teste {  // 'Public' não existe, é 'public'
+    public static void main(String[] args) {
+        System.Out.println("Erro!");  // 'Out' não existe, é 'out'
+    }
+}
+
+// CERTO
+public class Teste {
+    public static void main(String[] args) {
+        System.out.println("Funciona!");
+    }
+}
+```
+
+## Exemplo Completo
+
+Aqui está um programa completo que usa tudo que vimos:
+
+```java
+public class Calculadora {
+    public static void main(String[] args) {
+        // Declarando variáveis
+        int numero1 = 10;
+        int numero2 = 5;
+        
+        // Calculando
+        int soma = numero1 + numero2;
+        int subtracao = numero1 - numero2;
+        
+        /* Mostrando resultados
+           com println e print */
+        System.out.println("Calculadora Simples");
+        System.out.print("Soma: ");
+        System.out.println(soma);
+        System.out.print("Subtração: ");
+        System.out.println(subtracao);
+    }
+}
+```
+
+## Resumo Rápido
+
+| Elemento | Obrigatório? | Exemplo |
+|----------|--------------|---------|
+| `public class Nome` | Sim | `public class Main` |
+| `public static void main` | Sim | `public static void main(String[] args)` |
+| `;` no final de instruções | Sim | `int x = 5;` |
+| `{}` para blocos | Sim | `if (x > 0) { }` |
+| Indentação | Não, mas faça! | Use 4 espaços |
+| Comentários | Não | `//` ou `/* */` |
+| Case sensitive | Sim | `System` ≠ `system` |
+
+Lembre-se: errar faz parte do aprendizado! Cada erro de compilação é uma oportunidade de aprender. Com a prática, você vai decorar essas regras naturalmente.
+
+Bons estudos e mãos ao código! 🚀

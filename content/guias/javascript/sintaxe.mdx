@@ -1,0 +1,272 @@
+---
+titulo: "Sintaxe Básica"
+slug: "sintaxe"
+ordem: 3
+---
+
+# Sintaxe Básica do JavaScript: Guia para Iniciantes
+
+Vamos aprender os fundamentos da sintaxe do JavaScript. São regrinhas básicas que você precisa conhecer para escrever código que funciona.
+
+## Ponto e vírgula (;)
+
+No JavaScript, o ponto e vírgula **é opcional** na maioria dos casos. O JavaScript automaticamente insere ponto e vírgula no final de cada linha (isso se chama ASI - Automatic Semicolon Insertion).
+
+```javascript
+// Funciona sem ponto e vírgula
+let nome = "João"
+console.log(nome)
+
+// Funciona com ponto e vírgula
+let idade = 25;
+console.log(idade);
+```
+
+**Mas por que usar então?** Por segurança! Em alguns casos raros, a falta do ponto e vírgula pode causar bugs difíceis de encontrar.
+
+```javascript
+// Exemplo de problema sem ponto e vírgula
+let a = 1
+let b = 2
+let c = a + b
+(a + b).toString() // Erro! JavaScript interpreta como: let c = a + b(a + b).toString()
+```
+
+**Dica:** Use ponto e vírgula no final de cada instrução. É uma boa prática que evita dores de cabeça.
+
+## Chaves {} para blocos
+
+As chaves `{}` delimitam blocos de código. Elas são usadas em funções, condicionais, loops e objetos.
+
+```javascript
+// Bloco de função
+function saudacao() {
+  console.log("Olá!");
+  console.log("Bem-vindo!");
+}
+
+// Bloco de condicional
+if (idade >= 18) {
+  console.log("Maior de idade");
+  console.log("Pode dirigir");
+}
+
+// Objeto (usa chaves também, mas é diferente)
+let pessoa = {
+  nome: "Maria",
+  idade: 30
+};
+```
+
+**Importante:** Sem as chaves, apenas a primeira linha após a condição é executada:
+
+```javascript
+if (idade >= 18) 
+  console.log("Maior de idade"); // Só essa linha executa
+  console.log("Pode dirigir"); // Essa executa SEMPRE, não faz parte do if!
+```
+
+## Indentação
+
+Indentação é o espaçamento no início das linhas. Ela **não é obrigatória** para o JavaScript funcionar, mas é **obrigatória para você não enlouquecer**.
+
+```javascript
+// Código sem indentação - difícil de ler
+function calcularMedia(nota1, nota2) {
+let soma = nota1 + nota2;
+let media = soma / 2;
+if (media >= 7) {
+console.log("Aprovado");
+} else {
+console.log("Reprovado");
+}
+return media;
+}
+
+// Código com indentação - muito mais fácil
+function calcularMedia(nota1, nota2) {
+  let soma = nota1 + nota2;
+  let media = soma / 2;
+  
+  if (media >= 7) {
+    console.log("Aprovado");
+  } else {
+    console.log("Reprovado");
+  }
+  
+  return media;
+}
+```
+
+**Dica:** Use 2 espaços para cada nível de indentação. Configure seu editor para fazer isso automaticamente.
+
+## Comentários // e /* */
+
+Comentários são trechos de texto que o JavaScript ignora. Servem para explicar o código ou desativar partes temporariamente.
+
+```javascript
+// Comentário de uma linha - começa com duas barras
+
+/*
+  Comentário de múltiplas linhas
+  Tudo entre /* e */ é ignorado
+  Muito útil para documentar funções
+*/
+
+let x = 10; // Comentário no final da linha também funciona
+```
+
+**Dica:** Comente o **porquê** do código, não **o que** ele faz. O código já mostra o que faz.
+
+```javascript
+// RUIM: explica o óbvio
+let total = preco + frete; // Soma preço com frete
+
+// BOM: explica o porquê
+let total = preco + frete; // Incluímos frete porque cliente é de outra cidade
+```
+
+## Case Sensitive
+
+JavaScript diferencia maiúsculas de minúsculas. `nome`, `Nome` e `NOME` são três variáveis diferentes.
+
+```javascript
+let nome = "João";
+let Nome = "Maria";
+let NOME = "Pedro";
+
+console.log(nome);  // "João"
+console.log(Nome);  // "Maria"
+console.log(NOME);  // "Pedro"
+```
+
+**Erro comum:** Escrever o nome da variável errado:
+
+```javascript
+let mensagem = "Olá";
+console.log(Mensagem); // Erro! Mensagem não foi definida, só mensagem
+```
+
+**Dica:** Use sempre o mesmo padrão. O mais comum em JavaScript é **camelCase** para variáveis e funções.
+
+```javascript
+let nomeCompleto = "João Silva"; // camelCase
+function calcularTotal() { } // camelCase
+const MAX_TENTATIVAS = 3; // UPPER_CASE para constantes
+```
+
+## console.log()
+
+`console.log()` é seu melhor amigo para debug. Ele imprime valores no console do navegador ou terminal.
+
+```javascript
+let nome = "Ana";
+let idade = 25;
+let ativo = true;
+
+console.log(nome);       // "Ana"
+console.log(idade);      // 25
+console.log(ativo);      // true
+
+// Pode passar vários valores
+console.log("Nome:", nome, "Idade:", idade);
+
+// Pode usar template strings (mais moderno)
+console.log(`Nome: ${nome}, Idade: ${idade}`);
+```
+
+**Dica:** Abuse do `console.log()` enquanto aprende. É a maneira mais simples de ver o que seu código está fazendo.
+
+## Diferença entre aspas simples e duplas
+
+No JavaScript, aspas simples (`'`) e duplas (`"`) são equivalentes. Ambas criam strings.
+
+```javascript
+let comAspasSimples = 'Olá mundo';
+let comAspasDuplas = "Olá mundo";
+
+console.log(comAspasSimples === comAspasDuplas); // true (são iguais)
+```
+
+**Quando usar cada uma?** A escolha é pessoal, mas tem um truque útil:
+
+```javascript
+// Se sua string tem aspas simples, use duplas
+let frase1 = "Ela disse: 'Olá'";
+
+// Se sua string tem aspas duplas, use simples
+let frase2 = 'Ele respondeu: "Oi"';
+
+// Evita ter que usar escape (\)
+let frase3 = "Ela disse: \"Olá\""; // Funciona, mas é mais feio
+```
+
+**Dica:** Escolha um padrão e seja consistente. Muitos projetos JavaScript usam aspas simples como padrão.
+
+## Resumo rápido
+
+```javascript
+// 1. Ponto e vírgula - use no final
+let nome = "João";
+
+// 2. Chaves para blocos
+if (true) {
+  console.log("Dentro do bloco");
+}
+
+// 3. Indentação - 2 espaços
+function exemplo() {
+  let x = 10;
+  if (x > 5) {
+    console.log("Maior que 5");
+  }
+}
+
+// 4. Comentários
+// Uma linha
+/* Várias
+   linhas */
+
+// 5. Case sensitive
+let cor = "azul";
+// COR é diferente de cor
+
+// 6. console.log()
+console.log("Debug fácil");
+
+// 7. Aspas equivalentes
+let a = 'simples';
+let b = "duplas";
+```
+
+## Erros comuns para iniciantes
+
+1. **Esquecer de fechar chaves ou parênteses**
+   ```javascript
+   // Erro
+   if (true {
+     console.log("Faltou fechar parêntese");
+   ```
+
+2. **Confundir = com == ou ===**
+   ```javascript
+   let x = 5;    // Atribuição
+   x == 5;       // Comparação (não recomendado)
+   x === 5;      // Comparação estrita (recomendado)
+   ```
+
+3. **Esquecer que JavaScript é case sensitive**
+   ```javascript
+   let minhaVariavel = 10;
+   console.log(minhavariavel); // Erro!
+   ```
+
+4. **Não usar ponto e vírgula em loops**
+   ```javascript
+   // Pode causar bugs estranhos
+   for (let i = 0; i < 10; i++) {
+     console.log(i)
+   } // Falta ponto e vírgula aqui
+   ```
+
+Pratique esses conceitos básicos e logo eles se tornarão automáticos. Qualquer dúvida, use `console.log()` para investigar o que está acontecendo!

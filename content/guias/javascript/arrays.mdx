@@ -1,0 +1,305 @@
+---
+titulo: "Arrays"
+slug: "arrays"
+ordem: 12
+---
+
+Vamos mergulhar no mundo dos arrays em JavaScript! Arrays são como listas organizadas onde você guarda vários valores em uma única variável. Pense neles como uma caixa com compartimentos numerados.
+
+## Criando um Array
+
+A forma mais comum e simples de criar um array é usando colchetes `[]`:
+
+```javascript
+// Array vazio
+let listaVazia = [];
+
+// Array com números
+let numeros = [10, 20, 30, 40, 50];
+
+// Array com strings
+let frutas = ['maçã', 'banana', 'laranja'];
+
+// Array com tipos mistos (pode, mas evite para organização)
+let misturado = ['João', 25, true, null];
+```
+
+## Acessando Elementos por Índice
+
+Cada posição no array tem um número chamado **índice**. O primeiro elemento sempre começa no índice 0:
+
+```javascript
+let cores = ['vermelho', 'azul', 'verde', 'amarelo'];
+
+console.log(cores[0]); // 'vermelho'
+console.log(cores[2]); // 'verde'
+console.log(cores[4]); // undefined (não existe)
+
+// Você também pode modificar elementos
+cores[1] = 'roxo';
+console.log(cores); // ['vermelho', 'roxo', 'verde', 'amarelo']
+```
+
+## A propriedade length
+
+`length` diz quantos elementos o array tem:
+
+```javascript
+let animais = ['gato', 'cachorro', 'pássaro'];
+console.log(animais.length); // 3
+
+// Útil para loops
+for (let i = 0; i < animais.length; i++) {
+  console.log(animais[i]);
+}
+```
+
+## Adicionando e Removendo Elementos
+
+### push() - Adiciona no final
+
+```javascript
+let tarefas = ['estudar', 'comer'];
+tarefas.push('dormir');
+console.log(tarefas); // ['estudar', 'comer', 'dormir']
+
+// Pode adicionar vários de uma vez
+tarefas.push('acordar', 'tomar café');
+```
+
+### pop() - Remove do final
+
+```javascript
+let numeros = [1, 2, 3, 4];
+let ultimo = numeros.pop();
+console.log(ultimo); // 4
+console.log(numeros); // [1, 2, 3]
+```
+
+### unshift() - Adiciona no início
+
+```javascript
+let fila = ['segundo', 'terceiro'];
+fila.unshift('primeiro');
+console.log(fila); // ['primeiro', 'segundo', 'terceiro']
+```
+
+### shift() - Remove do início
+
+```javascript
+let letras = ['a', 'b', 'c'];
+let primeiro = letras.shift();
+console.log(primeiro); // 'a'
+console.log(letras); // ['b', 'c']
+```
+
+## splice() - O canivete suíço
+
+Remove, adiciona ou substitui elementos em qualquer posição:
+
+```javascript
+let meses = ['jan', 'fev', 'mar', 'abr', 'mai'];
+
+// Remover 2 elementos a partir do índice 1
+meses.splice(1, 2);
+console.log(meses); // ['jan', 'abr', 'mai']
+
+// Adicionar sem remover (segundo parâmetro = 0)
+meses.splice(1, 0, 'fev', 'mar');
+console.log(meses); // ['jan', 'fev', 'mar', 'abr', 'mai']
+
+// Substituir (remover 1 e adicionar 1)
+meses.splice(2, 1, 'MARÇO');
+console.log(meses); // ['jan', 'fev', 'MARÇO', 'abr', 'mai']
+```
+
+## slice() - Fatia sem modificar
+
+Cria um novo array copiando uma parte:
+
+```javascript
+let numeros = [10, 20, 30, 40, 50];
+
+let fatia = numeros.slice(1, 4);
+console.log(fatia); // [20, 30, 40]
+
+// Se não passar o fim, vai até o final
+let doMeioPraFrente = numeros.slice(2);
+console.log(doMeioPraFrente); // [30, 40, 50]
+
+// Índices negativos contam do final
+let ultimosDois = numeros.slice(-2);
+console.log(ultimosDois); // [40, 50]
+```
+
+## indexOf() e includes()
+
+Para encontrar elementos:
+
+```javascript
+let frutas = ['maçã', 'banana', 'laranja', 'banana'];
+
+// indexOf retorna o índice ou -1 se não achar
+console.log(frutas.indexOf('banana')); // 1
+console.log(frutas.indexOf('uva')); // -1
+
+// includes retorna true ou false
+console.log(frutas.includes('laranja')); // true
+console.log(frutas.includes('manga')); // false
+```
+
+## join() - Juntando elementos
+
+Transforma o array em string:
+
+```javascript
+let palavras = ['JavaScript', 'é', 'legal'];
+let frase = palavras.join(' ');
+console.log(frase); // 'JavaScript é legal'
+
+let numeros = [1, 2, 3];
+console.log(numeros.join('-')); // '1-2-3'
+```
+
+## sort() e reverse()
+
+```javascript
+let numeros = [3, 1, 4, 1, 5, 9];
+numeros.sort();
+console.log(numeros); // [1, 1, 3, 4, 5, 9]
+
+numeros.reverse();
+console.log(numeros); // [9, 5, 4, 3, 1, 1]
+
+// Cuidado: sort() ordena como string por padrão!
+let numerosMisturados = [10, 2, 30, 4];
+numerosMisturados.sort();
+console.log(numerosMisturados); // [10, 2, 30, 4] - ERRADO!
+
+// Para números, precisa de função de comparação
+numerosMisturados.sort((a, b) => a - b);
+console.log(numerosMisturados); // [2, 4, 10, 30]
+```
+
+## Spread Operator (...)
+
+Cria cópias ou combina arrays facilmente:
+
+```javascript
+let original = [1, 2, 3];
+let copia = [...original];
+console.log(copia); // [1, 2, 3]
+console.log(copia === original); // false (são diferentes)
+
+// Combinando arrays
+let parte1 = [1, 2];
+let parte2 = [3, 4];
+let completo = [...parte1, ...parte2];
+console.log(completo); // [1, 2, 3, 4]
+
+// Adicionando elementos no meio
+let numeros = [1, 2, 5];
+let expandido = [0, ...numeros, 10];
+console.log(expandido); // [0, 1, 2, 5, 10]
+```
+
+## Desestruturação de Array
+
+Extrai valores em variáveis de forma elegante:
+
+```javascript
+let coordenadas = [10, 20, 30];
+
+let [x, y, z] = coordenadas;
+console.log(x); // 10
+console.log(y); // 20
+console.log(z); // 30
+
+// Pulando elementos
+let [primeiro, , terceiro] = [1, 2, 3];
+console.log(primeiro); // 1
+console.log(terceiro); // 3
+
+// Trocando valores sem variável temporária
+let a = 1, b = 2;
+[a, b] = [b, a];
+console.log(a); // 2
+console.log(b); // 1
+
+// Valor padrão
+let [nome = 'Visitante'] = [];
+console.log(nome); // 'Visitante'
+```
+
+## Erros Comuns e Dicas
+
+```javascript
+// ❌ ERRO: Confundir índice com posição
+let lista = ['a', 'b', 'c'];
+console.log(lista[1]); // 'b' (não 'a')
+
+// ❌ ERRO: Modificar array durante iteração
+let nums = [1, 2, 3, 4];
+for (let i = 0; i < nums.length; i++) {
+  if (nums[i] === 2) {
+    nums.splice(i, 1); // Perigoso! Pula o próximo
+  }
+}
+
+// ✅ CERTO: Criar novo array
+let resultado = nums.filter(n => n !== 2);
+
+// ❌ ERRO: Comparar arrays com ===
+[1, 2] === [1, 2]; // false!
+
+// ✅ CERTO: Comparar conteúdo
+JSON.stringify([1, 2]) === JSON.stringify([1, 2]); // true
+
+// ❌ ERRO: Usar sort() sem função para números
+[10, 2, 30].sort(); // [10, 2, 30]
+
+// ✅ CERTO: Com função de comparação
+[10, 2, 30].sort((a, b) => a - b); // [2, 10, 30]
+```
+
+## Exemplo Prático: Lista de Compras
+
+```javascript
+let listaCompras = [];
+
+function adicionarItem(item) {
+  listaCompras.push(item);
+  console.log(`${item} adicionado!`);
+}
+
+function removerUltimo() {
+  let removido = listaCompras.pop();
+  console.log(`${removido} removido!`);
+}
+
+function exibirLista() {
+  console.log('--- LISTA DE COMPRAS ---');
+  listaCompras.forEach((item, indice) => {
+    console.log(`${indice + 1}. ${item}`);
+  });
+  console.log(`Total: ${listaCompras.length} itens`);
+}
+
+adicionarItem('Arroz');
+adicionarItem('Feijão');
+adicionarItem('Macarrão');
+exibirLista();
+// 1. Arroz
+// 2. Feijão
+// 3. Macarrão
+// Total: 3 itens
+
+removerUltimo();
+exibirLista();
+// Macarrão removido!
+// 1. Arroz
+// 2. Feijão
+// Total: 2 itens
+```
+
+Arrays são fundamentais em JavaScript. Pratique criando listas de tarefas, carrinhos de compras, ou qualquer coisa que precise de uma coleção ordenada. Com o tempo, você vai usar arrays naturalmente em seus projetos!

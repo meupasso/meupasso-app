@@ -1,0 +1,236 @@
+---
+titulo: "Variáveis e Tipos Primitivos"
+slug: "variaveis-tipos"
+ordem: 4
+---
+
+# Variáveis e Tipos Primitivos em Java 🚀
+
+Fala, dev! Vamos aprender um dos conceitos mais fundamentais do Java: variáveis e tipos primitivos. Pensa em variáveis como caixinhas onde você guarda informações no seu programa.
+
+## O que são variáveis?
+
+Variável é um espaço na memória do computador que guarda um valor. Você dá um nome pra essa "caixinha" e diz que tipo de dado ela pode armazenar.
+
+### Declarando uma variável
+
+A estrutura básica é:
+
+```java
+tipo nomeDaVariavel = valor;
+```
+
+Exemplo prático:
+
+```java
+int idade = 25;
+```
+
+Aqui:
+- `int` é o tipo (número inteiro)
+- `idade` é o nome da variável
+- `25` é o valor que estamos guardando
+
+## Tipos Primitivos em Java
+
+Java tem 8 tipos primitivos. Vamos conhecer cada um!
+
+### Tipos Numéricos Inteiros
+
+| Tipo | Tamanho | Valor Mínimo | Valor Máximo | Exemplo |
+|------|---------|--------------|--------------|---------|
+| `byte` | 8 bits | -128 | 127 | `byte b = 100;` |
+| `short` | 16 bits | -32.768 | 32.767 | `short s = 30000;` |
+| `int` | 32 bits | -2³¹ | 2³¹-1 | `int i = 1000000;` |
+| `long` | 64 bits | -2⁶³ | 2⁶³-1 | `long l = 10000000000L;` |
+
+### Tipos Numéricos de Ponto Flutuante
+
+| Tipo | Tamanho | Precisão | Exemplo |
+|------|---------|----------|---------|
+| `float` | 32 bits | ~6-7 dígitos | `float f = 3.14f;` |
+| `double` | 64 bits | ~15 dígitos | `double d = 3.1415926535;` |
+
+### Outros Tipos
+
+| Tipo | Descrição | Exemplo |
+|------|-----------|---------|
+| `char` | Um único caractere | `char c = 'A';` |
+| `boolean` | Verdadeiro ou falso | `boolean ativo = true;` |
+
+## Diferença entre int e double
+
+O `int` guarda números inteiros, enquanto `double` guarda números decimais.
+
+```java
+int numeroInteiro = 10;
+double numeroDecimal = 10.5;
+
+// Cuidado! Isso vai dar erro:
+int resultado = 10 / 3;  // resultado = 3 (perdeu a parte decimal)
+double resultado2 = 10.0 / 3;  // resultado2 = 3.333...
+```
+
+## Cuidados com long e float
+
+### Literal long com L
+
+Quando você usa um valor muito grande para `long`, precisa colocar um `L` no final:
+
+```java
+long populacaoMundial = 8000000000L;  // O L é obrigatório para valores grandes
+long numeroPequeno = 100;  // Aqui não precisa, mas é boa prática usar
+```
+
+### Literal float com f
+
+Para `float`, SEMPRE coloque `f` no final:
+
+```java
+float preco = 19.99f;  // Sem o f, o Java acha que é double
+float altura = 1.75F;  // Pode ser maiúsculo ou minúsculo
+```
+
+## char com aspas simples
+
+O `char` guarda UM caractere e usa aspas SIMPLES:
+
+```java
+char letra = 'A';
+char digito = '7';
+char simbolo = '@';
+
+// Erro comum: usar aspas duplas
+char errado = "A";  // Isso dá erro de compilação!
+```
+
+## boolean true/false
+
+`boolean` só aceita dois valores: `true` ou `false`:
+
+```java
+boolean estaLogado = true;
+boolean maiorDeIdade = false;
+boolean resultado = 10 > 5;  // resultado = true
+```
+
+## Constantes com final
+
+Quando você quer criar um valor que não pode ser mudado, use `final`:
+
+```java
+final double PI = 3.14159;
+final int DIAS_DA_SEMANA = 7;
+
+// Isso vai dar erro:
+PI = 3.14;  // Erro! Não pode mudar constante
+```
+
+Por convenção, constantes são escritas em MAIÚSCULO com underscores.
+
+## Convenção camelCase
+
+Em Java, usamos camelCase para nomes de variáveis:
+
+```java
+int minhaIdade = 25;  // Primeira palavra minúscula
+String nomeCompleto = "João Silva";  // Próximas palavras maiúsculas
+double salarioMensal = 5000.50;
+boolean estaChovendo = false;
+```
+
+**Regras:**
+- Começa com letra minúscula
+- Sem espaços ou caracteres especiais (só _ e $ são permitidos)
+- Próximas palavras começam com maiúscula
+
+## Erros Comuns (e como evitar)
+
+### 1. Esquecer o tipo da variável
+
+```java
+// Errado:
+idade = 25;  // Java precisa saber o tipo!
+
+// Certo:
+int idade = 25;
+```
+
+### 2. Misturar tipos incompatíveis
+
+```java
+int numero = 10.5;  // Erro! double não cabe em int
+
+// Soluções:
+double numero = 10.5;  // Usar double
+int numero = (int) 10.5;  // Cast (forçar conversão) - perde a parte decimal
+```
+
+### 3. Esquecer o L ou f
+
+```java
+long numeroGrande = 9999999999;  // Erro! Muito grande para int
+long numeroGrande = 9999999999L;  // Certo!
+
+float preco = 19.99;  // Erro! Java acha que é double
+float preco = 19.99f;  // Certo!
+```
+
+### 4. Usar aspas duplas em char
+
+```java
+char letra = "A";  // Erro! String não cabe em char
+char letra = 'A';  // Certo!
+```
+
+### 5. Tentar mudar constante
+
+```java
+final int IDADE_MINIMA = 18;
+IDADE_MINIMA = 21;  // Erro! Não pode modificar constante
+```
+
+## Exemplo Completo
+
+Vamos juntar tudo que aprendemos:
+
+```java
+public class ExemploVariaveis {
+    public static void main(String[] args) {
+        // Tipos inteiros
+        byte idade = 25;
+        short ano = 2024;
+        int populacao = 1000000;
+        long populacaoMundial = 8000000000L;
+        
+        // Tipos decimais
+        float preco = 19.99f;
+        double pi = 3.1415926535;
+        
+        // Outros tipos
+        char primeiraLetra = 'J';
+        boolean maiorDeIdade = idade >= 18;
+        
+        // Constante
+        final double TAXA_JUROS = 0.05;
+        
+        // Exibindo valores
+        System.out.println("Idade: " + idade);
+        System.out.println("Maior de idade? " + maiorDeIdade);
+        System.out.println("PI: " + pi);
+        System.out.println("Primeira letra: " + primeiraLetra);
+    }
+}
+```
+
+## Dicas Finais 💡
+
+1. **Sempre declare o tipo** - Java é fortemente tipado, não dá pra pular essa etapa
+2. **Use nomes significativos** - `int idade` é melhor que `int i`
+3. **Prefira double para decimais** - A menos que tenha motivo específico para float
+4. **Nunca esqueça L e f** - Para long e float, sempre coloque os sufixos
+5. **Constantes são suas amigas** - Use `final` para valores que não mudam
+
+Prontinho! Agora você já sabe os fundamentos de variáveis e tipos primitivos em Java. Na prática, você vai usar `int` e `double` na maioria das vezes, mas é importante conhecer todos os tipos disponíveis.
+
+Bora codar! 🚀

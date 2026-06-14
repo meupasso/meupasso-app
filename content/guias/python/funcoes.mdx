@@ -1,0 +1,236 @@
+---
+titulo: "Funções"
+slug: "funcoes"
+ordem: 16
+---
+
+Funções são blocos de código com **nome próprio** que você pode **chamar** quantas vezes quiser. Em vez de repetir o mesmo código várias vezes, você escreve uma função e a reutiliza.
+
+## Por que usar funções?
+
+- **Reutilização**: escreva uma vez, use muitas vezes
+- **Organização**: código dividido em partes lógicas
+- **Legibilidade**: nomes descritivos explicam o que o código faz
+- **Manutenção**: corrige em um lugar só
+
+## Definindo uma função — `def`
+
+```python
+def saudacao():
+    print("Olá! Bem-vindo ao programa!")
+
+# Chamar a função
+saudacao()  # Olá! Bem-vindo ao programa!
+saudacao()  # Olá! Bem-vindo ao programa! (de novo)
+```
+
+## Parâmetros e argumentos
+
+Parâmetros são como "variáveis de entrada" da função:
+
+```python
+def saudar(nome):
+    print(f"Olá, {nome}!")
+
+saudar("Maria")   # Olá, Maria!
+saudar("João")    # Olá, João!
+```
+
+## `return` — retornando valores
+
+Uma função pode **devolver** um valor com `return`. Isso é diferente de `print()`:
+
+```python
+def soma(a, b):
+    return a + b
+
+resultado = soma(5, 3)
+print(resultado)  # 8
+
+# Dá para usar direto em outras operações
+dobro = soma(5, 3) * 2
+print(dobro)  # 16
+```
+
+> **Diferença crucial**: `print()` mostra na tela e **não devolve nada**. `return` devolve um valor que você pode guardar numa variável.
+
+## Parâmetros com valor padrão
+
+Se um parâmetro tem um valor padrão, ele se torna opcional:
+
+```python
+def saudar(nome, saudacao="Olá"):
+    print(f"{saudacao}, {nome}!")
+
+saudar("Maria")            # Olá, Maria!
+saudar("João", "Bom dia")  # Bom dia, João!
+```
+
+> **⚠️ Importante**: parâmetros com valor padrão sempre vêm **depois** dos obrigatórios.
+
+## Argumentos nomeados (keyword arguments)
+
+Você pode passar argumentos pelo nome, o que deixa a chamada mais clara:
+
+```python
+def cadastro(nome, idade, cidade):
+    print(f"{nome}, {idade} anos, {cidade}")
+
+# Posicional — pela ordem
+cadastro("Ana", 25, "São Paulo")
+
+# Nomeado — pela ordem que quiser
+cadastro(cidade="Rio", nome="Ana", idade=25)
+```
+
+## `*args` — múltiplos argumentos
+
+Quando você não sabe quantos argumentos virão:
+
+```python
+def soma_todos(*numeros):
+    total = 0
+    for n in numeros:
+        total += n
+    return total
+
+print(soma_todos(1, 2, 3))       # 6
+print(soma_todos(10, 20, 30, 40))  # 100
+```
+
+> O `*` empacota todos os argumentos extras numa tupla.
+
+## Escopo — variável local vs global
+
+Variáveis criadas **dentro** da função só existem lá:
+
+```python
+nome = "Global"  # variável global
+
+def teste():
+    nome = "Local"  # variável local
+    print(nome)      # Local
+
+teste()
+print(nome)  # Global — a variável fora não foi alterada
+```
+
+Para modificar uma global dentro da função, use `global`:
+
+```python
+contador = 0
+
+def incrementar():
+    global contador
+    contador += 1
+
+incrementar()
+print(contador)  # 1
+```
+
+> **Dica**: evite `global` sempre que possível. Prefira passar por parâmetro e retornar.
+
+## Função chamando outra função
+
+```python
+def dobro(x):
+    return x * 2
+
+def quadrado(x):
+    return x * x
+
+def calcular(a, b, operacao):
+    if operacao == "dobro":
+        return dobro(a)
+    elif operacao == "quadrado":
+        return quadrado(b)
+    else:
+        return a + b
+
+print(calcular(5, 3, "dobro"))     # 10
+print(calcular(5, 3, "quadrado"))  # 9
+```
+
+## Exemplo prático — calculadora com funções
+
+```python
+def somar(a, b):
+    return a + b
+
+def subtrair(a, b):
+    return a - b
+
+def multiplicar(a, b):
+    return a * b
+
+def dividir(a, b):
+    if b == 0:
+        return "Erro: divisão por zero"
+    return a / b
+
+# Usando as funções
+n1, n2 = 10, 5
+print(f"Soma: {somar(n1, n2)}")
+print(f"Subtração: {subtrair(n1, n2)}")
+print(f"Multiplicação: {multiplicar(n1, n2)}")
+print(f"Divisão: {dividir(n1, n2)}")
+```
+
+## Erros comuns
+
+### Esquecer o `return`
+
+```python
+def soma(a, b):
+    resultado = a + b
+    # esqueceu o return!
+
+print(soma(5, 3))  # None
+```
+
+**Solução**: toda função que deve devolver um valor precisa de `return`.
+
+### Confundir `print` com `return`
+
+```python
+def soma(a, b):
+    print(a + b)  # mostra na tela, mas não devolve
+
+resultado = soma(5, 3) + 10  # ❌ TypeError!
+```
+
+**Solução**: use `return` para devolver valores, `print` só para exibir.
+
+### Chamar a função antes de defini-la
+
+Em Python, você precisa definir a função **antes** de chamá-la:
+
+```python
+ola()  # ❌ NameError: name 'ola' is not defined
+
+def ola():
+    print("Olá!")
+```
+
+### Declarar função com parâmetro e chamar sem
+
+```python
+def saudar(nome):
+    print(f"Olá, {nome}")
+
+saudar()  # ❌ TypeError: missing 1 required positional argument
+```
+
+**Solução**: forneça todos os argumentos necessários ou use valores padrão.
+
+## Resumo
+
+| Conceito | Código | O que faz |
+|----------|--------|-----------|
+| Definir | `def nome():` | Cria uma função |
+| Chamar | `nome()` | Executa a função |
+| Parâmetro | `def f(x):` | Recebe valor externo |
+| Retornar | `return valor` | Devolve um valor |
+| Padrão | `def f(x=1):` | Valor opcional |
+| Nomeado | `f(x=5)` | Passa pelo nome |
+| args | `def f(*x):` | Múltiplos argumentos |

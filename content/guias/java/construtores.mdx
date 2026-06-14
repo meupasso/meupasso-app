@@ -1,0 +1,348 @@
+---
+titulo: "Construtores"
+slug: "construtores"
+ordem: 15
+---
+
+# 🏗️ Construtores em Java: O Guia Completo para Iniciantes
+
+Olá, futuro desenvolvedor Java! Hoje vamos mergulhar em um dos conceitos mais importantes da programação orientada a objetos: os **construtores**. Pense neles como a "certidão de nascimento" dos seus objetos - é o momento em que eles ganham vida!
+
+## 🤔 O que é um Construtor?
+
+Um construtor é um método especial que é chamado **automaticamente** quando você cria um novo objeto usando a palavra-chave `new`. Sua principal função é **inicializar** o objeto, definindo valores iniciais para seus atributos.
+
+### Características principais:
+- Tem o **mesmo nome** da classe
+- **Não tem tipo de retorno** (nem `void`!)
+- É chamado automaticamente na criação do objeto
+
+```java
+public class Carro {
+    String modelo;
+    int ano;
+    
+    // Este é um construtor!
+    public Carro() {
+        System.out.println("Um novo carro foi criado!");
+    }
+}
+
+// Uso:
+Carro meuCarro = new Carro(); // Aqui o construtor é chamado
+```
+
+## 🎯 Construtor Padrão (Sem Parâmetros)
+
+Se você **não criar nenhum construtor**, o Java fornece um **construtor padrão** (default constructor) automaticamente. Ele não faz nada além de criar o objeto.
+
+```java
+public class Pessoa {
+    String nome;
+    int idade;
+    
+    // Construtor padrão é criado automaticamente pelo Java
+    // É como se tivesse: public Pessoa() {}
+}
+
+public class Teste {
+    public static void main(String[] args) {
+        Pessoa p = new Pessoa(); // Funciona perfeitamente!
+        System.out.println(p.nome); // null
+        System.out.println(p.idade); // 0
+    }
+}
+```
+
+⚠️ **Atenção!** Se você criar QUALQUER construtor, o Java **não** fornece mais o construtor padrão!
+
+## 🎨 Construtor Parametrizado
+
+É um construtor que recebe parâmetros para inicializar os atributos com valores específicos.
+
+```java
+public class Aluno {
+    String nome;
+    int matricula;
+    double nota;
+    
+    // Construtor parametrizado
+    public Aluno(String nome, int matricula, double nota) {
+        this.nome = nome;
+        this.matricula = matricula;
+        this.nota = nota;
+    }
+}
+
+public class Teste {
+    public static void main(String[] args) {
+        Aluno aluno1 = new Aluno("Maria", 12345, 9.5);
+        Aluno aluno2 = new Aluno("João", 12346, 7.8);
+    }
+}
+```
+
+## 🔄 this() - Chamando Outro Construtor
+
+A palavra-chave `this()` permite que um construtor chame **outro construtor** da mesma classe. Isso evita duplicação de código!
+
+```java
+public class ContaBancaria {
+    String titular;
+    double saldo;
+    String tipo;
+    
+    // Construtor mais completo
+    public ContaBancaria(String titular, double saldo, String tipo) {
+        this.titular = titular;
+        this.saldo = saldo;
+        this.tipo = tipo;
+        System.out.println("Conta " + tipo + " criada para " + titular);
+    }
+    
+    // Construtor simplificado - chama o construtor acima!
+    public ContaBancaria(String titular) {
+        this(titular, 0.0, "Corrente"); // this() DEVE ser a primeira linha!
+    }
+}
+
+public class Teste {
+    public static void main(String[] args) {
+        ContaBancaria c1 = new ContaBancaria("Ana", 1000.0, "Poupança");
+        ContaBancaria c2 = new ContaBancaria("Carlos"); // Saldo 0, tipo Corrente
+    }
+}
+```
+
+## 📚 Múltiplos Construtores (Sobrecarga)
+
+Você pode ter **vários construtores** na mesma classe, desde que tenham parâmetros diferentes. Isso se chama **sobrecarga de construtores**.
+
+```java
+public class Produto {
+    String nome;
+    double preco;
+    int quantidade;
+    
+    // Construtor 1: apenas nome
+    public Produto(String nome) {
+        this(nome, 0.0, 0); // Chama o construtor 3
+    }
+    
+    // Construtor 2: nome e preço
+    public Produto(String nome, double preco) {
+        this(nome, preco, 0); // Chama o construtor 3
+    }
+    
+    // Construtor 3: todos os atributos
+    public Produto(String nome, double preco, int quantidade) {
+        this.nome = nome;
+        this.preco = preco;
+        this.quantidade = quantidade;
+    }
+}
+
+public class Teste {
+    public static void main(String[] args) {
+        Produto p1 = new Produto("Arroz");
+        Produto p2 = new Produto("Feijão", 8.50);
+        Produto p3 = new Produto("Macarrão", 4.99, 10);
+    }
+}
+```
+
+## ⚖️ Construtor vs Setter: Quando Usar Cada Um?
+
+### Use **construtor** quando:
+- O atributo é **obrigatório** para o objeto existir
+- O valor **não vai mudar** durante a vida do objeto
+- Você quer garantir que o objeto já nasça "completo"
+
+### Use **setter** quando:
+- O atributo é **opcional** ou tem valor padrão
+- O valor **pode mudar** depois
+- Você precisa de validação complexa
+
+```java
+public class Usuario {
+    // Atributos obrigatórios - vão no construtor
+    private String email;
+    private String senha;
+    
+    // Atributos opcionais - podem ter setters
+    private String nome;
+    private int idade;
+    
+    public Usuario(String email, String senha) {
+        this.email = email;
+        this.senha = senha;
+    }
+    
+    // Setters para atributos opcionais
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    
+    public void setIdade(int idade) {
+        if (idade > 0) {
+            this.idade = idade;
+        }
+    }
+}
+```
+
+## 💻 Exemplo Prático: Classe Produto Completa
+
+Vamos criar uma classe `Produto` profissional com construtores bem pensados:
+
+```java
+public class Produto {
+    // Atributos
+    private String nome;
+    private double preco;
+    private int quantidade;
+    private String codigo;
+    
+    // Construtor completo
+    public Produto(String nome, double preco, int quantidade, String codigo) {
+        this.nome = nome;
+        this.preco = preco;
+        this.quantidade = quantidade;
+        this.codigo = codigo;
+    }
+    
+    // Construtor para produtos sem código ainda
+    public Produto(String nome, double preco, int quantidade) {
+        this(nome, preco, quantidade, "PENDENTE");
+    }
+    
+    // Construtor para produtos sem quantidade (estoque inicial 0)
+    public Produto(String nome, double preco) {
+        this(nome, preco, 0, "PENDENTE");
+    }
+    
+    // Construtor mínimo - apenas nome (preço 0, sem estoque)
+    public Produto(String nome) {
+        this(nome, 0.0, 0, "PENDENTE");
+    }
+    
+    // Getters e Setters
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
+    
+    public double getPreco() { return preco; }
+    public void setPreco(double preco) { 
+        if (preco >= 0) {
+            this.preco = preco;
+        }
+    }
+    
+    public int getQuantidade() { return quantidade; }
+    public void setQuantidade(int quantidade) { 
+        if (quantidade >= 0) {
+            this.quantidade = quantidade;
+        }
+    }
+    
+    public String getCodigo() { return codigo; }
+    
+    // Método para exibir informações
+    public void exibirInfo() {
+        System.out.println("Produto: " + nome);
+        System.out.println("Preço: R$" + preco);
+        System.out.println("Quantidade: " + quantidade);
+        System.out.println("Código: " + codigo);
+    }
+}
+
+public class Teste {
+    public static void main(String[] args) {
+        Produto p1 = new Produto("Notebook", 3500.0, 5, "NTB-001");
+        Produto p2 = new Produto("Mouse", 50.0, 10);
+        Produto p3 = new Produto("Teclado", 120.0);
+        Produto p4 = new Produto("Monitor");
+        
+        p1.exibirInfo();
+        System.out.println("---");
+        p4.exibirInfo();
+    }
+}
+```
+
+## 🚨 Erros Comuns (e Como Evitá-los)
+
+### ❌ Erro 1: Colocar tipo de retorno no construtor
+
+```java
+public class Erro {
+    // ERRADO! Construtor não pode ter void
+    public void Erro() {
+        System.out.println("Isso não é um construtor!");
+    }
+    
+    // CERTO
+    public Erro() {
+        System.out.println("Isso é um construtor!");
+    }
+}
+```
+
+### ❌ Erro 2: Nome do construtor diferente da classe
+
+```java
+public class Animal {
+    // ERRADO! Nome diferente da classe
+    public Animal() { } // CORRETO
+    // public animal() { } // ERRADO!
+}
+```
+
+### ❌ Erro 3: Esquecer de criar construtor padrão
+
+```java
+public class Exemplo {
+    private int valor;
+    
+    // Se você criar este construtor...
+    public Exemplo(int valor) {
+        this.valor = valor;
+    }
+    
+    public static void main(String[] args) {
+        // ... este código NÃO funciona!
+        // Exemplo e = new Exemplo(); // ERRO DE COMPILAÇÃO!
+        
+        // Precisa fazer assim:
+        Exemplo e = new Exemplo(10); // OK
+    }
+}
+```
+
+### ❌ Erro 4: this() não ser a primeira linha
+
+```java
+public class ErroThis {
+    private int a;
+    private int b;
+    
+    public ErroThis(int a, int b) {
+        this.a = a;
+        this.b = b;
+    }
+    
+    public ErroThis(int a) {
+        System.out.println("Teste"); // ERRADO! this() deve ser a primeira linha
+        this(a, 0); // Isso causaria erro de compilação
+    }
+}
+```
+
+## 💡 Dicas Finais
+
+1. **Sempre valide** parâmetros no construtor (preços negativos, etc.)
+2. **Use this()** para evitar repetir código entre construtores
+3. **Prefira construtores** para atributos que nunca mudam
+4. **Documente** seus construtores com comentários claros
+5. **Considere o padrão Builder** para classes com muitos atributos
+
+Parabéns! Agora você entende como os construtores funcionam em Java. Pratique criando suas próprias classes com diferentes tipos de construtores. Lembre-se: um bom construtor é a base para objetos bem construídos! 🚀

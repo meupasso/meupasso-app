@@ -1,0 +1,880 @@
+### 01 Crie um programa que leia o nome do usuário e escreva uma saudação personalizada: 
+"Olá, [nome do usuário]! Bem-vindo ao nosso programa!".
+Solução Sugerida
+```java
+Scanner scan = new Scanner(System.in);
+
+System.out.println("Entre com o seu nome: ");
+String nome = scan.nextLine();
+System.out.printf("\nOlá, %s! Bem-vindo ao nosso programa!%n", nome);
+```
+### 02 Crie um programa que leia o preço de dois produtos e escreva o valor total da compra. Lembre-se que valores são números fracionados, ou seja, declare-os com o tipo double.
+Solução Sugerida
+```java
+Scanner scan = new Scanner(System.in);
+
+System.out.println("Entre com o preço do primeiro produto:");
+double produto1 = scan.nextDouble();
+
+System.out.println("Entre com o preço do segundo produto:");
+double produto2 = scan.nextDouble();
+
+double valorTotal = produto1 + produto2;
+
+System.out.printf("\nO valor total é R$ %.2f.", valorTotal);
+```
+### 03 Crie um programa que leia a distância percorrida por um carro (em km) e o tempo gasto (em horas) e escreva a velocidade média do carro. 
+
+A fórmula de velocidade média é: 
+vm = distancia(em metros) / tempo(em segundos)
+Solução Sugerida
+```java
+Scanner scan = new Scanner(System.in);
+
+System.out.println("Entre com a distância percorrida(em km): ");
+int distanciaEmKm = scan.nextInt();
+
+System.out.println("Entre com o tempo gasto(em horas):");
+int tempoGastoEmHoras = scan.nextInt();
+
+int distanciaEmMetros = distanciaEmKm x 1000;
+
+int tempoEmSegundos = tempoGastoEmHoras * 3600;
+
+double velocidadeMedia = (double) distanciaEmMetros /
+tempoEmSegundos;
+
+System.out.printf("A velocidade média é %.2f m/s.",
+velocidadeMedia);
+```
+### 04 Crie um programa que leia o número de horas trabalhadas por um funcionário e o valor da hora de trabalho e escreva o salário bruto desse funcionário.
+Solução Sugerida
+```java
+Scanner scan = new Scanner(System.in);
+
+System.out.println("Entre com o número de horas trabalhadas:");
+int horasTrabalhadas = scan.nextInt();
+
+System.out.println("Entre com o valor por hora de trabalho:");
+double valorHora = scan.nextDouble();
+
+double salarioBruto = horasTrabalhadas * valorHora;
+
+System.out .printf("O salário bruto deste funcionário é R$ %.2f",
+salarioBruto);
+```
+### 05 Crie um programa que leia o valor de um empréstimo, a taxa de juros mensal e o número de meses e escreva o valor da parcela mensal do empréstimo.
+Solução Sugerida
+```java
+Scanner scan = new Scanner(System.in);
+
+double valorEmprestimo, taxaJuros, valorTotal, valorParcela;
+int qtdMeses;
+
+System.out.println("Entre com o valor do empréstimo:");
+valorEmprestimo = scan.nextDouble();
+
+System.out.println("Qual a taxa de juros mensal?");
+taxaJuros = scan.nextDouble();
+
+System.out.println("O empréstimo foi em quantos meses?");
+qtdMeses = scan.nextInt();
+
+// Cálculo de juros simples
+valorTotal = valorEmprestimo + (valorEmprestimo * (taxaJuros / 100) * qtdMeses);
+valorParcela = valorTotal / qtdMeses;
+
+System.out.printf("O valor total com juros é R$ %.2f%n", valorTotal);
+System.out.printf("O valor de cada parcela será de R$ %.2f%n", valorParcela);
+
+```
+### 06 Crie um programa que leia a quantidade de litros de água consumidos por uma residência em um mês e escreva o valor da conta de água (considerando que cada litro de água custa R$0,02).
+Solução Sugerida
+```java
+Scanner scan = new Scanner(System.in);
+int qtdLitros;
+double contaAgua, valorLitro = 0.02;
+
+System.out.println("Informe a quantidade de litros consumidos:");
+qtdLitros = scan.nextInt(); 
+
+contaAgua = valorLitro * qtdLitros;
+
+System.out.printf("O valor da conta de água é: R$ %.2f%n", contaAgua);
+
+```
+### 07 Crie um programa que leia o peso de uma encomenda (em kg) e escreva  o valor do frete (considerando que cada kg custa R$5,00).
+Solução Sugerida
+```java
+Scanner scan = new Scanner(System.in);
+
+double fretePorKg = 5;
+
+System.out.println("Informe o peso da encomenda (em kg):");
+double pesoEncomenda = scan.nextDouble();
+
+double frete = pesoEncomenda * fretePorKg; 
+
+System.out.printf("O valor do frete é R$ %.2f%n", frete);
+
+```
+### 08 Crie um programa que leia a cotação do dólar e um valor em reais e escreva o valor convertido em dólares.
+Solução Sugerida
+```java
+Scanner scan = new Scanner(System.in);
+
+System.out.println("Informe a cotação do dólar:");
+double cotacaoDolar = scan.nextDouble();
+
+System.out.println("Informe o valor a ser convertido:");
+double valorEmReais = scan.nextDouble();
+
+double valorConvertido = valorEmReais / cotacaoDolar;
+
+System.out.printf("O valor de R$ %.2f equivale a US$ %.2f.%n", valorEmReais, valorConvertido);
+
+```
+### 09 Crie um programa que leia a altura e largura de uma parede (em metros) e escreva a área da parede e a quantidade de tinta necessária para pintá-la (considerando que cada litro de tinta pinta 2m²).
+
+Fórmula para cálculo de área: 
+area = altura * largura;
+Solução Sugerida
+```java
+Scanner scan = new Scanner(System.in);
+
+double alturaParede, larguraParede, qtdTinta;
+
+System.out.println("Entre com a altura da parede (m):");
+alturaParede = scan.nextDouble();
+
+System.out.println("Entre com a largura da parede (m):");
+larguraParede = scan.nextDouble();
+
+double areaParede = alturaParede * larguraParede;
+qtdTinta = areaParede / 2;
+
+System.out.printf("A área da parede é %.2f m².%n", areaParede);
+System.out.printf("A quantidade de tinta necessária é %.2f litros.%n", qtdTinta);
+
+```
+### 10 Crie um programa que leia o preço à vista de um produto e o número de parcelas e escreva  o valor de cada parcela (considerando juros simples de 2% ao mês).
+Solução Sugerida
+```java
+Scanner scan = new Scanner(System.in);
+
+double juros = 0.02;
+
+System.out.println("Insira o preço à vista do produto:");
+double precoAVista = scan.nextDouble();
+
+System.out.println("Entre com o número de parcelas:");
+int numParcelas = scan.nextInt();
+
+// Juros simples
+double precoAPrazo = precoAVista * (1 + juros * numParcelas);
+double valorParcela = precoAPrazo / numParcelas;
+
+System.out.printf("O valor de cada parcela é R$ %.2f.%n", valorParcela);
+
+```
+### 01 Escreva um programa que leia um número inteiro do usuário e diga se ele é par ou ímpar.
+Solução Sugerida
+```java
+System.out.println("Digite um número inteiro:");
+int numero = scan.nextInt();
+
+if(numero % 2 == 0) {
+System.out.println("O número digitado é par.");
+
+} else {
+System.out.println("O número digitado é ímpar.");
+
+}
+```
+### 02 Escreva um programa que leia dois números inteiros do usuário e diga qual é o maior, o menor ou se são iguais.
+Solução Sugerida
+```java
+System.out.println("Digite um número inteiro:");
+int numero = scan.nextInt();
+
+System.out.println("Digite outro número inteiro:");
+int outroNumero = scan.nextInt();
+
+if(numero > outroNumero) {
+System.out.println("O primeiro número é maior.");
+
+} else if (numero < outroNumero) {
+System.out.println("O segundo número é maior.");
+
+} else {
+System.out.println("Os dois números são iguais.");
+
+}
+```
+### 03 Faça um programa que leia três notas de um aluno e calcule a média. 
+
+Se a média for maior ou igual a 7, o aluno está aprovado. Se a média for menor que 4, o aluno está reprovado. Se a média estiver entre 4 e 7, o aluno precisa fazer uma prova final.
+
+O programa deve escrever a situação do aluno, juntamente com sua média.
+Solução Sugerida
+```java
+System.out.println("Digite a primeira nota: ");
+nota1 = scan.nextDouble();
+System.out.println("Digite a segunda nota: ");
+nota2 = scan.nextDouble();
+System.out.println("Digite a terceira nota: ");
+nota3 = scan.nextDouble();
+
+double media = (nota1 + nota2 + nota3) / 3;
+
+String situacao;
+if (media >= 7) {
+situacao = "Aprovado";
+} else if (media < 4) {
+situacao = "Reprovado";
+} else {
+situacao = "Prova final";
+}
+
+System.out.println("Situação do aluno: " + situacao);
+```
+### 04 Escreva um programa que leia a idade de uma pessoa e diga se ela pode votar ou não nas eleições. 
+
+No Brasil, o voto é obrigatório para pessoas entre 18 e 70 anos, e facultativo para pessoas entre 16 e 18 anos ou maiores de 70 anos.
+Solução Sugerida
+```java
+System.out.println("Digite o nome da pessoa: ");
+nome = scan.nextLine();
+System.out.println("Digite a idade da pessoa: ");
+idade = scan.nextInt();
+
+String situacao;
+if (idade >= 18 && idade <= 70) {
+situacao = "deve votar";
+} else if (idade >= 16 && idade <= 17 || idade > 70) {
+situacao = "pode votar, mas é facultativo";
+} else {
+situacao = "não pode votar";
+}
+
+System.out.println(nome + " " + situacao);
+```
+### 05 Escreva um programa que leia o mês do ano em número (1 a 12) e diga quantos dias ele tem. Considere que o ano não é bissexto.
+Solução Sugerida
+```java
+Scanner scan = new Scanner(System.in);
+
+System.out.println("Digite o mês (1 a 12): ");
+int mes = scan.nextInt();
+
+if (mes == 1 || mes == 3 || mes == 5 || mes == 7 || mes == 8 || mes == 10 || mes == 12) {
+System.out.println("O mês " + mes + " tem 31 dias.");
+} else if (mes == 4 || mes == 6 || mes == 9 || mes == 11) {
+System.out.println("O mês " + mes + " tem 30 dias.");
+} else {
+System.out.println("O mês " + mes + " tem 28 dias.");
+}
+```
+### 06 Escreva um programa que leia uma letra do alfabeto e diga se ela é uma vogal ou uma consoante. Lembre-se que, na comparação de Strings, usa-se o método .equals() ou o .equalsIgnoreCase().
+Solução Sugerida
+```java
+String letra = scan.next().toLowerCase();
+
+if(letra.equals("a") ||
+letra.equals("e") ||
+letra.equals("i") ||
+letra.equals("o") ||
+letra.equals("u")) {
+System.out.println("Vogal");
+} else {
+System.out.println("Consoante");
+}
+```
+### 07 Escreva um programa que leia dois números inteiros e um operador aritmético (+, -, *, /) e realize a operação correspondente. Se o operador não for válido, mostre uma mensagem de erro.
+Solução Sugerida
+```java
+Scanner scan = new Scanner(System.in);
+
+int numero1, numero2;
+char operador;
+
+System.out.println("Digite o primeiro número: ");
+numero1 = scan.nextInt();
+System.out.println("Digite o segundo número: ");
+numero2 = scan.nextInt();
+System.out.println("Digite o operador aritmético (+, -, *, /): ");
+operador = scan.next().charAt(0);
+
+if (operador == '+') {
+System.out.println(numero1 + numero2);
+} else if (operador == '-') {
+System.out.println(numero1 - numero2);
+} else if (operador == '*') {
+System.out.println(numero1 * numero2);
+} else if (operador == '/') {
+System.out.println(numero1 / numero2);
+} else {
+System.out.println("Operador inválido.");
+}
+```
+### 08 Escreva um programa que leia o preço de um produto e a forma de pagamento escolhida pelo cliente: 
+
+→ 1 - em espécie
+→ 2 - cartão de crédito
+→ 3 - cartão de débito 
+
+Mostre o valor final da compra. 
+
+Considere que o produto tem 10% de desconto se for pago em espécie ou no cartão de débito e não tem desconto se for pago no cartão de crédito.
+Solução Sugerida
+```java
+Scanner scan = new Scanner(System.in);
+
+System.out.println("Digite o preço do produto: ");
+double preco = scan.nextDouble();
+System.out.println("Digite a forma de pagamento (1 - à vista, 2 - no cartão de crédito, 3 - no cartão de débito): ");
+int formaPagamento = scan.nextInt();
+
+double valorFinal;
+
+if (formaPagamento == 1 || formaPagamento == 3) {
+valorFinal = preco * 0.9;
+} else {
+valorFinal = preco;
+}
+
+System.out.println("Valor final da compra: R$" + valorFinal);
+```
+### 09 Escreva um programa que leia a temperatura em graus Celsius e converta para graus Fahrenheit ou Kelvin, de acordo com a escolha do usuário. 
+
+A fórmula para converter Celsius para Fahrenheit é: 
+F = (C * 9/5) + 32. 
+A fórmula para converter Celsius para Kelvin é 
+K = C + 273.15.
+Solução Sugerida
+```java
+Scanner scan = new Scanner(System.in);
+
+double temperaturaCelsius;
+int escolha;
+
+System.out.println("Digite a temperatura em graus Celsius: ");
+temperaturaCelsius = scan.nextDouble();
+
+System.out.println("Deseja converter para Fahrenheit (1) ou Kelvin (2)? ");
+escolha = scan.nextInt();
+
+if (escolha == 1) {
+double temperaturaFahrenheit = (temperaturaCelsius * 9 / 5) + 32;
+System.out.println("A temperatura em graus Fahrenheit é: " + temperaturaFahrenheit);
+} else {
+double temperaturaKelvin = temperaturaCelsius + 273.15;
+System.out.println("A temperatura em graus Kelvin é: " + temperaturaKelvin);
+}
+```
+### 10 Escreva um programa que leia o salário de um funcionário e aplique um aumento de acordo com a seguinte tabela: 
+
+Faixa salarial: Até R$ 1.500,00 
+Percentual de Aumento: 15% 
+
+Faixa Salarial: De R$ 1.500,01 até R$ 2.500,00 Percentual de Aumento: 10% 
+
+Faixa Salarial: Acima de R$ 2.500,00 
+Percentual de Aumento: 5%
+Solução Sugerida
+```java
+Scanner scan = new Scanner(System.in);
+
+double salario, aumento, salarioAjustado;
+
+System.out.println("Digite o salário do funcionário: ");
+salario = scan.nextDouble();
+
+if (salario <= 1500) {
+aumento = salario * 0.15;
+} else if (salario <= 2500) {
+aumento = salario * 0.10;
+} else {
+aumento = salario * 0.05;
+}
+
+salarioAjustado = salario + aumento;
+
+System.out.println("O salário ajustado é: R$" + salarioAjustado);
+```
+### 11 Escreva um programa que leia o peso e a altura de uma pessoa e calcule o seu índice de massa corporal (IMC). 
+
+Fórmula do IMC: peso / (altura * altura). 
+
+De acordo com o IMC, mostre a classificação da pessoa: 
+
+IMC:Abaixo de 18,5 
+Classificação:Abaixo do peso
+
+IMC:Entre 18,5 e 24,9
+Classificação:Peso normal
+
+IMC:Entre 25 e 29,9
+Classificação:Sobrepeso
+
+IMC:Entre 30 e 34,9
+Classificação:Obesidade grau I
+
+IMC:Entre 35 e 39,9
+Classificação:Obesidade grau II
+
+IMC:Acima de 40
+Classificação:Obesidade grau III
+Solução Sugerida
+```java
+Scanner scan = new Scanner(System.in);
+
+double peso, altura, imc;
+
+System.out.println("Digite o peso (em kg): ");
+peso = scan.nextDouble();
+System.out.println("Digite a altura (em m): ");
+altura = scan.nextDouble();
+
+imc = peso / (altura * altura);
+
+if (imc < 18.5) {
+System.out.println("IMC: " + imc + " - Classificação: Abaixo do peso");
+} else if (imc <= 24.9) {
+System.out.println("IMC: " + imc + " - Classificação: Peso normal");
+} else if (imc <= 29.9) {
+System.out.println("IMC: " + imc + " - Classificação: Sobrepeso");
+} else if (imc <= 34.9) {
+System.out.println("IMC: " + imc + " - Classificação: Obesidade grau I");
+} else if (imc <= 39.9) {
+System.out.println("IMC: " + imc + " - Classificação: Obesidade grau II");
+} else {
+System.out.println("IMC: " + imc + " - Classificação: Obesidade grau III");
+}
+```
+### 12 Escreva um programa que leia um número inteiro entre 1 e 7 e mostre o dia da semana correspondente. Se o número não estiver nesse intervalo, mostre uma mensagem de erro.
+Solução Sugerida
+```java
+Scanner scan = new Scanner(System.in);
+
+System.out.println("Digite um número entre 1 e 7: ");
+int numero = scan.nextInt();
+
+if (numero == 1) {
+System.out.println("O dia da semana é Domingo.");
+} else if (numero == 2) {
+System.out.println("O dia da semana é Segunda-feira.");
+} else if (numero == 3) {
+System.out.println("O dia da semana é Terça-feira.");
+} else if (numero == 4) {
+System.out.println("O dia da semana é Quarta-feira.");
+} else if (numero == 5) {
+System.out.println("O dia da semana é Quinta-feira.");
+} else if (numero == 6) {
+System.out.println("O dia da semana é Sexta-feira.");
+} else if (numero == 7) {
+System.out.println("O dia da semana é Sábado.");
+} else {
+System.out.println("Número inválido.");
+}
+```
+### 13 Escreva um programa que leia um ano e diga se ele é bissexto ou não. Um ano é bissexto se ele for divisível por 4, exceto se ele for divisível por 100 e não por 400. 
+
+Ex:
+2000 é bissexto. 
+2100 não é bissexto.
+Solução Sugerida
+```java
+Scanner scan = new Scanner(System.in);
+
+System.out.println("Digite o ano: ");
+        int ano = scan.nextInt();
+
+        if (ano % 4 == 0) {
+            if (ano % 100 == 0 && ano % 400 != 0) {
+                System.out.println("O ano " + ano + " não é bissexto.");
+            } else {
+                System.out.println("O ano " + ano + " é bissexto.");
+            }
+        } else {
+            System.out.println("O ano " + ano + " não é bissexto.");
+        }
+```
+### 14 Escreva um programa que leia a hora atual em formato 24 horas (0 a 23) e mostre uma saudação de acordo com o período do dia. 
+
+Se a hora não estiver nesse intervalo, o programa deve mostrar “Hora inválida”.
+
+Por exemplo, se a hora for 8, o programa deve mostrar “Bom dia”.
+Solução Sugerida
+```java
+Scanner scan = new Scanner(System.in);
+
+System.out.print("Digite a hora atual (formato 24 horas): ");
+int hora = scan.nextInt();
+
+  if (hora >= 0 && hora < 24) {
+      String saudacao;
+      if (hora >= 0 && hora < 12) {
+          saudacao = "Bom dia";
+      } else if (hora >= 12 && hora < 18) {
+          saudacao = "Boa tarde";
+      } else {
+          saudacao = "Boa noite";
+      }
+      System.out.println(saudacao);
+  } else {
+      System.out.println("Hora inválida");
+  }
+```
+
+---
+### CONDICIONAIS
+### 01 Implemente um sistema de semáforo usando switch case. Receba um estado (vermelho, amarelo ou verde) e determine a ação apropriada.
+Solução Sugerida
+```java
+Scanner scan = new Scanner(System.in);
+
+	System.out.println("Digite a cor do semáforo: ");
+    String corDoSemaforo = scan.nextLine().toLowerCase();
+
+    switch(corDoSemaforo) {
+    case "verde":
+    	System.out.println("Siga!");
+    	break;
+    case "amarelo":
+    	System.out.println("Atenção!");
+    	break;
+    case "vermelho":
+    	System.out.println("Pare!");
+    	break;
+    default:
+    	System.out.println("Informação inválida!");
+    }
+```
+### 02 Crie um programa que recebe uma nota musical (A, B, C, D, E ou F) e fornece informações sobre ela, como a frequência.
+Solução Sugerida
+```java
+ Scanner scan = new Scanner(System.in);
+
+        System.out.println("Digite a nota musical (A, B, C, D, E ou F):");
+        String nota = scan.nextLine().toUpperCase();
+
+        double frequencia = 0;
+
+        switch (nota) {
+            case "A":
+                frequencia = 440.0;
+                break;
+            case "B":
+                frequencia = 493.88;
+                break;
+            case "C":
+                frequencia = 523.25;
+                break;
+            case "D":
+                frequencia = 587.33;
+                break;
+            case "E":
+                frequencia = 659.25;
+                break;
+            case "F":
+                frequencia = 698.46;
+                break;
+        }
+
+        if (frequencia != 0) {
+            System.out.println("A nota musical " + nota + " tem uma frequência de " + frequencia + " Hz.");
+        } else {
+            System.out.println("Nota musical inválida.");
+        }
+```
+### 03 Desenvolva um conversor que recebe uma unidade de medida (metro, centímetro, quilômetro) e converte para outra unidade com base na entrada.
+Solução Sugerida
+```java
+Scanner scan = new Scanner(System.in);
+
+    System.out.println("Bem-vindo ao Conversor de Unidades de Medida!");
+    System.out.println("Por favor, selecione a unidade de entrada:");
+    System.out.println("1. Metro (m)");
+    System.out.println("2. Centímetro (cm)");
+    System.out.println("3. Quilômetro (km)");
+
+    int escolhaEntrada = scan.nextInt();
+
+    System.out.println("Por favor, selecione a unidade de saída:");
+    System.out.println("1. Metro (m)");
+    System.out.println("2. Centímetro (cm)");
+    System.out.println("3. Quilômetro (km)");
+
+    int escolhaSaida = scan.nextInt();
+
+    System.out.println("Por favor, insira o valor a ser convertido:");
+    double valor = scan.nextDouble();
+
+    double resultado = 0;
+
+    if (escolhaEntrada == 1) {
+        if (escolhaSaida == 1) {
+            resultado = valor;
+        } else if (escolhaSaida == 2) {
+            resultado = valor * 100; 
+        } else if (escolhaSaida == 3) {
+            resultado = valor / 1000;
+        }
+    }
+
+    else if (escolhaEntrada == 2) {
+        if (escolhaSaida == 1) {
+            resultado = valor / 100; 
+        } else if (escolhaSaida == 2) {
+            resultado = valor; 
+        } else if (escolhaSaida == 3) {
+            resultado = valor / 100000; 
+        }
+    }
+    
+    else if (escolhaEntrada == 3) {
+        if (escolhaSaida == 1) {
+            resultado = valor * 1000; 
+        } else if (escolhaSaida == 2) {
+            resultado = valor * 100000;
+        } else if (escolhaSaida == 3) {
+            resultado = valor; 
+        }
+    }
+
+    if (resultado <= 3 && resultado >= 1) {
+        System.out.println("O valor convertido é: " + resultado);
+    } else {
+        System.out.println("Unidades de medida inválidas. Por favor, tente novamente.");
+    }
+```
+
+---
+### LACOS REPETICAO
+### 01 Faça um programa que inicia uma contagem regressiva a partir de 10 até 1, imprimindo cada número na tela.
+Solução Sugerida
+```java
+for(int i = 10; i > 0; i--) {
+
+System.out.println(i)
+
+}
+```
+### 02 Implemente um jogo em que o computador escolhe um número aleatório entre 1 e 100, e o jogador tenta adivinhar. O jogo continua até que o jogador acerte o número.
+Solução Sugerida
+```java
+Random r = new Random();
+Scanner scan = new Scanner(System.in);
+
+int numeroSecreto = r.nextInt(100) + 1;
+int palpite = 0;
+
+System.out.println("Bem-vindo ao jogo de adivinhação!");
+System.out.println("Tente adivinhar o número entre 1 e 100.");
+
+while (palpite != numeroSecreto) {
+System.out.print("Digite seu palpite: ");
+palpite = scan.nextInt();
+
+	if (palpite < numeroSecreto) {
+	  System.out.println("O número secreto é maior. Tente novamente.");
+  } else if (palpite > numeroSecreto) {
+    System.out.println("O número secreto é menor. Tente novamente.");
+  } else {
+    System.out.println("Parabéns! Você adivinhou o número!");
+            
+       }
+    }
+```
+### 03 Crie um programa que receba um número inteiro e calcule a soma dos seus dígitos.
+Solução Sugerida
+```java
+Scanner scan = new Scanner(System.in);
+
+        System.out.print("Digite um número inteiro: ");
+        int numero = scan.nextInt();
+        
+        int soma = 0;
+        int aux = numero;
+
+        while (aux != 0) {
+            soma += aux % 10;
+            aux /= 10;
+        }
+
+        System.out.println("A soma dos dígitos de " + numero + " é " + soma);
+```
+### 04 Peça ao usuário para inserir um número e imprima a tabuada desse número de 1 a 10.
+Solução Sugerida
+```java
+Scanner scan = new Scanner(System.in);
+
+        System.out.print("Digite um número: ");
+        int numero = scan.nextInt();
+
+        System.out.println("Tabuada de " + numero + ":");
+
+        for (int i = 1; i <= 10; i++) {
+            int resultado = numero * i;
+            System.out.println(numero + " x " + i + " = " + resultado);
+        }
+```
+### 05 Desenvolva um programa que use um loop while para gerar uma sequência de números pares a partir de 2 e imprima cada número na tela até que o número gerado seja maior do que 20.
+Solução Sugerida
+```java
+int numero = 2;
+
+        while (numero <= 20) {
+            System.out.println(numero); 
+            numero += 2;
+        }
+```
+
+---
+### TEMATICOS
+### Variáveis e Tipos de Dados
+### A Loja de Animais de Seu Creso
+Seu Creso tem uma loja de animais e precisa de um programa que armazene
+o nome de cada animal, sua espécie e idade em anos.
+Além disso, ele quer saber quanto cada um dos animais come em gramas de ração por dia.
+
+Crie variáveis para armazenar essas informações e exiba tudo de maneira organizada para Seu Creso revisar.
+### Estoque de Frutas do Mix Tadeu
+No Mercado Mix Tadeu, a seção de frutas precisa registrar o tipo de cada fruta,
+a quantidade em estoque, o preço por quilo e uma informação booleana que indique se a fruta está na promoção ou não. 
+Escreva um programa que registre esses dados para quatro frutas diferentes e exiba uma tabela com as informações para o gerente.
+### Calculadora de Viagem da Família Silva
+A família Silva vai fazer uma viagem de carro e quer saber quanto vai gastar.
+
+Escreva um programa que receba o número de quilômetros da viagem, o preço médio do litro de gasolina e o consumo do carro (km/L), e exiba o valor total que será gasto com combustível.
+### A Conta de Luz de Dona Cida
+Dona Cida quer saber quanto sua conta de luz vai custar este mês.
+
+Crie um programa que armazene a quantidadede kWh consumidos, 
+o preço do kWh e o valor da taxa mínima.
+
+O programa deve calcular e exibir o valor total da conta.
+### Super Planilha de Notas Escolares
+Gervásio quer um programa que armazene suas notas em quatro matérias 
+e calcule a média.
+
+Use variáveis para guardar o nome de cada matéria, as notas de cada uma 
+e exiba a média final, junto com as notas e os nomes das matérias.
+### Estruturas Condicionais
+### Ingressos para o Zoológico
+No zoológico, crianças até 12 anos não pagam ingresso, enquanto adultos pagam R$ 20,00 
+e idosos (acima de 60) pagam metade. 
+
+Escreva um programa que pergunte a idade de uma pessoa e exiba o valor do ingresso.
+### Feira de Descontos do Mercado Mix Tadeu
+Na Feira de Descontos, o cliente ganha desconto conforme a quantidade 
+de produtos comprados: 
+
+até 5 itens, sem desconto; 
+de 6 a 10 itens, desconto de 5%; 
+acima de 10 itens, 10% de desconto.
+Escreva um programa que leia a quantidade de itens e o valor total, aplicando 
+o desconto apropriado.
+### Jogo do Palpite
+Um sistema de palpites utiliza um número aleatório para que o usuário tente acertar. O número aleatório varia de 1 a 100. 
+
+O jogo começa pedindo que o usuário insira um número.
+
+Se o número for menor que o número aleatório, o sistema deve exibir "Muito baixo!", se for exatamente o número aleatório, deve exibir "Parabéns, acertou!", 
+e se for maior que o número aleatório, deve exibir "Muito alto!".
+### Aprovado, Recuperação ou Chocolate?
+Uma escola considera um aluno aprovado se a média das suas três notas 
+for maior ou igual a 7. Caso contrário, ele vai para recuperação.
+Porém, se o aluno tiver uma média 10, ele ganha um chocolate.
+
+Escreva um programa que receba três notas e informe se o aluno foi aprovado, se ganhou um chocolate ou se precisa de recuperação. 
+
+### Desconto no Plano da Academia
+Uma academia oferece um desconto de 20% para pessoas que treinam mais de 5 vezes por semana. 
+
+Escreva um programa que pergunte quantos dias o usuário treina por semana 
+e mostre o valor com desconto, caso aplicável.
+### Laços de Repetição
+### O aniversário de Genésia
+Genésia quer fazer uma contagem regressiva de dias até seu aniversário. 
+Escreva um programa que receba o número de dias até o aniversário dela 
+e conte até zero, exibindo uma mensagem para cada dia que passa.
+### Loja de Tintas de Seu Alfredo
+Seu Alfredo precisa calcular o valor total das latas de tinta vendidas em um dia.
+
+Para isso, crie um programa que deve perguntar quantas latas foram vendidas 
+e o preço de cada uma, repetindo o processo até que todos os preços 
+sejam informados, e exibindo o total no final.
+### Sequência dos Números Ímpares
+Francisca Leopoldina quer visualizar todos os números ímpares
+de 1 até um valor máximo definido por ela.
+
+Crie um programa que exiba a sequência de números ímpares até o valor escolhido.
+### Quizz do Conhecimento
+Crie um pequeno quiz de 5 perguntas. Cada vez que o usuário responde, 
+o programa deve exibir a próxima pergunta e ao final mostrar o número total 
+de acertos.
+### Multiplicação com Tabela
+Ermengarda quer estudar a tabuada de um número específico. 
+
+Escreva um programa que pergunte qual número ela deseja estudar 
+e exiba a tabuada dele do 1 até o 10.
+### List e ArrayList
+### Lista de Compras de Dona Cremilda
+Dona Cremilda quer organizar sua lista de compras.
+
+Crie um programa que permita adicionar itens a uma lista, remover itens 
+e exibir a lista atualizada para Dona Cremilda revisar antes de ir às compras.
+### Biblioteca Online do Seu Gumercindo
+Seu Gumercindo tem uma pequena biblioteca em casa e quer catalogar seus livros. 
+Crie um programa que permita adicionar, remover e listar os títulos 
+dos livros em uma lista.
+### Músicas Favoritas de Wesley
+Wesley quer criar uma lista com suas músicas favoritas.
+
+Escreva um programa que permita adicionar músicas a uma lista 
+e exibir a lista completa ao final.
+### Cadastro de Alunos
+Em uma turma, os alunos são registrados em uma lista.
+
+Escreva um programa que permita cadastrar o nome dos alunos e listar todos 
+os nomes ao final, mostrando quantos alunos foram cadastrados.
+### Top 10 Filmes
+Jurema quer organizar seus 10 filmes favoritos. 
+
+Crie um programa que permita adicionar até 10 filmes a uma lista. 
+Caso mais de 10 filmes sejam inseridos, mostre uma mensagem de aviso.
+### Programação Orientada a Objetos
+### Biblioteca de Animais
+Crie uma classe Animal com atributos nome, especie e idade,
+e métodos para mostrar esses dados. Em seguida,
+crie uma classe Cachorro que herda de Animal
+e adiciona o método latir. Crie um objeto Cachorro
+e faça-o latir.
+### Poupança Bamerindus
+Crie uma classe ContaBancaria com atributos titular e saldo 
+e métodos para depositar e sacar. 
+
+Depois, crie a classe ContaPoupanca que herda de ContaBancaria, 
+adicionando um método para calcular juros.
+
+Crie uma conta e simule um depósito e um cálculo de juros.
+### Veículos da Frota
+Crie uma classe Veiculo com atributos marca e ano.
+Em seguida, crie duas classes Carro e Moto que herdam de Veiculo, 
+cada uma com um método específico (ex., acelerar e empinar).
+
+Crie objetos de Carro e Moto e use os métodos específicos de cada um.
+### Cadastro de Funcionários
+Crie uma classe Pessoa com atributos nome e idade, e uma classe Funcionario 
+que herda de Pessoa com um atributo salario. 
+
+Adicione um método para exibir todas as informações do funcionário. 
+Instancie um funcionário e mostre seus dados.
+### Sistema de Pedidos de Lanchonete 
+Crie uma classe Produto com atributos nome e preco.
+
+Em seguida, crie uma classe Pedido que possui uma lista de Produto 
+e métodos para adicionar e listar os produtos do pedido. 
+Instancie um pedido e adicione alguns produtos, exibindo o total final.

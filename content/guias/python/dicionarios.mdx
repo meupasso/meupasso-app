@@ -1,0 +1,206 @@
+---
+titulo: "Dicionários"
+slug: "dicionarios"
+ordem: 10
+---
+
+Dicionários são coleções que armazenam pares **chave: valor**. Em vez de acessar elementos por número (índice), você acessa por uma **chave** que você mesmo define.
+
+Pense num dicionário de verdade: você procura uma palavra (a chave) e encontra o significado (o valor).
+
+## Criando dicionários
+
+Use chaves `{}` com pares separados por `:`:
+
+```python
+# Dicionário simples
+pessoa = {
+    "nome": "João",
+    "idade": 25,
+    "cidade": "São Paulo"
+}
+
+print(pessoa)  # {'nome': 'João', 'idade': 25, 'cidade': 'São Paulo'}
+
+# Dicionário vazio
+vazio = {}
+dados = dict()  # outra forma de criar vazio
+```
+
+## Acessando valores
+
+```python
+pessoa = {
+    "nome": "João",
+    "idade": 25,
+    "cidade": "São Paulo"
+}
+
+print(pessoa["nome"])    # João
+print(pessoa["idade"])   # 25
+
+# Método get() — mais seguro, não dá erro se a chave não existir
+print(pessoa.get("cidade"))           # São Paulo
+print(pessoa.get("pais"))             # None (não dá erro!)
+print(pessoa.get("pais", "Brasil"))   # Brasil — valor padrão
+```
+
+> **Dica**: sempre que não tiver certeza se a chave existe, use `.get()` em vez de `[]`.
+
+## Adicionando e atualizando
+
+```python
+pessoa = {"nome": "João", "idade": 25}
+
+# Adicionar novo par
+pessoa["cidade"] = "São Paulo"
+print(pessoa)  # {'nome': 'João', 'idade': 25, 'cidade': 'São Paulo'}
+
+# Atualizar valor existente
+pessoa["idade"] = 26
+print(pessoa)  # {'nome': 'João', 'idade': 26, 'cidade': 'São Paulo'}
+```
+
+## Removendo itens
+
+```python
+pessoa = {"nome": "João", "idade": 25, "cidade": "São Paulo", "telefone": "9999"}
+
+# Remove uma chave específica
+idade = pessoa.pop("idade")
+print(idade)          # 25
+print(pessoa)         # {'nome': 'João', 'cidade': 'São Paulo', 'telefone': '9999'}
+
+# Remove o último par inserido (Python 3.7+)
+ultimo = pessoa.popitem()
+print(ultimo)         # ('telefone', '9999')
+
+# Remove e retorna só a chave
+del pessoa["cidade"]
+
+# Limpa tudo
+pessoa.clear()
+print(pessoa)  # {}
+```
+
+## Métodos úteis
+
+```python
+aluno = {
+    "nome": "Maria",
+    "idade": 22,
+    "curso": "Engenharia"
+}
+
+# Ver todas as chaves
+print(aluno.keys())     # dict_keys(['nome', 'idade', 'curso'])
+
+# Ver todos os valores
+print(aluno.values())   # dict_values(['Maria', 22, 'Engenharia'])
+
+# Ver todos os pares
+print(aluno.items())    # dict_items([('nome', 'Maria'), ('idade', 22), ('curso', 'Engenharia')])
+
+# Verificar se chave existe
+print("nome" in aluno)      # True
+print("altura" in aluno)    # False
+```
+
+## Iterando com `for`
+
+```python
+aluno = {"nome": "Maria", "idade": 22, "curso": "Engenharia"}
+
+# Só as chaves
+for chave in aluno:
+    print(chave)
+
+# Chave e valor
+for chave, valor in aluno.items():
+    print(f"{chave}: {valor}")
+```
+
+## Dicionários aninhados
+
+Dicionários podem conter outros dicionários (ou listas):
+
+```python
+turma = {
+    "joao": {"idade": 25, "nota": 8.5},
+    "maria": {"idade": 22, "nota": 9.0},
+    "pedro": {"idade": 20, "nota": 7.5}
+}
+
+print(turma["maria"]["nota"])        # 9.0
+print(turma["pedro"]["idade"])       # 20
+
+# Iterar sobre dicionário aninhado
+for nome, dados in turma.items():
+    print(f"{nome}: {dados['nota']}")  # joão: 8.5, maria: 9.0, pedro: 7.5
+```
+
+## Quando usar dicionário?
+
+Use dicionário quando você precisa associar valores a **nomes significativos**:
+
+```python
+# ❌ Com listas fica confuso
+aluno = ["João", 25, "São Paulo"]
+print(aluno[1])  # O que é o índice 1? Idade? Nota? Telefone?
+
+# ✅ Com dicionário fica claro
+aluno = {"nome": "João", "idade": 25, "cidade": "São Paulo"}
+print(aluno["idade"])  # Claro e legível
+```
+
+## Erros comuns
+
+### KeyError — chave não existe
+
+```python
+pessoa = {"nome": "João"}
+print(pessoa["idade"])  # ❌ KeyError: 'idade'
+```
+
+**Causa**: você tentou acessar uma chave que não existe.
+**Solução**: use `get()` ou verifique com `in` antes.
+
+### Esquecer os dois pontos
+
+```python
+pessoa = {"nome": "João", "idade" 25}  # ❌ SyntaxError
+```
+
+**Causa**: todo par precisa de `:` entre chave e valor.
+**Solução**: `"idade": 25`.
+
+### Usar lista como chave
+
+```python
+dados = {["a", "b"]: "valor"}  # ❌ TypeError: unhashable type: 'list'
+```
+
+**Causa**: chaves de dicionário precisam ser imutáveis (strings, números, tuplas).
+**Solução**: use uma string ou tupla como chave.
+
+### Confundir chaves com colchetes
+
+```python
+pessoa = {"nome": "João"}
+print(pessoa{"nome"})  # ❌ SyntaxError
+print(pessoa["nome"])  # ✅ colchetes para acessar
+```
+
+## Resumo
+
+| Operação | Código | O que faz |
+|----------|--------|-----------|
+| Criar | `d = {"a": 1}` | Cria um dicionário |
+| Acessar com `[]` | `d["a"]` | Retorna o valor (ou erro) |
+| Acessar com `get` | `d.get("a")` | Retorna o valor (ou None) |
+| Adicionar | `d["b"] = 2` | Cria ou atualiza |
+| Remover | `d.pop("a")` | Remove e retorna valor |
+| Chaves | `d.keys()` | Lista de chaves |
+| Valores | `d.values()` | Lista de valores |
+| Pares | `d.items()` | Lista de tuplas (chave, valor) |
+| Existe? | `"a" in d` | True se a chave existir |

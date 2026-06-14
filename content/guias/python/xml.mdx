@@ -1,0 +1,356 @@
+---
+titulo: "XML"
+slug: "xml"
+ordem: 25
+---# XML em Python: Guia Completo para Iniciantes
+
+## O que é XML?
+
+XML (eXtensible Markup Language) é uma linguagem de marcação para armazenar e transportar dados de forma legível tanto para humanos quanto para máquinas. Pense nele como um primo mais flexível do HTML.
+
+**Exemplo de XML:**
+```xml
+<livros>
+    <livro id="1">
+        <titulo>Python para Iniciantes</titulo>
+        <autor>João Silva</autor>
+        <ano>2023</ano>
+    </livro>
+    <livro id="2">
+        <titulo>Data Science com Python</titulo>
+        <autor>Maria Santos</autor>
+        <ano>2024</ano>
+    </livro>
+</livros>
+```
+
+## Por que usar XML em Python?
+
+- Configurações de programas
+- Troca de dados entre sistemas
+- Armazenamento de dados estruturados
+- Comunicação com APIs antigas
+
+## Módulo xml.etree.ElementTree
+
+O Python tem um módulo nativo chamado `xml.etree.ElementTree` (ET) que facilita o trabalho com XML. É como usar um mapa para navegar em uma árvore de dados.
+
+### Importando o módulo
+
+```python
+import xml.etree.ElementTree as ET
+```
+
+## Trabalhando com XML existente
+
+### Lendo um arquivo XML
+
+Vamos supor que você tenha o arquivo `livros.xml` com o conteúdo do exemplo anterior.
+
+```python
+import xml.etree.ElementTree as ET
+
+# Parse do arquivo XML
+tree = ET.parse('livros.xml')
+root = tree.getroot()
+
+print(f"Elemento raiz: {root.tag}")
+print(f"Atributos da raiz: {root.attrib}")
+```
+
+### Lendo XML de uma string
+
+```python
+import xml.etree.ElementTree as ET
+
+xml_string = """
+<livros>
+    <livro id="1">
+        <titulo>Python para Iniciantes</titulo>
+        <autor>João Silva</autor>
+    </livro>
+</livros>
+"""
+
+root = ET.fromstring(xml_string)
+print(root.tag)  # Saída: livros
+```
+
+## Navegando pelos elementos
+
+### find() - Encontrar o primeiro elemento
+
+```python
+import xml.etree.ElementTree as ET
+
+tree = ET.parse('livros.xml')
+root = tree.getroot()
+
+# Encontra o primeiro livro
+primeiro_livro = root.find('livro')
+print(f"ID do primeiro livro: {primeiro_livro.get('id')}")
+```
+
+### findall() - Encontrar todos os elementos
+
+```python
+import xml.etree.ElementTree as ET
+
+tree = ET.parse('livros.xml')
+root = tree.getroot()
+
+# Encontra todos os livros
+todos_livros = root.findall('livro')
+print(f"Total de livros: {len(todos_livros)}")
+
+for livro in todos_livros:
+    titulo = livro.find('titulo').text
+    autor = livro.find('autor').text
+    print(f"{titulo} - {autor}")
+```
+
+### Iterar sobre todos os elementos
+
+```python
+import xml.etree.ElementTree as ET
+
+tree = ET.parse('livros.xml')
+root = tree.getroot()
+
+# Iterar recursivamente sobre todos os elementos
+for elemento in root.iter():
+    print(f"Tag: {elemento.tag}, Texto: {elemento.text}")
+```
+
+## Criando XML do zero
+
+### Construindo um documento XML
+
+```python
+import xml.etree.ElementTree as ET
+
+# Criar elemento raiz
+root = ET.Element("pessoas")
+
+# Criar primeiro filho
+pessoa1 = ET.SubElement(root, "pessoa")
+pessoa1.set("id", "1")
+
+# Adicionar sub-elementos
+nome1 = ET.SubElement(pessoa1, "nome")
+nome1.text = "Ana Costa"
+idade1 = ET.SubElement(pessoa1, "idade")
+idade1.text = "28"
+
+# Criar segundo filho
+pessoa2 = ET.SubElement(root, "pessoa")
+pessoa2.set("id", "2")
+
+nome2 = ET.SubElement(pessoa2, "nome")
+nome2.text = "Pedro Oliveira"
+idade2 = ET.SubElement(pessoa2, "idade")
+idade2.text = "35"
+
+# Criar a árvore e salvar
+tree = ET.ElementTree(root)
+tree.write("pessoas.xml", encoding="utf-8", xml_declaration=True)
+
+print("Arquivo XML criado com sucesso!")
+```
+
+### Exemplo prático: Catálogo de produtos
+
+```python
+import xml.etree.ElementTree as ET
+
+# Dados de exemplo
+produtos = [
+    {"nome": "Notebook", "preco": 3500.00, "estoque": 15},
+    {"nome": "Mouse", "preco": 50.00, "estoque": 100},
+    {"nome": "Teclado", "preco": 120.00, "estoque": 45}
+]
+
+# Criar XML
+root = ET.Element("catalogo")
+root.set("data", "2024-01-15")
+
+for i, prod in enumerate(produtos, 1):
+    item = ET.SubElement(root, "produto")
+    item.set("id", str(i))
+    
+    nome = ET.SubElement(item, "nome")
+    nome.text = prod["nome"]
+    
+    preco = ET.SubElement(item, "preco")
+    preco.text = str(prod["preco"])
+    preco.set("moeda", "BRL")
+    
+    estoque = ET.SubElement(item, "estoque")
+    estoque.text = str(prod["estoque"])
+
+# Salvar
+tree = ET.ElementTree(root)
+tree.write("catalogo.xml", encoding="utf-8", xml_declaration=True)
+
+# Ler e exibir
+tree_lida = ET.parse("catalogo.xml")
+root_lido = tree_lida.getroot()
+
+print("=== Catálogo de Produtos ===")
+for produto in root_lido.findall("produto"):
+    nome = produto.find("nome").text
+    preco = produto.find("preco").text
+    estoque = produto.find("estoque").text
+    print(f"{nome}: R$ {preco} (Estoque: {estoque})")
+```
+
+## Dicas importantes
+
+### 1. Verificar se o arquivo existe
+```python
+import os
+import xml.etree.ElementTree as ET
+
+if os.path.exists("dados.xml"):
+    tree = ET.parse("dados.xml")
+else:
+    print("Arquivo não encontrado")
+```
+
+### 2. Tratar erros de parse
+```python
+import xml.etree.ElementTree as ET
+
+try:
+    tree = ET.parse("dados.xml")
+except ET.ParseError as e:
+    print(f"Erro ao ler XML: {e}")
+except FileNotFoundError:
+    print("Arquivo não encontrado")
+```
+
+### 3. Modificar elementos existentes
+```python
+import xml.etree.ElementTree as ET
+
+tree = ET.parse("pessoas.xml")
+root = tree.getroot()
+
+# Modificar idade da primeira pessoa
+primeira_pessoa = root.find("pessoa")
+idade = primeira_pessoa.find("idade")
+idade.text = "29"  # Atualizar idade
+
+# Adicionar novo campo
+email = ET.SubElement(primeira_pessoa, "email")
+email.text = "ana@exemplo.com"
+
+tree.write("pessoas_atualizado.xml", encoding="utf-8", xml_declaration=True)
+```
+
+## Erros comuns e como evitá-los
+
+### ❌ Erro: Esquecer de importar o módulo
+```python
+# Erro
+tree = ET.parse("arquivo.xml")  # NameError: name 'ET' is not defined
+
+# Correto
+import xml.etree.ElementTree as ET
+tree = ET.parse("arquivo.xml")
+```
+
+### ❌ Erro: Usar find() quando quer findall()
+```python
+# Erro: Retorna apenas o primeiro elemento
+root.find("livro")  # Retorna só um
+
+# Correto: Retorna todos
+root.findall("livro")  # Retorna lista
+```
+
+### ❌ Erro: Acessar texto de elemento vazio
+```python
+# Erro
+elemento.text  # Pode retornar None
+
+# Correto
+texto = elemento.text if elemento.text else ""
+```
+
+### ❌ Erro: Esquecer de fechar tags no XML
+```python
+# XML inválido
+xml_errado = "<pessoa><nome>João</pessoa>"  # Falta fechar <nome>
+
+# XML válido
+xml_certo = "<pessoa><nome>João</nome></pessoa>"
+```
+
+## Exercício prático
+
+Crie um programa que gerencia uma lista de tarefas em XML:
+
+```python
+import xml.etree.ElementTree as ET
+import os
+
+class GerenciadorTarefas:
+    def __init__(self, arquivo="tarefas.xml"):
+        self.arquivo = arquivo
+        if os.path.exists(arquivo):
+            self.tree = ET.parse(arquivo)
+            self.root = self.tree.getroot()
+        else:
+            self.root = ET.Element("tarefas")
+            self.tree = ET.ElementTree(self.root)
+    
+    def adicionar_tarefa(self, descricao, prioridade="media"):
+        tarefa = ET.SubElement(self.root, "tarefa")
+        tarefa.set("id", str(len(self.root.findall("tarefa")) + 1))
+        
+        desc = ET.SubElement(tarefa, "descricao")
+        desc.text = descricao
+        
+        prior = ET.SubElement(tarefa, "prioridade")
+        prior.text = prioridade
+        
+        status = ET.SubElement(tarefa, "status")
+        status.text = "pendente"
+        
+        self.tree.write(self.arquivo, encoding="utf-8", xml_declaration=True)
+        print(f"Tarefa adicionada: {descricao}")
+    
+    def listar_tarefas(self):
+        tarefas = self.root.findall("tarefa")
+        if not tarefas:
+            print("Nenhuma tarefa encontrada")
+            return
+        
+        print("\n=== Minhas Tarefas ===")
+        for tarefa in tarefas:
+            id_tarefa = tarefa.get("id")
+            descricao = tarefa.find("descricao").text
+            prioridade = tarefa.find("prioridade").text
+            status = tarefa.find("status").text
+            print(f"[{id_tarefa}] {descricao} - {prioridade} - {status}")
+
+# Usar o gerenciador
+gerenciador = GerenciadorTarefas()
+gerenciador.adicionar_tarefa("Estudar Python", "alta")
+gerenciador.adicionar_tarefa("Fazer compras", "baixa")
+gerenciador.adicionar_tarefa("Ler livro", "media")
+gerenciador.listar_tarefas()
+```
+
+## Resumo
+
+- **XML** é uma forma estruturada de armazenar dados
+- Use `xml.etree.ElementTree` para trabalhar com XML em Python
+- `parse()` lê arquivos, `fromstring()` lê strings
+- `find()` encontra o primeiro elemento, `findall()` encontra todos
+- Use `iter()` para percorrer todos os elementos
+- Crie XML com `Element()` e `SubElement()`
+- Sempre trate exceções ao trabalhar com arquivos
+
+XML é uma ferramenta poderosa e, com Python, fica muito fácil de usar!

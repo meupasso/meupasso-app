@@ -1,0 +1,6952 @@
+========================================
+TÓPICO: Guia Python
+ARQUIVO: index.mdx
+========================================
+
+# 🐍 Guia Python do MeuPasso
+
+## Seja muito bem-vindo(a)! 🎉
+
+Olá, futuro(a) programador(a)! Se você está lendo isso, já deu o passo mais importante: **decidiu aprender Python**. E pode ficar tranquilo(a): você está no lugar certo.
+
+Este guia foi feito especialmente para **iniciantes brasileiros**, com linguagem simples, exemplos práticos e sem aquela pressão de "preciso saber tudo de uma vez". Aqui, cada conceito é explicado no seu ritmo, do jeito certo.
+
+---
+
+## O que você vai aprender? 🚀
+
+Ao final deste guia, você será capaz de:
+
+- ✅ Escrever seus primeiros programas em Python
+- ✅ Trabalhar com dados (números, textos, listas, dicionários)
+- ✅ Criar funções e organizar seu código
+- ✅ Manipular arquivos e lidar com erros
+- ✅ Entender os fundamentos da Programação Orientada a Objetos (POO)
+- ✅ Usar expressões regulares, JSON, XML e muito mais
+- ✅ Desenvolver a confiança para criar seus próprios projetos
+
+Tudo isso **sem precisar de experiência anterior** em programação. Prometido!
+
+---
+
+## 📚 Tópicos cobertos (na ordem certa para aprender)
+
+| Módulo | O que você vai dominar |
+|--------|------------------------|
+| 1. Introdução | O que é Python, por que aprender, como funciona |
+| 2. Ambiente | Instalação, IDEs, primeiro "Hello World" |
+| 3. Sintaxe | Regras básicas, indentação, comentários |
+| 4. Variáveis | Guardando informações na memória |
+| 5. Números | Inteiros, floats, operações matemáticas |
+| 6. Strings | Textos, formatação, métodos úteis |
+| 7. Operadores | Aritméticos, comparação, lógicos |
+| 8. Listas | Coleções ordenadas e mutáveis |
+| 9. Tuplas | Listas imutáveis (não podem ser alteradas) |
+| 10. Dicionários | Pares chave-valor |
+| 11. Sets | Conjuntos sem duplicatas |
+| 12. Input | Como receber dados do usuário |
+| 13. If | Tomando decisões no código |
+| 14. Loops | Repetindo ações (for, while) |
+| 15. Funções | Reutilizando blocos de código |
+| 16. Lambda | Funções anônimas de uma linha |
+| 17. Módulos | Organizando e importando código |
+| 18. Arquivos | Lendo e escrevendo arquivos |
+| 19. POO | Programação Orientada a Objetos |
+| 20. Regex | Expressões regulares para buscar padrões |
+| 21. JSON | Trabalhando com dados estruturados |
+| 22. XML | Manipulando arquivos XML |
+| 23. Iteradores | Percorrendo dados de forma eficiente |
+| 24. Geradores | Sequências sob demanda |
+| 25. Decoradores | Modificando funções elegantemente |
+| 26. Erros | Tratando exceções como um profissional |
+| 27. Glossário | Termos técnicos explicados de forma simples |
+
+---
+
+## 💡 Dica de ouro: como usar este guia
+
+1. **Vá na ordem** – Os tópicos foram organizados para construir conhecimento passo a passo
+2. **Pratique cada exemplo** – Não leia só, digite o código você mesmo(a)
+3. **Não tenha pressa** – Se um conceito não ficar claro, releia e tente modificar os exemplos
+4. **Use o glossário** – Quando encontrar um termo novo, consulte o final do guia
+5. **Errar faz parte** – Cada erro é uma oportunidade de aprender mais
+
+> 🧠 *"A melhor maneira de aprender a programar é programando."*
+
+---
+
+## 🏁 Pronto(a) para começar?
+
+Não espere mais! O primeiro passo é o mais importante, e ele está aqui:
+
+👉 **[Comece pela Introdução →](./introducao.mdx)**
+
+Lá você vai descobrir o que torna Python tão especial e por que milhões de pessoas no mundo todo escolhem essa linguagem.
+
+**Você consegue!** E lembre-se: todo expert já foi iniciante um dia. A diferença é que eles não desistiram.
+
+Bora codar? 🚀🐍
+
+========================================
+TÓPICO: Introdução
+ARQUIVO: introducao.mdx
+========================================
+
+## O que é Python?
+
+Python é uma linguagem de programação criada por Guido van Rossum em 1991. Ela foi projetada para ser **fácil de ler**, **fácil de escrever** e **fácil de entender**.
+
+Sabe aquela sensação de olhar um código e não fazer ideia do que ele faz? Com Python isso raramente acontece. A sintaxe é tão limpa que o código parece quase com inglês escrito.
+
+```python
+# Isso aqui é Python:
+nome = input("Qual é o seu nome? ")
+print(f"Olá, {nome}! Prazer em te conhecer.")
+```
+
+## Por que aprender Python?
+
+Python é uma das linguagens mais populares do mundo, e por bons motivos:
+
+- **Iniciantes**: a curva de aprendizado é a mais suave entre as linguagens sérias
+- **Versatilidade**: dá pra fazer de tudo com Python
+- **Comunidade gigante**: qualquer dúvida que você tiver, milhares de pessoas já tiveram antes
+- **Mercado de trabalho**: a demanda por programadores Python só cresce
+
+## Para que Python é usado?
+
+Python está em toda parte:
+
+| Área | Exemplos |
+|------|----------|
+| **Desenvolvimento web** | Django, Flask, FastAPI |
+| **Automação** | Scripts para repetir tarefas, web scraping |
+| **Análise de dados** | Pandas, NumPy |
+| **Inteligência Artificial** | Machine learning, redes neurais |
+| **Jogos** | Pygame |
+| **Aplicações desktop** | Tkinter, PyQt |
+
+## Por que Python é ideal para iniciantes?
+
+1. **Sintaxe simples** — você escreve menos e faz mais
+2. **Sem complicações** — não precisa declarar tipos, não precisa gerenciar memória
+3. **Erros claros** — quando algo dá errado, o Python tenta te explicar o motivo
+4. **Feedback rápido** — você vê o resultado quase instantaneamente
+5. **Comunidade acolhedora** — a comunidade Python é conhecida por ser inclusiva
+
+## O que você vai aprender neste guia
+
+Este guia cobre tudo que um iniciante precisa para sair do zero e começar a programar em Python:
+
+- Como configurar seu ambiente de programação
+- A sintaxe básica da linguagem
+- Variáveis e tipos de dados
+- Estruturas de controle (if, for, while)
+- Listas, dicionários e outras coleções
+- Funções e módulos
+- E muito mais...
+
+Cada tópico tem exemplos práticos, dicas e erros comuns para você não cair nas mesmas armadilhas.
+
+**Pronto para começar?** Vamos para o próximo tópico configurar seu ambiente!
+
+========================================
+TÓPICO: Ambiente de Programação
+ARQUIVO: ambiente.mdx
+========================================
+
+Antes de escrever a primeira linha de código, você precisa preparar o terreno. A boa notícia: é mais simples do que parece.
+
+## Instalando o Python
+
+### Windows
+
+1. Acesse [python.org/downloads](https://python.org/downloads)
+2. Baixe a versão mais recente (3.12 ou superior)
+3. **Importante**: na primeira tela do instalador, marque a opção **"Add Python to PATH"**
+4. Clique em "Install Now"
+
+### Mac
+
+1. Acesse [python.org/downloads](https://python.org/downloads)
+2. Baixe o instalador para macOS
+3. Execute o instalador
+
+Ou, se você já tem o Homebrew instalado:
+
+```bash
+brew install python3
+```
+
+### Linux
+
+Provavelmente o Python já vem instalado. Para verificar:
+
+```bash
+python3 --version
+```
+
+Se não estiver instalado:
+
+```bash
+sudo apt install python3
+```
+
+## Verificando a instalação
+
+Abra o terminal (Command Prompt no Windows, Terminal no Mac/Linux) e digite:
+
+```bash
+python --version
+```
+
+Você deve ver algo como:
+
+```
+Python 3.13.2
+```
+
+Se aparecer uma mensagem de erro, provavelmente você esqueceu de marcar "Add Python to PATH" na instalação. Reinstale marcando essa opção.
+
+> **Dica**: se o comando `python` não funcionar, tente `python3`.
+
+## Instalando o VS Code
+
+Você poderia programar em Python no bloco de notas. Sério. Mas um editor de código torna tudo muito mais fácil.
+
+Recomendo o **VS Code** (Visual Studio Code):
+
+1. Baixe em [code.visualstudio.com](https://code.visualstudio.com)
+2. Instale como qualquer outro programa
+3. Abra o VS Code
+
+### Extensão Python no VS Code
+
+No VS Code, vá na aba de extensões (ícone de quadradinhos na barra da esquerda ou `Ctrl+Shift+X`) e procure por:
+
+**Python** (da Microsoft)
+
+Instale essa extensão. Ela adiciona:
+- Destaque de sintaxe (cores no código)
+- Autocomplete enquanto você digita
+- Detecção de erros em tempo real
+- Botão de "play" para rodar o código
+
+## Seu primeiro programa
+
+1. Crie uma pasta para seus projetos (ex: `C:\Users\SeuNome\projetos`)
+2. Abra essa pasta no VS Code (`Arquivo > Abrir Pasta`)
+3. Crie um arquivo chamado `ola.py`
+4. Digite:
+
+```python
+print("Olá, mundo!")
+```
+
+5. Salve (`Ctrl+S`)
+6. Abra o terminal no VS Code (`Terminal > Novo Terminal`)
+7. Digite:
+
+```bash
+python ola.py
+```
+
+Pronto! Você acabou de rodar seu primeiro programa em Python. 🎉
+
+## O terminal não morde
+
+O terminal pode parecer assustador no começo, mas você só precisa de alguns comandos:
+
+| Comando | O que faz |
+|---------|-----------|
+| `dir` (Windows) / `ls` (Mac/Linux) | Lista os arquivos da pasta |
+| `cd nomedapasta` | Entra em uma pasta |
+| `cd ..` | Volta para a pasta anterior |
+| `python arquivo.py` | Roda um programa Python |
+
+## Resumo rápido
+
+1. Instale o Python (marque "Add to PATH")
+2. Instale o VS Code
+3. Adicione a extensão Python
+4. Crie um arquivo `.py`
+5. Rode com `python nome_do_arquivo.py`
+
+Depois que você fizer isso uma ou duas vezes, vira automático. Bora programar! 🚀
+
+========================================
+TÓPICO: Sintaxe
+ARQUIVO: sintaxe.mdx
+========================================
+
+Sintaxe é o conjunto de regras que define como escrever código que o Python entenda. É como a gramática de um idioma: se você escrever fora das regras, o programa não roda.
+
+## Indentação — a regra mais importante
+
+Diferente da maioria das linguagens, Python **não usa chaves** `{}` para delimitar blocos de código. Em vez disso, usa **indentação** (espaços no começo da linha).
+
+```python
+# Certo — indentação consistente
+idade = 18
+if idade >= 18:
+    print("Maior de idade")
+    print("Pode entrar")
+```
+
+```python
+# Errado — indentação inconsistente
+idade = 18
+if idade >= 18:
+print("Isso vai dar erro!")
+```
+
+O padrão é usar **4 espaços** para cada nível de indentação. O VS Code faz isso automaticamente quando você aperta `Tab`.
+
+> **Dica**: misturar tab com espaços causa erro. Configure seu editor para converter Tab em espaços.
+
+### Por que a indentação é obrigatória?
+
+Ela força você a escrever código organizado. Se você já tentou encontrar uma chave perdida em JavaScript ou C, sabe como isso pode ser frustrante. Python simplesmente não permite esse tipo de bagunça.
+
+## Comentários
+
+Comentários são trechos de texto que o Python ignora. Servem para explicar o código para você e outras pessoas.
+
+```python
+# Comentário de uma linha — começa com #
+
+print("Isso aparece na tela")  # comentário no final da linha
+
+"""
+Comentário de várias linhas.
+Útil para explicar trechos maiores.
+Usa três aspas no início e no fim.
+"""
+```
+
+## Case sensitive — letras importam
+
+Python diferencia maiúsculas de minúsculas. `Nome`, `nome` e `NOME` são três coisas diferentes:
+
+```python
+nome = "João"
+print(nome)   # ✅ funciona — exibe "João"
+print(Nome)   # ❌ NameError — não existe "Nome"
+print(NOME)   # ❌ NameError — não existe "NOME"
+```
+
+## Execução linha por linha
+
+O Python lê seu arquivo de cima para baixo, executando uma linha de cada vez:
+
+```python
+# Linha 1
+print("Primeira linha")
+
+# Linha 2
+print("Segunda linha")
+
+# Linha 3
+nome = input("Digite seu nome: ")
+
+# Linha 4
+print(f"Olá, {nome}")
+```
+
+A ordem importa! Você não pode usar uma variável antes de criá-la.
+
+## Erros comuns
+
+### IndentationError
+
+```python
+if 5 > 2:
+    print("Dentro do if")
+  print("Indentação diferente")  # ❌ IndentationError
+```
+
+**Solução**: mantenha a indentação consistente (4 espaços por nível).
+
+### Esqueceu os dois pontos
+
+```python
+if 5 > 2   # ❌ SyntaxError — faltou os :
+    print("teste")
+```
+
+**Solução**: todo `if`, `for`, `while`, `def`, `class` termina com `:`.
+
+### NameError
+
+```python
+print(mensagem)  # ❌ NameError — 'mensagem' não foi definida
+mensagem = "Olá"
+```
+
+**Solução**: defina a variável antes de usá-la.
+
+### SyntaxError por esquecer aspas
+
+```python
+print(Olá)       # ❌ SyntaxError
+print("Olá")      # ✅
+```
+
+**Solução**: strings sempre entre aspas (`"` ou `'`).
+
+## Boas práticas desde o início
+
+- Use nomes descritivos para variáveis (`nome` em vez de `x`)
+- Mantenha a indentação consistente (sempre 4 espaços)
+- Escreva comentários para explicar o "porquê", não o "o quê"
+- Não tenha medo de errar — cada erro te ensina algo
+
+========================================
+TÓPICO: Tipos de Variáveis
+ARQUIVO: tipos-variaveis.mdx
+========================================
+
+## O que é uma variável?
+
+Uma variável é como uma **caixa com etiqueta** onde você guarda um valor. A etiqueta é o nome da variável, e o valor é o que está dentro da caixa.
+
+```python
+nome = "João"       # caixa 'nome' contém "João"
+idade = 25           # caixa 'idade' contém 25
+altura = 1.75        # caixa 'altura' contém 1.75
+```
+
+Quando você usa `=`, não é "igual" como na matemática. É **"recebe"** ou **"guarda o valor"**.
+
+## Criando variáveis em Python
+
+Em Python, você não precisa declarar o tipo da variável. Basta dar um nome e atribuir um valor:
+
+```python
+nome = "Maria"         # string (texto)
+idade = 30              # int (número inteiro)
+altura = 1.65           # float (número decimal)
+estudante = True        # bool (verdadeiro ou falso)
+```
+
+## Tipos de dados básicos
+
+### int — números inteiros
+
+```python
+idade = 25
+ano = 2026
+populacao = 8_000_000_000  # underscore para facilitar a leitura
+```
+
+### float — números decimais
+
+```python
+preco = 19.99
+pi = 3.14159
+temperatura = -5.5
+```
+
+### str — texto (strings)
+
+```python
+nome = "Ana"
+frase = 'Olá, mundo!'
+citacao = """Texto com
+várias linhas"""
+```
+
+Você pode usar aspas simples (`'`) ou duplas (`"`). O importante é manter consistência.
+
+### bool — verdadeiro ou falso
+
+```python
+aprovado = True
+reprovado = False
+```
+
+Usado principalmente em condições (ifs e loops).
+
+## Verificando o tipo — `type()`
+
+Se você não tem certeza do tipo de uma variável, use a função `type()`:
+
+```python
+nome = "João"
+idade = 25
+preco = 9.99
+ativo = True
+
+print(type(nome))   # <class 'str'>
+print(type(idade))  # <class 'int'>
+print(type(preco))  # <class 'float'>
+print(type(ativo))  # <class 'bool'>
+```
+
+## Conversão entre tipos
+
+Às vezes você precisa converter um tipo em outro:
+
+```python
+# string → int
+numero = int("10")      # 10 (agora é número)
+
+# string → float
+preco = float("9.99")   # 9.99
+
+# int → string
+texto = str(25)          # "25"
+
+# qualquer → bool
+print(bool(1))    # True
+print(bool(0))    # False
+print(bool(""))   # False
+print(bool("x"))  # True
+```
+
+Isso é essencial quando você usa `input()` — que sempre retorna string:
+
+```python
+idade = input("Quantos anos você tem? ")   # "25" (string)
+idade = int(idade)                          # 25 (int)
+print(f"Ano que vem você terá {idade + 1} anos")
+```
+
+## Nomes válidos para variáveis
+
+### ✅ Permitido
+
+```python
+nome = "João"
+nome_completo = "João Silva"
+nome2 = "João"
+_nome = "João"
+```
+
+### ❌ Não permitido
+
+```python
+2nome = "João"     # não pode começar com número
+nome completo = "" # não pode ter espaços
+class = "João"     # não pode ser palavra reservada
+print = "João"     # não pode sobrescrever funções do Python
+```
+
+> **Dica**: use `snake_case` para variáveis (letras minúsculas com underscores entre palavras). É o padrão da comunidade Python.
+
+## Erros comuns
+
+### NameError — variável não definida
+
+```python
+print(telefone)  # ❌ NameError: name 'telefone' is not defined
+```
+
+**Causa**: você tentou usar uma variável que não existe.
+**Solução**: defina a variável antes de usá-la.
+
+### TypeError — tipo não esperado
+
+```python
+idade = "25"
+print(idade + 1)  # ❌ TypeError: can only concatenate str (not "int") to str
+```
+
+**Causa**: você está tentando somar string com número.
+**Solução**: converta a string para int antes: `int(idade) + 1`.
+
+### Esquecer de converter input
+
+```python
+idade = input("Sua idade: ")
+print("Ano que vem você terá", idade + 1)  # ❌ TypeError
+```
+
+**Causa**: `input()` sempre retorna string.
+**Solução**: use `int(input(...))` para números.
+
+## Resumo
+
+| Tipo | Exemplo | Para que serve |
+|------|---------|----------------|
+| `int` | `idade = 25` | Números inteiros |
+| `float` | `preco = 9.99` | Números decimais |
+| `str` | `nome = "Ana"` | Texto |
+| `bool` | `ativo = True` | Verdadeiro/falso |
+
+Cada tipo tem funções específicas e saber identificá-los é o primeiro passo para programar sem erros.
+
+========================================
+TÓPICO: Números
+ARQUIVO: numeros.mdx
+========================================
+
+Trabalhar com números é uma das tarefas mais comuns em programação. Python tem duas categorias principais de números e um conjunto completo de operações.
+
+## Tipos numéricos
+
+Em Python, números se dividem em dois tipos principais:
+
+```python
+# int — números inteiros
+idade = 25
+populacao = 8_000_000_000
+
+# float — números com casas decimais
+preco = 19.99
+pi = 3.14159
+temperatura = -5.5
+```
+
+Python lida muito bem com números grandes. Não há limite prático para inteiros:
+
+```python
+numero_gigante = 2 ** 100
+print(numero_gigante)
+# 1267650600228229401496703205376
+```
+
+## Operadores aritméticos
+
+| Operador | Operação | Exemplo | Resultado |
+|----------|----------|---------|-----------|
+| `+` | Soma | `5 + 3` | `8` |
+| `-` | Subtração | `10 - 4` | `6` |
+| `*` | Multiplicação | `6 * 3` | `18` |
+| `/` | Divisão (sempre retorna float) | `7 / 2` | `3.5` |
+| `//` | Divisão inteira | `7 // 2` | `3` |
+| `%` | Módulo (resto da divisão) | `7 % 2` | `1` |
+| `**` | Potenciação | `2 ** 3` | `8` |
+
+### Exemplos práticos
+
+```python
+# Divisão normal vs inteira
+print(10 / 3)   # 3.3333333333333335  (float)
+print(10 // 3)  # 3                   (int, ignora decimal)
+
+# Módulo — descobre se é par ou ímpar
+print(10 % 2)   # 0 — par
+print(7 % 2)    # 1 — ímpar
+
+# Potenciação
+print(2 ** 10)  # 1024
+```
+
+> **Dica**: o módulo (`%`) é muito usado para verificar divisibilidade e ciclar entre valores.
+
+## Ordem de precedência
+
+Python segue a mesma ordem da matemática:
+
+1. Parênteses `()`
+2. Potenciação `**`
+3. Multiplicação, divisão e módulo `* / // %`
+4. Soma e subtração `+ -`
+
+```python
+resultado = 5 + 3 * 2       # 11 (multiplicação primeiro)
+resultado = (5 + 3) * 2     # 16 (parênteses primeiro)
+resultado = 2 ** 3 + 4      # 12 (potenciação primeiro)
+resultado = 2 ** (3 + 4)    # 128
+```
+
+Quando estiver na dúvida, use parênteses. Deixa o código mais claro e evita surpresas.
+
+## Funções úteis para números
+
+### `abs()` — valor absoluto
+
+```python
+print(abs(-10))   # 10
+print(abs(10))    # 10
+```
+
+### `round()` — arredondamento
+
+```python
+print(round(3.14159))       # 3
+print(round(3.14159, 2))    # 3.14 (2 casas decimais)
+print(round(2.5))           # 2 (arredondamento bancário)
+```
+
+### `max()` e `min()` — maior e menor
+
+```python
+print(max(10, 3, 7, 25, 1))   # 25
+print(min(10, 3, 7, 25, 1))   # 1
+```
+
+## Módulo `math`
+
+O Python vem com uma biblioteca de funções matemáticas mais avançadas. Para usá-la, importe o módulo `math`:
+
+```python
+import math
+
+print(math.sqrt(16))         # 4.0 (raiz quadrada)
+print(math.ceil(4.2))        # 5 (arredonda para cima)
+print(math.floor(4.8))       # 4 (arredonda para baixo)
+print(math.pi)               # 3.141592653589793
+print(math.pow(2, 10))       # 1024.0 (potência, equivalente a 2**10)
+```
+
+## Erros comuns
+
+### Divisão por zero
+
+```python
+print(10 / 0)  # ❌ ZeroDivisionError: division by zero
+```
+
+**Causa**: matemática básica — nenhum número pode ser dividido por zero.
+**Solução**: verifique se o divisor é zero antes de dividir.
+
+### Misturar int e float sem querer
+
+```python
+# Isso funciona — Python converte automaticamente
+print(3 + 2.5)   # 5.5 (float)
+
+# Mas cuidado com comparações:
+print(0.1 + 0.2 == 0.3)   # False?! 😱
+print(0.1 + 0.2)           # 0.30000000000000004
+```
+
+**Causa**: números de ponto flutuante têm limitações de precisão.
+**Solução**: use `round()` para comparar floats ou use `math.isclose()`:
+
+```python
+print(round(0.1 + 0.2, 2) == 0.3)   # True
+```
+
+### TypeError: can't multiply sequence by non-int
+
+```python
+print("5" * "3")   # ❌ TypeError
+```
+
+**Causa**: você está tentando multiplicar string por string.
+**Solução**: converta para número: `int("5") * int("3")`.
+
+### Esquecer de converter input
+
+Lembre-se: `input()` sempre retorna string. Para fazer contas, converta:
+
+```python
+# Errado
+n1 = input("Primeiro número: ")
+n2 = input("Segundo número: ")
+print(n1 + n2)          # "1020" em vez de 30 ❌
+
+# Certo
+n1 = int(input("Primeiro número: "))
+n2 = int(input("Segundo número: "))
+print(n1 + n2)          # 30 ✅
+```
+
+## Desafio rápido
+
+Calcule a área de um círculo com raio 5 usando `π = 3.14159`:
+
+```python
+raio = 5
+area = 3.14159 * raio ** 2
+print(f"Área do círculo: {area}")
+```
+
+Consegue modificar esse código para pedir o raio ao usuário? 🤔
+
+========================================
+TÓPICO: Strings
+ARQUIVO: strings.mdx
+========================================
+
+Strings são **textos**. Tudo que você digita entre aspas em Python vira uma string. É um dos tipos mais versáteis da linguagem.
+
+## Criando strings
+
+Você pode criar strings com aspas simples, duplas ou triplas:
+
+```python
+# Aspas simples
+nome = 'João'
+
+# Aspas duplas
+frase = "Olá, mundo!"
+
+# Aspas triplas — permitem múltiplas linhas
+texto_grande = """Este é um texto
+que ocupa várias linhas
+sem precisar de \n"""
+
+print(nome)          # João
+print(frase)         # Olá, mundo!
+print(texto_grande)
+```
+
+> **Dica**: escolha um estilo e mantenha consistência. A comunidade Python geralmente usa aspas simples para strings curtas e duplas quando a string contém aspas simples.
+
+### Aspas dentro de aspas
+
+```python
+# Se você precisa de aspas dentro da string:
+frase1 = "Ele disse: 'Olá'"
+frase2 = 'Ela disse: "Oi"'
+
+# Ou use a barra invertida para escapar:
+frase3 = "Ele disse: \"Olá\""
+```
+
+## Concatenação e repetição
+
+```python
+# Concatenação com +
+nome = "João"
+saudacao = "Olá, " + nome + "!"
+print(saudacao)  # Olá, João!
+
+# Repetição com *
+eco = "eco " * 3
+print(eco)  # eco eco eco
+
+linha = "-" * 30
+print(linha)  # ------------------------------
+```
+
+## f-strings — a forma moderna
+
+f-strings (ou strings formatadas) são a maneira mais fácil e legível de inserir variáveis dentro de texto:
+
+```python
+nome = "Maria"
+idade = 28
+altura = 1.65
+
+print(f"Meu nome é {nome}, tenho {idade} anos e {altura}m de altura.")
+# Meu nome é Maria, tenho 28 anos e 1.65m de altura.
+
+# Também dá para fazer contas dentro das chaves:
+print(f"Ano que vem você terá {idade + 1} anos.")
+# Ano que vem você terá 29 anos.
+```
+
+Basta colocar um `f` antes das aspas e usar `{}` para inserir qualquer expressão Python.
+
+## Métodos úteis de string
+
+Strings têm diversos métodos embutidos. Aqui os mais importantes:
+
+```python
+texto = "  Python é demais!  "
+
+print(texto.upper())           # "  PYTHON É DEMAIS!  "
+print(texto.lower())           # "  python é demais!  "
+print(texto.strip())           # "Python é demais!" (remove espaços das pontas)
+print(texto.replace("Python", "Java"))  # "  Java é demais!  "
+
+# Dividir string em lista
+dados = "banana,maçã,laranja"
+print(dados.split(","))        # ['banana', 'maçã', 'laranja']
+
+# Tamanho da string
+print(len(texto))              # 22 (contando espaços)
+```
+
+> **Dica**: métodos de string **não modificam** a original — eles retornam uma nova string. Strings são imutáveis!
+
+## Fatiamento (slicing)
+
+Você pode pegar pedaços de uma string usando colchetes:
+
+```python
+texto = "Python"
+
+print(texto[0])      # P — primeiro caractere
+print(texto[-1])     # n — último caractere
+print(texto[1:4])    # yth — do índice 1 até o 3 (4 não entra)
+print(texto[:3])     # Pyt — do início até o 2
+print(texto[3:])     # hon — do índice 3 até o fim
+print(texto[::-1])   # nohtyP — string invertida (muita gente usa isso!)
+```
+
+O formato é `[inicio:fim:passo]`. O `fim` nunca é incluído.
+
+## Verificações com strings
+
+```python
+frase = "Aprender Python é divertido"
+
+# Verificar se contém algo
+print("Python" in frase)          # True
+print("Java" in frase)            # False
+
+# Começa ou termina com...
+print(frase.startswith("Aprender"))  # True
+print(frase.endswith("divertido"))   # True
+```
+
+## Erros comuns
+
+### Esquecer as aspas
+
+```python
+print(Python)    # ❌ NameError: name 'Python' is not defined
+print("Python")  # ✅
+```
+
+**Causa**: sem aspas, Python pensa que `Python` é uma variável.
+
+### Concatenar string com número
+
+```python
+idade = 25
+print("Eu tenho " + idade + " anos")  # ❌ TypeError
+```
+
+**Solução**: converta para string ou use f-string:
+
+```python
+print("Eu tenho " + str(idade) + " anos")  # ✅
+print(f"Eu tenho {idade} anos")             # ✅ (mais simples)
+```
+
+### Índice fora do limite
+
+```python
+texto = "Python"
+print(texto[10])  # ❌ IndexError: string index out of range
+```
+
+**Solução**: verifique o tamanho com `len()` antes de acessar.
+
+### Esquecer que strings são imutáveis
+
+```python
+texto = "Python"
+texto[0] = "J"   # ❌ TypeError: 'str' object does not support item assignment
+```
+
+**Solução**: crie uma nova string: `novo_texto = "J" + texto[1:]`.
+
+## Resumo
+
+| Operação | Como fazer | Exemplo |
+|----------|------------|---------|
+| Criar string | Aspas | `"texto"` |
+| Concatenar | `+` | `"a" + "b"` |
+| Repetir | `*` | `"x" * 5` |
+| Tamanho | `len()` | `len("abc")` |
+| Fatiar | `[::]` | `"Python"[1:4]` |
+| Maiúsculas | `.upper()` | `"abc".upper()` |
+| Substituir | `.replace()` | `"a".replace("a", "b")` |
+| Dividir | `.split()` | `"a,b".split(",")` |
+
+========================================
+TÓPICO: Operadores
+ARQUIVO: operadores.mdx
+========================================
+
+Operadores são símbolos que realizam operações em valores. Python tem vários tipos de operadores, e entender cada um é essencial para escrever qualquer programa.
+
+## Operadores aritméticos
+
+Já vimos esses no tópico de números, mas aqui vai um resumo:
+
+```python
+a = 10
+b = 3
+
+print(a + b)    # 13  — soma
+print(a - b)    # 7   — subtração
+print(a * b)    # 30  — multiplicação
+print(a / b)    # 3.333... — divisão (sempre retorna float)
+print(a // b)   # 3   — divisão inteira
+print(a % b)    # 1   — módulo (resto da divisão)
+print(a ** b)   # 1000 — potência (10³)
+```
+
+## Operadores de comparação
+
+Usados para comparar valores. Sempre retornam `True` ou `False`:
+
+| Operador | Significado | Exemplo | Resultado |
+|----------|-------------|---------|-----------|
+| `==` | Igual a | `5 == 5` | `True` |
+| `!=` | Diferente de | `5 != 3` | `True` |
+| `>` | Maior que | `5 > 3` | `True` |
+| `<` | Menor que | `5 < 3` | `False` |
+| `>=` | Maior ou igual | `5 >= 5` | `True` |
+| `<=` | Menor ou igual | `5 <= 3` | `False` |
+
+```python
+idade = 18
+print(idade >= 18)  # True — pode dirigir
+print(idade == 21)  # False
+print(idade != 15)  # True
+```
+
+> **Atenção**: `==` é **comparação**. `=` é **atribuição**. Trocar um pelo outro é o erro mais comum de quem está começando!
+
+## Operadores lógicos
+
+Combinam condições. Úteis para decisões mais complexas:
+
+| Operador | Funciona como | Exemplo | Resultado |
+|----------|---------------|---------|-----------|
+| `and` | **e** — ambas verdadeiras | `(5 > 3) and (10 > 5)` | `True` |
+| `or` | **ou** — pelo menos uma verdadeira | `(5 > 3) or (5 < 3)` | `True` |
+| `not` | **não** — inverte | `not (5 > 3)` | `False` |
+
+```python
+idade = 20
+possui_carteira = True
+
+# Pode dirigir? As duas condições precisam ser True
+if idade >= 18 and possui_carteira:
+    print("Pode dirigir")  # ✅
+
+# Entrada em festa: maior de idade ou acompanhado
+tem_18 = idade >= 18
+esta_acompanhado = False
+
+if tem_18 or esta_acompanhado:
+    print("Pode entrar")  # ✅ (tem 18)
+
+# Menor de idade?
+if not tem_18:
+    print("Menor de idade")
+else:
+    print("Maior de idade")
+```
+
+> **Dica**: use `and` para condições que precisam ser **todas** verdadeiras. Use `or` quando **qualquer uma** já basta.
+
+## Operadores de atribuição
+
+Além do `=` simples, você pode combinar atribuição com operações:
+
+```python
+x = 10
+x += 5   # equivalente a: x = x + 5
+print(x) # 15
+
+x -= 3   # x = x - 3
+print(x) # 12
+
+x *= 2   # x = x * 2
+print(x) # 24
+
+x /= 3   # x = x / 3
+print(x) # 8.0
+```
+
+É uma forma mais curta de escrever `x = x + 5`, `x = x * 2`, etc.
+
+## Operador de identidade — `is` e `is not`
+
+Verifica se duas variáveis apontam para o **mesmo objeto** na memória:
+
+```python
+a = [1, 2, 3]
+b = [1, 2, 3]
+c = a
+
+print(a == b)   # True — mesmo conteúdo
+print(a is b)   # False — objetos diferentes na memória
+print(a is c)   # True — c aponta para o mesmo objeto que a
+```
+
+> **Importante**: use `is` para comparar com `None`, não use `==`:
+> ```python
+> if resultado is None:
+>     print("Sem resultado")
+> ```
+
+## Operador de pertencimento — `in` e `not in`
+
+Verifica se algo existe dentro de uma coleção:
+
+```python
+frutas = ["maçã", "banana", "laranja"]
+print("banana" in frutas)        # True
+print("uva" in frutas)           # False
+
+texto = "Python é incrível"
+print("Python" in texto)         # True
+print("Java" not in texto)       # True
+```
+
+## Precedência de operadores
+
+Quando você mistura operadores, Python segue uma ordem:
+
+1. `()` — parênteses
+2. `**` — potenciação
+3. `*`, `/`, `//`, `%` — multiplicação, divisão, módulo
+4. `+`, `-` — soma e subtração
+5. `==`, `!=`, `>`, `<`, `>=`, `<=` — comparações
+6. `not` — negação
+7. `and` — e lógico
+8. `or` — ou lógico
+
+```python
+resultado = 5 + 3 * 2 > 10 and not False
+# 1. 3 * 2 → 6
+# 2. 5 + 6 → 11
+# 3. 11 > 10 → True
+# 4. not False → True
+# 5. True and True → True
+
+print(resultado)  # True
+```
+
+Na dúvida, use parênteses. Deixa o código mais legível:
+
+```python
+resultado = ((5 + (3 * 2)) > 10) and (not False)
+```
+
+## Erros comuns
+
+### Usar `=` em vez de `==`
+
+```python
+if senha = "1234":   # ❌ SyntaxError
+```
+
+**Causa**: `=` é para atribuir, `==` é para comparar.
+**Solução**: use `==` em condições.
+
+### Confundir `and` com `or`
+
+```python
+# Errado: quer que seja maior de 18 E menor de 60
+if idade > 18 or idade < 60:
+    print("Está na faixa")  # vai printar até pra bebê de 1 ano!
+```
+
+**Solução**: `or` basta uma condição ser True. Use `and` quando precisar de ambas.
+
+### Usar `is` em vez de `==`
+
+```python
+a = 1000
+b = 1000
+print(a is b)   # False (objetos diferentes)
+print(a == b)   # True (mesmo valor)
+```
+
+**Solução**: `==` compara valor; `is` compara identidade de objeto.
+
+## Resumo
+
+| Tipo | Operadores | Para que serve |
+|------|------------|----------------|
+| Aritméticos | `+ - * / // % **` | Fazer contas |
+| Comparação | `== != > < >= <=` | Comparar valores |
+| Lógicos | `and or not` | Combinar condições |
+| Atribuição | `= += -= *= /=` | Atualizar variáveis |
+| Identidade | `is is not` | Comparar objetos |
+| Pertencimento | `in not in` | Verificar existência |
+
+========================================
+TÓPICO: Listas
+ARQUIVO: listas.mdx
+========================================
+
+Listas são coleções **ordenadas** e **mutáveis** de valores. Você pode guardar quantos itens quiser, de qualquer tipo, e modificá-los depois.
+
+## Criando listas
+
+Use colchetes `[]` e separe os itens por vírgula:
+
+```python
+frutas = ["maçã", "banana", "laranja"]
+numeros = [1, 2, 3, 4, 5]
+mista = ["João", 25, 1.75, True]  # tipos diferentes!
+vazia = []                           # lista vazia
+```
+
+> **Dica**: uma lista pode conter qualquer tipo de dado — números, textos, booleanos, até outras listas.
+
+## Acessando elementos
+
+Os elementos são acessados por **índice**, começando do **0**:
+
+```python
+frutas = ["maçã", "banana", "laranja"]
+
+print(frutas[0])    # maçã — primeiro elemento
+print(frutas[1])    # banana
+print(frutas[2])    # laranja
+print(frutas[-1])   # laranja — último elemento
+print(frutas[-2])   # banana — penúltimo
+```
+
+## Fatiamento (slicing)
+
+Funciona igual ao fatiamento de strings:
+
+```python
+numeros = [10, 20, 30, 40, 50]
+
+print(numeros[1:4])      # [20, 30, 40]
+print(numeros[:3])       # [10, 20, 30]
+print(numeros[2:])       # [30, 40, 50]
+print(numeros[::2])      # [10, 30, 50] — pulando de 2 em 2
+print(numeros[::-1])     # [50, 40, 30, 20, 10] — invertida
+```
+
+## Modificando listas
+
+Diferente de strings, listas **podem ser alteradas**:
+
+```python
+frutas = ["maçã", "banana", "laranja"]
+
+# Alterar um elemento
+frutas[1] = "abacaxi"
+print(frutas)  # ['maçã', 'abacaxi', 'laranja']
+
+# Adicionar ao final
+frutas.append("uva")
+print(frutas)  # ['maçã', 'abacaxi', 'laranja', 'uva']
+
+# Inserir em posição específica
+frutas.insert(1, "morango")
+print(frutas)  # ['maçã', 'morango', 'abacaxi', 'laranja', 'uva']
+
+# Remover por valor
+frutas.remove("abacaxi")
+print(frutas)  # ['maçã', 'morango', 'laranja', 'uva']
+
+# Remover por posição
+item = frutas.pop(0)
+print(item)    # maçã
+print(frutas)  # ['morango', 'laranja', 'uva']
+
+# Tamanho da lista
+print(len(frutas))  # 3
+```
+
+## Ordenando listas
+
+```python
+numeros = [5, 2, 8, 1, 9]
+numeros.sort()
+print(numeros)        # [1, 2, 5, 8, 9]
+
+numeros.sort(reverse=True)
+print(numeros)        # [9, 8, 5, 2, 1]
+
+# Cria uma nova lista ordenada sem modificar a original
+original = [3, 1, 2]
+ordenada = sorted(original)
+print(original)       # [3, 1, 2]
+print(ordenada)       # [1, 2, 3]
+```
+
+## Verificando existência
+
+```python
+frutas = ["maçã", "banana", "laranja"]
+
+if "banana" in frutas:
+    print("Tem banana sim!")
+
+if "uva" not in frutas:
+    print("Não tem uva")
+```
+
+## Iterando com `for`
+
+```python
+frutas = ["maçã", "banana", "laranja"]
+
+for fruta in frutas:
+    print(f"Eu gosto de {fruta}")
+
+# Se precisar do índice também:
+for i, fruta in enumerate(frutas):
+    print(f"{i}: {fruta}")
+```
+
+## Listas aninhadas
+
+Uma lista pode conter outras listas:
+
+```python
+matriz = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+]
+
+print(matriz[0])       # [1, 2, 3]
+print(matriz[1][2])    # 6
+print(matriz[2][0])    # 7
+
+# Iterar sobre matriz
+for linha in matriz:
+    for valor in linha:
+        print(valor, end=" ")
+    print()
+```
+
+## Erros comuns
+
+### IndexError — índice fora do limite
+
+```python
+frutas = ["maçã", "banana"]
+print(frutas[5])  # ❌ IndexError: list index out of range
+```
+
+**Solução**: verifique o tamanho com `len()` antes de acessar, ou use índices negativos para acessar do fim.
+
+### Confundir `append` com `insert`
+
+```python
+lista = [1, 2, 3]
+lista.append(4)       # ✅ [1, 2, 3, 4] — adiciona ao final
+lista.insert(0, 0)    # ✅ [0, 1, 2, 3, 4] — insere na posição
+```
+
+**Dica**: `append` sempre coloca no final. `insert` permite escolher a posição.
+
+### Modificar lista enquanto itera
+
+```python
+numeros = [1, 2, 3, 4, 5]
+for n in numeros:
+    if n % 2 == 0:
+        numeros.remove(n)  # ❌ comportamento imprevisível!
+```
+
+**Solução**: itere sobre uma cópia da lista: `for n in numeros[:]:`
+
+### Usar índice errado
+
+Lembre-se: o índice **começa em 0**, não em 1.
+
+```python
+lista = [10, 20, 30]
+print(lista[1])  # 20, não 10!
+```
+
+## Resumo
+
+| Operação | Código | O que faz |
+|----------|--------|-----------|
+| Criar | `lista = [1, 2]` | Cria uma lista |
+| Acessar | `lista[0]` | Pega o primeiro elemento |
+| Adicionar | `lista.append(3)` | Adiciona ao final |
+| Inserir | `lista.insert(0, 0)` | Insere na posição |
+| Remover | `lista.pop()` | Remove e retorna o último |
+| Tamanho | `len(lista)` | Quantos elementos |
+| Ordenar | `lista.sort()` | Ordena a própria lista |
+| Verificar | `x in lista` | Existe? |
+
+========================================
+TÓPICO: Tuplas
+ARQUIVO: tuplas.mdx
+========================================
+
+Tuplas são como listas, mas com uma diferença fundamental: **são imutáveis**. Depois de criar, não dá para alterar.
+
+## Criando tuplas
+
+Use parênteses `()` em vez de colchetes:
+
+```python
+# Tupla com vários elementos
+coordenadas = (10, 20)
+cores = ("vermelho", "verde", "azul")
+
+# Tupla com um elemento — a vírgula é obrigatória!
+unitaria = (5,)       # ✅ tupla com 1 elemento
+sem_virgula = (5)     # ❌ não é tupla, é só um número inteiro!
+
+# Tupla sem parênteses (parênteses são opcionais)
+numeros = 1, 2, 3
+print(type(numeros))  # <class 'tuple'>
+```
+
+> **Dica**: a vírgula que faz a tupla, não os parênteses. `1,` já é uma tupla.
+
+## Acessando elementos
+
+Funciona exatamente igual às listas:
+
+```python
+cores = ("vermelho", "verde", "azul")
+
+print(cores[0])     # vermelho
+print(cores[-1])    # azul
+print(cores[1:3])   # ('verde', 'azul') — fatiamento também funciona
+```
+
+## Imutabilidade — o que isso significa?
+
+Você **não pode** alterar, adicionar ou remover elementos de uma tupla depois de criada:
+
+```python
+cores = ("vermelho", "verde", "azul")
+
+cores[0] = "rosa"          # ❌ TypeError: 'tuple' object does not support item assignment
+cores.append("amarelo")    # ❌ AttributeError
+cores.pop()                # ❌ AttributeError
+```
+
+Se você tentar modificar, o Python avisa na hora. Isso é uma **proteção**, não uma limitação.
+
+## Quando usar tupla em vez de lista?
+
+| Use tupla quando... | Use lista quando... |
+|---------------------|---------------------|
+| Os valores não podem mudar | Os valores podem mudar |
+| Você quer proteger os dados | Você precisa adicionar/remover itens |
+| O dado é uma "constante" do programa | O dado vai crescer ou diminuir |
+| Valores que fazem sentido juntos (coordenadas, data, etc.) | Coleções do mesmo tipo |
+
+```python
+# Exemplos bons de tupla:
+dias_da_semana = ("dom", "seg", "ter", "qua", "qui", "sex", "sáb")
+coordenadas_gps = (-23.5505, -46.6333)  # São Paulo
+rg = "12.345.678-X"  # não vai mudar
+
+# Exemplos bons de lista:
+compras = ["arroz", "feijão", "carne"]  # pode crescer
+notas = []                               # vai receber valores
+```
+
+## Desempacotamento de tuplas
+
+Um recurso super útil: você pode "desempacotar" uma tupla em várias variáveis de uma vez:
+
+```python
+coordenadas = (10, 20)
+x, y = coordenadas
+print(x)  # 10
+print(y)  # 20
+
+# Muito usado para trocar valores:
+a = 5
+b = 10
+a, b = b, a
+print(a)  # 10
+print(b)  # 5
+```
+
+> **Dica**: isso funciona com qualquer iterável, não só tuplas.
+
+## Métodos úteis
+
+Tuplas têm apenas dois métodos (por serem imutáveis, não precisam de mais):
+
+```python
+numeros = (1, 3, 3, 3, 5, 7, 9)
+
+print(numeros.count(3))   # 3 — quantas vezes o 3 aparece
+print(numeros.index(5))   # 4 — posição do primeiro 5
+print(len(numeros))       # 7 — tamanho
+print(3 in numeros)       # True — verificar existência
+```
+
+## Iterando com `for`
+
+Funciona normalmente:
+
+```python
+cores = ("vermelho", "verde", "azul")
+
+for cor in cores:
+    print(f"Cor: {cor}")
+```
+
+## Erros comuns
+
+### Esquecer a vírgula em tupla unitária
+
+```python
+tupla = (5)     # ❌ Isso é um int, não uma tupla
+print(type(tupla))  # <class 'int'>
+
+tupla = (5,)    # ✅ Agora sim é uma tupla
+print(type(tupla))  # <class 'tuple'>
+```
+
+### Tentar modificar a tupla
+
+```python
+dias = ("seg", "ter", "qua")
+dias[0] = "dom"  # ❌ TypeError
+```
+
+**Solução**: se precisa modificar, use lista em vez de tupla.
+
+### Achar que tupla não serve pra nada
+
+Tuplas parecem inúteis à primeira vista, mas são muito usadas em Python para:
+
+- Retornar múltiplos valores de funções
+- Proteger dados contra alteração acidental
+- Serem mais rápidas que listas
+- Servirem como chaves de dicionário (listas não podem)
+
+## Resumo
+
+| Característica | Tupla | Lista |
+|----------------|-------|-------|
+| Sintaxe | `(1, 2)` ou `1, 2` | `[1, 2]` |
+| Mutável | ❌ | ✅ |
+| Métodos | `count()`, `index()` | Vários |
+| Usos | Constantes, coordenadas | Coleções dinâmicas |
+
+========================================
+TÓPICO: Dicionários
+ARQUIVO: dicionarios.mdx
+========================================
+
+Dicionários são coleções que armazenam pares **chave: valor**. Em vez de acessar elementos por número (índice), você acessa por uma **chave** que você mesmo define.
+
+Pense num dicionário de verdade: você procura uma palavra (a chave) e encontra o significado (o valor).
+
+## Criando dicionários
+
+Use chaves `{}` com pares separados por `:`:
+
+```python
+# Dicionário simples
+pessoa = {
+    "nome": "João",
+    "idade": 25,
+    "cidade": "São Paulo"
+}
+
+print(pessoa)  # {'nome': 'João', 'idade': 25, 'cidade': 'São Paulo'}
+
+# Dicionário vazio
+vazio = {}
+dados = dict()  # outra forma de criar vazio
+```
+
+## Acessando valores
+
+```python
+pessoa = {
+    "nome": "João",
+    "idade": 25,
+    "cidade": "São Paulo"
+}
+
+print(pessoa["nome"])    # João
+print(pessoa["idade"])   # 25
+
+# Método get() — mais seguro, não dá erro se a chave não existir
+print(pessoa.get("cidade"))           # São Paulo
+print(pessoa.get("pais"))             # None (não dá erro!)
+print(pessoa.get("pais", "Brasil"))   # Brasil — valor padrão
+```
+
+> **Dica**: sempre que não tiver certeza se a chave existe, use `.get()` em vez de `[]`.
+
+## Adicionando e atualizando
+
+```python
+pessoa = {"nome": "João", "idade": 25}
+
+# Adicionar novo par
+pessoa["cidade"] = "São Paulo"
+print(pessoa)  # {'nome': 'João', 'idade': 25, 'cidade': 'São Paulo'}
+
+# Atualizar valor existente
+pessoa["idade"] = 26
+print(pessoa)  # {'nome': 'João', 'idade': 26, 'cidade': 'São Paulo'}
+```
+
+## Removendo itens
+
+```python
+pessoa = {"nome": "João", "idade": 25, "cidade": "São Paulo", "telefone": "9999"}
+
+# Remove uma chave específica
+idade = pessoa.pop("idade")
+print(idade)          # 25
+print(pessoa)         # {'nome': 'João', 'cidade': 'São Paulo', 'telefone': '9999'}
+
+# Remove o último par inserido (Python 3.7+)
+ultimo = pessoa.popitem()
+print(ultimo)         # ('telefone', '9999')
+
+# Remove e retorna só a chave
+del pessoa["cidade"]
+
+# Limpa tudo
+pessoa.clear()
+print(pessoa)  # {}
+```
+
+## Métodos úteis
+
+```python
+aluno = {
+    "nome": "Maria",
+    "idade": 22,
+    "curso": "Engenharia"
+}
+
+# Ver todas as chaves
+print(aluno.keys())     # dict_keys(['nome', 'idade', 'curso'])
+
+# Ver todos os valores
+print(aluno.values())   # dict_values(['Maria', 22, 'Engenharia'])
+
+# Ver todos os pares
+print(aluno.items())    # dict_items([('nome', 'Maria'), ('idade', 22), ('curso', 'Engenharia')])
+
+# Verificar se chave existe
+print("nome" in aluno)      # True
+print("altura" in aluno)    # False
+```
+
+## Iterando com `for`
+
+```python
+aluno = {"nome": "Maria", "idade": 22, "curso": "Engenharia"}
+
+# Só as chaves
+for chave in aluno:
+    print(chave)
+
+# Chave e valor
+for chave, valor in aluno.items():
+    print(f"{chave}: {valor}")
+```
+
+## Dicionários aninhados
+
+Dicionários podem conter outros dicionários (ou listas):
+
+```python
+turma = {
+    "joao": {"idade": 25, "nota": 8.5},
+    "maria": {"idade": 22, "nota": 9.0},
+    "pedro": {"idade": 20, "nota": 7.5}
+}
+
+print(turma["maria"]["nota"])        # 9.0
+print(turma["pedro"]["idade"])       # 20
+
+# Iterar sobre dicionário aninhado
+for nome, dados in turma.items():
+    print(f"{nome}: {dados['nota']}")  # joão: 8.5, maria: 9.0, pedro: 7.5
+```
+
+## Quando usar dicionário?
+
+Use dicionário quando você precisa associar valores a **nomes significativos**:
+
+```python
+# ❌ Com listas fica confuso
+aluno = ["João", 25, "São Paulo"]
+print(aluno[1])  # O que é o índice 1? Idade? Nota? Telefone?
+
+# ✅ Com dicionário fica claro
+aluno = {"nome": "João", "idade": 25, "cidade": "São Paulo"}
+print(aluno["idade"])  # Claro e legível
+```
+
+## Erros comuns
+
+### KeyError — chave não existe
+
+```python
+pessoa = {"nome": "João"}
+print(pessoa["idade"])  # ❌ KeyError: 'idade'
+```
+
+**Causa**: você tentou acessar uma chave que não existe.
+**Solução**: use `get()` ou verifique com `in` antes.
+
+### Esquecer os dois pontos
+
+```python
+pessoa = {"nome": "João", "idade" 25}  # ❌ SyntaxError
+```
+
+**Causa**: todo par precisa de `:` entre chave e valor.
+**Solução**: `"idade": 25`.
+
+### Usar lista como chave
+
+```python
+dados = {["a", "b"]: "valor"}  # ❌ TypeError: unhashable type: 'list'
+```
+
+**Causa**: chaves de dicionário precisam ser imutáveis (strings, números, tuplas).
+**Solução**: use uma string ou tupla como chave.
+
+### Confundir chaves com colchetes
+
+```python
+pessoa = {"nome": "João"}
+print(pessoa{"nome"})  # ❌ SyntaxError
+print(pessoa["nome"])  # ✅ colchetes para acessar
+```
+
+## Resumo
+
+| Operação | Código | O que faz |
+|----------|--------|-----------|
+| Criar | `d = {"a": 1}` | Cria um dicionário |
+| Acessar com `[]` | `d["a"]` | Retorna o valor (ou erro) |
+| Acessar com `get` | `d.get("a")` | Retorna o valor (ou None) |
+| Adicionar | `d["b"] = 2` | Cria ou atualiza |
+| Remover | `d.pop("a")` | Remove e retorna valor |
+| Chaves | `d.keys()` | Lista de chaves |
+| Valores | `d.values()` | Lista de valores |
+| Pares | `d.items()` | Lista de tuplas (chave, valor) |
+| Existe? | `"a" in d` | True se a chave existir |
+
+========================================
+TÓPICO: Sets
+ARQUIVO: sets.mdx
+========================================
+
+Sets (ou **conjuntos**) são coleções que guardam elementos **únicos** e **não ordenados**. Se você precisa garantir que não há repetição, set é a ferramenta certa.
+
+## O que diferencia um set?
+
+| Característica | Lista | Tupla | Set |
+|----------------|-------|-------|-----|
+| Ordenada | ✅ | ✅ | ❌ |
+| Mutável | ✅ | ❌ | ✅ |
+| Permite duplicatas | ✅ | ✅ | ❌ |
+| Acesso por índice | ✅ | ✅ | ❌ |
+
+```python
+# Lista — permite duplicatas, mantém ordem
+lista = [1, 2, 2, 3, 3, 3]
+print(lista)  # [1, 2, 2, 3, 3, 3]
+
+# Set — sem duplicatas, sem ordem definida
+conjunto = {1, 2, 2, 3, 3, 3}
+print(conjunto)  # {1, 2, 3}
+```
+
+## Criando sets
+
+Use chaves `{}` ou a função `set()`:
+
+```python
+cores = {"vermelho", "azul", "verde"}
+print(cores)  # {'azul', 'verde', 'vermelho'} (ordem pode variar)
+
+# set() a partir de uma lista — remove duplicatas automaticamente
+numeros = set([1, 2, 2, 3, 3, 3, 4])
+print(numeros)  # {1, 2, 3, 4}
+
+# set() a partir de uma string — letras únicas
+letras = set("banana")
+print(letras)  # {'b', 'a', 'n'}
+```
+
+> **⚠️ Atenção**: `{}` cria um dicionário vazio, não um set! Use `set()` para set vazio:
+> ```python
+> vazio = {}       # ❌ dicionário
+> vazio = set()    # ✅ set vazio
+> ```
+
+## Adicionando e removendo elementos
+
+```python
+frutas = {"maçã", "banana"}
+
+# Adicionar
+frutas.add("laranja")
+print(frutas)  # {'maçã', 'banana', 'laranja'}
+
+# Adicionar elemento repetido — ignorado silenciosamente
+frutas.add("maçã")
+print(frutas)  # {'maçã', 'banana', 'laranja'} — mesma coisa
+
+# Remover (dá erro se não existir)
+frutas.remove("banana")
+print(frutas)  # {'maçã', 'laranja'}
+
+# Remover sem erro se não existir
+frutas.discard("uva")  # não dá erro, mesmo não existindo
+```
+
+## Operações matemáticas com sets
+
+Aqui mora a verdadeira utilidade dos sets:
+
+```python
+python = {"ana", "joão", "maria", "pedro"}
+java = {"maria", "carlos", "pedro", "lucas"}
+
+# União — todos os alunos
+print(python | java)
+# {'ana', 'joão', 'maria', 'pedro', 'carlos', 'lucas'}
+
+# Interseção — alunos nas duas turmas
+print(python & java)
+# {'maria', 'pedro'}
+
+# Diferença — alunos só de Python
+print(python - java)
+# {'ana', 'joão'}
+
+# Diferença simétrica — alunos em uma ou outra, mas não ambas
+print(python ^ java)
+# {'ana', 'joão', 'carlos', 'lucas'}
+```
+
+> **Dica**: `|` é união, `&` é interseção, `-` é diferença, `^` é diferença simétrica.
+
+## Verificando pertencimento
+
+```python
+convidados = {"Ana", "João", "Maria", "Pedro"}
+
+if "João" in convidados:
+    print("João está na lista")  # ✅
+```
+
+O `in` em sets é **muito rápido** — bem mais rápido que em listas para coleções grandes.
+
+## Quando usar sets?
+
+### Remover duplicatas de uma lista
+
+```python
+compras = ["arroz", "feijão", "arroz", "carne", "feijão", "leite"]
+unicos = list(set(compras))
+print(unicos)  # ['arroz', 'feijão', 'carne', 'leite'] (ordem varia)
+```
+
+> **Nota**: a ordem original se perde. Se precisar manter a ordem, use um loop com `if`:
+
+```python
+compras = ["arroz", "feijão", "arroz", "carne", "feijão", "leite"]
+vistos = set()
+unicos = []
+for item in compras:
+    if item not in vistos:
+        unicos.append(item)
+        vistos.add(item)
+print(unicos)  # ['arroz', 'feijão', 'carne', 'leite'] — ordem mantida!
+```
+
+### Verificar elementos em comum
+
+```python
+amigos_ana = {"Carlos", "Maria", "Pedro"}
+amigos_joao = {"Maria", "Lucas", "Pedro"}
+
+amigos_em_comum = amigos_ana & amigos_joao
+print(amigos_em_comum)  # {'Maria', 'Pedro'}
+```
+
+## Erros comuns
+
+### Usar {} para set vazio
+
+```python
+dados = {}          # ❌ Isso é um dicionário
+print(type(dados))  # <class 'dict'>
+
+dados = set()       # ✅ Isso é um set
+print(type(dados))  # <class 'set'>
+```
+
+### Tentar acessar por índice
+
+```python
+cores = {"azul", "verde", "vermelho"}
+print(cores[0])  # ❌ TypeError: 'set' object is not subscriptable
+```
+
+**Solução**: sets não têm ordem, então não têm índice. Converta para lista se precisar: `list(cores)[0]`.
+
+### Adicionar tipos mutáveis ao set
+
+```python
+dados = {[1, 2, 3]}  # ❌ TypeError: unhashable type: 'list'
+```
+
+**Causa**: sets só aceitam elementos **imutáveis** (números, strings, tuplas).
+**Solução**: use tupla em vez de lista: `{(1, 2, 3)}`.
+
+## Resumo
+
+| Operação | Código | O que faz |
+|----------|--------|-----------|
+| Criar | `{1, 2}` ou `set()` | Cria um set |
+| Adicionar | `s.add(3)` | Adiciona elemento |
+| Remover | `s.remove(3)` | Remove (erro se não existir) |
+| Remover seguro | `s.discard(3)` | Remove sem erro |
+| União | `a \| b` | Todos os elementos |
+| Interseção | `a & b` | Elementos em comum |
+| Diferença | `a - b` | Elementos só em a |
+| Pertencimento | `x in s` | True se existe |
+
+========================================
+TÓPICO: Input de Dados
+ARQUIVO: input.mdx
+========================================
+
+De nada adianta um programa que não interage com o usuário. A função `input()` é a porta de entrada para receber dados digitados.
+
+## Como o `input()` funciona
+
+Quando você chama `input()`, o programa **pausa** e espera o usuário digitar algo e apertar Enter. O que foi digitado é devolvido como **string**.
+
+```python
+nome = input("Digite seu nome: ")
+print(f"Olá, {nome}!")  # Olá, [o que você digitou]!
+```
+
+## `input()` sempre retorna string
+
+Essa é a regra mais importante: **tudo que vem do `input()` é string**. Mesmo que o usuário digite um número.
+
+```python
+idade = input("Quantos anos você tem? ")
+print(idade)           # "25"
+print(type(idade))     # <class 'str'>
+print(idade + 1)       # ❌ TypeError!
+```
+
+## Convertendo input para números
+
+Para fazer contas, você precisa converter:
+
+```python
+# Converter para int
+idade = int(input("Quantos anos você tem? "))
+print(f"Ano que vem você terá {idade + 1} anos")  # ✅
+
+# Converter para float
+preco = float(input("Digite o preço: R$ "))
+print(f"Total com desconto: R$ {preco * 0.9:.2f}")
+```
+
+## Pedindo múltiplos dados
+
+```python
+# Vários inputs separados
+nome = input("Nome: ")
+idade = int(input("Idade: "))
+altura = float(input("Altura (m): "))
+
+print(f"{nome} tem {idade} anos e {altura}m de altura.")
+```
+
+> **Dica**: para vários números na mesma linha, use `split()`:
+> ```python
+> n1, n2 = input("Digite dois números: ").split()
+> n1, n2 = int(n1), int(n2)
+> print(f"Soma: {n1 + n2}")
+> ```
+
+## Validando entrada com try/except
+
+Se o usuário digitar "abc" onde você espera um número, o programa quebra. O `try/except` resolve isso:
+
+```python
+while True:
+    try:
+        idade = int(input("Digite sua idade: "))
+        break  # saiu do loop se deu certo
+    except ValueError:
+        print("Digite um número válido!")
+
+print(f"Idade: {idade}")
+```
+
+> **Dica**: essa é a base para fazer programas que não quebram com entrada inválida. Você vai usar muito esse padrão.
+
+## Exemplos práticos
+
+### Calculadora simples
+
+```python
+n1 = float(input("Primeiro número: "))
+n2 = float(input("Segundo número: "))
+operador = input("Operação (+, -, *, /): ")
+
+if operador == "+":
+    print(f"Resultado: {n1 + n2}")
+elif operador == "-":
+    print(f"Resultado: {n1 - n2}")
+elif operador == "*":
+    print(f"Resultado: {n1 * n2}")
+elif operador == "/":
+    if n2 != 0:
+        print(f"Resultado: {n1 / n2}")
+    else:
+        print("Não pode dividir por zero!")
+else:
+    print("Operação inválida!")
+```
+
+### Saudação personalizada
+
+```python
+nome = input("Qual é o seu nome? ")
+hobby = input("Qual é o seu hobby favorito? ")
+
+print(f"Prazer em te conhecer, {nome}!")
+print(f"Espero que você se divirta programando, já que gosta de {hobby}!")
+```
+
+## Dica importante: tratamento de erros
+
+Sempre que você usar `input()` com conversão numérica, considere que o usuário pode digitar algo inesperado:
+
+```python
+# Frágil — quebra se digitar texto
+idade = int(input("Idade: "))
+
+# Robusto — não quebra
+while True:
+    try:
+        idade = int(input("Idade: "))
+        break
+    except ValueError:
+        print("Digite apenas números, por favor!")
+```
+
+Isso faz toda a diferença na experiência do usuário.
+
+## Erros comuns
+
+### Esquecer de converter o input
+
+```python
+idade = input("Idade: ")
+print(idade + 1)  # ❌ TypeError
+```
+
+**Solução**: converta com `int()` ou `float()`.
+
+### ValueError ao converter string inválida
+
+```python
+numero = int(input("Digite um número: "))
+# Usuário digita "abc" → ❌ ValueError: invalid literal for int()
+```
+
+**Solução**: use `try/except` para capturar o erro.
+
+### Não tratar valores vazios
+
+```python
+nome = input("Nome: ")
+if nome:
+    print(f"Olá, {nome}")
+else:
+    print("Você não digitou nada!")
+```
+
+## Resumo
+
+| Função | O que faz | Retorna |
+|--------|-----------|---------|
+| `input()` | Pausa e espera o usuário digitar | `str` |
+| `int(input())` | Pede um número inteiro | `int` |
+| `float(input())` | Pede um número decimal | `float` |
+| `try/except` | Captura erro de conversão | — |
+
+========================================
+TÓPICO: If... Else
+ARQUIVO: if-else.mdx
+========================================
+
+Nem sempre seu programa deve fazer a mesma coisa. Às vezes você precisa tomar decisões: **se** algo for verdade, faça uma coisa; **senão**, faça outra. É para isso que servem as estruturas condicionais.
+
+## Sintaxe do `if`
+
+```python
+idade = 18
+
+if idade >= 18:
+    print("Você é maior de idade")
+    print("Pode dirigir")
+```
+
+A estrutura é:
+1. A palavra `if`
+2. Uma condição (expressão que dá True ou False)
+3. Dois pontos `:`
+4. Bloco indentado (4 espaços) com o código a executar
+
+## `if` e `else`
+
+```python
+idade = 16
+
+if idade >= 18:
+    print("Maior de idade")
+else:
+    print("Menor de idade")
+```
+
+O `else` executa quando a condição do `if` é falsa. Ele não leva condição — é o "se não" simples.
+
+## `elif` — múltiplas condições
+
+Quando você tem mais de duas possibilidades:
+
+```python
+nota = 7.5
+
+if nota >= 7:
+    print("Aprovado")
+elif nota >= 4:
+    print("Recuperação")
+else:
+    print("Reprovado")
+```
+
+> **Dica**: a ordem importa! O Python testa as condições de cima para baixo. A primeira verdadeira vence.
+
+## Condições compostas com `and`, `or`, `not`
+
+```python
+idade = 22
+carteira = True
+
+# and — as duas precisam ser True
+if idade >= 18 and carteira:
+    print("Pode dirigir")
+
+# or — pelo menos uma True
+frio = False
+sol = False
+if frio or sol:
+    print("Vou à praia")
+else:
+    print("Fico em casa")
+
+# not — inverte o booleano
+if not carteira:
+    print("Não pode dirigir")
+```
+
+## Aninhamento de `if`
+
+```python
+idade = 22
+carteira = True
+
+if idade >= 18:
+    if carteira:
+        print("Pode dirigir")
+    else:
+        print("Tem idade, mas não tem carteira")
+else:
+    print("Menor de idade")
+```
+
+Cuidado para não aninhar demais — fica difícil de ler. Prefira `and` quando possível.
+
+## Operador ternário
+
+Uma forma compacta de escrever if/else em uma linha:
+
+```python
+# Forma normal
+idade = 20
+if idade >= 18:
+    status = "Maior"
+else:
+    status = "Menor"
+
+# Operador ternário (mesma lógica em uma linha)
+status = "Maior" if idade >= 18 else "Menor"
+
+print(status)  # Maior
+```
+
+A estrutura é: `valor_se_verdadeiro if condição else valor_se_falso`
+
+## `match-case` (Python 3.10+)
+
+Uma alternativa moderna ao `if/elif` para comparar um valor contra várias opções:
+
+```python
+codigo = 200
+
+match codigo:
+    case 200:
+        print("OK")
+    case 201:
+        print("Criado")
+    case 400 | 401:
+        print("Erro de cliente")
+    case 500:
+        print("Erro no servidor")
+    case _:
+        print("Código desconhecido")
+```
+
+> **Dica**: o `case _` funciona como o `else` — captura qualquer valor não listado.
+
+## Exemplo prático
+
+```python
+print("=== CALCULADORA ===")
+n1 = float(input("Primeiro número: "))
+n2 = float(input("Segundo número: "))
+op = input("Operação (+, -, *, /): ")
+
+if op == "+":
+    print(f"{n1} + {n2} = {n1 + n2}")
+elif op == "-":
+    print(f"{n1} - {n2} = {n1 - n2}")
+elif op == "*":
+    print(f"{n1} * {n2} = {n1 * n2}")
+elif op == "/":
+    if n2 != 0:
+        print(f"{n1} / {n2} = {n1 / n2:.2f}")
+    else:
+        print("Erro: divisão por zero!")
+else:
+    print("Operação inválida!")
+```
+
+## Erros comuns
+
+### Usar `=` em vez de `==`
+
+```python
+if senha = "1234":   # ❌ SyntaxError
+```
+
+**Causa**: `=` atribui, `==` compara.
+**Solução**: em condições, sempre use `==`.
+
+### Esquecer os dois pontos
+
+```python
+if idade >= 18   # ❌ SyntaxError
+    print("Maior")
+```
+
+**Solução**: todo `if`, `elif`, `else` termina com `:`.
+
+### Indentação errada
+
+```python
+if idade >= 18:
+print("Maior")   # ❌ IndentationError
+```
+
+**Solução**: o bloco do `if` precisa estar indentado (4 espaços).
+
+### Condições fora de ordem
+
+```python
+nota = 8
+if nota >= 4:
+    print("Recuperação")
+elif nota >= 7:
+    print("Aprovado")   # Nunca vai executar!
+```
+
+**Causa**: a primeira condição verdadeira vence. `8 >= 4` é True, então nem testa o `elif`.
+**Solução**: coloque as condições mais específicas primeiro.
+
+## Resumo
+
+| Estrutura | Quando usar |
+|-----------|-------------|
+| `if` | Uma condição simples |
+| `if/else` | Duas possibilidades |
+| `if/elif/else` | Múltiplas possibilidades |
+| `and`/`or` | Combinar condições |
+| Ternário | if/else em uma linha |
+| `match/case` | Múltiplos valores fixos (Python 3.10+) |
+
+========================================
+TÓPICO: For Loops
+ARQUIVO: for-loops.mdx
+========================================
+
+O `for` é usado para **percorrer** (iterar) uma sequência de valores — um por um. É o loop mais comum em Python.
+
+## Sintaxe básica
+
+```python
+for fruta in ["maçã", "banana", "laranja"]:
+    print(fruta)
+```
+
+A lógica é simples: para cada elemento na lista, execute o bloco indentado.
+
+## Iterando sobre diferentes tipos
+
+```python
+# Listas
+for item in [1, 2, 3]:
+    print(item)
+
+# Strings — percorre cada caractere
+for letra in "Python":
+    print(letra)
+
+# Tuplas
+for cor in ("azul", "verde", "vermelho"):
+    print(cor)
+
+# Dicionários — itera sobre as chaves
+aluno = {"nome": "Ana", "idade": 22, "curso": "Python"}
+for chave in aluno:
+    print(f"{chave}: {aluno[chave]}")
+```
+
+## `range()` — a dupla perfeita do `for`
+
+`range()` gera sequências numéricas sem precisar criar uma lista:
+
+```python
+# range(5) → 0, 1, 2, 3, 4
+for i in range(5):
+    print(i)  # 0, 1, 2, 3, 4
+
+# range(1, 6) → 1, 2, 3, 4, 5
+for i in range(1, 6):
+    print(i)
+
+# range(0, 10, 2) → 0, 2, 4, 6, 8
+for i in range(0, 10, 2):
+    print(i)
+
+# range(10, 0, -1) → 10, 9, ..., 1 (contagem regressiva)
+for i in range(10, 0, -1):
+    print(i)
+```
+
+> **Lembrete**: o `range` **não inclui** o valor final. `range(1, 6)` vai até 5.
+
+## `enumerate()` — índice e valor juntos
+
+```python
+frutas = ["maçã", "banana", "laranja"]
+
+for i, fruta in enumerate(frutas):
+    print(f"{i}: {fruta}")  # 0: maçã, 1: banana, 2: laranja
+```
+
+## `zip()` — iterar duas listas ao mesmo tempo
+
+```python
+nomes = ["Ana", "João", "Maria"]
+notas = [9.0, 7.5, 8.5]
+
+for nome, nota in zip(nomes, notas):
+    print(f"{nome}: {nota}")
+# Ana: 9.0
+# João: 7.5
+# Maria: 8.5
+```
+
+## `break` e `continue`
+
+```python
+# break — interrompe o loop
+for i in range(10):
+    if i == 5:
+        break
+    print(i)  # 0, 1, 2, 3, 4
+
+# continue — pula para a próxima iteração
+for i in range(10):
+    if i % 2 == 0:
+        continue
+    print(i)  # 1, 3, 5, 7, 9
+```
+
+## `for` com `else`
+
+O `else` no `for` executa **se o loop não foi interrompido por `break`**:
+
+```python
+numeros = [1, 3, 5, 7, 9]
+
+for n in numeros:
+    if n == 3:
+        print("Achou!")
+        break
+else:
+    print("Não encontrou")  # Não executa, porque deu break
+```
+
+## List comprehension — introdução
+
+É uma forma compacta de criar listas:
+
+```python
+# Jeito normal
+quadrados = []
+for i in range(10):
+    quadrados.append(i * i)
+
+# List comprehension
+quadrados = [i * i for i in range(10)]
+
+print(quadrados)  # [0, 1, 4, 9, ..., 81]
+```
+
+Com condição:
+
+```python
+pares = [i for i in range(20) if i % 2 == 0]
+print(pares)  # [0, 2, 4, ..., 18]
+```
+
+Você vai usar muito list comprehension quando pegar mais prática.
+
+## Exemplo prático — média da turma
+
+```python
+notas = []
+quantidade = int(input("Quantas notas? "))
+
+for i in range(quantidade):
+    nota = float(input(f"Nota {i + 1}: "))
+    notas.append(nota)
+
+media = sum(notas) / len(notas)
+print(f"Média da turma: {media:.2f}")
+```
+
+## Erros comuns
+
+### Esquecer que range não inclui o fim
+
+```python
+for i in range(5):
+    print(i)  # 0, 1, 2, 3, 4 — nunca o 5!
+```
+
+**Solução**: se quer até 5, use `range(1, 6)`.
+
+### Modificar a lista enquanto itera
+
+```python
+numeros = [1, 2, 3, 4, 5]
+for n in numeros:
+    numeros.remove(n)  # ❌ comportamento imprevisível
+```
+
+**Solução**: itere sobre uma cópia: `for n in numeros[:]:`.
+
+### Loop infinito com for (improvável, mas...)
+
+Isso é mais comum com `while`. O `for` sempre termina porque tem um número definido de iterações.
+
+### Usar `range` sem pensar no início
+
+```python
+for i in range(1, 5):
+    print(i)  # 1, 2, 3, 4 — okay
+```
+
+Lembre-se que `range` começa em 0 por padrão.
+
+## Resumo
+
+| Função | O que faz | Exemplo |
+|--------|-----------|---------|
+| `for x in lista` | Itera sobre uma lista | `for f in frutas:` |
+| `range(n)` | Gera 0 até n-1 | `range(5)` → 0..4 |
+| `range(1, n)` | Gera 1 até n-1 | `range(1, 6)` → 1..5 |
+| `range(1, n, 2)` | Gera com passo | `range(1, 10, 2)` → 1,3,5,7,9 |
+| `enumerate()` | Índice + valor | `for i, v in enumerate(x):` |
+| `zip()` | Duas listas juntas | `for a, b in zip(x, y):` |
+| `break` | Sai do loop | — |
+| `continue` | Pula iteração | — |
+
+========================================
+TÓPICO: While Loops
+ARQUIVO: while-loops.mdx
+========================================
+
+O `while` repete um bloco de código **enquanto** uma condição for verdadeira. Diferente do `for`, que itera sobre uma sequência, o `while` continua até você mandar parar.
+
+## Sintaxe básica
+
+```python
+contador = 0
+
+while contador < 5:
+    print(contador)
+    contador += 1  # importante: atualizar a variável!
+```
+
+A lógica:
+1. Testa a condição (`contador < 5`)
+2. Se for `True`, executa o bloco
+3. Volta ao passo 1
+4. Quando for `False`, sai do loop
+
+> **Dica**: toda variável usada na condição do `while` precisa ser **atualizada dentro do loop**, senão ele nunca termina.
+
+## Loop infinito — e como evitar
+
+O grande perigo do `while` é o **loop infinito**:
+
+```python
+# 🔴 Isso roda para sempre!
+while True:
+    print("Socorro!")
+```
+
+Para interromper, use `Ctrl+C` no terminal.
+
+Loops infinitos **intencionais** são usados em programas que rodam continuamente:
+
+```python
+# Menu que só termina quando o usuário escolhe sair
+while True:
+    opcao = input("Digite 1 para continuar ou 0 para sair: ")
+    if opcao == "0":
+        break
+    print("Você escolheu continuar")
+```
+
+## `break` e `continue`
+
+```python
+# break — sai do loop imediatamente
+n = 0
+while n < 10:
+    if n == 5:
+        break
+    print(n)
+    n += 1  # 0, 1, 2, 3, 4
+
+# continue — pula para a próxima iteração
+n = 0
+while n < 10:
+    n += 1
+    if n % 2 == 0:
+        continue
+    print(n)  # 1, 3, 5, 7, 9
+```
+
+## `while` com `else`
+
+O `else` executa **se o loop terminou normalmente** (sem `break`):
+
+```python
+senha = ""
+tentativas = 0
+
+while senha != "1234":
+    senha = input("Digite a senha: ")
+    tentativas += 1
+    if tentativas >= 3:
+        print("Muitas tentativas!")
+        break
+else:
+    print("Senha correta!")
+```
+
+> **Nota**: o `else` não executa se o loop foi encerrado com `break`.
+
+## Exemplos práticos
+
+### Menu de opções
+
+```python
+while True:
+    print("\n=== MENU ===")
+    print("1 - Ver saldo")
+    print("2 - Depositar")
+    print("3 - Sacar")
+    print("0 - Sair")
+
+    opcao = input("Escolha: ")
+
+    if opcao == "1":
+        print("Seu saldo é R$ 1000,00")
+    elif opcao == "2":
+        print("Depósito realizado!")
+    elif opcao == "3":
+        print("Saque realizado!")
+    elif opcao == "0":
+        print("Até logo!")
+        break
+    else:
+        print("Opção inválida!")
+```
+
+### Tentativas limitadas
+
+```python
+from random import randint
+
+secreto = randint(1, 10)
+tentativas = 0
+max_tentativas = 3
+
+while tentativas < max_tentativas:
+    palpite = int(input("Adivinhe o número (1-10): "))
+    tentativas += 1
+
+    if palpite == secreto:
+        print(f"Parabéns! Você acertou em {tentativas} tentativa(s)!")
+        break
+    elif palpite < secreto:
+        print("Muito baixo!")
+    else:
+        print("Muito alto!")
+else:
+    print(f"Suas {max_tentativas} tentativas acabaram! Era {secreto}.")
+```
+
+### Validação de entrada (padrão super comum)
+
+```python
+while True:
+    try:
+        idade = int(input("Digite sua idade: "))
+        if idade < 0 or idade > 150:
+            print("Idade inválida!")
+        else:
+            break
+    except ValueError:
+        print("Digite um número válido!")
+
+print(f"Idade: {idade}")
+```
+
+## `for` vs `while` — quando usar cada um?
+
+| Use `for` quando... | Use `while` quando... |
+|---------------------|----------------------|
+| Você sabe quantas iterações | Você não sabe quando vai parar |
+| Está percorrendo uma lista/sequência | Depende de uma condição externa |
+| Tem um número fixo de repetições | O usuário decide quando parar |
+
+```python
+# FOR — número definido de iterações
+for i in range(5):
+    print(i)
+
+# WHILE — depende de condição (entrada do usuário)
+while True:
+    opcao = input("Digite 0 para sair: ")
+    if opcao == "0":
+        break
+```
+
+## Erros comuns
+
+### Esquecer de atualizar a variável
+
+```python
+x = 0
+while x < 5:
+    print(x)
+    # esqueceu o x += 1 → 🔴 loop infinito!
+```
+
+**Solução**: sempre atualize a variável da condição dentro do `while`.
+
+### Condição nunca falsa
+
+```python
+x = 1
+while x > 0:
+    print(x)
+    x += 1  # x só aumenta, nunca será <= 0
+```
+
+**Solução**: verifique se a condição pode se tornar falsa em algum momento.
+
+### Confundir `while` com `if`
+
+```python
+# if testa uma vez
+if condicao:
+    print("roda uma vez")
+
+# while testa até ser falso
+while condicao:
+    print("roda enquanto for True")
+```
+
+### Loop infinito com `or`
+
+```python
+resposta = ""
+while resposta != "s" or resposta != "n":  # 🔴 sempre True!
+    resposta = input("Continua? (s/n): ")
+```
+
+**Solução**: use `and` no lugar de `or` aqui: `while resposta != "s" and resposta != "n":`
+
+## Resumo
+
+| Conceito | O que faz |
+|----------|-----------|
+| `while condicao:` | Repete enquanto a condição for True |
+| `break` | Sai do loop imediatamente |
+| `continue` | Pula para a próxima iteração |
+| `else` | Executa se o loop não foi interrompido |
+| Loop infinito | Quando a condição nunca fica False |
+| `Ctrl+C` | Interrompe um loop infinito no terminal |
+
+========================================
+TÓPICO: Funções
+ARQUIVO: funcoes.mdx
+========================================
+
+Funções são blocos de código com **nome próprio** que você pode **chamar** quantas vezes quiser. Em vez de repetir o mesmo código várias vezes, você escreve uma função e a reutiliza.
+
+## Por que usar funções?
+
+- **Reutilização**: escreva uma vez, use muitas vezes
+- **Organização**: código dividido em partes lógicas
+- **Legibilidade**: nomes descritivos explicam o que o código faz
+- **Manutenção**: corrige em um lugar só
+
+## Definindo uma função — `def`
+
+```python
+def saudacao():
+    print("Olá! Bem-vindo ao programa!")
+
+# Chamar a função
+saudacao()  # Olá! Bem-vindo ao programa!
+saudacao()  # Olá! Bem-vindo ao programa! (de novo)
+```
+
+## Parâmetros e argumentos
+
+Parâmetros são como "variáveis de entrada" da função:
+
+```python
+def saudar(nome):
+    print(f"Olá, {nome}!")
+
+saudar("Maria")   # Olá, Maria!
+saudar("João")    # Olá, João!
+```
+
+## `return` — retornando valores
+
+Uma função pode **devolver** um valor com `return`. Isso é diferente de `print()`:
+
+```python
+def soma(a, b):
+    return a + b
+
+resultado = soma(5, 3)
+print(resultado)  # 8
+
+# Dá para usar direto em outras operações
+dobro = soma(5, 3) * 2
+print(dobro)  # 16
+```
+
+> **Diferença crucial**: `print()` mostra na tela e **não devolve nada**. `return` devolve um valor que você pode guardar numa variável.
+
+## Parâmetros com valor padrão
+
+Se um parâmetro tem um valor padrão, ele se torna opcional:
+
+```python
+def saudar(nome, saudacao="Olá"):
+    print(f"{saudacao}, {nome}!")
+
+saudar("Maria")            # Olá, Maria!
+saudar("João", "Bom dia")  # Bom dia, João!
+```
+
+> **⚠️ Importante**: parâmetros com valor padrão sempre vêm **depois** dos obrigatórios.
+
+## Argumentos nomeados (keyword arguments)
+
+Você pode passar argumentos pelo nome, o que deixa a chamada mais clara:
+
+```python
+def cadastro(nome, idade, cidade):
+    print(f"{nome}, {idade} anos, {cidade}")
+
+# Posicional — pela ordem
+cadastro("Ana", 25, "São Paulo")
+
+# Nomeado — pela ordem que quiser
+cadastro(cidade="Rio", nome="Ana", idade=25)
+```
+
+## `*args` — múltiplos argumentos
+
+Quando você não sabe quantos argumentos virão:
+
+```python
+def soma_todos(*numeros):
+    total = 0
+    for n in numeros:
+        total += n
+    return total
+
+print(soma_todos(1, 2, 3))       # 6
+print(soma_todos(10, 20, 30, 40))  # 100
+```
+
+> O `*` empacota todos os argumentos extras numa tupla.
+
+## Escopo — variável local vs global
+
+Variáveis criadas **dentro** da função só existem lá:
+
+```python
+nome = "Global"  # variável global
+
+def teste():
+    nome = "Local"  # variável local
+    print(nome)      # Local
+
+teste()
+print(nome)  # Global — a variável fora não foi alterada
+```
+
+Para modificar uma global dentro da função, use `global`:
+
+```python
+contador = 0
+
+def incrementar():
+    global contador
+    contador += 1
+
+incrementar()
+print(contador)  # 1
+```
+
+> **Dica**: evite `global` sempre que possível. Prefira passar por parâmetro e retornar.
+
+## Função chamando outra função
+
+```python
+def dobro(x):
+    return x * 2
+
+def quadrado(x):
+    return x * x
+
+def calcular(a, b, operacao):
+    if operacao == "dobro":
+        return dobro(a)
+    elif operacao == "quadrado":
+        return quadrado(b)
+    else:
+        return a + b
+
+print(calcular(5, 3, "dobro"))     # 10
+print(calcular(5, 3, "quadrado"))  # 9
+```
+
+## Exemplo prático — calculadora com funções
+
+```python
+def somar(a, b):
+    return a + b
+
+def subtrair(a, b):
+    return a - b
+
+def multiplicar(a, b):
+    return a * b
+
+def dividir(a, b):
+    if b == 0:
+        return "Erro: divisão por zero"
+    return a / b
+
+# Usando as funções
+n1, n2 = 10, 5
+print(f"Soma: {somar(n1, n2)}")
+print(f"Subtração: {subtrair(n1, n2)}")
+print(f"Multiplicação: {multiplicar(n1, n2)}")
+print(f"Divisão: {dividir(n1, n2)}")
+```
+
+## Erros comuns
+
+### Esquecer o `return`
+
+```python
+def soma(a, b):
+    resultado = a + b
+    # esqueceu o return!
+
+print(soma(5, 3))  # None
+```
+
+**Solução**: toda função que deve devolver um valor precisa de `return`.
+
+### Confundir `print` com `return`
+
+```python
+def soma(a, b):
+    print(a + b)  # mostra na tela, mas não devolve
+
+resultado = soma(5, 3) + 10  # ❌ TypeError!
+```
+
+**Solução**: use `return` para devolver valores, `print` só para exibir.
+
+### Chamar a função antes de defini-la
+
+Em Python, você precisa definir a função **antes** de chamá-la:
+
+```python
+ola()  # ❌ NameError: name 'ola' is not defined
+
+def ola():
+    print("Olá!")
+```
+
+### Declarar função com parâmetro e chamar sem
+
+```python
+def saudar(nome):
+    print(f"Olá, {nome}")
+
+saudar()  # ❌ TypeError: missing 1 required positional argument
+```
+
+**Solução**: forneça todos os argumentos necessários ou use valores padrão.
+
+## Resumo
+
+| Conceito | Código | O que faz |
+|----------|--------|-----------|
+| Definir | `def nome():` | Cria uma função |
+| Chamar | `nome()` | Executa a função |
+| Parâmetro | `def f(x):` | Recebe valor externo |
+| Retornar | `return valor` | Devolve um valor |
+| Padrão | `def f(x=1):` | Valor opcional |
+| Nomeado | `f(x=5)` | Passa pelo nome |
+| args | `def f(*x):` | Múltiplos argumentos |
+
+========================================
+TÓPICO: Expressões Lambda
+ARQUIVO: expressoes-lambda.mdx
+========================================
+
+Funções lambda são **funções anônimas** de uma linha — você cria uma função sem dar nome a ela, ideal para operações simples e rápidas.
+
+## Sintaxe
+
+```python
+lambda parâmetros: expressão
+```
+
+A diferença para uma função `def` normal:
+
+```python
+# Função normal
+def dobro(x):
+    return x * 2
+
+# Lambda equivalente
+lambda x: x * 2
+```
+
+## Como usar lambda
+
+Para usar uma lambda, você normalmente a atribui a uma variável ou a passa como argumento:
+
+```python
+# Atribuindo a uma variável
+dobro = lambda x: x * 2
+print(dobro(5))  # 10
+
+soma = lambda a, b: a + b
+print(soma(3, 7))  # 10
+
+# Lambda com vários parâmetros
+area_retangulo = lambda largura, altura: largura * altura
+print(area_retangulo(5, 3))  # 15
+```
+
+> **Nota**: por trás dos panos, `lambda x: x * 2` é o mesmo que `def funcao(x): return x * 2`.
+
+## Lambda vs `def` — quando usar cada um?
+
+| Use `def` quando... | Use `lambda` quando... |
+|---------------------|------------------------|
+| A função tem várias linhas | A função cabe em uma linha |
+| Precisa de documentação | É uma operação simples |
+| A lógica é complexa | Precisa de uma "função descartável" |
+| Vai ser reutilizada em vários lugares | Vai ser passada como argumento |
+
+## Uso prático — `sorted()` com lambda
+
+O caso mais comum de lambda é como argumento de outras funções:
+
+```python
+pessoas = [
+    {"nome": "Ana", "idade": 25},
+    {"nome": "João", "idade": 20},
+    {"nome": "Maria", "idade": 30},
+]
+
+# Ordenar por idade (crescente)
+ordenado = sorted(pessoas, key=lambda p: p["idade"])
+for p in ordenado:
+    print(f"{p['nome']}: {p['idade']}")
+
+# Ordenar por nome
+ordenado = sorted(pessoas, key=lambda p: p["nome"])
+```
+
+```python
+# Ordenar tuplas pelo segundo elemento
+dados = [(1, 5), (3, 2), (4, 8), (2, 1)]
+ordenado = sorted(dados, key=lambda item: item[1])
+print(ordenado)  # [(2, 1), (3, 2), (1, 5), (4, 8)]
+```
+
+## `map()` — aplicar lambda a cada elemento
+
+```python
+numeros = [1, 2, 3, 4, 5]
+
+# Dobrar cada número
+dobrados = list(map(lambda x: x * 2, numeros))
+print(dobrados)  # [2, 4, 6, 8, 10]
+```
+
+> **Nota**: `map()` retorna um iterador, então usamos `list()` para ver os resultados.
+
+## `filter()` — filtrar elementos com lambda
+
+```python
+numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+# Filtrar só os pares
+pares = list(filter(lambda x: x % 2 == 0, numeros))
+print(pares)  # [2, 4, 6, 8, 10]
+```
+
+> **Dica**: `filter()` mantém os elementos onde a função retorna `True`.
+
+## Exemplos práticos
+
+```python
+# Lista de produtos
+produtos = [
+    ("Camiseta", 49.90),
+    ("Calça", 129.90),
+    ("Boné", 29.90),
+    ("Tênis", 199.90),
+]
+
+# Produtos abaixo de R$ 100
+baratos = list(filter(lambda p: p[1] < 100, produtos))
+print(baratos)  # [('Camiseta', 49.9), ('Boné', 29.9)]
+
+# Aplicar 10% de desconto em todos
+com_desconto = list(map(lambda p: (p[0], round(p[1] * 0.9, 2)), produtos))
+print(com_desconto)
+```
+
+## Limitações do lambda
+
+Lambda **só aceita uma expressão** — não pode ter múltiplas linhas, loops ou `if/else` complexos:
+
+```python
+# ❌ Isso não funciona — muitas operações
+lambda x: if x > 0: print("Positivo") else: print("Negativo")
+
+# ✅ Isso funciona — ternário é uma expressão
+lambda x: "Positivo" if x > 0 else "Negativo"
+
+# ❌ Não pode ter loops
+lambda x: for i in x: print(i)
+
+# ✅ O que dá pra fazer é limitado, mas intencional
+lambda a, b: a if a > b else b  # maior entre dois
+```
+
+> **Dica**: se você precisa de mais de uma linha, use `def`. Lambda é para operações simples.
+
+## Erros comuns
+
+### Tentar usar lambda para lógica complexa
+
+```python
+calcular = lambda a, b, op: (
+    a + b if op == "+" else
+    a - b if op == "-" else
+    a * b if op == "*" else
+    "Operação inválida"
+)
+
+# Funciona, mas é horrível de ler! Use def!
+```
+
+**Solução**: nesses casos, use `def` — fica muito mais legível.
+
+### Esquecer que lambda precisa de `return` implícito
+
+Diferente do `def`, o `return` no lambda é automático — o resultado da expressão é devolvido:
+
+```python
+soma = lambda a, b: a + b   # ✅ return implícito
+soma = lambda a, b: return a + b  # ❌ SyntaxError!
+```
+
+### Achar que lambda substitui funções normais
+
+Lambda é uma ferramenta para **casos específicos**. Para 90% das funções, use `def`.
+
+## Resumo
+
+| Característica | `def` | `lambda` |
+|----------------|-------|----------|
+| Nome | Obrigatório | Opcional |
+| Linhas | Várias | Uma |
+| `return` | Explícito | Implícito |
+| Uso típico | Funções reutilizáveis | Funções descartáveis como argumento |
+| Legibilidade | Ótima para lógica complexa | Ótima para operações simples |
+
+========================================
+TÓPICO: Módulos
+ARQUIVO: modulos.mdx
+========================================
+
+Módulos são arquivos Python que contêm funções, classes e variáveis que você pode **importar** e usar em outros programas. É assim que o Python se mantém organizado e poderoso sem ser gigante.
+
+## Importando um módulo
+
+```python
+import math
+
+print(math.sqrt(16))     # 4.0
+print(math.pi)           # 3.141592653589793
+print(math.ceil(4.2))    # 5
+```
+
+## Importando funções específicas
+
+Se você só precisa de algumas funções, importe direto:
+
+```python
+from math import sqrt, pi
+
+print(sqrt(25))  # 5.0
+print(pi)        # 3.141592653589793
+```
+
+Isso evita ter que escrever `math.` toda vez.
+
+## Alias — apelidos para módulos
+
+```python
+import math as m
+import datetime as dt
+
+print(m.sqrt(9))       # 3.0
+print(dt.date.today()) # 2026-06-05
+```
+
+> **Dica**: `import numpy as np` e `import pandas as pd` são exemplos clássicos que você vai ver muito por aí.
+
+## Módulos da biblioteca padrão
+
+Python vem com centenas de módulos prontos. Aqui os mais úteis para iniciantes:
+
+### `math` — matemática
+
+```python
+import math
+
+print(math.sqrt(25))      # 5.0
+print(math.floor(4.7))    # 4
+print(math.ceil(4.2))     # 5
+print(math.factorial(5))  # 120
+```
+
+### `random` — números aleatórios
+
+```python
+import random
+
+print(random.randint(1, 10))    # número inteiro entre 1 e 10
+print(random.random())           # número decimal entre 0 e 1
+print(random.choice(["Ana", "João", "Maria"]))  # escolhe um da lista
+```
+
+### `datetime` — datas e horas
+
+```python
+import datetime
+
+hoje = datetime.date.today()
+print(hoje)                    # 2026-06-05
+print(hoje.year)               # 2026
+print(hoje.month)              # 6
+print(hoje.day)                # 5
+
+agora = datetime.datetime.now()
+print(agora)                   # data e hora completas
+```
+
+### `os` — sistema operacional
+
+```python
+import os
+
+print(os.getcwd())         # diretório atual
+print(os.listdir("."))     # lista arquivos da pasta
+
+# os.system("clear")       # limpa o terminal
+```
+
+### `sys` — sistema Python
+
+```python
+import sys
+
+print(sys.version)         # versão do Python
+print(sys.platform)        # sistema operacional
+
+# sys.exit()               # encerra o programa
+```
+
+> **Dica**: explore a [documentação oficial](https://docs.python.org/3/library/) para descobrir mais módulos.
+
+## Criando seu próprio módulo
+
+Crie um arquivo `meu_modulo.py`:
+
+```python
+# meu_modulo.py
+def saudar(nome):
+    return f"Olá, {nome}!"
+
+PI = 3.14159
+```
+
+Depois importe de outro arquivo na mesma pasta:
+
+```python
+# programa_principal.py
+import meu_modulo
+
+print(meu_modulo.saudar("Maria"))  # Olá, Maria!
+print(meu_modulo.PI)               # 3.14159
+```
+
+> **Importante**: o arquivo do módulo precisa estar na mesma pasta (ou no `PYTHONPATH`).
+
+## Pip — instalando pacotes externos
+
+Além da biblioteca padrão, existem milhares de pacotes criados pela comunidade. O `pip` é o gerenciador:
+
+```bash
+pip install requests
+pip install pandas
+pip install flask
+```
+
+Depois de instalar, é só importar:
+
+```python
+import requests
+
+resposta = requests.get("https://api.github.com")
+print(resposta.status_code)  # 200
+```
+
+## Exemplo prático — senha aleatória
+
+```python
+import random
+import string
+
+def gerar_senha(tamanho=8):
+    caracteres = string.ascii_letters + string.digits
+    senha = "".join(random.choice(caracteres) for _ in range(tamanho))
+    return senha
+
+print(gerar_senha())      # ex: aB3xK9mZ
+print(gerar_senha(12))    # ex: pQ7wR2nL5xV1
+```
+
+## Erros comuns
+
+### ModuleNotFoundError
+
+```python
+import pandas  # ❌ ModuleNotFoundError se não estiver instalado
+```
+
+**Solução**: instale com `pip install pandas`.
+
+### Nome do módulo errado
+
+```python
+import math
+print(math.raiz(16))  # ❌ AttributeError — o nome é sqrt, não raiz
+```
+
+**Solução**: verifique os nomes das funções na documentação.
+
+### Importar módulo com nome conflitante
+
+```python
+# Criar um arquivo chamado math.py na mesma pasta
+import math  # ❌ Vai importar seu arquivo, não o módulo padrão!
+
+print(math.sqrt(4))  # Pode dar erro inesperado
+```
+
+**Solução**: nunca nomeie seus arquivos com nomes de módulos existentes.
+
+### Sobrescrever função importada
+
+```python
+from math import sqrt
+
+sqrt = "agora sou uma string"  # ❌ sobrescreveu a função!
+print(sqrt(9))  # TypeError
+```
+
+## Resumo
+
+| Comando | O que faz |
+|---------|-----------|
+| `import math` | Importa o módulo inteiro |
+| `from math import sqrt` | Importa só a função sqrt |
+| `import math as m` | Importa com apelido m |
+| `pip install pacote` | Instala pacote externo |
+
+Módulos são a base da organização em Python. Quanto mais você usar, mais percebe como a biblioteca padrão é rica.
+
+========================================
+TÓPICO: Input & Output de Arquivos
+ARQUIVO: input-output-arquivos.mdx
+========================================
+
+Ler e escrever arquivos é essencial para programas que precisam guardar informações entre execuções. Python torna essa tarefa muito simples.
+
+## Abrindo arquivos — `open()`
+
+A função `open()` abre um arquivo e devolve um objeto que você pode ler ou escrever:
+
+```python
+arquivo = open("dados.txt", "r")  # "r" = modo leitura
+conteudo = arquivo.read()
+arquivo.close()
+
+print(conteudo)
+```
+
+> **⚠️ Importante**: sempre feche o arquivo com `close()` depois de usar.
+
+## Modos de abertura
+
+```python
+"r"   # Leitura (padrão). O arquivo precisa existir.
+"w"   # Escrita. Cria ou sobrescreve o arquivo.
+"a"   # Adicionar ao final. Cria se não existir.
+"r+"  # Leitura e escrita. O arquivo precisa existir.
+```
+
+## Lendo arquivos
+
+```python
+arquivo = open("poema.txt", "r", encoding="utf-8")
+
+# Ler tudo de uma vez
+conteudo = arquivo.read()
+
+# Ler linha por linha
+linha = arquivo.readline()   # primeira linha
+linha = arquivo.readline()   # segunda linha
+
+# Lista com todas as linhas
+linhas = arquivo.readlines()
+
+arquivo.close()
+```
+
+```python
+# Jeito mais comum: iterar sobre o arquivo
+arquivo = open("poema.txt", "r", encoding="utf-8")
+for linha in arquivo:
+    print(linha.strip())  # strip() remove a quebra de linha
+arquivo.close()
+```
+
+## Escrevendo em arquivos
+
+```python
+arquivo = open("notas.txt", "w", encoding="utf-8")
+
+# Escrever texto
+arquivo.write("Linha 1\n")
+arquivo.write("Linha 2\n")
+
+# Escrever lista de linhas
+linhas = ["Linha 3\n", "Linha 4\n"]
+arquivo.writelines(linhas)
+
+arquivo.close()
+```
+
+> **Cuidado**: modo `"w"` sobrescreve o arquivo inteiro! Se quiser adicionar sem apagar, use `"a"`.
+
+## O `with` — forma recomendada
+
+Usar `with` garante que o arquivo será fechado automaticamente, mesmo se der erro:
+
+```python
+# Leitura
+with open("poema.txt", "r", encoding="utf-8") as arquivo:
+    conteudo = arquivo.read()
+    print(conteudo)
+# Aqui o arquivo já foi fechado automaticamente
+
+# Escrita
+with open("notas.txt", "w", encoding="utf-8") as arquivo:
+    arquivo.write("Esta é uma nota.\n")
+# Fechado automaticamente
+```
+
+> **Dica**: sempre use `with open()` — é mais seguro e mais limpo.
+
+## Trabalhando com CSV
+
+CSV é o formato mais comum para dados tabulares. O módulo `csv` facilita o trabalho:
+
+### Lendo CSV
+
+```python
+import csv
+
+with open("pessoas.csv", "r", encoding="utf-8") as arquivo:
+    leitor = csv.reader(arquivo)
+    for linha in leitor:
+        print(linha)  # ['Nome', 'Idade', 'Cidade']
+                       # ['Ana', '25', 'SP']
+```
+
+### Escrevendo CSV
+
+```python
+import csv
+
+dados = [
+    ["Nome", "Idade", "Cidade"],
+    ["Ana", "25", "São Paulo"],
+    ["João", "30", "Rio de Janeiro"],
+    ["Maria", "22", "Belo Horizonte"],
+]
+
+with open("pessoas.csv", "w", newline="", encoding="utf-8") as arquivo:
+    escritor = csv.writer(arquivo)
+    escritor.writerows(dados)
+```
+
+## Exemplo prático — bloco de notas simples
+
+```python
+def salvar_nota():
+    texto = input("Digite sua nota: ")
+    with open("minhas_notas.txt", "a", encoding="utf-8") as f:
+        f.write(f"{texto}\n")
+    print("Nota salva!")
+
+def ler_notas():
+    try:
+        with open("minhas_notas.txt", "r", encoding="utf-8") as f:
+            notas = f.read()
+            print(notas if notas else "Nenhuma nota encontrada.")
+    except FileNotFoundError:
+        print("Nenhuma nota encontrada.")
+
+while True:
+    print("\n1 - Nova nota")
+    print("2 - Ver notas")
+    print("0 - Sair")
+    opcao = input("Escolha: ")
+    if opcao == "1":
+        salvar_nota()
+    elif opcao == "2":
+        ler_notas()
+    elif opcao == "0":
+        break
+```
+
+## Erros comuns
+
+### FileNotFoundError — arquivo não existe
+
+```python
+arquivo = open("nao_existe.txt", "r")  # ❌ FileNotFoundError
+```
+
+**Solução**: verifique se o arquivo existe antes ou use `try/except`:
+
+```python
+try:
+    with open("dados.txt", "r") as f:
+        conteudo = f.read()
+except FileNotFoundError:
+    print("Arquivo não encontrado.")
+```
+
+### Esquecer de fechar o arquivo
+
+```python
+f = open("dados.txt", "w")
+f.write("Olá")
+# esqueceu f.close() — arquivo pode ficar corrompido
+```
+
+**Solução**: use `with open()` que fecha automaticamente.
+
+### Sobrescrever sem querer
+
+```python
+with open("dados.txt", "w") as f:  # "w" apaga tudo!
+    f.write("Novo conteúdo")
+```
+
+**Solução**: use `"a"` para adicionar, ou verifique antes de sobrescrever.
+
+### Encoding errado
+
+```python
+with open("dados.txt", "r") as f:  # sem encoding pode dar erro com acentos
+    print(f.read())
+```
+
+**Solução**: sempre especifique `encoding="utf-8"` ao abrir arquivos de texto.
+
+## Resumo
+
+| Operação | Código | Descrição |
+|----------|--------|-----------|
+| Abrir | `open("arquivo", "r")` | Abre arquivo |
+| Ler tudo | `arquivo.read()` | Retorna string |
+| Ler linha | `arquivo.readline()` | Retorna uma linha |
+| Escrever | `arquivo.write("texto")` | Escreve no arquivo |
+| Fechar | `arquivo.close()` | Fecha arquivo |
+| Seguro | `with open() as f:` | Fecha automático |
+| CSV ler | `csv.reader(f)` | Lê arquivo CSV |
+| CSV escrever | `csv.writer(f)` | Escreve arquivo CSV |
+
+========================================
+TÓPICO: Erros, Exceções e Testes
+ARQUIVO: erros-excecoes-testes.mdx
+========================================
+
+Erros acontecem. A diferença entre um programador iniciante e um experiente não é evitar erros, mas saber **lidar com eles** quando aparecem.
+
+## Tipos de erro mais comuns
+
+### SyntaxError — erro de sintaxe
+
+O Python não entendeu o que você escreveu:
+
+```python
+print("Olá"   # ❌ SyntaxError: '(' was never closed
+if idade > 18  # ❌ SyntaxError: expected ':'
+```
+
+### NameError — nome não definido
+
+```python
+print(mensagem)  # ❌ NameError: name 'mensagem' is not defined
+```
+
+### TypeError — tipo incompatível
+
+```python
+print("5" + 3)  # ❌ TypeError: can only concatenate str (not "int") to str
+```
+
+### ValueError — valor inválido
+
+```python
+int("abc")  # ❌ ValueError: invalid literal for int()
+```
+
+### IndexError — índice fora da lista
+
+```python
+lista = [1, 2, 3]
+print(lista[10])  # ❌ IndexError: list index out of range
+```
+
+### KeyError — chave não existe
+
+```python
+dados = {"nome": "Ana"}
+print(dados["idade"])  # ❌ KeyError: 'idade'
+```
+
+### ZeroDivisionError — divisão por zero
+
+```python
+print(10 / 0)  # ❌ ZeroDivisionError: division by zero
+```
+
+## Capturando erros — `try/except`
+
+```python
+try:
+    numero = int(input("Digite um número: "))
+    print(f"O dobro é {numero * 2}")
+except:
+    print("Isso não é um número!")
+```
+
+## Capturando tipos específicos
+
+Sempre que possível, capture o tipo **específico** do erro:
+
+```python
+try:
+    numero = int(input("Digite um número: "))
+    resultado = 10 / numero
+    print(f"10 dividido por {numero} é {resultado}")
+except ValueError:
+    print("Você não digitou um número válido!")
+except ZeroDivisionError:
+    print("Não pode dividir por zero!")
+```
+
+> **Dica**: capturar `Exception` genérico demais pode esconder bugs que você não esperava.
+
+## `else` e `finally`
+
+```python
+try:
+    arquivo = open("dados.txt", "r")
+    conteudo = arquivo.read()
+except FileNotFoundError:
+    print("Arquivo não encontrado.")
+else:
+    print("Arquivo lido com sucesso!")
+    print(conteudo)
+finally:
+    print("Isso sempre executa, com erro ou sem.")
+    if 'arquivo' in locals():
+        arquivo.close()
+```
+
+- `else`: executa **se não houve erro**
+- `finally`: executa **sempre**, independente de erro
+
+## `raise` — lançando exceções
+
+Você também pode **criar** seus próprios erros:
+
+```python
+def dividir(a, b):
+    if b == 0:
+        raise ValueError("Não é possível dividir por zero!")
+    return a / b
+
+# Uso
+try:
+    resultado = dividir(10, 0)
+except ValueError as erro:
+    print(erro)  # Não é possível dividir por zero!
+```
+
+## Mensagens de erro úteis
+
+Um bom erro explica **o que aconteceu** e **como corrigir**:
+
+```python
+def cadastrar_usuario(nome, idade):
+    if not nome.strip():
+        raise ValueError("O nome não pode estar vazio!")
+    if idade < 0 or idade > 150:
+        raise ValueError("Idade deve estar entre 0 e 150 anos!")
+    if not isinstance(idade, int):
+        raise TypeError("Idade deve ser um número inteiro!")
+
+    print(f"Usuário {nome} cadastrado com {idade} anos.")
+```
+
+## Introdução a testes com `assert`
+
+`assert` verifica se uma condição é verdadeira. Se for falsa, o programa para com um `AssertionError`:
+
+```python
+def soma(a, b):
+    return a + b
+
+# Testes simples
+assert soma(2, 3) == 5, "2 + 3 deveria ser 5"
+assert soma(-1, 1) == 0, "-1 + 1 deveria ser 0"
+assert soma(0, 0) == 0, "0 + 0 deveria ser 0"
+
+print("Todos os testes passaram! ✅")
+```
+
+```python
+def maior(a, b):
+    return a if a > b else b
+
+assert maior(5, 3) == 5
+assert maior(3, 5) == 5
+assert maior(4, 4) == 4  # se forem iguais?
+```
+
+> **Nota**: `assert` é ótimo para testes rápidos, mas não substitui um framework de testes como `pytest` em projetos maiores.
+
+## Exemplo prático — calculadora robusta
+
+```python
+def calculadora():
+    while True:
+        try:
+            n1 = float(input("Primeiro número: "))
+            op = input("Operação (+, -, *, /): ")
+            n2 = float(input("Segundo número: "))
+
+            if op == "+":
+                resultado = n1 + n2
+            elif op == "-":
+                resultado = n1 - n2
+            elif op == "*":
+                resultado = n1 * n2
+            elif op == "/":
+                if n2 == 0:
+                    raise ZeroDivisionError("Não pode dividir por zero!")
+                resultado = n1 / n2
+            else:
+                print("Operação inválida!")
+                continue
+
+            print(f"Resultado: {resultado}")
+            break
+
+        except ValueError:
+            print("Digite apenas números!")
+        except ZeroDivisionError as e:
+            print(e)
+        except Exception as e:
+            print(f"Erro inesperado: {e}")
+```
+
+## Erros comuns sobre erros
+
+### Capturar Exception genérico demais
+
+```python
+try:
+    numero = int(input("Número: "))
+    resultado = 10 / numero
+except Exception:  # captura TUDO
+    pass  # silencia o erro
+```
+
+**Problema**: você nunca vai saber que algo deu errado. Capture tipos específicos.
+
+### Silenciar erros sem tratar
+
+```python
+try:
+    arquivo = open("dados.txt", "r")
+except FileNotFoundError:
+    pass  # só ignorou, mas não fez nada sobre
+```
+
+**Solução**: no mínimo, avise o usuário com `print()`.
+
+### Não tratar erro nenhum
+
+Programas que quebram com qualquer entrada inválida são frustrantes. Sempre que usar `input()` com conversão numérica, coloque um `try/except`.
+
+### Usar `assert` em produção
+
+```python
+# assert pode ser desabilitado com -O
+assert senha == "1234", "Senha incorreta!"
+```
+
+**⚠️**: `assert` pode ser desligado na execução. Não use para validar dados reais do sistema.
+
+## Resumo
+
+| Erro | Causa | Como evitar |
+|------|-------|-------------|
+| `SyntaxError` | Erro de digitação no código | Revise a sintaxe |
+| `NameError` | Variável não definida | Defina antes de usar |
+| `TypeError` | Tipo incompatível | Converta tipos |
+| `ValueError` | Valor inválido | Valide entrada |
+| `IndexError` | Índice fora do limite | Verifique `len()` |
+| `KeyError` | Chave inexistente | Use `.get()` |
+| `ZeroDivisionError` | Divisão por zero | Verifique antes |
+| `FileNotFoundError` | Arquivo não existe | Use `try/except` |
+
+| Técnica | Para que serve |
+|---------|----------------|
+| `try/except` | Capturar erros |
+| `try/except/tipo` | Capturar erro específico |
+| `else` | Executar sem erro |
+| `finally` | Executar sempre |
+| `raise` | Criar seu próprio erro |
+| `assert` | Testes rápidos |
+
+========================================
+TÓPICO: Data e Tempo
+ARQUIVO: data-tempo.mdx
+========================================
+
+Aqui está um guia completo sobre Data e Tempo em Python para iniciantes:
+
+## Introdução a Data e Tempo em Python
+
+Trabalhar com datas e horas é essencial em muitos programas. Python tem um módulo especial chamado `datetime` que facilita essa tarefa.
+
+## O módulo datetime
+
+O módulo `datetime` contém várias classes úteis:
+
+- `date` - trabalha com datas (ano, mês, dia)
+- `time` - trabalha com horas (hora, minuto, segundo, microssegundo)
+- `datetime` - combina data e hora
+- `timedelta` - representa diferenças entre datas/horas
+
+### Importando o módulo
+
+```python
+import datetime
+```
+
+## Classe date
+
+Representa uma data específica.
+
+```python
+import datetime
+
+# Criando uma data
+data_hoje = datetime.date.today()
+print(f"Data de hoje: {data_hoje}")
+
+# Criando uma data específica
+data_aniversario = datetime.date(2024, 12, 25)
+print(f"Natal: {data_aniversario}")
+
+# Acessando componentes
+print(f"Ano: {data_aniversario.year}")
+print(f"Mês: {data_aniversario.month}")
+print(f"Dia: {data_aniversario.day}")
+```
+
+**Dica:** Use `date.today()` para obter a data atual do sistema.
+
+## Classe time
+
+Representa um horário específico.
+
+```python
+import datetime
+
+# Criando um horário específico
+hora_atual = datetime.time(14, 30, 45)
+print(f"Horário: {hora_atual}")
+
+# Acessando componentes
+print(f"Hora: {hora_atual.hour}")
+print(f"Minuto: {hora_atual.minute}")
+print(f"Segundo: {hora_atual.second}")
+```
+
+## Classe datetime
+
+Combina data e hora em um único objeto.
+
+```python
+import datetime
+
+# Data e hora atuais
+agora = datetime.datetime.now()
+print(f"Agora: {agora}")
+
+# Criando uma data/hora específica
+data_hora = datetime.datetime(2024, 12, 25, 14, 30, 0)
+print(f"Natal às 14:30: {data_hora}")
+
+# Obtendo data e hora separadamente
+print(f"Data: {agora.date()}")
+print(f"Hora: {agora.time()}")
+```
+
+### datetime.now()
+
+`datetime.now()` retorna a data e hora atuais do sistema.
+
+```python
+from datetime import datetime
+
+agora = datetime.now()
+print(f"Data completa: {agora}")
+print(f"Timestamp: {agora.timestamp()}")
+```
+
+## timedelta - Trabalhando com diferenças
+
+`timedelta` representa diferenças entre datas ou horas.
+
+```python
+from datetime import datetime, timedelta
+
+# Data atual
+hoje = datetime.now()
+
+# Adicionando dias
+daqui_7_dias = hoje + timedelta(days=7)
+print(f"Daqui 7 dias: {daqui_7_dias}")
+
+# Subtraindo horas
+ha_3_horas = hoje - timedelta(hours=3)
+print(f"3 horas atrás: {ha_3_horas}")
+
+# Diferença entre datas
+natal = datetime(2024, 12, 25, 0, 0, 0)
+dias_ate_natal = natal - hoje
+print(f"Dias até o Natal: {dias_ate_natal.days}")
+
+# timedelta com múltiplos parâmetros
+delta = timedelta(days=10, hours=5, minutes=30)
+print(f"Delta: {delta}")
+print(f"Total de segundos: {delta.total_seconds()}")
+```
+
+**Erro comum:** Esquecer que `timedelta` aceita apenas parâmetros nomeados.
+
+## Formatando datas com strftime()
+
+`strftime()` converte objetos de data/hora em strings formatadas.
+
+```python
+from datetime import datetime
+
+agora = datetime.now()
+
+# Formatos comuns
+print(agora.strftime("%d/%m/%Y"))           # 25/12/2024
+print(agora.strftime("%H:%M:%S"))           # 14:30:00
+print(agora.strftime("%d de %B de %Y"))     # 25 de December de 2024
+print(agora.strftime("%A, %d/%m/%Y"))       # Wednesday, 25/12/2024
+
+# Tabela de códigos comuns:
+# %d - dia (01-31)
+# %m - mês (01-12)
+# %Y - ano com 4 dígitos
+# %y - ano com 2 dígitos
+# %H - hora (00-23)
+# %I - hora (01-12)
+# %M - minuto (00-59)
+# %S - segundo (00-59)
+# %A - nome do dia da semana
+# %a - nome abreviado do dia
+# %B - nome do mês
+# %b - nome abreviado do mês
+```
+
+## Parsing de strings com strptime()
+
+`strptime()` converte strings em objetos datetime.
+
+```python
+from datetime import datetime
+
+# Convertendo string para datetime
+data_string = "25/12/2024 14:30:00"
+data_convertida = datetime.strptime(data_string, "%d/%m/%Y %H:%M:%S")
+print(f"Data convertida: {data_convertida}")
+
+# Outro exemplo
+data_texto = "2024-12-25"
+data = datetime.strptime(data_texto, "%Y-%m-%d")
+print(f"Data: {data}")
+```
+
+**Erro comum:** O formato da string deve corresponder exatamente ao formato especificado.
+
+## Exemplos práticos com datas
+
+### Calculando idade
+
+```python
+from datetime import date
+
+def calcular_idade(data_nascimento):
+    hoje = date.today()
+    idade = hoje.year - data_nascimento.year
+    
+    # Verifica se já fez aniversário este ano
+    if hoje.month < data_nascimento.month or (hoje.month == data_nascimento.month and hoje.day < data_nascimento.day):
+        idade -= 1
+    
+    return idade
+
+# Exemplo
+nascimento = date(1995, 6, 15)
+print(f"Idade: {calcular_idade(nascimento)} anos")
+```
+
+### Verificando se é fim de semana
+
+```python
+from datetime import date
+
+def eh_fim_de_semana(data):
+    # weekday() retorna 0 para segunda, 6 para domingo
+    return data.weekday() >= 5
+
+hoje = date.today()
+if eh_fim_de_semana(hoje):
+    print("É fim de semana!")
+else:
+    print("É dia útil")
+```
+
+### Gerando lista de datas
+
+```python
+from datetime import datetime, timedelta
+
+def gerar_datas(inicio, dias):
+    datas = []
+    for i in range(dias):
+        data = inicio + timedelta(days=i)
+        datas.append(data)
+    return datas
+
+inicio = datetime(2024, 1, 1)
+datas_do_mes = gerar_datas(inicio, 31)
+
+for data in datas_do_mes[:5]:  # Mostra apenas 5 primeiras
+    print(data.strftime("%d/%m/%Y"))
+```
+
+### Calculando dias úteis
+
+```python
+from datetime import date, timedelta
+
+def dias_ate_proximo_dia_util(data_atual=None):
+    if data_atual is None:
+        data_atual = date.today()
+    
+    dias = 0
+    while True:
+        data_atual += timedelta(days=1)
+        if data_atual.weekday() < 5:  # Segunda a sexta
+            return dias + 1
+        dias += 1
+
+print(f"Dias até próximo dia útil: {dias_ate_proximo_dia_util()}")
+```
+
+## Introdução a fuso horário
+
+Python também lida com fusos horários através do módulo `pytz` (terceiro).
+
+```python
+# Primeiro instale: pip install pytz
+from datetime import datetime
+import pytz
+
+# Definindo fusos horários
+sp = pytz.timezone('America/Sao_Paulo')
+ny = pytz.timezone('America/New_York')
+
+# Data/hora com fuso
+agora_sp = datetime.now(sp)
+agora_ny = datetime.now(ny)
+
+print(f"São Paulo: {agora_sp}")
+print(f"Nova York: {agora_ny}")
+
+# Convertendo entre fusos
+data_sem_fuso = datetime(2024, 12, 25, 14, 30)
+data_com_fuso = sp.localize(data_sem_fuso)
+data_em_ny = data_com_fuso.astimezone(ny)
+
+print(f"Em SP: {data_com_fuso}")
+print(f"Em NY: {data_em_ny}")
+```
+
+## Dicas importantes
+
+1. **Sempre use `datetime.now()` para data/hora atual** - não tente criar manualmente
+2. **Cuidado com fuso horário** - se seu programa roda em diferentes locais
+3. **Use `strftime` e `strptime` com cuidado** - o formato deve corresponder exatamente
+4. **Prefira `timedelta` para cálculos** - evite somar/subtrair números diretamente
+5. **Teste com datas limites** - como 31/12, 29/02 em anos bissextos
+
+## Erros comuns
+
+```python
+# ❌ ERRADO: Formato não corresponde
+data = datetime.strptime("25/12/2024", "%Y-%m-%d")  # Erro!
+
+# ✅ CERTO: Formato corresponde
+data = datetime.strptime("25/12/2024", "%d/%m/%Y")
+
+# ❌ ERRADO: Somar dias diretamente
+amanha = datetime.now() + 1  # Erro!
+
+# ✅ CERTO: Usar timedelta
+amanha = datetime.now() + timedelta(days=1)
+```
+
+Com esses conceitos você consegue trabalhar com datas e horas em Python de forma eficiente. Pratique criando seus próprios exemplos!
+
+========================================
+TÓPICO: Programação Orientada a Objetos
+ARQUIVO: poo.mdx
+========================================
+
+# Programação Orientada a Objetos em Python
+
+## O que é POO?
+
+Imagine que você está construindo uma cidade em um jogo. Você não quer criar cada prédio do zero - seria muito trabalhoso! Em vez disso, você cria "plantas" (classes) e depois constrói vários prédios (objetos) seguindo essa planta.
+
+**Programação Orientada a Objetos (POO)** é exatamente isso: um paradigma de programação que organiza o código em torno de **objetos** que possuem **características** (atributos) e **comportamentos** (métodos).
+
+### Por que usar POO?
+- ✅ **Reutilização**: Crie uma vez, use várias vezes
+- ✅ **Organização**: Código mais limpo e fácil de entender
+- ✅ **Manutenção**: Mais fácil de modificar sem quebrar outras partes
+- ✅ **Modelagem real**: Representa melhor objetos do mundo real
+
+## Classes e Objetos
+
+**Classe** = a planta/blueprint
+**Objeto** = a construção real baseada na planta
+
+```python
+# Definindo uma classe
+class Cachorro:
+    pass  # por enquanto, vazia
+
+# Criando objetos (instâncias)
+rex = Cachorro()
+bob = Cachorro()
+
+print(type(rex))  # <class '__main__.Cachorro'>
+print(type(bob))  # <class '__main__.Cachorro'>
+```
+
+## O método __init__ e o self
+
+O `__init__` é o **construtor** - ele roda automaticamente quando criamos um objeto. O `self` se refere ao próprio objeto que está sendo criado.
+
+```python
+class Cachorro:
+    def __init__(self, nome, idade, raca):
+        self.nome = nome
+        self.idade = idade
+        self.raca = raca
+
+# Criando cachorros com características diferentes
+rex = Cachorro("Rex", 3, "Labrador")
+bob = Cachorro("Bob", 1, "Vira-lata")
+
+print(rex.nome)   # Rex
+print(bob.idade)  # 1
+```
+
+## Atributos e Métodos
+
+**Atributos** = características (variáveis dentro do objeto)
+**Métodos** = comportamentos (funções dentro do objeto)
+
+```python
+class Cachorro:
+    def __init__(self, nome, idade):
+        self.nome = nome
+        self.idade = idade
+        self.energia = 100  # atributo com valor padrão
+    
+    # Método
+    def latir(self):
+        print(f"{self.nome} diz: Au au!")
+    
+    def dormir(self, horas):
+        self.energia += horas * 10
+        print(f"{self.nome} dormiu {horas} horas. Energia: {self.energia}")
+    
+    def brincar(self):
+        if self.energia >= 20:
+            self.energia -= 20
+            print(f"{self.nome} está brincando! Energia: {self.energia}")
+        else:
+            print(f"{self.nome} está cansado demais para brincar!")
+
+# Usando a classe
+rex = Cachorro("Rex", 3)
+rex.latir()          # Rex diz: Au au!
+rex.brincar()        # Rex está brincando! Energia: 80
+rex.dormir(2)        # Rex dormiu 2 horas. Energia: 100
+```
+
+## Herança
+
+Herança permite criar uma nova classe baseada em uma existente. É como ter uma "planta padrão" e criar versões mais específicas.
+
+```python
+# Classe base (pai)
+class Animal:
+    def __init__(self, nome):
+        self.nome = nome
+    
+    def fazer_som(self):
+        print(f"{self.nome} faz algum som")
+
+# Classe derivada (filho)
+class Gato(Animal):
+    def __init__(self, nome, cor):
+        super().__init__(nome)  # chama o __init__ do pai
+        self.cor = cor
+    
+    def fazer_som(self):
+        print(f"{self.nome} diz: Miau!")
+    
+    def ronronar(self):
+        print(f"{self.nome} está ronronando...")
+
+class Peixe(Animal):
+    def fazer_som(self):
+        print(f"{self.nome} faz: Glub glub")
+
+# Usando herança
+gato = Gato("Mimi", "preto")
+gato.fazer_som()    # Mimi diz: Miau!
+gato.ronronar()     # Mimi está ronronando...
+
+peixe = Peixe("Nemo")
+peixe.fazer_som()   # Nemo faz: Glub glub
+```
+
+## Encapsulamento
+
+Encapsulamento protege dados internos do objeto. Em Python, usamos `_` (underline) para indicar que algo é "privado" (por convenção).
+
+```python
+class ContaBancaria:
+    def __init__(self, titular, saldo_inicial=0):
+        self.titular = titular
+        self._saldo = saldo_inicial  # "privado" por convenção
+        self.__senha = "1234"  # name mangling (mais protegido)
+    
+    def depositar(self, valor):
+        if valor > 0:
+            self._saldo += valor
+            print(f"Depósito de R${valor:.2f} realizado")
+    
+    def sacar(self, valor, senha):
+        if senha == self.__senha:
+            if valor <= self._saldo:
+                self._saldo -= valor
+                print(f"Saque de R${valor:.2f} realizado")
+            else:
+                print("Saldo insuficiente!")
+        else:
+            print("Senha incorreta!")
+    
+    def ver_saldo(self, senha):
+        if senha == self.__senha:
+            return f"Saldo: R${self._saldo:.2f}"
+        return "Senha incorreta!"
+
+# Exemplo
+conta = ContaBancaria("João", 1000)
+conta.depositar(500)         # Depósito de R$500.00 realizado
+print(conta.ver_saldo("1234"))  # Saldo: R$1500.00
+print(conta._saldo)          # 1500 (funciona, mas não é recomendado)
+# print(conta.__senha)        # Erro! Atributo "escondido"
+```
+
+## Polimorfismo
+
+Polimorfismo = "muitas formas". Permite que objetos de classes diferentes respondam ao mesmo método de formas diferentes.
+
+```python
+class Animal:
+    def mover(self):
+        pass
+
+class Cobra(Animal):
+    def mover(self):
+        return "Rastejando..."
+
+class Passaro(Animal):
+    def mover(self):
+        return "Voando..."
+
+class Peixe(Animal):
+    def mover(self):
+        return "Nadando..."
+
+# Função que usa polimorfismo
+def mostrar_movimento(animal):
+    print(animal.mover())
+
+# Todos respondem ao mesmo método de forma diferente
+animais = [Cobra(), Passaro(), Peixe()]
+for animal in animais:
+    mostrar_movimento(animal)
+# Rastejando...
+# Voando...
+# Nadando...
+```
+
+## Métodos Especiais: __str__ e __repr__
+
+Estes métodos controlam como nossos objetos são representados como texto.
+
+```python
+class Pessoa:
+    def __init__(self, nome, idade):
+        self.nome = nome
+        self.idade = idade
+    
+    def __str__(self):
+        # Usado por print() e str()
+        return f"{self.nome} ({self.idade} anos)"
+    
+    def __repr__(self):
+        # Representação técnica, útil para debug
+        return f"Pessoa('{self.nome}', {self.idade})"
+
+pessoa = Pessoa("Maria", 30)
+print(str(pessoa))   # Maria (30 anos)
+print(repr(pessoa))  # Pessoa('Maria', 30)
+print(pessoa)        # Maria (30 anos)  - usa __str__ por padrão
+```
+
+## Exemplo Prático Completo
+
+Vamos criar um sistema de biblioteca simples:
+
+```python
+class Livro:
+    def __init__(self, titulo, autor, ano):
+        self.titulo = titulo
+        self.autor = autor
+        self.ano = ano
+        self._disponivel = True
+    
+    def __str__(self):
+        status = "Disponível" if self._disponivel else "Emprestado"
+        return f"'{self.titulo}' - {self.autor} ({self.ano}) - {status}"
+    
+    def emprestar(self):
+        if self._disponivel:
+            self._disponivel = False
+            return True
+        return False
+    
+    def devolver(self):
+        self._disponivel = True
+
+class Biblioteca:
+    def __init__(self, nome):
+        self.nome = nome
+        self._livros = []
+    
+    def adicionar_livro(self, livro):
+        self._livros.append(livro)
+        print(f"Livro '{livro.titulo}' adicionado à biblioteca")
+    
+    def listar_livros(self):
+        if not self._livros:
+            print("Biblioteca vazia!")
+            return
+        print(f"\n=== {self.nome} ===")
+        for i, livro in enumerate(self._livros, 1):
+            print(f"{i}. {livro}")
+    
+    def emprestar_livro(self, titulo):
+        for livro in self._livros:
+            if livro.titulo.lower() == titulo.lower():
+                if livro.emprestar():
+                    print(f"Livro '{titulo}' emprestado com sucesso!")
+                    return
+                else:
+                    print(f"Livro '{titulo}' já está emprestado!")
+                    return
+        print(f"Livro '{titulo}' não encontrado!")
+    
+    def devolver_livro(self, titulo):
+        for livro in self._livros:
+            if livro.titulo.lower() == titulo.lower():
+                livro.devolver()
+                print(f"Livro '{titulo}' devolvido!")
+                return
+        print(f"Livro '{titulo}' não encontrado!")
+
+# Testando o sistema
+biblioteca = Biblioteca("Biblioteca Central")
+
+# Criando livros
+livro1 = Livro("1984", "George Orwell", 1949)
+livro2 = Livro("Dom Casmurro", "Machado de Assis", 1899)
+livro3 = Livro("O Pequeno Príncipe", "Antoine de Saint-Exupéry", 1943)
+
+# Adicionando à biblioteca
+biblioteca.adicionar_livro(livro1)
+biblioteca.adicionar_livro(livro2)
+biblioteca.adicionar_livro(livro3)
+
+# Listando livros
+biblioteca.listar_livros()
+
+# Emprestando e devolvendo
+biblioteca.emprestar_livro("1984")
+biblioteca.listar_livros()
+biblioteca.emprestar_livro("1984")  # Tentando emprestar de novo
+biblioteca.devolver_livro("1984")
+biblioteca.listar_livros()
+```
+
+## Erros Comuns e Dicas
+
+### ❌ Erro: Esquecer o `self`
+```python
+class Carro:
+    def __init__(self, modelo):
+        modelo = modelo  # ERRO! Deveria ser self.modelo = modelo
+```
+
+### ❌ Erro: Confundir classe e instância
+```python
+class Contador:
+    valor = 0  # Atributo de classe
+
+c1 = Contador()
+c2 = Contador()
+c1.valor += 1
+print(c2.valor)  # 0 (não 1!) - cada instância tem seu próprio valor
+```
+
+### ✅ Dica: Use type hints (dicas de tipo)
+```python
+class Produto:
+    def __init__(self, nome: str, preco: float):
+        self.nome = nome
+        self.preco = preco
+    
+    def aplicar_desconto(self, percentual: float) -> float:
+        return self.preco * (1 - percentual / 100)
+```
+
+### ✅ Dica: Herança múltipla com cuidado
+```python
+class A:
+    def metodo(self):
+        print("A")
+
+class B:
+    def metodo(self):
+        print("B")
+
+class C(A, B):  # Ordem importa! A tem prioridade
+    pass
+
+c = C()
+c.metodo()  # A (primeira na ordem)
+```
+
+## Resumo
+
+| Conceito | O que faz | Exemplo |
+|----------|-----------|---------|
+| **Classe** | Define um tipo de objeto | `class Cachorro:` |
+| **Objeto** | Instância de uma classe | `rex = Cachorro()` |
+| **__init__** | Construtor/inicializador | `def __init__(self, nome):` |
+| **self** | Referência ao próprio objeto | `self.nome = nome` |
+| **Herança** | Reutilizar código de outra classe | `class Gato(Animal):` |
+| **Encapsulamento** | Proteger dados internos | `self._saldo` |
+| **Polimorfismo** | Mesmo método, comportamento diferente | `animal.mover()` |
+| **__str__** | Representação amigável | `def __str__(self):` |
+
+POO é uma ferramenta poderosa! Comece com exemplos simples e vá aumentando a complexidade. A prática leva à perfeição! 🚀
+
+========================================
+TÓPICO: Expressões Regulares
+ARQUIVO: expressoes-regulares.mdx
+========================================
+
+# Expressões Regulares em Python: Guia Completo para Iniciantes
+
+## O que são Expressões Regulares?
+
+Expressões Regulares (ou **regex**) são padrões usados para buscar, validar e manipular texto. Pense nelas como um "detetive" que procura por padrões específicos dentro de strings.
+
+Imagine que você precisa:
+- Verificar se um email é válido
+- Encontrar todos os números de telefone em um texto
+- Extrair dados de um arquivo
+- Substituir partes específicas de um texto
+
+Regex resolve tudo isso de forma elegante!
+
+## O Módulo `re`
+
+Python tem um módulo nativo chamado `re` que trabalha com expressões regulares. Primeiro, você precisa importá-lo:
+
+```python
+import re
+```
+
+## Funções Principais
+
+### 1. `re.match()` - Verifica no início da string
+
+```python
+import re
+
+texto = "Python é incrível"
+padrao = r"Python"
+
+resultado = re.match(padrao, texto)
+if resultado:
+    print("Encontrado:", resultado.group())
+else:
+    print("Não encontrado")
+```
+
+**Importante:** `match()` só verifica o **início** da string!
+
+```python
+texto = "Eu amo Python"
+resultado = re.match(r"Python", texto)  # Não encontra!
+print(resultado)  # None
+```
+
+### 2. `re.search()` - Procura em qualquer lugar
+
+```python
+texto = "Eu amo Python e JavaScript"
+resultado = re.search(r"Python", texto)
+if resultado:
+    print("Encontrado em:", resultado.start(), "-", resultado.end())
+    print("Trecho:", resultado.group())
+```
+
+### 3. `re.findall()` - Retorna todas as ocorrências
+
+```python
+texto = "Telefones: 1199999999, 2188888888, 3177777777"
+numeros = re.findall(r"\d{10}", texto)
+print(numeros)  # ['1199999999', '2188888888', '3177777777']
+```
+
+### 4. `re.sub()` - Substitui padrões
+
+```python
+texto = "Meu email é joao@gmail.com e maria@yahoo.com"
+emails_ocultos = re.sub(r"\w+@\w+\.\w+", "[EMAIL OCULTO]", texto)
+print(emails_ocultos)  # Meu email é [EMAIL OCULTO] e [EMAIL OCULTO]
+```
+
+## Metacaracteres Básicos
+
+### `.` (ponto) - Qualquer caractere (exceto quebra de linha)
+
+```python
+texto = "gato, gote, guta"
+print(re.findall(r"g.t.", texto))  # ['gato', 'gote', 'guta']
+```
+
+### `*` - Zero ou mais ocorrências
+
+```python
+texto = "go, goo, gooo, gato"
+print(re.findall(r"go*", texto))  # ['go', 'goo', 'gooo', 'g']
+```
+
+### `+` - Uma ou mais ocorrências
+
+```python
+texto = "go, goo, gooo, gato"
+print(re.findall(r"go+", texto))  # ['go', 'goo', 'gooo']
+```
+
+### `?` - Zero ou uma ocorrência
+
+```python
+texto = "cor, corr, corrr, corrrr"
+print(re.findall(r"corr?", texto))  # ['cor', 'corr', 'corr']
+```
+
+### `[]` - Conjunto de caracteres
+
+```python
+texto = "casa, caso, casu, casã"
+print(re.findall(r"cas[aeiou]", texto))  # ['casa', 'caso', 'casu']
+```
+
+### `^` - Início da string (quando usado fora de [])
+
+```python
+texto = "Python é legal"
+print(re.findall(r"^Python", texto))  # ['Python']
+```
+
+### `$` - Final da string
+
+```python
+texto = "legal Python"
+print(re.findall(r"Python$", texto))  # ['Python']
+```
+
+## Grupos com `()`
+
+Grupos permitem capturar partes específicas do padrão:
+
+```python
+texto = "João tem 25 anos e Maria tem 30 anos"
+padrao = r"(\w+) tem (\d+) anos"
+resultados = re.findall(padrao, texto)
+print(resultados)  # [('João', '25'), ('Maria', '30')]
+
+# Acessando grupos específicos
+for nome, idade in resultados:
+    print(f"{nome} tem {idade} anos")
+```
+
+## Exemplos Práticos
+
+### 1. Validar Email
+
+```python
+import re
+
+def validar_email(email):
+    padrao = r"^[\w\.-]+@[\w\.-]+\.\w{2,}$"
+    if re.match(padrao, email):
+        return True
+    return False
+
+# Testes
+emails = ["joao@gmail.com", "maria@yahoo", "teste@.com", "ana@empresa.com.br"]
+for email in emails:
+    print(f"{email}: {validar_email(email)}")
+```
+
+### 2. Validar CPF
+
+```python
+import re
+
+def validar_cpf(cpf):
+    # Remove caracteres não numéricos
+    cpf = re.sub(r"\D", "", cpf)
+    
+    # Verifica se tem 11 dígitos
+    padrao = r"^\d{11}$"
+    if not re.match(padrao, cpf):
+        return False
+    
+    # Verifica se todos os dígitos são iguais (CPF inválido)
+    if cpf == cpf[0] * 11:
+        return False
+    
+    # Validação dos dígitos verificadores (simplificada)
+    # (Em produção, implemente a validação completa)
+    return True
+
+cpfs = ["123.456.789-09", "111.111.111-11", "529.982.247-25"]
+for cpf in cpfs:
+    print(f"{cpf}: {validar_cpf(cpf)}")
+```
+
+### 3. Validar Telefone
+
+```python
+import re
+
+def validar_telefone(telefone):
+    # Aceita formatos: (11) 99999-9999, 11999999999, 11 99999-9999
+    padrao = r"^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$"
+    if re.match(padrao, telefone):
+        return True
+    return False
+
+telefones = ["(11) 99999-9999", "11999999999", "11 9999-9999", "12345"]
+for tel in telefones:
+    print(f"{tel}: {validar_telefone(tel)}")
+```
+
+### 4. Extrair Dados de um Texto
+
+```python
+import re
+
+texto = """
+Cliente: João Silva
+Email: joao.silva@email.com
+Telefone: (11) 98765-4321
+CPF: 123.456.789-09
+Data de nascimento: 15/03/1990
+"""
+
+# Extrair email
+email = re.search(r"[\w\.-]+@[\w\.-]+\.\w+", texto)
+print("Email:", email.group())
+
+# Extrair telefone
+telefone = re.search(r"\(?\d{2}\)?\s?\d{4,5}-?\d{4}", texto)
+print("Telefone:", telefone.group())
+
+# Extrair CPF
+cpf = re.search(r"\d{3}\.\d{3}\.\d{3}-\d{2}", texto)
+print("CPF:", cpf.group())
+
+# Extrair data
+data = re.search(r"\d{2}/\d{2}/\d{4}", texto)
+print("Data:", data.group())
+```
+
+## Dicas Importantes
+
+### 1. Use `r""` para raw strings
+
+```python
+# Sem raw string, \n é interpretado como quebra de linha
+padrao_errado = "\n"  # Quebra de linha
+
+# Com raw string, \n é literal
+padrao_certo = r"\n"  # Literalmente "\n"
+```
+
+### 2. Escape de caracteres especiais
+
+```python
+# Para buscar um ponto literal, use \.
+texto = "Preço: R$ 10.50"
+print(re.findall(r"\d+\.\d+", texto))  # ['10.50']
+```
+
+### 3. Use `re.IGNORECASE` para ignorar maiúsculas/minúsculas
+
+```python
+texto = "Python, PYTHON, python"
+print(re.findall(r"python", texto, re.IGNORECASE))  # ['Python', 'PYTHON', 'python']
+```
+
+## Erros Comuns
+
+### 1. Esquecer de escapar pontos
+
+```python
+# ERRADO
+texto = "email@exemplo.com"
+print(re.findall(r"email@exemplo.com", texto))  # None (ponto captura qualquer caractere)
+
+# CERTO
+print(re.findall(r"email@exemplo\.com", texto))  # ['email@exemplo.com']
+```
+
+### 2. Usar `match` quando deveria usar `search`
+
+```python
+texto = "O email é joao@gmail.com"
+# ERRADO: match procura no início
+resultado = re.match(r"joao@gmail.com", texto)  # None
+
+# CERTO: search procura em qualquer lugar
+resultado = re.search(r"joao@gmail.com", texto)  # Encontra!
+```
+
+### 3. Não usar raw strings
+
+```python
+# ERRADO
+padrao = "\d"  # \d é interpretado como caractere de controle
+
+# CERTO
+padrao = r"\d"  # \d é literal
+```
+
+## Exercício Prático
+
+Crie um programa que valide senhas com os seguintes critérios:
+- Mínimo 8 caracteres
+- Pelo menos uma letra maiúscula
+- Pelo menos uma letra minúscula
+- Pelo menos um número
+- Pelo menos um caractere especial (@, #, $, %, &)
+
+```python
+import re
+
+def validar_senha(senha):
+    if len(senha) < 8:
+        return "Senha muito curta (mínimo 8 caracteres)"
+    
+    if not re.search(r"[A-Z]", senha):
+        return "Senha precisa ter pelo menos uma letra maiúscula"
+    
+    if not re.search(r"[a-z]", senha):
+        return "Senha precisa ter pelo menos uma letra minúscula"
+    
+    if not re.search(r"\d", senha):
+        return "Senha precisa ter pelo menos um número"
+    
+    if not re.search(r"[@#$%&]", senha):
+        return "Senha precisa ter pelo menos um caractere especial (@, #, $, %, &)"
+    
+    return "Senha válida!"
+
+# Testes
+senhas = ["abc123", "Senha123", "Senha@123", "senha@123", "SENHA@123"]
+for senha in senhas:
+    print(f"{senha}: {validar_senha(senha)}")
+```
+
+## Conclusão
+
+Expressões regulares são ferramentas poderosas para manipulação de texto. Comece com padrões simples e vá aumentando a complexidade aos poucos. Use sites como [regex101.com](https://regex101.com) para testar seus padrões visualmente.
+
+Lembre-se: regex é como um superpoder - quando você aprende, nunca mais vai querer viver sem!
+
+========================================
+TÓPICO: JSON
+ARQUIVO: json.mdx
+========================================
+
+Vamos aprender sobre **JSON** em Python! O JSON é um formato de dados super comum na web, usado para transmitir informações entre sistemas.
+
+## O que é JSON?
+
+JSON significa **JavaScript Object Notation** (Notação de Objetos JavaScript). É um formato leve para armazenar e transportar dados. Ele é fácil de ler tanto para humanos quanto para máquinas.
+
+Um arquivo JSON se parece com isso:
+
+```json
+{
+  "nome": "Ana",
+  "idade": 25,
+  "cidade": "São Paulo",
+  "hobbies": ["ler", "correr", "cozinhar"],
+  "ativo": true
+}
+```
+
+Percebeu a semelhança com dicionários Python? É por isso que JSON é tão natural para nós!
+
+## O módulo `json` do Python
+
+Python tem um módulo nativo chamado `json` que nos permite trabalhar com dados JSON. Primeiro, precisamos importá-lo:
+
+```python
+import json
+```
+
+## Convertendo JSON para Python: `json.loads()`
+
+A função `json.loads()` converte uma **string** JSON em um objeto Python (geralmente um dicionário ou lista).
+
+```python
+import json
+
+# String JSON
+dados_json = '{"nome": "Ana", "idade": 25, "cidade": "São Paulo"}'
+
+# Convertendo para dicionário Python
+dados_python = json.loads(dados_json)
+
+print(dados_python)
+print(type(dados_python))
+print(dados_python["nome"])
+```
+
+**Saída:**
+```
+{'nome': 'Ana', 'idade': 25, 'cidade': 'São Paulo'}
+<class 'dict'>
+Ana
+```
+
+## Convertendo Python para JSON: `json.dumps()`
+
+A função `json.dumps()` faz o contrário: converte um objeto Python em uma **string** JSON.
+
+```python
+import json
+
+# Dicionário Python
+dados_python = {
+    "nome": "Carlos",
+    "idade": 30,
+    "cidade": "Rio de Janeiro",
+    "hobbies": ["futebol", "música"]
+}
+
+# Convertendo para string JSON
+dados_json = json.dumps(dados_python)
+
+print(dados_json)
+print(type(dados_json))
+```
+
+**Saída:**
+```
+{"nome": "Carlos", "idade": 30, "cidade": "Rio de Janeiro", "hobbies": ["futebol", "música"]}
+<class 'str'>
+```
+
+## Trabalhando com arquivos JSON: `json.load()` e `json.dump()`
+
+Agora vamos para a versão com arquivos! Essas funções trabalham diretamente com objetos de arquivo.
+
+### Lendo arquivo JSON: `json.load()`
+
+```python
+import json
+
+# Suponha que temos um arquivo 'dados.json'
+with open('dados.json', 'r', encoding='utf-8') as arquivo:
+    dados = json.load(arquivo)
+
+print(dados)
+print(type(dados))
+```
+
+### Escrevendo arquivo JSON: `json.dump()`
+
+```python
+import json
+
+dados = {
+    "nome": "Mariana",
+    "idade": 28,
+    "cidade": "Belo Horizonte"
+}
+
+with open('dados.json', 'w', encoding='utf-8') as arquivo:
+    json.dump(dados, arquivo)
+
+print("Arquivo salvo com sucesso!")
+```
+
+## Formatando JSON com `indent`
+
+Por padrão, `json.dumps()` e `json.dump()` produzem JSON compacto (sem espaços extras). Para deixar mais legível, use o parâmetro `indent`:
+
+```python
+import json
+
+dados = {"nome": "Pedro", "idade": 35, "endereco": {"rua": "Av. Paulista", "numero": 1000}}
+
+# Sem indent
+print("Sem indent:")
+print(json.dumps(dados))
+
+# Com indent
+print("\nCom indent:")
+print(json.dumps(dados, indent=4))
+```
+
+**Saída:**
+```
+Sem indent:
+{"nome": "Pedro", "idade": 35, "endereco": {"rua": "Av. Paulista", "numero": 1000}}
+
+Com indent:
+{
+    "nome": "Pedro",
+    "idade": 35,
+    "endereco": {
+        "rua": "Av. Paulista",
+        "numero": 1000
+    }
+}
+```
+
+## Trabalhando com APIs que retornam JSON
+
+As APIs (interfaces de programação) frequentemente retornam dados em JSON. Vamos ver um exemplo usando a biblioteca `requests`:
+
+```python
+import json
+import requests
+
+# Fazendo requisição para uma API pública
+resposta = requests.get('https://jsonplaceholder.typicode.com/todos/1')
+
+# Convertendo a resposta JSON para Python
+tarefa = resposta.json()  # Equivalente a json.loads(resposta.text)
+
+print("Título da tarefa:", tarefa["title"])
+print("Completa:", tarefa["completed"])
+```
+
+**Saída:**
+```
+Título da tarefa: delectus aut autem
+Completa: False
+```
+
+## Exemplos práticos completos
+
+### Exemplo 1: Salvando e carregando configurações
+
+```python
+import json
+
+# Configurações do usuário
+config = {
+    "usuario": "joao123",
+    "tema": "escuro",
+    "notificacoes": True,
+    "ultimo_acesso": "2024-01-15"
+}
+
+# Salvando configurações
+with open('config.json', 'w', encoding='utf-8') as f:
+    json.dump(config, f, indent=2)
+
+# Carregando configurações depois
+with open('config.json', 'r', encoding='utf-8') as f:
+    config_carregada = json.load(f)
+
+print("Configurações carregadas:")
+print(config_carregada)
+```
+
+### Exemplo 2: Trabalhando com lista de dados
+
+```python
+import json
+
+# Lista de dicionários (muito comum em APIs)
+produtos = [
+    {"id": 1, "nome": "Notebook", "preco": 3500.00},
+    {"id": 2, "nome": "Mouse", "preco": 150.00},
+    {"id": 3, "nome": "Teclado", "preco": 200.00}
+]
+
+# Convertendo para JSON
+json_produtos = json.dumps(produtos, indent=2)
+print("Lista de produtos em JSON:")
+print(json_produtos)
+
+# De volta para Python
+produtos_python = json.loads(json_produtos)
+for produto in produtos_python:
+    print(f"{produto['nome']}: R$ {produto['preco']:.2f}")
+```
+
+## Dicas importantes
+
+1. **Sempre use `encoding='utf-8'`** ao trabalhar com arquivos para evitar problemas com acentos
+2. **JSON só aceita aspas duplas** ("), não aspas simples. O Python cuida disso automaticamente
+3. **Tipos suportados pelo JSON**: strings, números, booleanos, null, objetos (dicionários) e arrays (listas)
+4. **Para garantir a ordem** dos campos, use `OrderedDict` ou Python 3.7+ (dicionários mantêm ordem)
+
+## Erros comuns
+
+### Erro 1: Esquecer de usar aspas duplas nas chaves
+```python
+# ❌ Errado
+json.loads("{'nome': 'João'}")
+
+# ✅ Correto
+json.loads('{"nome": "João"}')
+```
+
+### Erro 2: Tentar serializar objetos não suportados
+```python
+import json
+from datetime import datetime
+
+# ❌ Errado - datetime não é serializável
+dados = {"data": datetime.now()}
+# json.dumps(dados)  # Isso daria erro!
+
+# ✅ Correto - converter para string primeiro
+dados = {"data": datetime.now().isoformat()}
+print(json.dumps(dados))
+```
+
+### Erro 3: Arquivo JSON mal formatado
+```python
+import json
+
+# ❌ Errado - vírgula extra no final
+json_invalido = '{"nome": "Ana", "idade": 25,}'
+
+# ✅ Correto - sem vírgula no último item
+json_valido = '{"nome": "Ana", "idade": 25}'
+
+try:
+    dados = json.loads(json_invalido)
+except json.JSONDecodeError as e:
+    print(f"Erro no JSON: {e}")
+```
+
+## Para praticar
+
+Crie um programa que:
+1. Pega dados de uma API pública (como a de clima)
+2. Salva os dados em um arquivo JSON
+3. Lê o arquivo e exibe as informações formatadas
+
+```python
+import json
+import requests
+
+# Exemplo com API de clima (gratuita)
+try:
+    resposta = requests.get('https://api.open-meteo.com/v1/forecast?latitude=-23.55&longitude=-46.63&current_weather=true')
+    dados_clima = resposta.json()
+    
+    # Salvando em arquivo
+    with open('clima.json', 'w', encoding='utf-8') as f:
+        json.dump(dados_clima, f, indent=2)
+    
+    # Lendo e exibindo
+    with open('clima.json', 'r', encoding='utf-8') as f:
+        clima = json.load(f)
+    
+    tempo = clima['current_weather']
+    print(f"Temperatura atual: {tempo['temperature']}°C")
+    print(f"Velocidade do vento: {tempo['windspeed']} km/h")
+    
+except Exception as e:
+    print(f"Erro ao acessar API: {e}")
+```
+
+JSON é essencial para qualquer programador Python, especialmente quando você começar a trabalhar com APIs, armazenar configurações ou trocar dados entre sistemas. Pratique bastante e logo estará dominando esse formato!
+
+========================================
+TÓPICO: XML
+ARQUIVO: xml.mdx
+========================================
+
+# XML em Python: Guia Completo para Iniciantes
+
+## O que é XML?
+
+XML (eXtensible Markup Language) é uma linguagem de marcação para armazenar e transportar dados de forma legível tanto para humanos quanto para máquinas. Pense nele como um primo mais flexível do HTML.
+
+**Exemplo de XML:**
+```xml
+<livros>
+    <livro id="1">
+        <titulo>Python para Iniciantes</titulo>
+        <autor>João Silva</autor>
+        <ano>2023</ano>
+    </livro>
+    <livro id="2">
+        <titulo>Data Science com Python</titulo>
+        <autor>Maria Santos</autor>
+        <ano>2024</ano>
+    </livro>
+</livros>
+```
+
+## Por que usar XML em Python?
+
+- Configurações de programas
+- Troca de dados entre sistemas
+- Armazenamento de dados estruturados
+- Comunicação com APIs antigas
+
+## Módulo xml.etree.ElementTree
+
+O Python tem um módulo nativo chamado `xml.etree.ElementTree` (ET) que facilita o trabalho com XML. É como usar um mapa para navegar em uma árvore de dados.
+
+### Importando o módulo
+
+```python
+import xml.etree.ElementTree as ET
+```
+
+## Trabalhando com XML existente
+
+### Lendo um arquivo XML
+
+Vamos supor que você tenha o arquivo `livros.xml` com o conteúdo do exemplo anterior.
+
+```python
+import xml.etree.ElementTree as ET
+
+# Parse do arquivo XML
+tree = ET.parse('livros.xml')
+root = tree.getroot()
+
+print(f"Elemento raiz: {root.tag}")
+print(f"Atributos da raiz: {root.attrib}")
+```
+
+### Lendo XML de uma string
+
+```python
+import xml.etree.ElementTree as ET
+
+xml_string = """
+<livros>
+    <livro id="1">
+        <titulo>Python para Iniciantes</titulo>
+        <autor>João Silva</autor>
+    </livro>
+</livros>
+"""
+
+root = ET.fromstring(xml_string)
+print(root.tag)  # Saída: livros
+```
+
+## Navegando pelos elementos
+
+### find() - Encontrar o primeiro elemento
+
+```python
+import xml.etree.ElementTree as ET
+
+tree = ET.parse('livros.xml')
+root = tree.getroot()
+
+# Encontra o primeiro livro
+primeiro_livro = root.find('livro')
+print(f"ID do primeiro livro: {primeiro_livro.get('id')}")
+```
+
+### findall() - Encontrar todos os elementos
+
+```python
+import xml.etree.ElementTree as ET
+
+tree = ET.parse('livros.xml')
+root = tree.getroot()
+
+# Encontra todos os livros
+todos_livros = root.findall('livro')
+print(f"Total de livros: {len(todos_livros)}")
+
+for livro in todos_livros:
+    titulo = livro.find('titulo').text
+    autor = livro.find('autor').text
+    print(f"{titulo} - {autor}")
+```
+
+### Iterar sobre todos os elementos
+
+```python
+import xml.etree.ElementTree as ET
+
+tree = ET.parse('livros.xml')
+root = tree.getroot()
+
+# Iterar recursivamente sobre todos os elementos
+for elemento in root.iter():
+    print(f"Tag: {elemento.tag}, Texto: {elemento.text}")
+```
+
+## Criando XML do zero
+
+### Construindo um documento XML
+
+```python
+import xml.etree.ElementTree as ET
+
+# Criar elemento raiz
+root = ET.Element("pessoas")
+
+# Criar primeiro filho
+pessoa1 = ET.SubElement(root, "pessoa")
+pessoa1.set("id", "1")
+
+# Adicionar sub-elementos
+nome1 = ET.SubElement(pessoa1, "nome")
+nome1.text = "Ana Costa"
+idade1 = ET.SubElement(pessoa1, "idade")
+idade1.text = "28"
+
+# Criar segundo filho
+pessoa2 = ET.SubElement(root, "pessoa")
+pessoa2.set("id", "2")
+
+nome2 = ET.SubElement(pessoa2, "nome")
+nome2.text = "Pedro Oliveira"
+idade2 = ET.SubElement(pessoa2, "idade")
+idade2.text = "35"
+
+# Criar a árvore e salvar
+tree = ET.ElementTree(root)
+tree.write("pessoas.xml", encoding="utf-8", xml_declaration=True)
+
+print("Arquivo XML criado com sucesso!")
+```
+
+### Exemplo prático: Catálogo de produtos
+
+```python
+import xml.etree.ElementTree as ET
+
+# Dados de exemplo
+produtos = [
+    {"nome": "Notebook", "preco": 3500.00, "estoque": 15},
+    {"nome": "Mouse", "preco": 50.00, "estoque": 100},
+    {"nome": "Teclado", "preco": 120.00, "estoque": 45}
+]
+
+# Criar XML
+root = ET.Element("catalogo")
+root.set("data", "2024-01-15")
+
+for i, prod in enumerate(produtos, 1):
+    item = ET.SubElement(root, "produto")
+    item.set("id", str(i))
+    
+    nome = ET.SubElement(item, "nome")
+    nome.text = prod["nome"]
+    
+    preco = ET.SubElement(item, "preco")
+    preco.text = str(prod["preco"])
+    preco.set("moeda", "BRL")
+    
+    estoque = ET.SubElement(item, "estoque")
+    estoque.text = str(prod["estoque"])
+
+# Salvar
+tree = ET.ElementTree(root)
+tree.write("catalogo.xml", encoding="utf-8", xml_declaration=True)
+
+# Ler e exibir
+tree_lida = ET.parse("catalogo.xml")
+root_lido = tree_lida.getroot()
+
+print("=== Catálogo de Produtos ===")
+for produto in root_lido.findall("produto"):
+    nome = produto.find("nome").text
+    preco = produto.find("preco").text
+    estoque = produto.find("estoque").text
+    print(f"{nome}: R$ {preco} (Estoque: {estoque})")
+```
+
+## Dicas importantes
+
+### 1. Verificar se o arquivo existe
+```python
+import os
+import xml.etree.ElementTree as ET
+
+if os.path.exists("dados.xml"):
+    tree = ET.parse("dados.xml")
+else:
+    print("Arquivo não encontrado")
+```
+
+### 2. Tratar erros de parse
+```python
+import xml.etree.ElementTree as ET
+
+try:
+    tree = ET.parse("dados.xml")
+except ET.ParseError as e:
+    print(f"Erro ao ler XML: {e}")
+except FileNotFoundError:
+    print("Arquivo não encontrado")
+```
+
+### 3. Modificar elementos existentes
+```python
+import xml.etree.ElementTree as ET
+
+tree = ET.parse("pessoas.xml")
+root = tree.getroot()
+
+# Modificar idade da primeira pessoa
+primeira_pessoa = root.find("pessoa")
+idade = primeira_pessoa.find("idade")
+idade.text = "29"  # Atualizar idade
+
+# Adicionar novo campo
+email = ET.SubElement(primeira_pessoa, "email")
+email.text = "ana@exemplo.com"
+
+tree.write("pessoas_atualizado.xml", encoding="utf-8", xml_declaration=True)
+```
+
+## Erros comuns e como evitá-los
+
+### ❌ Erro: Esquecer de importar o módulo
+```python
+# Erro
+tree = ET.parse("arquivo.xml")  # NameError: name 'ET' is not defined
+
+# Correto
+import xml.etree.ElementTree as ET
+tree = ET.parse("arquivo.xml")
+```
+
+### ❌ Erro: Usar find() quando quer findall()
+```python
+# Erro: Retorna apenas o primeiro elemento
+root.find("livro")  # Retorna só um
+
+# Correto: Retorna todos
+root.findall("livro")  # Retorna lista
+```
+
+### ❌ Erro: Acessar texto de elemento vazio
+```python
+# Erro
+elemento.text  # Pode retornar None
+
+# Correto
+texto = elemento.text if elemento.text else ""
+```
+
+### ❌ Erro: Esquecer de fechar tags no XML
+```python
+# XML inválido
+xml_errado = "<pessoa><nome>João</pessoa>"  # Falta fechar <nome>
+
+# XML válido
+xml_certo = "<pessoa><nome>João</nome></pessoa>"
+```
+
+## Exercício prático
+
+Crie um programa que gerencia uma lista de tarefas em XML:
+
+```python
+import xml.etree.ElementTree as ET
+import os
+
+class GerenciadorTarefas:
+    def __init__(self, arquivo="tarefas.xml"):
+        self.arquivo = arquivo
+        if os.path.exists(arquivo):
+            self.tree = ET.parse(arquivo)
+            self.root = self.tree.getroot()
+        else:
+            self.root = ET.Element("tarefas")
+            self.tree = ET.ElementTree(self.root)
+    
+    def adicionar_tarefa(self, descricao, prioridade="media"):
+        tarefa = ET.SubElement(self.root, "tarefa")
+        tarefa.set("id", str(len(self.root.findall("tarefa")) + 1))
+        
+        desc = ET.SubElement(tarefa, "descricao")
+        desc.text = descricao
+        
+        prior = ET.SubElement(tarefa, "prioridade")
+        prior.text = prioridade
+        
+        status = ET.SubElement(tarefa, "status")
+        status.text = "pendente"
+        
+        self.tree.write(self.arquivo, encoding="utf-8", xml_declaration=True)
+        print(f"Tarefa adicionada: {descricao}")
+    
+    def listar_tarefas(self):
+        tarefas = self.root.findall("tarefa")
+        if not tarefas:
+            print("Nenhuma tarefa encontrada")
+            return
+        
+        print("\n=== Minhas Tarefas ===")
+        for tarefa in tarefas:
+            id_tarefa = tarefa.get("id")
+            descricao = tarefa.find("descricao").text
+            prioridade = tarefa.find("prioridade").text
+            status = tarefa.find("status").text
+            print(f"[{id_tarefa}] {descricao} - {prioridade} - {status}")
+
+# Usar o gerenciador
+gerenciador = GerenciadorTarefas()
+gerenciador.adicionar_tarefa("Estudar Python", "alta")
+gerenciador.adicionar_tarefa("Fazer compras", "baixa")
+gerenciador.adicionar_tarefa("Ler livro", "media")
+gerenciador.listar_tarefas()
+```
+
+## Resumo
+
+- **XML** é uma forma estruturada de armazenar dados
+- Use `xml.etree.ElementTree` para trabalhar com XML em Python
+- `parse()` lê arquivos, `fromstring()` lê strings
+- `find()` encontra o primeiro elemento, `findall()` encontra todos
+- Use `iter()` para percorrer todos os elementos
+- Crie XML com `Element()` e `SubElement()`
+- Sempre trate exceções ao trabalhar com arquivos
+
+XML é uma ferramenta poderosa e, com Python, fica muito fácil de usar!
+
+========================================
+TÓPICO: Iteradores
+ARQUIVO: iteradores.mdx
+========================================
+
+# O que são Iteradores em Python?
+
+Imagine que você tem uma caixa de bombons. Você quer comer um bombom de cada vez, sem precisar revirar a caixa inteira. Um **iterador** é exatamente isso: um "entregador" que te dá um elemento por vez de uma coleção.
+
+Em Python, iteradores são objetos que permitem percorrer elementos um a um, sem precisar acessar todos de uma vez. Eles são fundamentais para loops `for`, list comprehensions e muito mais.
+
+## O Protocolo do Iterador
+
+Para um objeto ser um iterador, ele precisa seguir um "contrato" com dois métodos especiais:
+
+1. **`__iter__()`** - Retorna o próprio iterador (ou um objeto iterador)
+2. **`__next__()`** - Retorna o próximo elemento da sequência
+
+Quando não há mais elementos, `__next__()` deve lançar a exceção `StopIteration`.
+
+## Diferença Crucial: Iterável vs Iterador
+
+Essa é a parte que mais confunde iniciantes. Vamos deixar claro:
+
+- **Iterável**: É qualquer objeto que pode ser percorrido (como listas, strings, dicionários). Ele tem o método `__iter__()`.
+- **Iterador**: É o objeto que realmente percorre os elementos. Ele tem `__iter__()` e `__next__()`.
+
+**Pense assim:** Um iterável é como uma biblioteca (tem muitos livros), e um iterador é como um bibliotecário que te entrega um livro por vez.
+
+```python
+# Exemplo prático
+lista = [1, 2, 3]  # Isso é um ITERÁVEL
+iterador = iter(lista)  # Isso é um ITERADOR
+
+print(type(lista))     # <class 'list'> - iterável
+print(type(iterador))  # <class 'list_iterator'> - iterador
+```
+
+## A Função `iter()` e `next()`
+
+Vamos ver como usar essas funções na prática:
+
+```python
+# Criando um iterador a partir de uma lista
+frutas = ["maçã", "banana", "uva"]
+iterador_frutas = iter(frutas)
+
+# Obtendo elementos um por um
+print(next(iterador_frutas))  # maçã
+print(next(iterador_frutas))  # banana
+print(next(iterador_frutas))  # uva
+# print(next(iterador_frutas))  # Isso causaria StopIteration!
+```
+
+## StopIteration: O Sinal de Fim
+
+Quando o iterador não tem mais elementos, ele levanta a exceção `StopIteration`. É assim que os loops sabem quando parar.
+
+```python
+# Tratando StopIteration
+letras = iter("ABC")
+
+try:
+    while True:
+        letra = next(letras)
+        print(f"Letra: {letra}")
+except StopIteration:
+    print("Acabaram as letras!")
+
+# Saída:
+# Letra: A
+# Letra: B
+# Letra: C
+# Acabaram as letras!
+```
+
+## Exemplos com Listas e Strings
+
+### Percorrendo uma lista manualmente
+
+```python
+numeros = [10, 20, 30, 40, 50]
+it = iter(numeros)
+
+print(next(it))  # 10
+print(next(it))  # 20
+print(next(it))  # 30
+```
+
+### Percorrendo uma string caractere por caractere
+
+```python
+palavra = "Python"
+it_palavra = iter(palavra)
+
+for i in range(len(palavra)):
+    print(f"Caractere {i+1}: {next(it_palavra)}")
+
+# Saída:
+# Caractere 1: P
+# Caractere 2: y
+# Caractere 3: t
+# Caractere 4: h
+# Caractere 5: o
+# Caractere 6: n
+```
+
+## Criando seu Próprio Iterador
+
+Você pode criar classes que se comportam como iteradores:
+
+```python
+class Contador:
+    def __init__(self, limite):
+        self.limite = limite
+        self.atual = 0
+    
+    def __iter__(self):
+        return self  # O próprio objeto é o iterador
+    
+    def __next__(self):
+        if self.atual < self.limite:
+            valor = self.atual
+            self.atual += 1
+            return valor
+        else:
+            raise StopIteration
+
+# Usando nosso iterador personalizado
+contador = Contador(5)
+for numero in contador:
+    print(numero)  # 0, 1, 2, 3, 4
+```
+
+## Como o `for` Funciona por Baixo dos Panos
+
+Quando você escreve `for item in lista:`, o Python faz isso:
+
+```python
+# O que acontece internamente
+iterador = iter(lista)  # Pega o iterador
+while True:
+    try:
+        item = next(iterador)  # Pega próximo elemento
+        # executa o bloco do for com 'item'
+    except StopIteration:
+        break  # Sai do loop quando acaba
+```
+
+## Erros Comuns e Dicas
+
+### ❌ Erro 1: Tentar reutilizar um iterador
+```python
+lista = [1, 2, 3]
+it = iter(lista)
+
+print(list(it))  # [1, 2, 3]
+print(list(it))  # [] - vazio! O iterador já se esgotou
+```
+
+### ❌ Erro 2: Confundir iterável com iterador
+```python
+lista = [1, 2, 3]
+# next(lista)  # ERRO! list não é iterador, é iterável
+# Correto:
+next(iter(lista))  # Funciona!
+```
+
+### ✅ Dica 1: Use `list()` para "materializar" um iterador
+```python
+# Se você precisa ver todos os elementos de um iterador
+meu_iter = iter(range(10))
+todos = list(meu_iter)
+print(todos)  # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+```
+
+### ✅ Dica 2: Iteradores economizam memória
+```python
+# range(1000000) não cria uma lista com 1 milhão de números
+# Ele cria um iterador que gera cada número sob demanda
+for i in range(1000000):
+    if i > 10:
+        break
+    print(i)
+```
+
+## Resumo Visual
+
+```
+ITERÁVEL (tem __iter__)
+    |
+    | iter()
+    v
+ITERADOR (tem __iter__ e __next__)
+    |
+    | next()
+    v
+ELEMENTOS (um por vez até StopIteration)
+```
+
+## Na Prática: Quando Usar Iteradores
+
+1. **Arquivos grandes**: Processar linha por linha sem carregar tudo na memória
+2. **Sequências infinitas**: Gerar números sob demanda
+3. **Pipelines de dados**: Processar dados em etapas
+4. **Economia de memória**: Quando você não precisa de todos os elementos de uma vez
+
+```python
+# Exemplo prático: lendo um arquivo grande
+with open("arquivo_grande.txt") as arquivo:
+    for linha in arquivo:  # arquivo já é um iterador!
+        processar(linha)   # Processa uma linha por vez
+```
+
+Lembre-se: **iteradores são como um canudo de refrigerante** - você só consegue sugar um gole de cada vez, e depois que acaba, não tem mais volta!
+
+========================================
+TÓPICO: Geradores
+ARQUIVO: geradores.mdx
+========================================
+
+# Geradores em Python: Um Guia Completo para Iniciantes
+
+Olá! Vamos aprender sobre geradores em Python - uma ferramenta poderosa que pode economizar muita memória e tornar seu código mais eficiente. Vamos começar do básico!
+
+## O que é um Gerador?
+
+Um **gerador** é uma função especial que produz uma sequência de valores, um de cada vez, sob demanda. Diferente de uma lista comum que armazena todos os valores na memória de uma vez, um gerador "pausa" sua execução e retorna um valor quando solicitado.
+
+### Problema que geradores resolvem
+
+Imagine que você precisa processar uma lista de 1 milhão de números. Criar uma lista com todos eles ocuparia muita memória:
+
+```python
+# Isso ocupa muita memória!
+numeros = [x for x in range(1_000_000)]
+```
+
+Com geradores, resolvemos isso de forma mais eficiente.
+
+## yield vs return
+
+A diferença fundamental está em como as funções retornam valores:
+
+- **`return`**: Encerra a função completamente e retorna um valor
+- **`yield`**: Pausa a função, retorna um valor, e permite continuar de onde parou depois
+
+```python
+# Função com return - retorna uma lista completa
+def numeros_com_return():
+    return [1, 2, 3, 4, 5]
+
+# Função geradora com yield - retorna um valor por vez
+def numeros_com_yield():
+    yield 1
+    yield 2
+    yield 3
+    yield 4
+    yield 5
+
+# Testando
+resultado_return = numeros_com_return()
+print(f"Return: {resultado_return}")  # [1, 2, 3, 4, 5]
+
+resultado_yield = numeros_com_yield()
+print(f"Yield: {resultado_yield}")    # <generator object numeros_com_yield at ...>
+```
+
+## Funções Geradoras
+
+Uma função geradora é criada usando `yield` em vez de `return`. Vamos ver exemplos práticos:
+
+### Exemplo 1: Contador personalizado
+
+```python
+def contador(maximo):
+    """Gera números de 0 até maximo-1"""
+    numero = 0
+    while numero < maximo:
+        yield numero
+        numero += 1
+
+# Usando o gerador
+cont = contador(5)
+for valor in cont:
+    print(valor)  # 0, 1, 2, 3, 4
+```
+
+### Exemplo 2: Fibonacci com gerador
+
+```python
+def fibonacci(limite):
+    """Gera números da sequência de Fibonacci até o limite"""
+    a, b = 0, 1
+    while a < limite:
+        yield a
+        a, b = b, a + b
+
+# Testando
+fib = fibonacci(100)
+for numero in fib:
+    print(numero)  # 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89
+```
+
+### Exemplo 3: Leitura de arquivo linha por linha
+
+```python
+def ler_linhas_arquivo(nome_arquivo):
+    """Lê um arquivo linha por linha sem carregar tudo na memória"""
+    with open(nome_arquivo, 'r', encoding='utf-8') as arquivo:
+        for linha in arquivo:
+            yield linha.strip()
+
+# Uso prático
+for linha in ler_linhas_arquivo('meu_arquivo.txt'):
+    print(f"Processando: {linha}")
+    # Processa cada linha sem carregar o arquivo inteiro
+```
+
+## Generator Expressions
+
+São como list comprehensions, mas criam geradores em vez de listas. A sintaxe é quase igual, mas usa parênteses `()` em vez de colchetes `[]`:
+
+```python
+# List comprehension - cria lista na memória
+lista_quadrados = [x**2 for x in range(10)]
+print(lista_quadrados)  # [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+
+# Generator expression - cria gerador
+gerador_quadrados = (x**2 for x in range(10))
+print(gerador_quadrados)  # <generator object <genexpr> at ...>
+
+# Para ver os valores, precisamos iterar
+for valor in gerador_quadrados:
+    print(valor)  # 0, 1, 4, 9, 16, 25, 36, 49, 64, 81
+```
+
+### Comparação prática de memória
+
+```python
+import sys
+
+# List comprehension
+lista_grande = [x for x in range(1000000)]
+print(f"Tamanho da lista: {sys.getsizeof(lista_grande)} bytes")
+# ~8 MB
+
+# Generator expression
+gerador_grande = (x for x in range(1000000))
+print(f"Tamanho do gerador: {sys.getsizeof(gerador_grande)} bytes")
+# ~112 bytes (muito menor!)
+```
+
+## Vantagens de Memória
+
+Os geradores são especialmente úteis quando:
+
+1. **Trabalha com grandes conjuntos de dados**
+2. **Precisa processar dados em streaming**
+3. **Não precisa de acesso aleatório aos elementos**
+4. **Quer economizar memória em aplicações com recursos limitados**
+
+### Exemplo prático: Processamento de logs
+
+```python
+# Sem gerador - carrega tudo na memória
+def processar_logs_sem_gerador(arquivo_log):
+    with open(arquivo_log, 'r') as f:
+        linhas = f.readlines()  # Carrega TUDO na memória
+    
+    erros = []
+    for linha in linhas:
+        if 'ERROR' in linha:
+            erros.append(linha)
+    return erros
+
+# Com gerador - processa linha por linha
+def filtrar_erros(arquivo_log):
+    """Gerador que filtra linhas com ERROR"""
+    with open(arquivo_log, 'r') as f:
+        for linha in f:
+            if 'ERROR' in linha:
+                yield linha
+
+# Uso
+for erro in filtrar_erros('logs_gigantes.txt'):
+    print(f"Erro encontrado: {erro}")
+    # Podemos parar de processar quando encontrarmos o que precisamos
+    if 'CRITICAL' in erro:
+        print("Erro crítico encontrado! Parando...")
+        break
+```
+
+## next() com Geradores
+
+O método `next()` permite obter valores manualmente de um gerador, um de cada vez:
+
+```python
+def contador_simples():
+    yield "Primeiro"
+    yield "Segundo"
+    yield "Terceiro"
+
+# Criando o gerador
+gen = contador_simples()
+
+# Obtendo valores manualmente com next()
+print(next(gen))  # Primeiro
+print(next(gen))  # Segundo
+print(next(gen))  # Terceiro
+
+# Quando não há mais valores, levanta StopIteration
+# print(next(gen))  # StopIteration!
+```
+
+### Tratando StopIteration
+
+```python
+def numeros_pares(limite):
+    for i in range(0, limite, 2):
+        yield i
+
+gen = numeros_pares(10)
+
+# Forma segura de usar next()
+while True:
+    try:
+        valor = next(gen)
+        print(f"Valor: {valor}")
+    except StopIteration:
+        print("Fim do gerador!")
+        break
+```
+
+### next() com valor padrão
+
+```python
+def vogais():
+    yield 'a'
+    yield 'e'
+    yield 'i'
+
+gen = vogais()
+print(next(gen, 'fim'))  # a
+print(next(gen, 'fim'))  # e
+print(next(gen, 'fim'))  # i
+print(next(gen, 'fim'))  # fim (valor padrão, sem erro!)
+```
+
+## Dicas Importantes
+
+### 1. Geradores são consumíveis
+
+```python
+numeros = (x for x in range(5))
+
+# Primeira iteração funciona
+for n in numeros:
+    print(n)  # 0, 1, 2, 3, 4
+
+# Segunda iteração não funciona - gerador já foi consumido
+for n in numeros:
+    print(n)  # Não imprime nada!
+```
+
+### 2. Convertendo gerador em lista
+
+```python
+# Quando precisar de uma lista, pode converter
+gen = (x**2 for x in range(5))
+lista = list(gen)
+print(lista)  # [0, 1, 4, 9, 16]
+```
+
+### 3. Geradores não suportam indexação
+
+```python
+gen = (x for x in range(5))
+# print(gen[0])  # Erro! 'generator' object is not subscriptable
+
+# Solução: converter para lista se precisar de indexação
+lista = list(gen)
+print(lista[0])  # 0
+```
+
+## Erros Comuns
+
+### Erro 1: Tentar reutilizar gerador
+
+```python
+# ERRADO
+gen = (x for x in [1, 2, 3])
+for item in gen:
+    print(item)  # Funciona
+for item in gen:
+    print(item)  # Não funciona! Gerador já consumido
+
+# CERTO
+def meu_gerador():
+    for x in [1, 2, 3]:
+        yield x
+
+gen = meu_gerador()
+for item in gen:
+    print(item)  # Funciona
+gen = meu_gerador()  # Cria novo gerador
+for item in gen:
+    print(item)  # Funciona de novo!
+```
+
+### Erro 2: Esquecer que next() levanta StopIteration
+
+```python
+# ERRADO
+gen = (x for x in [1, 2])
+print(next(gen))  # 1
+print(next(gen))  # 2
+print(next(gen))  # StopIteration!
+
+# CERTO
+gen = (x for x in [1, 2])
+try:
+    while True:
+        print(next(gen))
+except StopIteration:
+    print("Gerador finalizado!")
+```
+
+### Erro 3: Confundir generator expression com list comprehension
+
+```python
+# List comprehension - calcula tudo de uma vez
+soma_lista = sum([x**2 for x in range(1000000)])  # Gasta muita memória
+
+# Generator expression - calcula sob demanda
+soma_gen = sum(x**2 for x in range(1000000))  # Muito mais eficiente!
+```
+
+## Exemplo Prático Final
+
+Vamos criar um sistema simples de processamento de dados:
+
+```python
+def gerar_temperaturas_sensor():
+    """Simula leituras de temperatura de um sensor"""
+    import random
+    temperatura_atual = 25.0
+    
+    while True:
+        # Simula variação de temperatura
+        temperatura_atual += random.uniform(-2, 2)
+        yield round(temperatura_atual, 1)
+
+def filtrar_temperaturas_alerta(sensor, limite=30.0):
+    """Filtra temperaturas acima do limite"""
+    for temperatura in sensor:
+        if temperatura > limite:
+            yield temperatura
+
+def calcular_media_temperaturas(leituras, quantidade=10):
+    """Calcula média de N leituras"""
+    soma = 0
+    contador = 0
+    
+    for temperatura in leituras:
+        soma += temperatura
+        contador += 1
+        
+        if contador >= quantidade:
+            yield round(soma / quantidade, 2)
+            soma = 0
+            contador = 0
+
+# Usando tudo junto
+sensor = gerar_temperaturas_sensor()
+alertas = filtrar_temperaturas_alerta(sensor)
+medias = calcular_media_temperaturas(alertas, 5)
+
+print("Médias de temperaturas acima de 30°C (a cada 5 alertas):")
+for i, media in enumerate(medias, 1):
+    print(f"Média {i}: {media}°C")
+    if i >= 3:  # Para após 3 médias
+        break
+```
+
+## Conclusão
+
+Geradores são uma ferramenta poderosa em Python que permite:
+- Economizar memória significativamente
+- Processar dados em fluxo contínuo
+- Criar código mais elegante e eficiente
+- Trabalhar com conjuntos de dados que não caberiam na memória
+
+Comece usando geradores em situações simples e gradualmente incorpore-os em projetos maiores. Você vai notar a diferença na eficiência do seu código!
+
+Lembre-se: quando você precisar criar sequências de valores e não precisar de acesso aleatório, geradores são quase sempre a melhor escolha. 🐍✨
+
+========================================
+TÓPICO: Decoradores
+ARQUIVO: decoradores.mdx
+========================================
+
+# Decoradores em Python: Um Guia Completo para Iniciantes
+
+Olá, dev! Vamos desvendar um dos recursos mais elegantes e poderosos do Python: os **decoradores**. Pode parecer mágica no começo, mas prometo que ao final deste guia você estará criando seus próprios decoradores com confiança.
+
+## O que é um Decorador?
+
+Um **decorador** é uma função que modifica o comportamento de outra função sem alterar seu código-fonte. Pense nele como um "enfeite" que adiciona funcionalidades extras.
+
+Na prática, um decorador:
+- Recebe uma função como argumento
+- Cria uma nova função que "envolve" a original
+- Retorna essa nova função
+
+## Funções como Objetos
+
+Antes de entender decoradores, precisamos lembrar que em Python **funções são objetos de primeira classe**. Isso significa que podemos:
+
+```python
+def saudacao():
+    return "Olá, mundo!"
+
+# Atribuir função a uma variável
+minha_funcao = saudacao
+print(minha_funcao())  # Olá, mundo!
+
+# Passar função como argumento
+def executar(funcao):
+    return funcao()
+
+print(executar(saudacao))  # Olá, mundo!
+
+# Retornar função
+def criar_saudacao():
+    def saudacao_personalizada(nome):
+        return f"Olá, {nome}!"
+    return saudacao_personalizada
+
+minha_saudacao = criar_saudacao()
+print(minha_saudacao("Ana"))  # Olá, Ana!
+```
+
+## A Sintaxe @decorator
+
+A forma mais comum de usar decoradores é com o símbolo `@`:
+
+```python
+@meu_decorador
+def minha_funcao():
+    # código aqui
+    pass
+```
+
+Isso é equivalente a:
+
+```python
+def minha_funcao():
+    pass
+
+minha_funcao = meu_decorador(minha_funcao)
+```
+
+## Criando seu Primeiro Decorador
+
+Vamos criar um decorador simples que imprime mensagens antes e depois da função:
+
+```python
+def meu_decorador(func):
+    def wrapper():
+        print("Antes da função")
+        func()
+        print("Depois da função")
+    return wrapper
+
+@meu_decorador
+def dizer_oi():
+    print("Oi!")
+
+dizer_oi()
+# Saída:
+# Antes da função
+# Oi!
+# Depois da função
+```
+
+### Decorador para Funções com Argumentos
+
+Se sua função original recebe argumentos, o wrapper precisa aceitá-los:
+
+```python
+def decorador_com_argumentos(func):
+    def wrapper(*args, **kwargs):
+        print(f"Chamando função com argumentos: {args}, {kwargs}")
+        resultado = func(*args, **kwargs)
+        print(f"Resultado: {resultado}")
+        return resultado
+    return wrapper
+
+@decorador_com_argumentos
+def somar(a, b):
+    return a + b
+
+somar(3, 5)
+# Saída:
+# Chamando função com argumentos: (3, 5), {}
+# Resultado: 8
+```
+
+## Decoradores com Argumentos
+
+Às vezes queremos passar argumentos para o próprio decorador. Para isso, criamos uma função que retorna um decorador:
+
+```python
+def repetir(vezes):
+    def decorador(func):
+        def wrapper(*args, **kwargs):
+            for _ in range(vezes):
+                resultado = func(*args, **kwargs)
+            return resultado
+        return wrapper
+    return decorador
+
+@repetir(3)
+def dizer_ola():
+    print("Olá!")
+
+dizer_ola()
+# Olá!
+# Olá!
+# Olá!
+```
+
+## @functools.wraps
+
+Quando usamos decoradores, perdemos metadados importantes da função original (nome, docstring, etc.). O `functools.wraps` resolve isso:
+
+```python
+import functools
+
+def decorador_educado(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        print("Por favor,")
+        resultado = func(*args, **kwargs)
+        print("Obrigado!")
+        return resultado
+    return wrapper
+
+@decorador_educado
+def somar(a, b):
+    """Soma dois números"""
+    return a + b
+
+print(somar.__name__)  # somar (sem wraps seria 'wrapper')
+print(somar.__doc__)   # Soma dois números (sem wraps seria None)
+```
+
+**Sempre use @functools.wraps em seus decoradores!**
+
+## Exemplos Práticos
+
+### 1. Decorador Timer (Medir tempo de execução)
+
+```python
+import time
+import functools
+
+def timer(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        inicio = time.time()
+        resultado = func(*args, **kwargs)
+        fim = time.time()
+        print(f"{func.__name__} levou {fim - inicio:.4f} segundos")
+        return resultado
+    return wrapper
+
+@timer
+def calcular_soma(n):
+    soma = 0
+    for i in range(n):
+        soma += i
+    return soma
+
+resultado = calcular_soma(1000000)
+print(f"Resultado: {resultado}")
+# Exemplo de saída:
+# calcular_soma levou 0.0342 segundos
+# Resultado: 499999500000
+```
+
+### 2. Decorador de Log
+
+```python
+import functools
+from datetime import datetime
+
+def log(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        print(f"[{timestamp}] Executando {func.__name__}")
+        print(f"    Argumentos: args={args}, kwargs={kwargs}")
+        resultado = func(*args, **kwargs)
+        print(f"    Resultado: {resultado}")
+        return resultado
+    return wrapper
+
+@log
+def dividir(a, b):
+    return a / b
+
+dividir(10, 2)
+# Saída:
+# [2024-01-15 14:30:00] Executando dividir
+#     Argumentos: args=(10, 2), kwargs={}
+#     Resultado: 5.0
+```
+
+### 3. Decorador de Validação
+
+```python
+import functools
+
+def validar_positivo(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        for arg in args:
+            if isinstance(arg, (int, float)) and arg < 0:
+                raise ValueError(f"Argumento negativo não permitido: {arg}")
+        return func(*args, **kwargs)
+    return wrapper
+
+@validar_positivo
+def raiz_quadrada(n):
+    return n ** 0.5
+
+print(raiz_quadrada(9))  # 3.0
+# print(raiz_quadrada(-4))  # ValueError: Argumento negativo não permitido: -4
+```
+
+## Erros Comuns e Dicas
+
+### ❌ Erro: Esquecer de retornar o resultado da função original
+
+```python
+# ERRADO
+def decorador_errado(func):
+    def wrapper(*args, **kwargs):
+        func(*args, **kwargs)  # Não retorna o resultado!
+    return wrapper
+
+# CERTO
+def decorador_certo(func):
+    def wrapper(*args, **kwargs):
+        return func(*args, **kwargs)  # Retorna o resultado
+    return wrapper
+```
+
+### ❌ Erro: Esquecer @functools.wraps
+
+```python
+# ERRADO - perde metadados
+def decorador(func):
+    def wrapper(*args, **kwargs):
+        return func(*args, **kwargs)
+    return wrapper
+
+# CERTO - preserva metadados
+import functools
+
+def decorador(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        return func(*args, **kwargs)
+    return wrapper
+```
+
+### ❌ Erro: Confundir decoradores com argumentos
+
+```python
+# ERRADO - não é assim que se faz decorador com argumento
+@decorador(argumento)  # Isso chama decorador(argumento) antes de receber a função
+
+# CERTO - precisa de uma função extra
+def decorador(argumento):
+    def decorador_real(func):
+        def wrapper(*args, **kwargs):
+            # usa argumento aqui
+            return func(*args, **kwargs)
+        return wrapper
+    return decorador_real
+```
+
+### ✅ Dica: Use decoradores para separar responsabilidades
+
+```python
+# Em vez de misturar lógica de negócio com logging:
+def processar_dados(dados):
+    print(f"Processando dados: {dados}")  # misturado
+    # lógica real...
+    return dados * 2
+
+# Separe as responsabilidades:
+def log_processamento(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        print(f"Processando dados: {args}")
+        return func(*args, **kwargs)
+    return wrapper
+
+@log_processamento
+def processar_dados(dados):
+    # apenas lógica de negócio
+    return dados * 2
+```
+
+### ✅ Dica: Empilhe decoradores
+
+```python
+@timer
+@log
+def minha_funcao():
+    # código
+    pass
+
+# A ordem importa! Executa de baixo para cima:
+# 1. log envolve minha_funcao
+# 2. timer envolve o resultado
+```
+
+## Resumo
+
+- **Decoradores** são funções que modificam outras funções
+- Use `@functools.wraps` para preservar metadados
+- Lembre-se de retornar o resultado da função original
+- Decoradores com argumentos precisam de um nível extra de função
+- São ótimos para: timer, log, validação, autenticação, cache
+
+Pratique criando seus próprios decoradores! Comece com exemplos simples e vá aumentando a complexidade. Em pouco tempo você estará usando decoradores como um profissional.
+
+Bons estudos e mãos ao código! 🐍✨
+
+========================================
+TÓPICO: Glossário
+ARQUIVO: glossario.mdx
+========================================
+
+**Variável**  
+Um nome que armazena um valor na memória. Você pode pensar nela como uma caixinha que guarda dados para usar depois.  
+```python
+nome = "Maria"
+idade = 25
+```
+
+**String**  
+Tipo de dado para texto. Fica entre aspas simples ou duplas.  
+```python
+saudacao = "Olá, mundo!"
+```
+
+**Inteiro (int)**  
+Números inteiros, sem parte decimal.  
+```python
+ano = 2025
+```
+
+**Float**  
+Números com ponto flutuante (decimais).  
+```python
+altura = 1.75
+```
+
+**Boolean (bool)**  
+Valores lógicos: `True` ou `False`.  
+```python
+ativo = True
+```
+
+**Lista**  
+Coleção ordenada e mutável de elementos entre colchetes.  
+```python
+frutas = ["maçã", "banana", "laranja"]
+```
+
+**Tupla**  
+Coleção ordenada e imutável de elementos entre parênteses.  
+```python
+coordenadas = (10, 20)
+```
+
+**Dicionário**  
+Coleção de pares chave-valor entre chaves.  
+```python
+pessoa = {"nome": "João", "idade": 30}
+```
+
+**Set**  
+Coleção não ordenada e sem elementos duplicados.  
+```python
+numeros = {1, 2, 3, 3}  # vira {1, 2, 3}
+```
+
+**Função**  
+Bloco de código reutilizável que executa uma tarefa.  
+```python
+def saudacao():
+    print("Oi!")
+```
+
+**Parâmetro**  
+Variável que uma função recebe para trabalhar.  
+```python
+def soma(a, b):  # a e b são parâmetros
+    return a + b
+```
+
+**Argumento**  
+Valor que você passa para a função quando a chama.  
+```python
+soma(5, 3)  # 5 e 3 são argumentos
+```
+
+**Return**  
+Palavra-chave que devolve um valor da função.  
+```python
+def quadrado(x):
+    return x * x
+```
+
+**Loop**  
+Estrutura que repete um bloco de código.  
+```python
+for i in range(3):
+    print(i)
+```
+
+**Iteração**  
+Cada repetição dentro de um loop.  
+```python
+for letra in "abc":  # 3 iterações
+    print(letra)
+```
+
+**Condição (if/else)**  
+Estrutura que executa código baseado em uma condição verdadeira ou falsa.  
+```python
+if idade >= 18:
+    print("Maior de idade")
+else:
+    print("Menor de idade")
+```
+
+**Módulo**  
+Arquivo `.py` com funções e variáveis que você pode importar.  
+```python
+import math
+print(math.sqrt(16))
+```
+
+**Classe**  
+Modelo para criar objetos. Define atributos e métodos.  
+```python
+class Cachorro:
+    def __init__(self, nome):
+        self.nome = nome
+```
+
+**Objeto**  
+Instância de uma classe.  
+```python
+rex = Cachorro("Rex")
+```
+
+**Método**  
+Função definida dentro de uma classe.  
+```python
+class Cachorro:
+    def latir(self):
+        print("Au au!")
+```
+
+**Atributo**  
+Variável que pertence a um objeto.  
+```python
+rex.nome  # "Rex"
+```
+
+**Herança**  
+Uma classe pode herdar atributos e métodos de outra.  
+```python
+class Animal:
+    def som(self):
+        print("...")
+
+class Gato(Animal):  # herda de Animal
+    def som(self):
+        print("Miau")
+```
+
+**Exceção**  
+Erro que ocorre durante a execução. Pode ser tratado com try/except.  
+```python
+try:
+    numero = int("abc")
+except ValueError:
+    print("Erro: não é número!")
+```
+
+**Indentação**  
+Espaços no início da linha que definem blocos de código. Essencial em Python.  
+```python
+if True:
+    print("Indentado com 4 espaços")
+```
+
+**Comentário**  
+Texto ignorado pelo Python, usado para explicar o código.  
+```python
+# Isso é um comentário
+```
+
+**F-string**  
+Forma moderna de formatar strings com `f` antes das aspas.  
+```python
+nome = "Ana"
+print(f"Olá, {nome}!")
+```
+
+**Lambda**  
+Função anônima de uma linha.  
+```python
+dobro = lambda x: x * 2
+```
+
+**Gerador**  
+Função que produz uma sequência sob demanda com `yield`.  
+```python
+def contador(n):
+    for i in range(n):
+        yield i
+```
+
+**Decorador**  
+Função que modifica o comportamento de outra função.  
+```python
+def decorador(funcao):
+    def wrapper():
+        print("Antes")
+        funcao()
+        print("Depois")
+    return wrapper
+
+@decorador
+def ola():
+    print("Olá")
+```
+
+**Escopo**  
+Região onde uma variável é acessível (local ou global).  
+```python
+x = 10  # global
+
+def funcao():
+    y = 5  # local
+    print(x + y)  # acessa global e local
+```
+
+========================================
+TÓPICO: Erros Comuns
+ARQUIVO: erros-comuns.mdx
+========================================
+
+# Erros Mais Comuns em Python para Iniciantes
+
+Olá, futuro programador! Se você está começando em Python, provavelmente já viu algumas mensagens de erro misteriosas. Não se preocupe! Erros são parte natural do aprendizado. Vamos explorar os erros mais comuns e aprender como corrigi-los.
+
+## 1. SyntaxError
+
+**O que significa:** Erro de sintaxe. O Python não entendeu o que você escreveu porque a estrutura do código está incorreta.
+
+**Exemplo que causa o erro:**
+```python
+print("Olá"
+```
+
+**Como corrigir:**
+```python
+print("Olá")  # Faltou fechar o parêntese
+```
+
+**Dica para evitar:** Sempre verifique se abriu e fechou todos os parênteses, colchetes e chaves. Use um editor de código com realce de sintaxe.
+
+## 2. IndentationError
+
+**O que significa:** Erro de indentação. O Python é muito rigoroso com espaços no início das linhas.
+
+**Exemplo que causa o erro:**
+```python
+def saudacao():
+print("Olá")  # Faltou indentação
+```
+
+**Como corrigir:**
+```python
+def saudacao():
+    print("Olá")  # 4 espaços ou 1 tab
+```
+
+**Dica para evitar:** Configure seu editor para usar 4 espaços automaticamente. Nunca misture tabs com espaços.
+
+## 3. NameError
+
+**O que significa:** Erro de nome. Você tentou usar uma variável ou função que não existe.
+
+**Exemplo que causa o erro:**
+```python
+print(nome)  # variável 'nome' não foi definida
+```
+
+**Como corrigir:**
+```python
+nome = "Maria"
+print(nome)  # Agora funciona
+```
+
+**Dica para evitar:** Sempre defina variáveis antes de usá-las. Verifique se escreveu o nome corretamente.
+
+## 4. TypeError
+
+**O que significa:** Erro de tipo. Você tentou fazer uma operação com tipos incompatíveis.
+
+**Exemplo que causa o erro:**
+```python
+idade = 25
+print("Eu tenho " + idade + " anos")  # string + número
+```
+
+**Como corrigir:**
+```python
+idade = 25
+print("Eu tenho " + str(idade) + " anos")  # Converta para string
+# Ou use f-string:
+print(f"Eu tenho {idade} anos")
+```
+
+**Dica para evitar:** Use f-strings para concatenar diferentes tipos. Verifique os tipos com `type()`.
+
+## 5. ValueError
+
+**O que significa:** Erro de valor. Você passou um valor válido para uma função, mas ele não é apropriado.
+
+**Exemplo que causa o erro:**
+```python
+numero = int("abc")  # "abc" não é um número
+```
+
+**Como corrigir:**
+```python
+try:
+    numero = int("abc")
+except ValueError:
+    print("Não é um número válido")
+```
+
+**Dica para evitar:** Sempre valide entrada de usuário. Use try/except para capturar valores inválidos.
+
+## 6. IndexError
+
+**O que significa:** Erro de índice. Você tentou acessar uma posição que não existe em uma lista.
+
+**Exemplo que causa o erro:**
+```python
+lista = [1, 2, 3]
+print(lista[5])  # Só existem índices 0, 1 e 2
+```
+
+**Como corrigir:**
+```python
+lista = [1, 2, 3]
+if len(lista) > 5:
+    print(lista[5])
+else:
+    print("Índice fora do intervalo")
+```
+
+**Dica para evitar:** Sempre verifique o tamanho da lista com `len()` antes de acessar índices.
+
+## 7. KeyError
+
+**O que significa:** Erro de chave. Você tentou acessar uma chave que não existe em um dicionário.
+
+**Exemplo que causa o erro:**
+```python
+dados = {"nome": "João", "idade": 30}
+print(dados["cidade"])  # Chave "cidade" não existe
+```
+
+**Como corrigir:**
+```python
+dados = {"nome": "João", "idade": 30}
+print(dados.get("cidade", "Não informado"))  # Usando .get()
+```
+
+**Dica para evitar:** Use o método `.get()` para acessar dicionários com segurança.
+
+## 8. AttributeError
+
+**O que significa:** Erro de atributo. Você tentou usar um método ou propriedade que não existe no objeto.
+
+**Exemplo que causa o erro:**
+```python
+numero = 42
+numero.append(10)  # números não têm método append
+```
+
+**Como corrigir:**
+```python
+numero = 42
+# Para adicionar a uma lista:
+lista = [42]
+lista.append(10)
+```
+
+**Dica para evitar:** Consulte a documentação do tipo de dado que está usando. Use `dir()` para ver métodos disponíveis.
+
+## 9. ZeroDivisionError
+
+**O que significa:** Erro de divisão por zero. Matemática básica: não se divide por zero.
+
+**Exemplo que causa o erro:**
+```python
+resultado = 10 / 0
+```
+
+**Como corrigir:**
+```python
+divisor = 0
+if divisor != 0:
+    resultado = 10 / divisor
+else:
+    print("Não é possível dividir por zero")
+```
+
+**Dica para evitar:** Sempre verifique se o divisor é diferente de zero antes de dividir.
+
+## 10. ImportError
+
+**O que significa:** Erro de importação. Você tentou importar um módulo que não existe.
+
+**Exemplo que causa o erro:**
+```python
+import modulo_inexistente
+```
+
+**Como corrigir:**
+```python
+# Verifique se o módulo está instalado
+# pip install nome_do_modulo
+import math  # Use módulos existentes
+```
+
+**Dica para evitar:** Instale módulos com `pip install`. Verifique se escreveu o nome corretamente.
+
+## 11. FileNotFoundError
+
+**O que significa:** Erro de arquivo não encontrado. Você tentou abrir um arquivo que não existe.
+
+**Exemplo que causa o erro:**
+```python
+arquivo = open("dados.txt", "r")
+```
+
+**Como corrigir:**
+```python
+import os
+
+if os.path.exists("dados.txt"):
+    arquivo = open("dados.txt", "r")
+else:
+    print("Arquivo não encontrado")
+```
+
+**Dica para evitar:** Use `os.path.exists()` para verificar se o arquivo existe. Sempre use `with open()` para gerenciar arquivos.
+
+## 12. RecursionError
+
+**O que significa:** Erro de recursão. Sua função está chamando ela mesma infinitamente.
+
+**Exemplo que causa o erro:**
+```python
+def recursao_infinita():
+    return recursao_infinita()  # Nunca para
+
+recursao_infinita()
+```
+
+**Como corrigir:**
+```python
+def contagem_regressiva(n):
+    if n <= 0:  # Caso base
+        print("Fim!")
+        return
+    print(n)
+    contagem_regressiva(n - 1)  # Passo recursivo
+
+contagem_regressiva(5)
+```
+
+**Dica para evitar:** Sempre defina um caso base para parar a recursão. Para loops simples, prefira `for` ou `while`.
+
+## 13. StopIteration
+
+**O que significa:** Erro de iteração parada. Ocorre quando um iterador não tem mais itens.
+
+**Exemplo que causa o erro:**
+```python
+iterador = iter([1, 2, 3])
+print(next(iterador))  # 1
+print(next(iterador))  # 2
+print(next(iterador))  # 3
+print(next(iterador))  # Erro! Não tem mais itens
+```
+
+**Como corrigir:**
+```python
+iterador = iter([1, 2, 3])
+while True:
+    try:
+        item = next(iterador)
+        print(item)
+    except StopIteration:
+        print("Fim da lista")
+        break
+```
+
+**Dica para evitar:** Use `for` loop em vez de `next()` manual. Se precisar usar `next()`, sempre trate a exceção.
+
+## Resumo e Dicas Finais
+
+1. **Leia a mensagem de erro** - Ela sempre indica onde e o que deu errado
+2. **Use try/except** para capturar erros previsíveis
+3. **Teste seu código** frequentemente em pequenas partes
+4. **Use um bom editor** com realce de sintaxe e autocompletar
+5. **Pratique!** Quanto mais erros você cometer, mais vai aprender
+
+Lembre-se: todo programador experiente já viu esses erros milhares de vezes. O importante é não desistir e aprender com cada um deles. Boa programação! 🐍

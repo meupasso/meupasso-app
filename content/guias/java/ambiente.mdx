@@ -1,0 +1,206 @@
+---
+titulo: "Ambiente de Programação"
+slug: "ambiente"
+ordem: 2
+---
+
+# Guia Completo: Configurando seu Ambiente Java do Zero
+
+Olá, futuro(a) programador(a) Java! 👋
+
+Vamos configurar tudo que você precisa para começar a programar em Java. Não se preocupe, vou te guiar passo a passo, como se estivéssemos sentados lado a lado.
+
+## O que é o JDK e por que precisamos dele?
+
+**JDK** = Java Development Kit (Kit de Desenvolvimento Java)
+
+Pense no JDK como uma **caixa de ferramentas completa** que contém:
+- **javac** (compilador) - transforma seu código em algo que o computador entende
+- **java** (executor) - roda seu programa
+- Bibliotecas prontas para usar
+- Outras ferramentas úteis
+
+**Importante:** Não confunda com JRE (só para rodar programas) - nós precisamos do JDK para **criar** programas!
+
+---
+
+## Instalação do JDK
+
+### 🪟 Windows
+
+1. **Baixe o JDK**
+   - Acesse: https://www.oracle.com/java/technologies/downloads/
+   - Clique em "Windows" e baixe o instalador `.exe` (64 bits)
+
+2. **Instale**
+   - Execute o arquivo baixado
+   - Clique em "Next" em todas as telas
+   - Anote o diretório de instalação (padrão: `C:\Program Files\Java\jdk-XX`)
+
+3. **Configure as variáveis de ambiente**
+   - Pressione `Win + R`, digite `sysdm.cpl` e Enter
+   - Aba "Avançado" → "Variáveis de Ambiente"
+   - Em "Variáveis do sistema", clique "Nova"
+   - Nome: `JAVA_HOME`
+   - Valor: caminho do JDK (ex: `C:\Program Files\Java\jdk-21`)
+   - Encontre a variável `Path`, clique "Editar"
+   - Adicione: `%JAVA_HOME%\bin`
+
+### 🍎 Mac
+
+**Opção 1: Instalador oficial**
+- Baixe o `.dmg` do site da Oracle
+- Execute e siga as instruções
+
+**Opção 2: Homebrew (mais fácil)**
+```bash
+brew install openjdk@21
+```
+
+### 🐧 Linux (Ubuntu/Debian)
+
+```bash
+sudo apt update
+sudo apt install openjdk-21-jdk
+```
+
+Para outras distribuições, use o gerenciador de pacotes correspondente.
+
+---
+
+## Verificando a Instalação
+
+Abra o **terminal** (ou "Prompt de Comando" no Windows) e digite:
+
+```bash
+java -version
+```
+
+Você deve ver algo como:
+```
+java version "21.0.1" 2023-10-17 LTS
+Java(TM) SE Runtime Environment (build 21.0.1+12-LTS-29)
+Java HotSpot(TM) 64-Bit Server VM (build 21.0.1+12-LTS-29, mixed mode, sharing)
+```
+
+Se aparecer "comando não encontrado", volte e verifique as variáveis de ambiente.
+
+> **💡 Dica:** O terminal é uma interface de texto onde você dá comandos ao computador. Pense nele como um "chat" com seu sistema operacional.
+
+---
+
+## Instalando o VS Code e a Extensão Java
+
+1. **Baixe o VS Code**
+   - Acesse: https://code.visualstudio.com/
+   - Escolha seu sistema operacional e instale
+
+2. **Instale a extensão Java**
+   - Abra o VS Code
+   - Clique no ícone de extensões (ou `Ctrl+Shift+X`)
+   - Pesquise: **Extension Pack for Java**
+   - Clique em "Instalar"
+
+Pronto! Agora o VS Code está preparado para Java.
+
+---
+
+## Seu Primeiro Programa Java
+
+### Criando o arquivo
+
+1. Crie uma pasta para seus projetos (ex: `C:\JavaProjects` ou `~/JavaProjects`)
+2. Abra o VS Code e vá em File → Open Folder → selecione sua pasta
+3. Crie um novo arquivo: `MeuPrimeiroPrograma.java`
+   - **Importante:** O nome do arquivo deve ser **exatamente igual** ao nome da classe!
+
+### Estrutura mínima de um programa Java
+
+```java
+public class MeuPrimeiroPrograma {
+    public static void main(String[] args) {
+        System.out.println("Olá, mundo! Eu programo em Java!");
+    }
+}
+```
+
+**Explicação linha a linha:**
+- `public class MeuPrimeiroPrograma` - Declara a classe (todo programa Java tem pelo menos uma)
+- `public static void main(String[] args)` - Método principal, onde o programa começa
+- `System.out.println(...)` - Imprime uma mensagem na tela
+
+---
+
+## Compilando e Executando
+
+### Pelo terminal (método tradicional)
+
+1. Abra o terminal na pasta do seu arquivo
+2. **Compile** (transforme código em bytecode):
+   ```bash
+   javac MeuPrimeiroPrograma.java
+   ```
+   Isso cria o arquivo `MeuPrimeiroPrograma.class`
+
+3. **Execute** (rode o programa):
+   ```bash
+   java MeuPrimeiroPrograma
+   ```
+   **Sem o `.class`** no final!
+
+### Pelo VS Code (mais fácil)
+
+Apenas clique no botão ▶️ (play) que aparece no canto superior direito. O VS Code faz todo o trabalho para você.
+
+---
+
+## Erros Comuns (e como resolver)
+
+### ❌ "javac não é reconhecido"
+**Causa:** Variável `Path` não configurada corretamente
+**Solução:** Verifique se `%JAVA_HOME%\bin` está no `Path`
+
+### ❌ "Erro: classe não encontrada"
+**Causa:** Você executou `java MeuPrimeiroPrograma.class` (com `.class`)
+**Solução:** Use apenas `java MeuPrimeiroPrograma`
+
+### ❌ "class MeuPrimeiroPrograma é pública, deve ser declarada em arquivo..."
+**Causa:** Nome do arquivo diferente do nome da classe
+**Solução:** Renomeie o arquivo ou a classe para que sejam iguais
+
+### ❌ Erro de digitação no código
+**Causa:** Esqueceu um ponto e vírgula `;` ou uma chave `}`
+**Solução:** O VS Code mostra um "x" vermelho na linha com erro
+
+---
+
+## Resumo Rápido
+
+| Comando | O que faz |
+|---------|-----------|
+| `javac Arquivo.java` | Compila (cria `.class`) |
+| `java Arquivo` | Executa (sem extensão) |
+| `java -version` | Mostra versão do Java |
+
+**Checklist final:**
+- [ ] JDK instalado
+- [ ] `java -version` funciona
+- [ ] VS Code instalado
+- [ ] Extension Pack for Java instalado
+- [ ] Primeiro programa compila e executa
+
+---
+
+## Parabéns! 🎉
+
+Você acabou de configurar seu ambiente Java e executou seu primeiro programa! Agora você pode:
+
+- Praticar com mais exemplos
+- Explorar os tutoriais do VS Code
+- Começar a aprender lógica de programação
+
+Lembre-se: todo programador já passou por essa fase. Se algo der errado, respire fundo, releia o guia e tente novamente. A prática leva à perfeição!
+
+**Próximos passos:** Aprenda sobre variáveis, tipos de dados e entrada do usuário com `Scanner`.
+
+Bons estudos e bem-vindo ao mundo Java! ☕🚀

@@ -1,0 +1,280 @@
+---
+titulo: "Erros Comuns"
+slug: "erros-comuns"
+ordem: 30
+---
+
+# Erros Mais Comuns em Python para Iniciantes
+
+Olá, futuro programador! Se você está começando em Python, provavelmente já viu algumas mensagens de erro misteriosas. Não se preocupe! Erros são parte natural do aprendizado. Vamos explorar os erros mais comuns e aprender como corrigi-los.
+
+## 1. SyntaxError
+
+**O que significa:** Erro de sintaxe. O Python não entendeu o que você escreveu porque a estrutura do código está incorreta.
+
+**Exemplo que causa o erro:**
+```python
+print("Olá"
+```
+
+**Como corrigir:**
+```python
+print("Olá")  # Faltou fechar o parêntese
+```
+
+**Dica para evitar:** Sempre verifique se abriu e fechou todos os parênteses, colchetes e chaves. Use um editor de código com realce de sintaxe.
+
+## 2. IndentationError
+
+**O que significa:** Erro de indentação. O Python é muito rigoroso com espaços no início das linhas.
+
+**Exemplo que causa o erro:**
+```python
+def saudacao():
+print("Olá")  # Faltou indentação
+```
+
+**Como corrigir:**
+```python
+def saudacao():
+    print("Olá")  # 4 espaços ou 1 tab
+```
+
+**Dica para evitar:** Configure seu editor para usar 4 espaços automaticamente. Nunca misture tabs com espaços.
+
+## 3. NameError
+
+**O que significa:** Erro de nome. Você tentou usar uma variável ou função que não existe.
+
+**Exemplo que causa o erro:**
+```python
+print(nome)  # variável 'nome' não foi definida
+```
+
+**Como corrigir:**
+```python
+nome = "Maria"
+print(nome)  # Agora funciona
+```
+
+**Dica para evitar:** Sempre defina variáveis antes de usá-las. Verifique se escreveu o nome corretamente.
+
+## 4. TypeError
+
+**O que significa:** Erro de tipo. Você tentou fazer uma operação com tipos incompatíveis.
+
+**Exemplo que causa o erro:**
+```python
+idade = 25
+print("Eu tenho " + idade + " anos")  # string + número
+```
+
+**Como corrigir:**
+```python
+idade = 25
+print("Eu tenho " + str(idade) + " anos")  # Converta para string
+# Ou use f-string:
+print(f"Eu tenho {idade} anos")
+```
+
+**Dica para evitar:** Use f-strings para concatenar diferentes tipos. Verifique os tipos com `type()`.
+
+## 5. ValueError
+
+**O que significa:** Erro de valor. Você passou um valor válido para uma função, mas ele não é apropriado.
+
+**Exemplo que causa o erro:**
+```python
+numero = int("abc")  # "abc" não é um número
+```
+
+**Como corrigir:**
+```python
+try:
+    numero = int("abc")
+except ValueError:
+    print("Não é um número válido")
+```
+
+**Dica para evitar:** Sempre valide entrada de usuário. Use try/except para capturar valores inválidos.
+
+## 6. IndexError
+
+**O que significa:** Erro de índice. Você tentou acessar uma posição que não existe em uma lista.
+
+**Exemplo que causa o erro:**
+```python
+lista = [1, 2, 3]
+print(lista[5])  # Só existem índices 0, 1 e 2
+```
+
+**Como corrigir:**
+```python
+lista = [1, 2, 3]
+if len(lista) > 5:
+    print(lista[5])
+else:
+    print("Índice fora do intervalo")
+```
+
+**Dica para evitar:** Sempre verifique o tamanho da lista com `len()` antes de acessar índices.
+
+## 7. KeyError
+
+**O que significa:** Erro de chave. Você tentou acessar uma chave que não existe em um dicionário.
+
+**Exemplo que causa o erro:**
+```python
+dados = {"nome": "João", "idade": 30}
+print(dados["cidade"])  # Chave "cidade" não existe
+```
+
+**Como corrigir:**
+```python
+dados = {"nome": "João", "idade": 30}
+print(dados.get("cidade", "Não informado"))  # Usando .get()
+```
+
+**Dica para evitar:** Use o método `.get()` para acessar dicionários com segurança.
+
+## 8. AttributeError
+
+**O que significa:** Erro de atributo. Você tentou usar um método ou propriedade que não existe no objeto.
+
+**Exemplo que causa o erro:**
+```python
+numero = 42
+numero.append(10)  # números não têm método append
+```
+
+**Como corrigir:**
+```python
+numero = 42
+# Para adicionar a uma lista:
+lista = [42]
+lista.append(10)
+```
+
+**Dica para evitar:** Consulte a documentação do tipo de dado que está usando. Use `dir()` para ver métodos disponíveis.
+
+## 9. ZeroDivisionError
+
+**O que significa:** Erro de divisão por zero. Matemática básica: não se divide por zero.
+
+**Exemplo que causa o erro:**
+```python
+resultado = 10 / 0
+```
+
+**Como corrigir:**
+```python
+divisor = 0
+if divisor != 0:
+    resultado = 10 / divisor
+else:
+    print("Não é possível dividir por zero")
+```
+
+**Dica para evitar:** Sempre verifique se o divisor é diferente de zero antes de dividir.
+
+## 10. ImportError
+
+**O que significa:** Erro de importação. Você tentou importar um módulo que não existe.
+
+**Exemplo que causa o erro:**
+```python
+import modulo_inexistente
+```
+
+**Como corrigir:**
+```python
+# Verifique se o módulo está instalado
+# pip install nome_do_modulo
+import math  # Use módulos existentes
+```
+
+**Dica para evitar:** Instale módulos com `pip install`. Verifique se escreveu o nome corretamente.
+
+## 11. FileNotFoundError
+
+**O que significa:** Erro de arquivo não encontrado. Você tentou abrir um arquivo que não existe.
+
+**Exemplo que causa o erro:**
+```python
+arquivo = open("dados.txt", "r")
+```
+
+**Como corrigir:**
+```python
+import os
+
+if os.path.exists("dados.txt"):
+    arquivo = open("dados.txt", "r")
+else:
+    print("Arquivo não encontrado")
+```
+
+**Dica para evitar:** Use `os.path.exists()` para verificar se o arquivo existe. Sempre use `with open()` para gerenciar arquivos.
+
+## 12. RecursionError
+
+**O que significa:** Erro de recursão. Sua função está chamando ela mesma infinitamente.
+
+**Exemplo que causa o erro:**
+```python
+def recursao_infinita():
+    return recursao_infinita()  # Nunca para
+
+recursao_infinita()
+```
+
+**Como corrigir:**
+```python
+def contagem_regressiva(n):
+    if n <= 0:  # Caso base
+        print("Fim!")
+        return
+    print(n)
+    contagem_regressiva(n - 1)  # Passo recursivo
+
+contagem_regressiva(5)
+```
+
+**Dica para evitar:** Sempre defina um caso base para parar a recursão. Para loops simples, prefira `for` ou `while`.
+
+## 13. StopIteration
+
+**O que significa:** Erro de iteração parada. Ocorre quando um iterador não tem mais itens.
+
+**Exemplo que causa o erro:**
+```python
+iterador = iter([1, 2, 3])
+print(next(iterador))  # 1
+print(next(iterador))  # 2
+print(next(iterador))  # 3
+print(next(iterador))  # Erro! Não tem mais itens
+```
+
+**Como corrigir:**
+```python
+iterador = iter([1, 2, 3])
+while True:
+    try:
+        item = next(iterador)
+        print(item)
+    except StopIteration:
+        print("Fim da lista")
+        break
+```
+
+**Dica para evitar:** Use `for` loop em vez de `next()` manual. Se precisar usar `next()`, sempre trate a exceção.
+
+## Resumo e Dicas Finais
+
+1. **Leia a mensagem de erro** - Ela sempre indica onde e o que deu errado
+2. **Use try/except** para capturar erros previsíveis
+3. **Teste seu código** frequentemente em pequenas partes
+4. **Use um bom editor** com realce de sintaxe e autocompletar
+5. **Pratique!** Quanto mais erros você cometer, mais vai aprender
+
+Lembre-se: todo programador experiente já viu esses erros milhares de vezes. O importante é não desistir e aprender com cada um deles. Boa programação! 🐍

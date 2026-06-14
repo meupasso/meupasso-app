@@ -1,0 +1,379 @@
+---
+titulo: "Geradores"
+slug: "geradores"
+ordem: 27
+---# Geradores em Python: Um Guia Completo para Iniciantes
+
+Olá! Vamos aprender sobre geradores em Python - uma ferramenta poderosa que pode economizar muita memória e tornar seu código mais eficiente. Vamos começar do básico!
+
+## O que é um Gerador?
+
+Um **gerador** é uma função especial que produz uma sequência de valores, um de cada vez, sob demanda. Diferente de uma lista comum que armazena todos os valores na memória de uma vez, um gerador "pausa" sua execução e retorna um valor quando solicitado.
+
+### Problema que geradores resolvem
+
+Imagine que você precisa processar uma lista de 1 milhão de números. Criar uma lista com todos eles ocuparia muita memória:
+
+```python
+# Isso ocupa muita memória!
+numeros = [x for x in range(1_000_000)]
+```
+
+Com geradores, resolvemos isso de forma mais eficiente.
+
+## yield vs return
+
+A diferença fundamental está em como as funções retornam valores:
+
+- **`return`**: Encerra a função completamente e retorna um valor
+- **`yield`**: Pausa a função, retorna um valor, e permite continuar de onde parou depois
+
+```python
+# Função com return - retorna uma lista completa
+def numeros_com_return():
+    return [1, 2, 3, 4, 5]
+
+# Função geradora com yield - retorna um valor por vez
+def numeros_com_yield():
+    yield 1
+    yield 2
+    yield 3
+    yield 4
+    yield 5
+
+# Testando
+resultado_return = numeros_com_return()
+print(f"Return: {resultado_return}")  # [1, 2, 3, 4, 5]
+
+resultado_yield = numeros_com_yield()
+print(f"Yield: {resultado_yield}")    # <generator object numeros_com_yield at ...>
+```
+
+## Funções Geradoras
+
+Uma função geradora é criada usando `yield` em vez de `return`. Vamos ver exemplos práticos:
+
+### Exemplo 1: Contador personalizado
+
+```python
+def contador(maximo):
+    """Gera números de 0 até maximo-1"""
+    numero = 0
+    while numero < maximo:
+        yield numero
+        numero += 1
+
+# Usando o gerador
+cont = contador(5)
+for valor in cont:
+    print(valor)  # 0, 1, 2, 3, 4
+```
+
+### Exemplo 2: Fibonacci com gerador
+
+```python
+def fibonacci(limite):
+    """Gera números da sequência de Fibonacci até o limite"""
+    a, b = 0, 1
+    while a < limite:
+        yield a
+        a, b = b, a + b
+
+# Testando
+fib = fibonacci(100)
+for numero in fib:
+    print(numero)  # 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89
+```
+
+### Exemplo 3: Leitura de arquivo linha por linha
+
+```python
+def ler_linhas_arquivo(nome_arquivo):
+    """Lê um arquivo linha por linha sem carregar tudo na memória"""
+    with open(nome_arquivo, 'r', encoding='utf-8') as arquivo:
+        for linha in arquivo:
+            yield linha.strip()
+
+# Uso prático
+for linha in ler_linhas_arquivo('meu_arquivo.txt'):
+    print(f"Processando: {linha}")
+    # Processa cada linha sem carregar o arquivo inteiro
+```
+
+## Generator Expressions
+
+São como list comprehensions, mas criam geradores em vez de listas. A sintaxe é quase igual, mas usa parênteses `()` em vez de colchetes `[]`:
+
+```python
+# List comprehension - cria lista na memória
+lista_quadrados = [x**2 for x in range(10)]
+print(lista_quadrados)  # [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+
+# Generator expression - cria gerador
+gerador_quadrados = (x**2 for x in range(10))
+print(gerador_quadrados)  # <generator object <genexpr> at ...>
+
+# Para ver os valores, precisamos iterar
+for valor in gerador_quadrados:
+    print(valor)  # 0, 1, 4, 9, 16, 25, 36, 49, 64, 81
+```
+
+### Comparação prática de memória
+
+```python
+import sys
+
+# List comprehension
+lista_grande = [x for x in range(1000000)]
+print(f"Tamanho da lista: {sys.getsizeof(lista_grande)} bytes")
+# ~8 MB
+
+# Generator expression
+gerador_grande = (x for x in range(1000000))
+print(f"Tamanho do gerador: {sys.getsizeof(gerador_grande)} bytes")
+# ~112 bytes (muito menor!)
+```
+
+## Vantagens de Memória
+
+Os geradores são especialmente úteis quando:
+
+1. **Trabalha com grandes conjuntos de dados**
+2. **Precisa processar dados em streaming**
+3. **Não precisa de acesso aleatório aos elementos**
+4. **Quer economizar memória em aplicações com recursos limitados**
+
+### Exemplo prático: Processamento de logs
+
+```python
+# Sem gerador - carrega tudo na memória
+def processar_logs_sem_gerador(arquivo_log):
+    with open(arquivo_log, 'r') as f:
+        linhas = f.readlines()  # Carrega TUDO na memória
+    
+    erros = []
+    for linha in linhas:
+        if 'ERROR' in linha:
+            erros.append(linha)
+    return erros
+
+# Com gerador - processa linha por linha
+def filtrar_erros(arquivo_log):
+    """Gerador que filtra linhas com ERROR"""
+    with open(arquivo_log, 'r') as f:
+        for linha in f:
+            if 'ERROR' in linha:
+                yield linha
+
+# Uso
+for erro in filtrar_erros('logs_gigantes.txt'):
+    print(f"Erro encontrado: {erro}")
+    # Podemos parar de processar quando encontrarmos o que precisamos
+    if 'CRITICAL' in erro:
+        print("Erro crítico encontrado! Parando...")
+        break
+```
+
+## next() com Geradores
+
+O método `next()` permite obter valores manualmente de um gerador, um de cada vez:
+
+```python
+def contador_simples():
+    yield "Primeiro"
+    yield "Segundo"
+    yield "Terceiro"
+
+# Criando o gerador
+gen = contador_simples()
+
+# Obtendo valores manualmente com next()
+print(next(gen))  # Primeiro
+print(next(gen))  # Segundo
+print(next(gen))  # Terceiro
+
+# Quando não há mais valores, levanta StopIteration
+# print(next(gen))  # StopIteration!
+```
+
+### Tratando StopIteration
+
+```python
+def numeros_pares(limite):
+    for i in range(0, limite, 2):
+        yield i
+
+gen = numeros_pares(10)
+
+# Forma segura de usar next()
+while True:
+    try:
+        valor = next(gen)
+        print(f"Valor: {valor}")
+    except StopIteration:
+        print("Fim do gerador!")
+        break
+```
+
+### next() com valor padrão
+
+```python
+def vogais():
+    yield 'a'
+    yield 'e'
+    yield 'i'
+
+gen = vogais()
+print(next(gen, 'fim'))  # a
+print(next(gen, 'fim'))  # e
+print(next(gen, 'fim'))  # i
+print(next(gen, 'fim'))  # fim (valor padrão, sem erro!)
+```
+
+## Dicas Importantes
+
+### 1. Geradores são consumíveis
+
+```python
+numeros = (x for x in range(5))
+
+# Primeira iteração funciona
+for n in numeros:
+    print(n)  # 0, 1, 2, 3, 4
+
+# Segunda iteração não funciona - gerador já foi consumido
+for n in numeros:
+    print(n)  # Não imprime nada!
+```
+
+### 2. Convertendo gerador em lista
+
+```python
+# Quando precisar de uma lista, pode converter
+gen = (x**2 for x in range(5))
+lista = list(gen)
+print(lista)  # [0, 1, 4, 9, 16]
+```
+
+### 3. Geradores não suportam indexação
+
+```python
+gen = (x for x in range(5))
+# print(gen[0])  # Erro! 'generator' object is not subscriptable
+
+# Solução: converter para lista se precisar de indexação
+lista = list(gen)
+print(lista[0])  # 0
+```
+
+## Erros Comuns
+
+### Erro 1: Tentar reutilizar gerador
+
+```python
+# ERRADO
+gen = (x for x in [1, 2, 3])
+for item in gen:
+    print(item)  # Funciona
+for item in gen:
+    print(item)  # Não funciona! Gerador já consumido
+
+# CERTO
+def meu_gerador():
+    for x in [1, 2, 3]:
+        yield x
+
+gen = meu_gerador()
+for item in gen:
+    print(item)  # Funciona
+gen = meu_gerador()  # Cria novo gerador
+for item in gen:
+    print(item)  # Funciona de novo!
+```
+
+### Erro 2: Esquecer que next() levanta StopIteration
+
+```python
+# ERRADO
+gen = (x for x in [1, 2])
+print(next(gen))  # 1
+print(next(gen))  # 2
+print(next(gen))  # StopIteration!
+
+# CERTO
+gen = (x for x in [1, 2])
+try:
+    while True:
+        print(next(gen))
+except StopIteration:
+    print("Gerador finalizado!")
+```
+
+### Erro 3: Confundir generator expression com list comprehension
+
+```python
+# List comprehension - calcula tudo de uma vez
+soma_lista = sum([x**2 for x in range(1000000)])  # Gasta muita memória
+
+# Generator expression - calcula sob demanda
+soma_gen = sum(x**2 for x in range(1000000))  # Muito mais eficiente!
+```
+
+## Exemplo Prático Final
+
+Vamos criar um sistema simples de processamento de dados:
+
+```python
+def gerar_temperaturas_sensor():
+    """Simula leituras de temperatura de um sensor"""
+    import random
+    temperatura_atual = 25.0
+    
+    while True:
+        # Simula variação de temperatura
+        temperatura_atual += random.uniform(-2, 2)
+        yield round(temperatura_atual, 1)
+
+def filtrar_temperaturas_alerta(sensor, limite=30.0):
+    """Filtra temperaturas acima do limite"""
+    for temperatura in sensor:
+        if temperatura > limite:
+            yield temperatura
+
+def calcular_media_temperaturas(leituras, quantidade=10):
+    """Calcula média de N leituras"""
+    soma = 0
+    contador = 0
+    
+    for temperatura in leituras:
+        soma += temperatura
+        contador += 1
+        
+        if contador >= quantidade:
+            yield round(soma / quantidade, 2)
+            soma = 0
+            contador = 0
+
+# Usando tudo junto
+sensor = gerar_temperaturas_sensor()
+alertas = filtrar_temperaturas_alerta(sensor)
+medias = calcular_media_temperaturas(alertas, 5)
+
+print("Médias de temperaturas acima de 30°C (a cada 5 alertas):")
+for i, media in enumerate(medias, 1):
+    print(f"Média {i}: {media}°C")
+    if i >= 3:  # Para após 3 médias
+        break
+```
+
+## Conclusão
+
+Geradores são uma ferramenta poderosa em Python que permite:
+- Economizar memória significativamente
+- Processar dados em fluxo contínuo
+- Criar código mais elegante e eficiente
+- Trabalhar com conjuntos de dados que não caberiam na memória
+
+Comece usando geradores em situações simples e gradualmente incorpore-os em projetos maiores. Você vai notar a diferença na eficiência do seu código!
+
+Lembre-se: quando você precisar criar sequências de valores e não precisar de acesso aleatório, geradores são quase sempre a melhor escolha. 🐍✨

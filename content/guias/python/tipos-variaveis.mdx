@@ -1,0 +1,175 @@
+---
+titulo: "Tipos de Variáveis"
+slug: "tipos-variaveis"
+ordem: 4
+---
+
+## O que é uma variável?
+
+Uma variável é como uma **caixa com etiqueta** onde você guarda um valor. A etiqueta é o nome da variável, e o valor é o que está dentro da caixa.
+
+```python
+nome = "João"       # caixa 'nome' contém "João"
+idade = 25           # caixa 'idade' contém 25
+altura = 1.75        # caixa 'altura' contém 1.75
+```
+
+Quando você usa `=`, não é "igual" como na matemática. É **"recebe"** ou **"guarda o valor"**.
+
+## Criando variáveis em Python
+
+Em Python, você não precisa declarar o tipo da variável. Basta dar um nome e atribuir um valor:
+
+```python
+nome = "Maria"         # string (texto)
+idade = 30              # int (número inteiro)
+altura = 1.65           # float (número decimal)
+estudante = True        # bool (verdadeiro ou falso)
+```
+
+## Tipos de dados básicos
+
+### int — números inteiros
+
+```python
+idade = 25
+ano = 2026
+populacao = 8_000_000_000  # underscore para facilitar a leitura
+```
+
+### float — números decimais
+
+```python
+preco = 19.99
+pi = 3.14159
+temperatura = -5.5
+```
+
+### str — texto (strings)
+
+```python
+nome = "Ana"
+frase = 'Olá, mundo!'
+citacao = """Texto com
+várias linhas"""
+```
+
+Você pode usar aspas simples (`'`) ou duplas (`"`). O importante é manter consistência.
+
+### bool — verdadeiro ou falso
+
+```python
+aprovado = True
+reprovado = False
+```
+
+Usado principalmente em condições (ifs e loops).
+
+## Verificando o tipo — `type()`
+
+Se você não tem certeza do tipo de uma variável, use a função `type()`:
+
+```python
+nome = "João"
+idade = 25
+preco = 9.99
+ativo = True
+
+print(type(nome))   # <class 'str'>
+print(type(idade))  # <class 'int'>
+print(type(preco))  # <class 'float'>
+print(type(ativo))  # <class 'bool'>
+```
+
+## Conversão entre tipos
+
+Às vezes você precisa converter um tipo em outro:
+
+```python
+# string → int
+numero = int("10")      # 10 (agora é número)
+
+# string → float
+preco = float("9.99")   # 9.99
+
+# int → string
+texto = str(25)          # "25"
+
+# qualquer → bool
+print(bool(1))    # True
+print(bool(0))    # False
+print(bool(""))   # False
+print(bool("x"))  # True
+```
+
+Isso é essencial quando você usa `input()` — que sempre retorna string:
+
+```python
+idade = input("Quantos anos você tem? ")   # "25" (string)
+idade = int(idade)                          # 25 (int)
+print(f"Ano que vem você terá {idade + 1} anos")
+```
+
+## Nomes válidos para variáveis
+
+### ✅ Permitido
+
+```python
+nome = "João"
+nome_completo = "João Silva"
+nome2 = "João"
+_nome = "João"
+```
+
+### ❌ Não permitido
+
+```python
+2nome = "João"     # não pode começar com número
+nome completo = "" # não pode ter espaços
+class = "João"     # não pode ser palavra reservada
+print = "João"     # não pode sobrescrever funções do Python
+```
+
+> **Dica**: use `snake_case` para variáveis (letras minúsculas com underscores entre palavras). É o padrão da comunidade Python.
+
+## Erros comuns
+
+### NameError — variável não definida
+
+```python
+print(telefone)  # ❌ NameError: name 'telefone' is not defined
+```
+
+**Causa**: você tentou usar uma variável que não existe.
+**Solução**: defina a variável antes de usá-la.
+
+### TypeError — tipo não esperado
+
+```python
+idade = "25"
+print(idade + 1)  # ❌ TypeError: can only concatenate str (not "int") to str
+```
+
+**Causa**: você está tentando somar string com número.
+**Solução**: converta a string para int antes: `int(idade) + 1`.
+
+### Esquecer de converter input
+
+```python
+idade = input("Sua idade: ")
+print("Ano que vem você terá", idade + 1)  # ❌ TypeError
+```
+
+**Causa**: `input()` sempre retorna string.
+**Solução**: use `int(input(...))` para números.
+
+## Resumo
+
+| Tipo | Exemplo | Para que serve |
+|------|---------|----------------|
+| `int` | `idade = 25` | Números inteiros |
+| `float` | `preco = 9.99` | Números decimais |
+| `str` | `nome = "Ana"` | Texto |
+| `bool` | `ativo = True` | Verdadeiro/falso |
+
+Cada tipo tem funções específicas e saber identificá-los é o primeiro passo para programar sem erros.

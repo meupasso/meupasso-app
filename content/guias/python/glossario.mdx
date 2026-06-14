@@ -1,0 +1,251 @@
+---
+titulo: "Glossário"
+slug: "glossario"
+ordem: 29
+---
+
+**Variável**  
+Um nome que armazena um valor na memória. Você pode pensar nela como uma caixinha que guarda dados para usar depois.  
+```python
+nome = "Maria"
+idade = 25
+```
+
+**String**  
+Tipo de dado para texto. Fica entre aspas simples ou duplas.  
+```python
+saudacao = "Olá, mundo!"
+```
+
+**Inteiro (int)**  
+Números inteiros, sem parte decimal.  
+```python
+ano = 2025
+```
+
+**Float**  
+Números com ponto flutuante (decimais).  
+```python
+altura = 1.75
+```
+
+**Boolean (bool)**  
+Valores lógicos: `True` ou `False`.  
+```python
+ativo = True
+```
+
+**Lista**  
+Coleção ordenada e mutável de elementos entre colchetes.  
+```python
+frutas = ["maçã", "banana", "laranja"]
+```
+
+**Tupla**  
+Coleção ordenada e imutável de elementos entre parênteses.  
+```python
+coordenadas = (10, 20)
+```
+
+**Dicionário**  
+Coleção de pares chave-valor entre chaves.  
+```python
+pessoa = {"nome": "João", "idade": 30}
+```
+
+**Set**  
+Coleção não ordenada e sem elementos duplicados.  
+```python
+numeros = {1, 2, 3, 3}  # vira {1, 2, 3}
+```
+
+**Função**  
+Bloco de código reutilizável que executa uma tarefa.  
+```python
+def saudacao():
+    print("Oi!")
+```
+
+**Parâmetro**  
+Variável que uma função recebe para trabalhar.  
+```python
+def soma(a, b):  # a e b são parâmetros
+    return a + b
+```
+
+**Argumento**  
+Valor que você passa para a função quando a chama.  
+```python
+soma(5, 3)  # 5 e 3 são argumentos
+```
+
+**Return**  
+Palavra-chave que devolve um valor da função.  
+```python
+def quadrado(x):
+    return x * x
+```
+
+**Loop**  
+Estrutura que repete um bloco de código.  
+```python
+for i in range(3):
+    print(i)
+```
+
+**Iteração**  
+Cada repetição dentro de um loop.  
+```python
+for letra in "abc":  # 3 iterações
+    print(letra)
+```
+
+**Condição (if/else)**  
+Estrutura que executa código baseado em uma condição verdadeira ou falsa.  
+```python
+if idade >= 18:
+    print("Maior de idade")
+else:
+    print("Menor de idade")
+```
+
+**Módulo**  
+Arquivo `.py` com funções e variáveis que você pode importar.  
+```python
+import math
+print(math.sqrt(16))
+```
+
+**Classe**  
+Modelo para criar objetos. Define atributos e métodos.  
+```python
+class Cachorro:
+    def __init__(self, nome):
+        self.nome = nome
+```
+
+**Objeto**  
+Instância de uma classe.  
+```python
+rex = Cachorro("Rex")
+```
+
+**Método**
+
+**None**
+Valor especial que representa "nenhum valor" ou "vazio". Diferente de zero ou string vazia.
+```python
+resultado = None
+if resultado is None:
+    print("Sem resultado ainda")
+```
+
+**range()**
+Função que gera uma sequência de números. Muito usada com o for.
+```python
+for i in range(5):      # 0, 1, 2, 3, 4
+    print(i)
+for i in range(1, 6):   # 1, 2, 3, 4, 5
+    print(i)
+```
+
+**type()**
+Função que retorna o tipo de um dado.
+```python
+print(type(42))       # <class 'int'>
+print(type("texto"))  # <class 'str'>
+print(type(True))     # <class 'bool'>
+```
+  
+Função definida dentro de uma classe.  
+```python
+class Cachorro:
+    def latir(self):
+        print("Au au!")
+```
+
+**Atributo**  
+Variável que pertence a um objeto.  
+```python
+rex.nome  # "Rex"
+```
+
+**Herança**  
+Uma classe pode herdar atributos e métodos de outra.  
+```python
+class Animal:
+    def som(self):
+        print("...")
+
+class Gato(Animal):  # herda de Animal
+    def som(self):
+        print("Miau")
+```
+
+**Exceção**  
+Erro que ocorre durante a execução. Pode ser tratado com try/except.  
+```python
+try:
+    numero = int("abc")
+except ValueError:
+    print("Erro: não é número!")
+```
+
+**Indentação**  
+Espaços no início da linha que definem blocos de código. Essencial em Python.  
+```python
+if True:
+    print("Indentado com 4 espaços")
+```
+
+**Comentário**  
+Texto ignorado pelo Python, usado para explicar o código.  
+```python
+# Isso é um comentário
+```
+
+**F-string**  
+Forma moderna de formatar strings com `f` antes das aspas.  
+```python
+nome = "Ana"
+print(f"Olá, {nome}!")
+```
+
+**Lambda**  
+Função anônima de uma linha.  
+```python
+dobro = lambda x: x * 2
+```
+
+**Gerador**  
+Função que produz uma sequência sob demanda com `yield`.  
+```python
+def contador(n):
+    for i in range(n):
+        yield i
+```
+
+**Decorador**  
+Função que modifica o comportamento de outra função.  
+```python
+def decorador(funcao):
+    def wrapper():
+        print("Antes")
+        funcao()
+        print("Depois")
+    return wrapper
+
+@decorador
+def ola():
+    print("Olá")
+```
+
+**Escopo**  
+Região onde uma variável é acessível (local ou global).  
+```python
+x = 10  # global
+
+def funcao():
+    y = 5  # local
+    print(x + y)  # acessa global e local
+```

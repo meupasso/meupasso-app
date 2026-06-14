@@ -1,0 +1,311 @@
+---
+titulo: "Funções"
+slug: "funcoes"
+ordem: 13
+---
+
+Funções são como **receitas de bolo** no JavaScript: você escreve os passos uma vez e pode reutilizar quantas vezes quiser. Elas são essenciais para organizar código, evitar repetição e dar nomes significativos a blocos de lógica.
+
+Vamos aprender tudo desde o começo, sem mistério.
+
+## O que é uma função?
+
+Uma função é um bloco de código que executa uma tarefa específica. Você "chama" (invoca) a função sempre que precisar daquela tarefa.
+
+```javascript
+// Definindo uma função
+function saudacao() {
+  console.log("Olá, mundo!");
+}
+
+// Chamando (invocando) a função
+saudacao(); // "Olá, mundo!"
+```
+
+---
+
+## Function Declaration (Declaração de Função)
+
+É a forma mais comum e tradicional. Você usa a palavra-chave `function`, dá um nome, e define o corpo entre chaves `{}`.
+
+```javascript
+function somar(a, b) {
+  return a + b;
+}
+
+let resultado = somar(5, 3);
+console.log(resultado); // 8
+```
+
+**Característica importante:** function declarations sofrem **hoisting** (explico mais adiante). Você pode chamar a função antes de declará-la no código.
+
+```javascript
+console.log(somar(2, 2)); // 4 (funciona!)
+
+function somar(a, b) {
+  return a + b;
+}
+```
+
+---
+
+## Function Expression (Expressão de Função)
+
+Você atribui uma função a uma variável. A função pode ser anônima (sem nome) ou nomeada.
+
+```javascript
+// Função anônima
+const multiplicar = function(a, b) {
+  return a * b;
+};
+
+console.log(multiplicar(4, 5)); // 20
+```
+
+**Diferença crucial:** function expressions **não** sofrem hoisting. Você só pode chamá-las depois da declaração.
+
+```javascript
+console.log(dividir(10, 2)); // Erro! Cannot access 'dividir' before initialization
+
+const dividir = function(a, b) {
+  return a / b;
+};
+```
+
+---
+
+## Parâmetros e Argumentos
+
+- **Parâmetros:** são as variáveis listadas na definição da função (os "ingredientes" da receita).
+- **Argumentos:** são os valores reais que você passa ao chamar a função (os "ingredientes" que você coloca na prática).
+
+```javascript
+function cumprimentar(nome, idade) { // nome e idade são parâmetros
+  console.log(`Olá, ${nome}! Você tem ${idade} anos.`);
+}
+
+cumprimentar("Ana", 25); // "Ana" e 25 são argumentos
+```
+
+**Dica:** A ordem importa! O primeiro argumento vai para o primeiro parâmetro.
+
+---
+
+## Return (Retorno)
+
+A instrução `return` envia um valor de volta para quem chamou a função. Sem `return`, a função retorna `undefined`.
+
+```javascript
+function quadrado(numero) {
+  return numero * numero;
+}
+
+let valor = quadrado(5);
+console.log(valor); // 25
+
+// Função sem return
+function semRetorno() {
+  console.log("Isso aparece, mas não retorna nada");
+}
+
+let resultado = semRetorno();
+console.log(resultado); // undefined
+```
+
+**Erro comum:** Esquecer o `return` e achar que a função devolveu algo.
+
+```javascript
+function dobroErrado(x) {
+  x * 2; // Esqueceu o return!
+}
+
+console.log(dobroErrado(4)); // undefined
+```
+
+**Dica:** Após o `return`, a função para de executar. Código abaixo do `return` não roda.
+
+```javascript
+function teste() {
+  return "Antes";
+  console.log("Isso nunca aparece");
+}
+```
+
+---
+
+## Valores Padrão de Parâmetros
+
+Você pode definir valores que serão usados caso o argumento não seja passado (ou seja `undefined`).
+
+```javascript
+function saudacao(nome = "visitante") {
+  console.log(`Bem-vindo, ${nome}!`);
+}
+
+saudacao("João"); // "Bem-vindo, João!"
+saudacao();       // "Bem-vindo, visitante!"
+```
+
+**Dica:** Funciona com qualquer valor, não só strings.
+
+```javascript
+function somar(a = 0, b = 0) {
+  return a + b;
+}
+
+console.log(somar(5));    // 5 (b usa valor padrão 0)
+console.log(somar());     // 0 (ambos usam padrão)
+```
+
+---
+
+## Rest Parameters (...args)
+
+Quando você não sabe quantos argumentos serão passados, usa o operador `...` (rest). Ele agrupa todos os argumentos extras em um array.
+
+```javascript
+function listarFrutas(...frutas) {
+  console.log("Frutas:", frutas);
+}
+
+listarFrutas("maçã", "banana", "uva");
+// "Frutas: ['maçã', 'banana', 'uva']"
+```
+
+**Exemplo prático:** somar qualquer quantidade de números.
+
+```javascript
+function somarTudo(...numeros) {
+  let total = 0;
+  for (let num of numeros) {
+    total += num;
+  }
+  return total;
+}
+
+console.log(somarTudo(1, 2, 3, 4)); // 10
+console.log(somarTudo(10, 20));     // 30
+```
+
+**Regra:** O rest parameter deve ser sempre o último parâmetro.
+
+```javascript
+function misto(a, b, ...resto) {
+  console.log(a, b, resto);
+}
+
+misto(1, 2, 3, 4, 5); // 1 2 [3, 4, 5]
+```
+
+---
+
+## Escopo (Scope)
+
+Escopo define onde uma variável é acessível. Em funções, temos:
+
+- **Escopo global:** fora de qualquer função.
+- **Escopo local (de função):** dentro da função.
+
+```javascript
+let global = "Estou no escopo global";
+
+function exemplo() {
+  let local = "Estou no escopo local";
+  console.log(global); // Acessa a global
+  console.log(local);  // Acessa a local
+}
+
+exemplo();
+
+console.log(global); // OK
+console.log(local);  // Erro! local não está definida aqui
+```
+
+**Dica:** Variáveis criadas com `let` ou `const` dentro de funções não vazam para fora. Use isso para isolar código.
+
+**Erro comum:** Achar que variáveis de dentro da função existem fora.
+
+```javascript
+function criarVariavel() {
+  let segredo = "só dentro";
+}
+
+criarVariavel();
+console.log(segredo); // Erro!
+```
+
+---
+
+## Hoisting de Funções
+
+Hoisting é o comportamento do JavaScript de "elevar" declarações para o topo do escopo antes de executar o código.
+
+- **Function declarations:** são içadas por completo (nome e corpo).
+- **Function expressions:** apenas a declaração da variável é içada (com `var`), mas a atribuição da função não.
+
+```javascript
+// Function declaration - funciona
+console.log(soma(2, 3)); // 5
+
+function soma(a, b) {
+  return a + b;
+}
+
+// Function expression - NÃO funciona
+console.log(subtrai(5, 2)); // Erro!
+
+const subtrai = function(a, b) {
+  return a - b;
+};
+```
+
+**Dica:** Prefira function declarations se quiser chamar a função antes de defini-la. Use function expressions quando quiser mais controle (ex: passar função como argumento).
+
+---
+
+## Resumo Visual
+
+| Conceito | Sintaxe | Hoisting | Uso comum |
+|---|---|---|---|
+| Function Declaration | `function nome() {}` | Sim | Funções principais do código |
+| Function Expression | `const nome = function() {}` | Não | Callbacks, funções anônimas |
+| Arrow Function (bônus) | `const nome = () => {}` | Não | Código moderno e conciso |
+
+---
+
+## Erros Comuns (e como evitar)
+
+1. **Esquecer o return** → Sempre verifique se a função precisa devolver algo.
+2. **Chamar função antes de declarar (em expression)** → Use declaration ou mova a chamada.
+3. **Confundir parâmetros com argumentos** → Parâmetros = definição, argumentos = valores reais.
+4. **Tentar acessar variáveis locais fora do escopo** → Lembre-se: o que acontece na função, fica na função.
+5. **Passar argumentos na ordem errada** → Respeite a ordem dos parâmetros.
+
+---
+
+## Exercício Rápido
+
+Tente prever a saída deste código:
+
+```javascript
+function calculadora(a, b = 10, ...resto) {
+  let soma = a + b;
+  for (let num of resto) {
+    soma += num;
+  }
+  return soma;
+}
+
+console.log(calculadora(5));
+console.log(calculadora(2, 3));
+console.log(calculadora(1, 2, 3, 4, 5));
+```
+
+**Resposta:**
+- `calculadora(5)` → 5 + 10 = 15
+- `calculadora(2, 3)` → 2 + 3 = 5
+- `calculadora(1, 2, 3, 4, 5)` → 1 + 2 + 3 + 4 + 5 = 15
+
+---
+
+Agora você já sabe o essencial sobre funções em JavaScript. Pratique criando suas próprias funções, brinque com os parâmetros e veja como o escopo funciona na prática. Qualquer dúvida, revise os exemplos e tente modificar os valores. Bons estudos!

@@ -1,0 +1,354 @@
+---
+titulo: "While Loop"
+slug: "while-loop"
+ordem: 10
+---
+
+# While Loop em Java: O Guia Completo para Iniciantes
+
+Olá, futuro(a) programador(a)! Hoje vamos mergulhar no mundo dos loops em Java, especificamente no **while**. Se você já se perguntou como fazer um programa repetir algo até uma condição ser atendida, está no lugar certo!
+
+## O que é um Loop While?
+
+Imagine que você está esperando o ônibus. Você vai ficar parado no ponto **enquanto** o ônibus não chegar. Assim que ele chegar, você para de esperar. É exatamente assim que o `while` funciona!
+
+O `while` executa um bloco de código repetidamente **enquanto** uma condição for verdadeira.
+
+## Sintaxe do While
+
+```java
+while (condicao) {
+    // código que será repetido
+    // atualização da variável de controle
+}
+```
+
+**Exemplo básico:**
+
+```java
+int contador = 1;
+
+while (contador <= 5) {
+    System.out.println("Número: " + contador);
+    contador++; // ESSENCIAL! Atualiza a variável
+}
+
+// Resultado:
+// Número: 1
+// Número: 2
+// Número: 3
+// Número: 4
+// Número: 5
+```
+
+## O Loop Do-While: Executa pelo Menos Uma Vez
+
+O `do-while` é primo do `while`, mas com uma diferença crucial: **ele executa o bloco pelo menos uma vez**, mesmo que a condição seja falsa!
+
+```java
+do {
+    // código executado pelo menos uma vez
+} while (condicao);
+```
+
+**Exemplo prático:**
+
+```java
+int numero = 10;
+
+do {
+    System.out.println("Este número é: " + numero);
+    numero++;
+} while (numero <= 5);
+
+// Resultado: "Este número é: 10"
+// Executou uma vez mesmo com condição falsa!
+```
+
+Veja a diferença com o `while` normal:
+
+```java
+int numero = 10;
+
+while (numero <= 5) {
+    System.out.println("Este número é: " + numero);
+    numero++;
+}
+
+// NADA é impresso! O bloco nunca executa
+```
+
+## Diferença entre While e Do-While
+
+| Característica | While | Do-While |
+|----------------|-------|----------|
+| Verificação | Antes de executar | Depois de executar |
+| Execução mínima | Zero vezes | Pelo menos uma vez |
+| Uso típico | Quando não sabe se vai executar | Quando precisa executar ao menos uma vez |
+
+## Quando usar While vs For?
+
+**Use `while` quando:**
+- Você não sabe quantas vezes vai repetir
+- A repetição depende de uma condição que muda durante a execução
+- Está esperando uma entrada do usuário
+
+**Use `for` quando:**
+- Você sabe exatamente quantas vezes vai repetir
+- Está percorrendo um array ou coleção
+- Precisa de um contador simples
+
+**Exemplo: while é melhor para menus**
+
+```java
+int opcao = 0;
+
+while (opcao != 3) {
+    System.out.println("1 - Ver saldo");
+    System.out.println("2 - Depositar");
+    System.out.println("3 - Sair");
+    System.out.print("Escolha: ");
+    opcao = scanner.nextInt();
+}
+```
+
+**Exemplo: for é melhor para contagens fixas**
+
+```java
+// Mostrar números de 1 a 10 - for é mais adequado
+for (int i = 1; i <= 10; i++) {
+    System.out.println(i);
+}
+```
+
+## Break e Continue no While
+
+### Break: Para o loop imediatamente
+
+```java
+int numero = 1;
+
+while (numero <= 10) {
+    if (numero == 5) {
+        System.out.println("Encontrei o 5! Vou parar!");
+        break; // Sai do loop
+    }
+    System.out.println("Número: " + numero);
+    numero++;
+}
+
+// Resultado: 1, 2, 3, 4, "Encontrei o 5! Vou parar!"
+```
+
+### Continue: Pula para a próxima iteração
+
+```java
+int numero = 0;
+
+while (numero < 10) {
+    numero++;
+    
+    if (numero % 2 == 0) {
+        continue; // Pula números pares
+    }
+    
+    System.out.println("Ímpar: " + numero);
+}
+
+// Resultado: 1, 3, 5, 7, 9
+```
+
+## Exemplos Práticos
+
+### 1. Menu de Opções
+
+```java
+import java.util.Scanner;
+
+public class MenuBanco {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int opcao;
+        double saldo = 1000.0;
+        
+        do {
+            System.out.println("\n=== BANCO JAVA ===");
+            System.out.println("1 - Ver saldo");
+            System.out.println("2 - Depositar");
+            System.out.println("3 - Sacar");
+            System.out.println("0 - Sair");
+            System.out.print("Escolha: ");
+            opcao = scanner.nextInt();
+            
+            switch (opcao) {
+                case 1:
+                    System.out.printf("Saldo: R$ %.2f%n", saldo);
+                    break;
+                case 2:
+                    System.out.print("Valor do depósito: ");
+                    double deposito = scanner.nextDouble();
+                    saldo += deposito;
+                    System.out.println("Depósito realizado!");
+                    break;
+                case 3:
+                    System.out.print("Valor do saque: ");
+                    double saque = scanner.nextDouble();
+                    if (saque <= saldo) {
+                        saldo -= saque;
+                        System.out.println("Saque realizado!");
+                    } else {
+                        System.out.println("Saldo insuficiente!");
+                    }
+                    break;
+                case 0:
+                    System.out.println("Obrigado por usar nosso banco!");
+                    break;
+                default:
+                    System.out.println("Opção inválida!");
+            }
+        } while (opcao != 0);
+        
+        scanner.close();
+    }
+}
+```
+
+### 2. Jogo de Adivinhar Número
+
+```java
+import java.util.Random;
+import java.util.Scanner;
+
+public class AdivinheNumero {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
+        
+        int numeroSecreto = random.nextInt(100) + 1; // 1 a 100
+        int tentativa;
+        int tentativas = 0;
+        
+        System.out.println("Adivinhe o número entre 1 e 100!");
+        
+        do {
+            System.out.print("Seu palpite: ");
+            tentativa = scanner.nextInt();
+            tentativas++;
+            
+            if (tentativa < numeroSecreto) {
+                System.out.println("Muito baixo! Tente novamente.");
+            } else if (tentativa > numeroSecreto) {
+                System.out.println("Muito alto! Tente novamente.");
+            } else {
+                System.out.println("Parabéns! Você acertou em " + tentativas + " tentativas!");
+            }
+        } while (tentativa != numeroSecreto);
+        
+        scanner.close();
+    }
+}
+```
+
+### 3. Validar Entrada do Usuário
+
+```java
+import java.util.Scanner;
+
+public class ValidarEntrada {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int idade;
+        
+        // Garante que o usuário digite uma idade válida
+        do {
+            System.out.print("Digite sua idade (0-150): ");
+            while (!scanner.hasNextInt()) {
+                System.out.print("Inválido! Digite um número: ");
+                scanner.next(); // Limpa entrada inválida
+            }
+            idade = scanner.nextInt();
+            
+            if (idade < 0 || idade > 150) {
+                System.out.println("Idade inválida! Tente novamente.");
+            }
+        } while (idade < 0 || idade > 150);
+        
+        System.out.println("Idade válida: " + idade);
+        scanner.close();
+    }
+}
+```
+
+## Erros Comuns e Como Evitá-los
+
+### 🚫 Loop Infinito
+
+```java
+// ERRADO - Nunca vai parar!
+int x = 1;
+while (x <= 10) {
+    System.out.println("Infinito!");
+    // Esqueceu de incrementar x!
+}
+
+// CERTO
+int x = 1;
+while (x <= 10) {
+    System.out.println(x);
+    x++; // ESSENCIAL!
+}
+```
+
+### 🚫 Esquecer de Atualizar Variável
+
+```java
+// ERRADO - Loop infinito
+int contador = 1;
+while (contador <= 5) {
+    System.out.println("Java é legal!");
+    // Esqueceu: contador++;
+}
+
+// CERTO
+int contador = 1;
+while (contador <= 5) {
+    System.out.println("Java é legal!");
+    contador++;
+}
+```
+
+### 🚫 Condição Sempre Verdadeira
+
+```java
+// ERRADO
+int numero = 1;
+while (numero > 0) { // Nunca vai ser falso se só aumenta
+    System.out.println(numero);
+    numero++;
+}
+
+// CERTO - Use uma condição que eventualmente se torna falsa
+int numero = 1;
+while (numero <= 10) {
+    System.out.println(numero);
+    numero++;
+}
+```
+
+## Dicas Importantes
+
+1. **Sempre atualize a variável de controle** dentro do loop
+2. **Use `do-while`** quando precisar que o código execute pelo menos uma vez
+3. **Teste com valores extremos** para garantir que seu loop funciona
+4. **Use `break` com cuidado** - pode tornar o código difícil de entender
+5. **Prefira `for` para contagens simples** e `while` para condições mais complexas
+
+## Resumo
+
+- `while`: repete **enquanto** condição for verdadeira
+- `do-while`: executa **pelo menos uma vez**, depois repete enquanto condição for verdadeira
+- Use `break` para sair do loop
+- Use `continue` para pular para próxima iteração
+- **Nunca** esqueça de atualizar a variável de controle!
+
+Pratique bastante! Crie seus próprios programas com menus, jogos e validações. Quanto mais você usar, mais natural vai se tornar. Bons estudos! 🚀

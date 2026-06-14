@@ -1,0 +1,127 @@
+---
+titulo: "Sintaxe"
+slug: "sintaxe"
+ordem: 3
+---
+
+Sintaxe é o conjunto de regras que define como escrever código que o Python entenda. É como a gramática de um idioma: se você escrever fora das regras, o programa não roda.
+
+## Indentação — a regra mais importante
+
+Diferente da maioria das linguagens, Python **não usa chaves** `{}` para delimitar blocos de código. Em vez disso, usa **indentação** (espaços no começo da linha).
+
+```python
+# Certo — indentação consistente
+idade = 18
+if idade >= 18:
+    print("Maior de idade")
+    print("Pode entrar")
+```
+
+```python
+# Errado — indentação inconsistente
+idade = 18
+if idade >= 18:
+print("Isso vai dar erro!")
+```
+
+O padrão é usar **4 espaços** para cada nível de indentação. O VS Code faz isso automaticamente quando você aperta `Tab`.
+
+> **Dica**: misturar tab com espaços causa erro. Configure seu editor para converter Tab em espaços.
+
+### Por que a indentação é obrigatória?
+
+Ela força você a escrever código organizado. Se você já tentou encontrar uma chave perdida em JavaScript ou C, sabe como isso pode ser frustrante. Python simplesmente não permite esse tipo de bagunça.
+
+## Comentários
+
+Comentários são trechos de texto que o Python ignora. Servem para explicar o código para você e outras pessoas.
+
+```python
+# Comentário de uma linha — começa com #
+
+print("Isso aparece na tela")  # comentário no final da linha
+
+"""
+Comentário de várias linhas.
+Útil para explicar trechos maiores.
+Usa três aspas no início e no fim.
+"""
+```
+
+## Case sensitive — letras importam
+
+Python diferencia maiúsculas de minúsculas. `Nome`, `nome` e `NOME` são três coisas diferentes:
+
+```python
+nome = "João"
+print(nome)   # ✅ funciona — exibe "João"
+print(Nome)   # ❌ NameError — não existe "Nome"
+print(NOME)   # ❌ NameError — não existe "NOME"
+```
+
+## Execução linha por linha
+
+O Python lê seu arquivo de cima para baixo, executando uma linha de cada vez:
+
+```python
+# Linha 1
+print("Primeira linha")
+
+# Linha 2
+print("Segunda linha")
+
+# Linha 3
+nome = input("Digite seu nome: ")
+
+# Linha 4
+print(f"Olá, {nome}")
+```
+
+A ordem importa! Você não pode usar uma variável antes de criá-la.
+
+## Erros comuns
+
+### IndentationError
+
+```python
+if 5 > 2:
+    print("Dentro do if")
+  print("Indentação diferente")  # ❌ IndentationError
+```
+
+**Solução**: mantenha a indentação consistente (4 espaços por nível).
+
+### Esqueceu os dois pontos
+
+```python
+if 5 > 2   # ❌ SyntaxError — faltou os :
+    print("teste")
+```
+
+**Solução**: todo `if`, `for`, `while`, `def`, `class` termina com `:`.
+
+### NameError
+
+```python
+print(mensagem)  # ❌ NameError — 'mensagem' não foi definida
+mensagem = "Olá"
+```
+
+**Solução**: defina a variável antes de usá-la.
+
+### SyntaxError por esquecer aspas
+
+```python
+print(Olá)       # ❌ SyntaxError
+print("Olá")      # ✅
+```
+
+**Solução**: strings sempre entre aspas (`"` ou `'`).
+
+## Boas práticas desde o início
+
+- Use nomes descritivos para variáveis (`nome` em vez de `x`)
+- Mantenha a indentação consistente (sempre 4 espaços)
+- Escreva comentários para explicar o "porquê", não o "o quê"
+- Não tenha medo de errar — cada erro te ensina algo

@@ -1,0 +1,214 @@
+---
+titulo: "Módulos"
+slug: "modulos"
+ordem: 18
+---
+
+Módulos são arquivos Python que contêm funções, classes e variáveis que você pode **importar** e usar em outros programas. É assim que o Python se mantém organizado e poderoso sem ser gigante.
+
+## Importando um módulo
+
+```python
+import math
+
+print(math.sqrt(16))     # 4.0
+print(math.pi)           # 3.141592653589793
+print(math.ceil(4.2))    # 5
+```
+
+## Importando funções específicas
+
+Se você só precisa de algumas funções, importe direto:
+
+```python
+from math import sqrt, pi
+
+print(sqrt(25))  # 5.0
+print(pi)        # 3.141592653589793
+```
+
+Isso evita ter que escrever `math.` toda vez.
+
+## Alias — apelidos para módulos
+
+```python
+import math as m
+import datetime as dt
+
+print(m.sqrt(9))       # 3.0
+print(dt.date.today()) # 2026-06-05
+```
+
+> **Dica**: `import numpy as np` e `import pandas as pd` são exemplos clássicos que você vai ver muito por aí.
+
+## Módulos da biblioteca padrão
+
+Python vem com centenas de módulos prontos. Aqui os mais úteis para iniciantes:
+
+### `math` — matemática
+
+```python
+import math
+
+print(math.sqrt(25))      # 5.0
+print(math.floor(4.7))    # 4
+print(math.ceil(4.2))     # 5
+print(math.factorial(5))  # 120
+```
+
+### `random` — números aleatórios
+
+```python
+import random
+
+print(random.randint(1, 10))    # número inteiro entre 1 e 10
+print(random.random())           # número decimal entre 0 e 1
+print(random.choice(["Ana", "João", "Maria"]))  # escolhe um da lista
+```
+
+### `datetime` — datas e horas
+
+```python
+import datetime
+
+hoje = datetime.date.today()
+print(hoje)                    # 2026-06-05
+print(hoje.year)               # 2026
+print(hoje.month)              # 6
+print(hoje.day)                # 5
+
+agora = datetime.datetime.now()
+print(agora)                   # data e hora completas
+```
+
+### `os` — sistema operacional
+
+```python
+import os
+
+print(os.getcwd())         # diretório atual
+print(os.listdir("."))     # lista arquivos da pasta
+
+# os.system("clear")       # limpa o terminal
+```
+
+### `sys` — sistema Python
+
+```python
+import sys
+
+print(sys.version)         # versão do Python
+print(sys.platform)        # sistema operacional
+
+# sys.exit()               # encerra o programa
+```
+
+> **Dica**: explore a [documentação oficial](https://docs.python.org/3/library/) para descobrir mais módulos.
+
+## Criando seu próprio módulo
+
+Crie um arquivo `meu_modulo.py`:
+
+```python
+# meu_modulo.py
+def saudar(nome):
+    return f"Olá, {nome}!"
+
+PI = 3.14159
+```
+
+Depois importe de outro arquivo na mesma pasta:
+
+```python
+# programa_principal.py
+import meu_modulo
+
+print(meu_modulo.saudar("Maria"))  # Olá, Maria!
+print(meu_modulo.PI)               # 3.14159
+```
+
+> **Importante**: o arquivo do módulo precisa estar na mesma pasta (ou no `PYTHONPATH`).
+
+## Pip — instalando pacotes externos
+
+Além da biblioteca padrão, existem milhares de pacotes criados pela comunidade. O `pip` é o gerenciador:
+
+```bash
+pip install requests
+pip install pandas
+pip install flask
+```
+
+Depois de instalar, é só importar:
+
+```python
+import requests
+
+resposta = requests.get("https://api.github.com")
+print(resposta.status_code)  # 200
+```
+
+## Exemplo prático — senha aleatória
+
+```python
+import random
+import string
+
+def gerar_senha(tamanho=8):
+    caracteres = string.ascii_letters + string.digits
+    senha = "".join(random.choice(caracteres) for _ in range(tamanho))
+    return senha
+
+print(gerar_senha())      # ex: aB3xK9mZ
+print(gerar_senha(12))    # ex: pQ7wR2nL5xV1
+```
+
+## Erros comuns
+
+### ModuleNotFoundError
+
+```python
+import pandas  # ❌ ModuleNotFoundError se não estiver instalado
+```
+
+**Solução**: instale com `pip install pandas`.
+
+### Nome do módulo errado
+
+```python
+import math
+print(math.raiz(16))  # ❌ AttributeError — o nome é sqrt, não raiz
+```
+
+**Solução**: verifique os nomes das funções na documentação.
+
+### Importar módulo com nome conflitante
+
+```python
+# Criar um arquivo chamado math.py na mesma pasta
+import math  # ❌ Vai importar seu arquivo, não o módulo padrão!
+
+print(math.sqrt(4))  # Pode dar erro inesperado
+```
+
+**Solução**: nunca nomeie seus arquivos com nomes de módulos existentes.
+
+### Sobrescrever função importada
+
+```python
+from math import sqrt
+
+sqrt = "agora sou uma string"  # ❌ sobrescreveu a função!
+print(sqrt(9))  # TypeError
+```
+
+## Resumo
+
+| Comando | O que faz |
+|---------|-----------|
+| `import math` | Importa o módulo inteiro |
+| `from math import sqrt` | Importa só a função sqrt |
+| `import math as m` | Importa com apelido m |
+| `pip install pacote` | Instala pacote externo |
+
+Módulos são a base da organização em Python. Quanto mais você usar, mais percebe como a biblioteca padrão é rica.

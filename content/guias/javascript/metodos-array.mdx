@@ -1,0 +1,355 @@
+---
+titulo: "Métodos de Array"
+slug: "metodos-array"
+ordem: 16
+---
+
+# Métodos de Array em JavaScript: Um Guia Completo para Iniciantes
+
+Oi! Vamos mergulhar no mundo dos métodos de array em JavaScript. Se você já está cansado de usar loops `for` para tudo, esses métodos vão mudar sua vida! Eles tornam seu código mais limpo, mais legível e mais fácil de dar manutenção.
+
+## O que são métodos de array?
+
+Métodos de array são funções prontas que o JavaScript nos dá para manipular arrays de forma mais fácil. Em vez de escrever um loop `for` toda vez que precisamos fazer algo com uma lista, podemos usar esses métodos que já fazem o trabalho pesado.
+
+## Preparando o terreno: nosso array de exemplo
+
+Vamos usar este array de alunos durante todo o guia:
+
+```javascript
+const alunos = [
+  { nome: 'Ana', nota: 8.5, idade: 16, ativo: true },
+  { nome: 'Bruno', nota: 6.0, idade: 17, ativo: true },
+  { nome: 'Carla', nota: 9.2, idade: 15, ativo: false },
+  { nome: 'Diego', nota: 4.5, idade: 18, ativo: true },
+  { nome: 'Elena', nota: 7.8, idade: 16, ativo: true }
+];
+```
+
+## 1. `forEach` - O mais básico
+
+O `forEach` percorre cada elemento do array e executa uma função para cada um. É como um `for` tradicional, mas mais elegante.
+
+```javascript
+// Exemplo 1: Mostrar todos os alunos
+alunos.forEach(function(aluno) {
+  console.log(`${aluno.nome} - Nota: ${aluno.nota}`);
+});
+
+// Com arrow function (mais moderno)
+alunos.forEach(aluno => console.log(`${aluno.nome} - Nota: ${aluno.nota}`));
+
+// Resultado no console:
+// Ana - Nota: 8.5
+// Bruno - Nota: 6
+// Carla - Nota: 9.2
+// Diego - Nota: 4.5
+// Elena - Nota: 7.8
+```
+
+**Quando usar:** Quando você precisa executar uma ação para cada elemento, mas não precisa retornar um novo array.
+
+**Erro comum:** Esquecer que `forEach` não retorna nada! Se você tentar fazer `const resultado = array.forEach(...)`, o resultado será `undefined`.
+
+## 2. `map` - Transformando arrays
+
+O `map` cria um novo array com o mesmo tamanho do original, mas transformando cada elemento.
+
+```javascript
+// Exemplo 1: Criar array só com os nomes
+const nomes = alunos.map(aluno => aluno.nome);
+console.log(nomes); // ['Ana', 'Bruno', 'Carla', 'Diego', 'Elena']
+
+// Exemplo 2: Arredondar notas
+const notasArredondadas = alunos.map(aluno => ({
+  nome: aluno.nome,
+  nota: Math.round(aluno.nota)
+}));
+console.log(notasArredondadas);
+// [{ nome: 'Ana', nota: 9 }, { nome: 'Bruno', nota: 6 }, ...]
+
+// Exemplo 3: Criar saudação personalizada
+const saudacoes = alunos.map(aluno => 
+  `Olá, ${aluno.nome}! Você tem ${aluno.idade} anos.`
+);
+console.log(saudacoes);
+// ['Olá, Ana! Você tem 16 anos.', ...]
+```
+
+**Quando usar:** Quando você precisa transformar todos os elementos de um array em algo diferente.
+
+**Dica:** O `map` sempre retorna um array do mesmo tamanho do original. Se você precisa filtrar, use `filter`.
+
+## 3. `filter` - Selecionando elementos
+
+O `filter` cria um novo array apenas com os elementos que passam em um teste (retornam `true`).
+
+```javascript
+// Exemplo 1: Alunos aprovados (nota >= 7)
+const aprovados = alunos.filter(aluno => aluno.nota >= 7);
+console.log(aprovados);
+// [{ nome: 'Ana', nota: 8.5 }, { nome: 'Carla', nota: 9.2 }, { nome: 'Elena', nota: 7.8 }]
+
+// Exemplo 2: Alunos ativos
+const alunosAtivos = alunos.filter(aluno => aluno.ativo);
+console.log(alunosAtivos.length); // 4 (todos menos a Carla)
+
+// Exemplo 3: Alunos menores de 18 anos
+const menoresDeIdade = alunos.filter(aluno => aluno.idade < 18);
+console.log(menoresDeIdade);
+// [{ nome: 'Ana', idade: 16 }, { nome: 'Bruno', idade: 17 }, { nome: 'Carla', idade: 15 }, { nome: 'Elena', idade: 16 }]
+```
+
+**Quando usar:** Quando você precisa selecionar um subconjunto de elementos baseado em uma condição.
+
+**Erro comum:** Usar `filter` quando quer transformar elementos. Lembre-se: `filter` só seleciona, não modifica.
+
+## 4. `find` - Encontrando o primeiro
+
+O `find` retorna o **primeiro** elemento que satisfaz a condição. Se não encontrar, retorna `undefined`.
+
+```javascript
+// Exemplo 1: Encontrar o primeiro aluno com nota > 9
+const alunoDestaque = alunos.find(aluno => aluno.nota > 9);
+console.log(alunoDestaque); // { nome: 'Carla', nota: 9.2, ... }
+
+// Exemplo 2: Encontrar aluno por nome
+const encontrarAluno = alunos.find(aluno => aluno.nome === 'Diego');
+console.log(encontrarAluno); // { nome: 'Diego', nota: 4.5, ... }
+
+// Exemplo 3: Aluno que não existe
+const naoExiste = alunos.find(aluno => aluno.nome === 'Zeca');
+console.log(naoExiste); // undefined
+```
+
+**Quando usar:** Quando você precisa encontrar um único elemento específico (como buscar por ID ou nome único).
+
+**Dica:** Se você precisa da posição do elemento, use `findIndex`.
+
+## 5. `findIndex` - Encontrando a posição
+
+O `findIndex` retorna o **índice** do primeiro elemento que satisfaz a condição. Se não encontrar, retorna `-1`.
+
+```javascript
+// Exemplo 1: Encontrar posição de um aluno
+const indiceCarla = alunos.findIndex(aluno => aluno.nome === 'Carla');
+console.log(indiceCarla); // 2
+
+// Exemplo 2: Remover um aluno específico
+const indiceDiego = alunos.findIndex(aluno => aluno.nome === 'Diego');
+if (indiceDiego !== -1) {
+  alunos.splice(indiceDiego, 1); // Remove o Diego
+}
+console.log(alunos); // Array sem o Diego
+
+// Exemplo 3: Aluno que não existe
+const indiceInexistente = alunos.findIndex(aluno => aluno.nome === 'Zeca');
+console.log(indiceInexistente); // -1
+```
+
+**Quando usar:** Quando você precisa da posição do elemento para fazer algo (como remover ou substituir).
+
+## 6. `some` - Pelo menos um
+
+O `some` verifica se **pelo menos um** elemento satisfaz a condição. Retorna `true` ou `false`.
+
+```javascript
+// Exemplo 1: Algum aluno foi reprovado? (nota < 5)
+const temReprovado = alunos.some(aluno => aluno.nota < 5);
+console.log(temReprovado); // true (Diego tem 4.5)
+
+// Exemplo 2: Algum aluno é maior de idade? (idade >= 18)
+const temMaiorDeIdade = alunos.some(aluno => aluno.idade >= 18);
+console.log(temMaiorDeIdade); // true (Diego tem 18)
+
+// Exemplo 3: Algum aluno está inativo?
+const temInativo = alunos.some(aluno => !aluno.ativo);
+console.log(temInativo); // true (Carla está inativa)
+```
+
+**Quando usar:** Quando você precisa saber se existe pelo menos um elemento que atende a condição.
+
+## 7. `every` - Todos os elementos
+
+O `every` verifica se **todos** os elementos satisfazem a condição. Retorna `true` apenas se TODOS passarem.
+
+```javascript
+// Exemplo 1: Todos os alunos estão ativos?
+const todosAtivos = alunos.every(aluno => aluno.ativo);
+console.log(todosAtivos); // false (Carla está inativa)
+
+// Exemplo 2: Todos os alunos têm nota >= 0?
+const notasValidas = alunos.every(aluno => aluno.nota >= 0);
+console.log(notasValidas); // true
+
+// Exemplo 3: Todos os alunos são menores de idade?
+const todosMenores = alunos.every(aluno => aluno.idade < 18);
+console.log(todosMenores); // false (Diego tem 18)
+```
+
+**Quando usar:** Quando você precisa verificar se TODOS os elementos atendem a uma condição.
+
+## 8. `reduce` - Acumulando valores
+
+O `reduce` é o mais poderoso e versátil. Ele "reduz" o array a um único valor (número, objeto, array, etc.).
+
+```javascript
+// Exemplo 1: Calcular soma das notas
+const somaNotas = alunos.reduce((acumulador, aluno) => {
+  return acumulador + aluno.nota;
+}, 0); // 0 é o valor inicial
+console.log(somaNotas); // 36
+
+// Exemplo 2: Calcular média
+const media = alunos.reduce((acc, aluno) => acc + aluno.nota, 0) / alunos.length;
+console.log(media.toFixed(2)); // 7.20
+
+// Exemplo 3: Agrupar por situação (aprovado/reprovado)
+const porSituacao = alunos.reduce((acc, aluno) => {
+  const situacao = aluno.nota >= 7 ? 'aprovados' : 'reprovados';
+  acc[situacao].push(aluno.nome);
+  return acc;
+}, { aprovados: [], reprovados: [] });
+console.log(porSituacao);
+// { aprovados: ['Ana', 'Carla', 'Elena'], reprovados: ['Bruno', 'Diego'] }
+
+// Exemplo 4: Encontrar o aluno com maior nota
+const melhorAluno = alunos.reduce((melhor, aluno) => {
+  return aluno.nota > melhor.nota ? aluno : melhor;
+});
+console.log(melhorAluno); // { nome: 'Carla', nota: 9.2, ... }
+```
+
+**Quando usar:** Quando você precisa transformar um array em um único valor (soma, média, objeto agrupado, etc.).
+
+**Dica:** O segundo parâmetro do `reduce` (valor inicial) é opcional, mas sempre use para evitar bugs!
+
+## 9. `flat` - Achando arrays aninhados
+
+O `flat` "achata" arrays que estão dentro de arrays, criando um único array.
+
+```javascript
+// Exemplo 1: Array com subarrays
+const notasTurmas = [[8.5, 6.0], [9.2, 4.5], [7.8]];
+const todasNotas = notasTurmas.flat();
+console.log(todasNotas); // [8.5, 6.0, 9.2, 4.5, 7.8]
+
+// Exemplo 2: Níveis de profundidade
+const dadosComplexos = [1, [2, [3, [4]]]];
+const nivel1 = dadosComplexos.flat(1);
+console.log(nivel1); // [1, 2, [3, [4]]]
+
+const nivel2 = dadosComplexos.flat(2);
+console.log(nivel2); // [1, 2, 3, [4]]
+
+const nivelTotal = dadosComplexos.flat(Infinity);
+console.log(nivelTotal); // [1, 2, 3, 4]
+
+// Exemplo 3: Aplicação prática - listar todas as notas
+const alunosComNotas = [
+  { nome: 'Ana', notas: [8.5, 7.0, 9.0] },
+  { nome: 'Bruno', notas: [6.0, 5.5] }
+];
+
+const todasNotasAlunos = alunosComNotas.flatMap(aluno => aluno.notas);
+console.log(todasNotasAlunos); // [8.5, 7.0, 9.0, 6.0, 5.5]
+```
+
+**Quando usar:** Quando você tem arrays dentro de arrays e precisa trabalhar com todos os elementos de forma linear.
+
+## Tabela de decisão rápida
+
+| Método | Retorna | Quando usar |
+|--------|---------|-------------|
+| `forEach` | `undefined` | Executar ação para cada elemento |
+| `map` | Array do mesmo tamanho | Transformar elementos |
+| `filter` | Array menor ou igual | Selecionar elementos |
+| `find` | Elemento ou `undefined` | Encontrar um elemento específico |
+| `findIndex` | Número ou `-1` | Encontrar posição de um elemento |
+| `some` | `true` ou `false` | Verificar se pelo menos um atende |
+| `every` | `true` ou `false` | Verificar se todos atendem |
+| `reduce` | Qualquer valor | Acumular/agrupar dados |
+| `flat` | Array achatado | Desaninhar arrays |
+
+## Exemplo completo: Sistema de notas
+
+Vamos ver como usar vários métodos juntos em um exemplo real:
+
+```javascript
+const turma = [
+  { nome: 'Ana', notas: [8.5, 7.0, 9.0], frequencia: 0.9 },
+  { nome: 'Bruno', notas: [6.0, 5.5, 4.0], frequencia: 0.7 },
+  { nome: 'Carla', notas: [9.2, 8.8, 9.5], frequencia: 0.95 },
+  { nome: 'Diego', notas: [4.5, 5.0, 3.5], frequencia: 0.6 },
+  { nome: 'Elena', notas: [7.8, 8.0, 7.5], frequencia: 0.85 }
+];
+
+// Calcular média de cada aluno
+const alunosComMedia = turma.map(aluno => ({
+  nome: aluno.nome,
+  media: aluno.notas.reduce((acc, nota) => acc + nota, 0) / aluno.notas.length,
+  frequencia: aluno.frequencia
+}));
+
+console.log('Médias dos alunos:');
+alunosComMedia.forEach(aluno => {
+  console.log(`${aluno.nome}: ${aluno.media.toFixed(1)}`);
+});
+
+// Filtrar aprovados (média >= 7 e frequência >= 0.75)
+const aprovados = alunosComMedia.filter(aluno => 
+  aluno.media >= 7 && aluno.frequencia >= 0.75
+);
+
+console.log('\nAprovados:');
+aprovados.forEach(aluno => console.log(`- ${aluno.nome}`));
+
+// Verificar se algum aluno precisa de recuperação (média entre 5 e 7)
+const precisaRecuperacao = alunosComMedia.some(aluno => 
+  aluno.media >= 5 && aluno.media < 7
+);
+console.log(`\nAlguém precisa de recuperação? ${precisaRecuperacao ? 'Sim' : 'Não'}`);
+
+// Todos os alunos têm frequência suficiente?
+const todosFrequenciaOK = alunosComMedia.every(aluno => aluno.frequencia >= 0.75);
+console.log(`Todos têm frequência OK? ${todosFrequenciaOK ? 'Sim' : 'Não'}`);
+
+// Encontrar o melhor aluno
+const melhorAluno = alunosComMedia.reduce((melhor, atual) => 
+  atual.media > melhor.media ? atual : melhor
+);
+console.log(`\nMelhor aluno: ${melhorAluno.nome} (média: ${melhorAluno.media.toFixed(1)})`);
+
+// Agrupar por situação
+const situacao = alunosComMedia.reduce((acc, aluno) => {
+  if (aluno.media >= 7 && aluno.frequencia >= 0.75) {
+    acc.aprovados.push(aluno.nome);
+  } else if (aluno.media >= 5) {
+    acc.recuperacao.push(aluno.nome);
+  } else {
+    acc.reprovados.push(aluno.nome);
+  }
+  return acc;
+}, { aprovados: [], recuperacao: [], reprovados: [] });
+
+console.log('\nSituação final:');
+console.log(`Aprovados: ${situacao.aprovados.join(', ')}`);
+console.log(`Recuperação: ${situacao.recuperacao.join(', ')}`);
+console.log(`Reprovados: ${situacao.reprovados.join(', ')}`);
+```
+
+## Erros comuns e dicas finais
+
+### Erros comuns:
+1. **Não retornar no `map`**: Se você não usa `return` no `map`, o array resultante será de `undefined`s.
+2. **Modificar o array original**: `map` e `filter` criam novos arrays, mas objetos dentro deles ainda são referências.
+3. **Esquecer do valor inicial no `reduce`**: Sempre use um valor inicial para evitar erros com arrays vazios.
+
+### Dicas finais:
+- Comece com `forEach` e `map` - são os mais fáceis
+- Pratique com `filter` e `find` para selecionar dados
+- O `reduce` é poderoso, mas pode ser complexo - pratique bastante
+- Você pode encadear métodos: `array.filter().map().reduce()`
+- Use nomes descritivos nos callbacks
+
+Lembre-se: a prática leva à perfeição! Comece usando esses métodos em projetos pequenos e logo você vai se perguntar como vivia sem eles. Boa codificação! 🚀

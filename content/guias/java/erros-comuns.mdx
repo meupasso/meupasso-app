@@ -1,0 +1,399 @@
+---
+titulo: "Erros Comuns"
+slug: "erros-comuns"
+ordem: 22
+---
+
+# Guia Completo: Erros Mais Comuns em Java para Iniciantes
+
+Olá, futuro(a) programador(a) Java! 👋
+
+Erros são normais e fazem parte do aprendizado. Vamos conhecer os erros mais comuns que você vai encontrar, entender por que eles acontecem e como resolvê-los.
+
+## 1. NullPointerException
+
+**O que significa:** Você tentou usar um objeto que não foi criado (está "vazio" - null).
+
+**Código que causa o erro:**
+```java
+public class ExemploNull {
+    public static void main(String[] args) {
+        String texto = null;
+        System.out.println(texto.length()); // Erro! texto é null
+    }
+}
+```
+
+**Como corrigir:**
+```java
+public class ExemploNull {
+    public static void main(String[] args) {
+        String texto = "Olá, mundo!";
+        System.out.println(texto.length()); // Funciona!
+        
+        // Ou verifique se não é null
+        if (texto != null) {
+            System.out.println(texto.length());
+        }
+    }
+}
+```
+
+**Dica:** Sempre inicialize suas variáveis e verifique com `if (objeto != null)` antes de usar.
+
+## 2. ArrayIndexOutOfBoundsException
+
+**O que significa:** Você tentou acessar uma posição que não existe no array.
+
+**Código que causa o erro:**
+```java
+public class ExemploArray {
+    public static void main(String[] args) {
+        int[] numeros = {10, 20, 30};
+        System.out.println(numeros[3]); // Erro! Só existe posições 0, 1 e 2
+    }
+}
+```
+
+**Como corrigir:**
+```java
+public class ExemploArray {
+    public static void main(String[] args) {
+        int[] numeros = {10, 20, 30};
+        
+        // Acesse apenas posições válidas
+        System.out.println(numeros[2]); // Funciona!
+        
+        // Use o tamanho do array para controlar
+        for (int i = 0; i < numeros.length; i++) {
+            System.out.println(numeros[i]);
+        }
+    }
+}
+```
+
+**Dica:** Lembre-se: arrays começam no índice 0! O último índice é `array.length - 1`.
+
+## 3. NumberFormatException
+
+**O que significa:** Você tentou converter uma string que não é um número válido.
+
+**Código que causa o erro:**
+```java
+public class ExemploNumero {
+    public static void main(String[] args) {
+        String numero = "abc";
+        int valor = Integer.parseInt(numero); // Erro! "abc" não é número
+    }
+}
+```
+
+**Como corrigir:**
+```java
+public class ExemploNumero {
+    public static void main(String[] args) {
+        String numero = "123";
+        int valor = Integer.parseInt(numero); // Funciona!
+        
+        // Ou trate a exceção
+        try {
+            numero = "abc";
+            valor = Integer.parseInt(numero);
+        } catch (NumberFormatException e) {
+            System.out.println("Não é um número válido!");
+        }
+    }
+}
+```
+
+**Dica:** Sempre valide se a string contém apenas dígitos antes de converter.
+
+## 4. ArithmeticException (Divisão por zero)
+
+**O que significa:** Você tentou dividir um número por zero.
+
+**Código que causa o erro:**
+```java
+public class ExemploDivisao {
+    public static void main(String[] args) {
+        int a = 10;
+        int b = 0;
+        int resultado = a / b; // Erro! Divisão por zero
+    }
+}
+```
+
+**Como corrigir:**
+```java
+public class ExemploDivisao {
+    public static void main(String[] args) {
+        int a = 10;
+        int b = 0;
+        
+        if (b != 0) {
+            int resultado = a / b;
+            System.out.println(resultado);
+        } else {
+            System.out.println("Não pode dividir por zero!");
+        }
+    }
+}
+```
+
+**Dica:** Sempre verifique se o divisor é diferente de zero antes de dividir.
+
+## 5. ClassCastException
+
+**O que significa:** Você tentou converter um objeto para um tipo que ele não é.
+
+**Código que causa o erro:**
+```java
+public class ExemploCast {
+    public static void main(String[] args) {
+        Object objeto = "Texto";
+        Integer numero = (Integer) objeto; // Erro! String não é Integer
+    }
+}
+```
+
+**Como corrigir:**
+```java
+public class ExemploCast {
+    public static void main(String[] args) {
+        Object objeto = "Texto";
+        
+        if (objeto instanceof String) {
+            String texto = (String) objeto; // Funciona!
+            System.out.println(texto);
+        }
+        
+        // Ou use o tipo correto
+        String texto = (String) objeto; // Funciona!
+    }
+}
+```
+
+**Dica:** Use `instanceof` para verificar o tipo antes de fazer o cast.
+
+## 6. StackOverflowError
+
+**O que significa:** A pilha de chamadas de métodos estourou, geralmente por recursão infinita.
+
+**Código que causa o erro:**
+```java
+public class ExemploRecursao {
+    public static void main(String[] args) {
+        metodoInfinito(); // Vai estourar a pilha!
+    }
+    
+    static void metodoInfinito() {
+        System.out.println("Chamando...");
+        metodoInfinito(); // Chama a si mesmo para sempre
+    }
+}
+```
+
+**Como corrigir:**
+```java
+public class ExemploRecursao {
+    public static void main(String[] args) {
+        metodoComLimite(5);
+    }
+    
+    static void metodoComLimite(int vezes) {
+        if (vezes > 0) {
+            System.out.println("Chamando... " + vezes);
+            metodoComLimite(vezes - 1); // Para quando vezes chegar a 0
+        }
+    }
+}
+```
+
+**Dica:** Toda recursão precisa de uma condição de parada!
+
+## 7. Incompatible Types
+
+**O que significa:** Você está tentando atribuir um valor de um tipo a uma variável de outro tipo incompatível.
+
+**Código que causa o erro:**
+```java
+public class ExemploTipos {
+    public static void main(String[] args) {
+        int numero = "Olá"; // Erro! String não pode virar int
+        String texto = 123; // Erro! int não pode virar String
+    }
+}
+```
+
+**Como corrigir:**
+```java
+public class ExemploTipos {
+    public static void main(String[] args) {
+        int numero = 123; // Correto
+        String texto = "Olá"; // Correto
+        
+        // Para converter, use métodos apropriados
+        String textoNumero = String.valueOf(123); // "123"
+        int numeroTexto = Integer.parseInt("123"); // 123
+    }
+}
+```
+
+**Dica:** Respeite os tipos das variáveis! Use conversões explícitas quando necessário.
+
+## 8. Cannot Find Symbol
+
+**O que significa:** O compilador não encontrou uma variável, método ou classe que você está tentando usar.
+
+**Código que causa o erro:**
+```java
+public class ExemploSymbol {
+    public static void main(String[] args) {
+        System.out.println(mensagem); // Erro! mensagem não foi declarada
+        metodoQualquer(); // Erro! método não existe
+    }
+}
+```
+
+**Como corrigir:**
+```java
+public class ExemploSymbol {
+    public static void main(String[] args) {
+        String mensagem = "Olá!"; // Declare a variável
+        System.out.println(mensagem); // Funciona!
+        
+        meuMetodo(); // Chame métodos que existem
+    }
+    
+    static void meuMetodo() {
+        System.out.println("Método existe!");
+    }
+}
+```
+
+**Dica:** Verifique se você declarou a variável, importou a classe ou criou o método antes de usar.
+
+## 9. Reached End of File While Parsing
+
+**O que significa:** O arquivo terminou de forma inesperada, geralmente faltando uma chave `}`.
+
+**Código que causa o erro:**
+```java
+public class ExemploParsing {
+    public static void main(String[] args) {
+        System.out.println("Olá");
+    // Faltou fechar a chave da classe!
+```
+
+**Como corrigir:**
+```java
+public class ExemploParsing {
+    public static void main(String[] args) {
+        System.out.println("Olá");
+    } // Fechou o método
+} // Fechou a classe
+```
+
+**Dica:** Use a indentação correta e sempre verifique se todas as chaves foram fechadas.
+
+## 10. Missing Return Statement
+
+**O que significa:** Um método que deveria retornar um valor não tem o comando `return`.
+
+**Código que causa o erro:**
+```java
+public class ExemploReturn {
+    static int calcularSoma(int a, int b) {
+        int resultado = a + b;
+        // Faltou: return resultado;
+    }
+}
+```
+
+**Como corrigir:**
+```java
+public class ExemploReturn {
+    static int calcularSoma(int a, int b) {
+        int resultado = a + b;
+        return resultado; // Agora retorna o valor
+    }
+    
+    // Outra forma mais simples
+    static int calcularSoma2(int a, int b) {
+        return a + b;
+    }
+}
+```
+
+**Dica:** Todo método que não é `void` precisa ter um `return` com o valor correto.
+
+## 11. Unclosed String Literal
+
+**O que significa:** Você esqueceu de fechar as aspas de uma string.
+
+**Código que causa o erro:**
+```java
+public class ExemploString {
+    public static void main(String[] args) {
+        String texto = "Olá, mundo; // Faltou fechar as aspas
+    }
+}
+```
+
+**Como corrigir:**
+```java
+public class ExemploString {
+    public static void main(String[] args) {
+        String texto = "Olá, mundo"; // Aspas fechadas corretamente
+        
+        // Para strings com aspas dentro, use escape
+        String comAspas = "Ele disse: \"Olá!\"";
+    }
+}
+```
+
+**Dica:** Sempre verifique se suas strings começam e terminam com aspas duplas.
+
+## 12. Illegal Start of Expression
+
+**O que significa:** O compilador encontrou algo inesperado no início de uma expressão.
+
+**Código que causa o erro:**
+```java
+public class ExemploExpressao {
+    public static void main(String[] args) {
+        if (true) {
+            System.out.println("Verdadeiro")
+        } // Faltou ponto e vírgula no println
+    }
+}
+```
+
+**Como corrigir:**
+```java
+public class ExemploExpressao {
+    public static void main(String[] args) {
+        if (true) {
+            System.out.println("Verdadeiro"); // Ponto e vírgula adicionado
+        }
+        
+        // Outro exemplo comum
+        int numero = 10
+        System.out.println(numero); // Faltou ; no 10
+    }
+}
+```
+
+**Dica:** Preste atenção nos pontos e vírgula e na estrutura correta das expressões.
+
+---
+
+## Dicas Finais para Evitar Erros
+
+1. **Leia a mensagem de erro** - Ela sempre diz qual linha e o que está errado
+2. **Use um IDE** - Eclipse, IntelliJ ou VS Code mostram erros em tempo real
+3. **Teste pequenas partes** - Vá testando seu código aos poucos
+4. **Mantenha a indentação** - Código organizado é mais fácil de debugar
+5. **Não desista!** - Todo programador passa por esses erros
+
+Lembre-se: errar é aprender! Cada erro que você resolver vai te tornar um(a) programador(a) melhor. 🚀

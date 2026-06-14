@@ -1,0 +1,348 @@
+---
+titulo: "Promises e Async/Await"
+slug: "promises"
+ordem: 21
+---
+
+# Promises e Async/Await em JavaScript
+
+E aí, dev! Vamos mergulhar no mundo do JavaScript assíncrono? Se você já tentou fazer uma requisição de API ou ler um arquivo e ficou confuso com o resultado, esse guia é pra você.
+
+## O que é código assíncrono?
+
+Imagine que você pede uma pizza. Você não fica parado olhando pro telefone até ela chegar, né? Você vai fazer outras coisas enquanto espera. No JavaScript, é a mesma coisa!
+
+**Código síncrono** é como fazer um sanduíche: você pega o pão, coloca o recheio, fecha. Uma coisa depois da outra.
+
+**Código assíncrono** é como pedir delivery: você faz o pedido e continua sua vida enquanto espera.
+
+```javascript
+// Código síncrono
+console.log("1");
+console.log("2"); // Só executa depois do 1
+
+// Código assíncrono
+console.log("1");
+setTimeout(() => console.log("2"), 1000); // Executa depois de 1 segundo
+console.log("3"); // Executa imediatamente depois do 1
+// Resultado: 1, 3, 2
+```
+
+## O problema do callback hell
+
+Antes das Promises, a gente usava callbacks. E virava aquela bagunça:
+
+```javascript
+// Callback hell - NÃO FAÇA ISSO
+buscarUsuario(1, (usuario) => {
+  buscarPosts(usuario.id, (posts) => {
+    buscarComentarios(posts[0].id, (comentarios) => {
+      console.log(comentarios);
+    });
+  });
+});
+```
+
+Parece uma escadinha do inferno, né? É por isso que as Promises existem!
+
+## Promises: a salvação
+
+Uma Promise é como um **vale-presente**: você não tem o presente agora, mas tem a promessa de que vai receber. Pode ser que dê certo (resolve) ou pode dar errado (reject).
+
+```javascript
+// Criando uma Promise
+const promessaDaPizza = new Promise((resolve, reject) => {
+  const pizzaChegou = true;
+  
+  if (pizzaChegou) {
+    resolve("🍕 Pizza chegou!");
+  } else {
+    reject("😢 Motoboy se perdeu");
+  }
+});
+
+// Usando a Promise
+promessaDaPizza
+  .then((mensagem) => console.log(mensagem)) // Se der certo
+  .catch((erro) => console.log(erro));       // Se der errado
+```
+
+### Exemplo prático com setTimeout
+
+Vamos simular uma operação real:
+
+```javascript
+function buscarDadosDoServidor() {
+  return new Promise((resolve, reject) => {
+    console.log("🔄 Buscando dados...");
+    
+    setTimeout(() => {
+      const sucesso = Math.random() > 0.3; // 70% de chance de sucesso
+      
+      if (sucesso) {
+        resolve({ id: 1, nome: "João", idade: 25 });
+      } else {
+        reject(new Error("Falha na conexão"));
+      }
+    }, 2000); // Simula 2 segundos de espera
+  });
+}
+
+// Usando .then() e .catch()
+buscarDadosDoServidor()
+  .then((dados) => {
+    console.log("✅ Dados recebidos:", dados);
+  })
+  .catch((erro) => {
+    console.log("❌ Erro:", erro.message);
+  })
+  .finally(() => {
+    console.log("🏁 Operação finalizada");
+  });
+```
+
+## Async/Await: código que parece síncrono
+
+Se as Promises já são legais, o async/await é tipo um upgrade. Permite escrever código assíncrono que **parece** síncrono.
+
+### Como funciona?
+
+- `async` transforma uma função em "assíncrona"
+- `await` espera a Promise ser resolvida
+
+```javascript
+async function pegarDados() {
+  const dados = await buscarDadosDoServidor();
+  console.log("Dados:", dados);
+  // O código aqui só executa depois que a Promise for resolvida
+}
+
+pegarDados();
+```
+
+### Tratamento de erro com try/catch
+
+Aqui a mágica acontece! Usamos try/catch igual no código síncrono:
+
+```javascript
+async function processarDadosDoUsuario() {
+  try {
+    console.log("🚀 Iniciando processo...");
+    
+    const dados = await buscarDadosDoServidor();
+    console.log("✅ Dados recebidos:", dados);
+    
+    // Processa os dados
+    const dadosFormatados = {
+      nomeCompleto: dados.nome.toUpperCase(),
+      idadeEmMeses: dados.idade * 12
+    };
+    
+    console.log("📊 Dados processados:", dadosFormatados);
+    return dadosFormatados;
+    
+  } catch (erro) {
+    console.log("❌ Erro no processamento:", erro.message);
+    // Pode retornar um valor padrão ou lançar o erro novamente
+    return null;
+  } finally {
+    console.log("🏁 Processo finalizado");
+  }
+}
+
+// Executando
+processarDadosDoUsuario()
+  .then((resultado) => {
+    if (resultado) {
+      console.log("Sucesso!");
+    } else {
+      console.log("Usando dados padrão...");
+    }
+  });
+```
+
+## Exemplo completo: sistema de pedidos
+
+Vamos juntar tudo num exemplo real:
+
+```javascript
+// Simulando operações assíncronas
+function buscarRestaurante(id) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({ id, nome: "Pizza do Zé", tempoMedio: 30 });
+    }, 1000);
+  });
+}
+
+function fazerPedido(restauranteId, itens) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (itens.length === 0) {
+        reject(new Error("Carrinho vazio!"));
+      } else {
+        resolve({ 
+          pedidoId: Math.random().toString(36).substring(7),
+          restauranteId,
+          itens,
+          status: "preparando"
+        });
+      }
+    }, 2000);
+  });
+}
+
+function entregarPedido(pedido) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({ ...pedido, status: "entregue", entregueEm: new Date() });
+    }, 3000);
+  });
+}
+
+// Função principal usando async/await
+async function fazerPedidoCompleto() {
+  try {
+    console.log("🍕 Iniciando pedido...");
+    
+    // Passo 1: Buscar restaurante
+    const restaurante = await buscarRestaurante(1);
+    console.log(`🏪 Restaurante: ${restaurante.nome}`);
+    
+    // Passo 2: Fazer pedido
+    const itens = ["Pizza Margherita", "Coca-Cola"];
+    const pedido = await fazerPedido(restaurante.id, itens);
+    console.log(`📝 Pedido #${pedido.pedidoId} criado`);
+    
+    // Passo 3: Aguardar entrega
+    const pedidoEntregue = await entregarPedido(pedido);
+    console.log(`✅ Pedido entregue às ${pedidoEntregue.entregueEm.toLocaleTimeString()}`);
+    
+    return pedidoEntregue;
+    
+  } catch (erro) {
+    console.log(`❌ Erro: ${erro.message}`);
+    throw erro; // Repassa o erro se necessário
+  }
+}
+
+// Executando
+fazerPedidoCompleto()
+  .then((pedido) => {
+    console.log("🎉 Pedido finalizado com sucesso!");
+  })
+  .catch((erro) => {
+    console.log("😢 Algo deu errado:", erro.message);
+  });
+```
+
+## Dicas importantes
+
+### 1. Sempre trate erros
+```javascript
+// ERRADO
+async function salvar() {
+  const dados = await buscarDados(); // Se der erro, quebra tudo
+}
+
+// CERTO
+async function salvar() {
+  try {
+    const dados = await buscarDados();
+  } catch (erro) {
+    console.error("Erro ao salvar:", erro);
+  }
+}
+```
+
+### 2. await só funciona dentro de async
+```javascript
+// ERRADO
+function normal() {
+  await buscarDados(); // SyntaxError
+}
+
+// CERTO
+async function assincrona() {
+  await buscarDados();
+}
+```
+
+### 3. Promise.all para paralelismo
+```javascript
+async function buscarTudo() {
+  const [usuario, posts, comentarios] = await Promise.all([
+    buscarUsuario(1),
+    buscarPosts(1),
+    buscarComentarios(1)
+  ]);
+  
+  console.log(usuario, posts, comentarios);
+}
+```
+
+### 4. Cuidado com o await em loops
+```javascript
+// LENTO - executa um de cada vez
+async function lento() {
+  for (const id of ids) {
+    await buscarDados(id);
+  }
+}
+
+// RÁPIDO - executa todos de uma vez
+async function rapido() {
+  const promessas = ids.map(id => buscarDados(id));
+  const resultados = await Promise.all(promessas);
+}
+```
+
+## Erros comuns de iniciantes
+
+### 1. Esquecer o await
+```javascript
+async function exemplo() {
+  const dados = buscarDados(); // Retorna uma Promise, não os dados!
+  console.log(dados); // Promise { <pending> }
+  
+  const dadosCorretos = await buscarDados();
+  console.log(dadosCorretos); // ✅ Os dados reais
+}
+```
+
+### 2. Não retornar a Promise
+```javascript
+async function processar() {
+  try {
+    await operacao();
+  } catch (erro) {
+    console.log(erro);
+    // Esqueceu de retornar ou lançar o erro!
+  }
+}
+```
+
+### 3. Misturar .then com await
+```javascript
+// Confuso e desnecessário
+async function misturado() {
+  const dados = await buscarDados()
+    .then(resultado => resultado)
+    .catch(erro => erro);
+  
+  // Prefira só await com try/catch
+}
+```
+
+## Conclusão
+
+Promises e async/await são ferramentas poderosas pra lidar com operações assíncronas. Lembre-se:
+
+- **Promises** são a base, com `.then()` e `.catch()`
+- **Async/await** é açúcar sintático que deixa o código mais limpo
+- **try/catch** é seu melhor amigo pra tratar erros
+- **Sempre trate erros** - código assíncrono sem tratamento de erro é código quebrado
+
+Pratique bastante, crie seus próprios exemplos simulando APIs, e em pouco tempo você vai dominar o assunto!
+
+Bons códigos! 🚀

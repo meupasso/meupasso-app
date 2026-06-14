@@ -1,0 +1,156 @@
+---
+titulo: "Tuplas"
+slug: "tuplas"
+ordem: 9
+---
+
+Tuplas são como listas, mas com uma diferença fundamental: **são imutáveis**. Depois de criar, não dá para alterar.
+
+## Criando tuplas
+
+Use parênteses `()` em vez de colchetes:
+
+```python
+# Tupla com vários elementos
+coordenadas = (10, 20)
+cores = ("vermelho", "verde", "azul")
+
+# Tupla com um elemento — a vírgula é obrigatória!
+unitaria = (5,)       # ✅ tupla com 1 elemento
+sem_virgula = (5)     # ❌ não é tupla, é só um número inteiro!
+
+# Tupla sem parênteses (parênteses são opcionais)
+numeros = 1, 2, 3
+print(type(numeros))  # <class 'tuple'>
+```
+
+> **Dica**: a vírgula que faz a tupla, não os parênteses. `1,` já é uma tupla.
+
+## Acessando elementos
+
+Funciona exatamente igual às listas:
+
+```python
+cores = ("vermelho", "verde", "azul")
+
+print(cores[0])     # vermelho
+print(cores[-1])    # azul
+print(cores[1:3])   # ('verde', 'azul') — fatiamento também funciona
+```
+
+## Imutabilidade — o que isso significa?
+
+Você **não pode** alterar, adicionar ou remover elementos de uma tupla depois de criada:
+
+```python
+cores = ("vermelho", "verde", "azul")
+
+cores[0] = "rosa"          # ❌ TypeError: 'tuple' object does not support item assignment
+cores.append("amarelo")    # ❌ AttributeError
+cores.pop()                # ❌ AttributeError
+```
+
+Se você tentar modificar, o Python avisa na hora. Isso é uma **proteção**, não uma limitação.
+
+## Quando usar tupla em vez de lista?
+
+| Use tupla quando... | Use lista quando... |
+|---------------------|---------------------|
+| Os valores não podem mudar | Os valores podem mudar |
+| Você quer proteger os dados | Você precisa adicionar/remover itens |
+| O dado é uma "constante" do programa | O dado vai crescer ou diminuir |
+| Valores que fazem sentido juntos (coordenadas, data, etc.) | Coleções do mesmo tipo |
+
+```python
+# Exemplos bons de tupla:
+dias_da_semana = ("dom", "seg", "ter", "qua", "qui", "sex", "sáb")
+coordenadas_gps = (-23.5505, -46.6333)  # São Paulo
+rg = "12.345.678-X"  # não vai mudar
+
+# Exemplos bons de lista:
+compras = ["arroz", "feijão", "carne"]  # pode crescer
+notas = []                               # vai receber valores
+```
+
+## Desempacotamento de tuplas
+
+Um recurso super útil: você pode "desempacotar" uma tupla em várias variáveis de uma vez:
+
+```python
+coordenadas = (10, 20)
+x, y = coordenadas
+print(x)  # 10
+print(y)  # 20
+
+# Muito usado para trocar valores:
+a = 5
+b = 10
+a, b = b, a
+print(a)  # 10
+print(b)  # 5
+```
+
+> **Dica**: isso funciona com qualquer iterável, não só tuplas.
+
+## Métodos úteis
+
+Tuplas têm apenas dois métodos (por serem imutáveis, não precisam de mais):
+
+```python
+numeros = (1, 3, 3, 3, 5, 7, 9)
+
+print(numeros.count(3))   # 3 — quantas vezes o 3 aparece
+print(numeros.index(5))   # 4 — posição do primeiro 5
+print(len(numeros))       # 7 — tamanho
+print(3 in numeros)       # True — verificar existência
+```
+
+## Iterando com `for`
+
+Funciona normalmente:
+
+```python
+cores = ("vermelho", "verde", "azul")
+
+for cor in cores:
+    print(f"Cor: {cor}")
+```
+
+## Erros comuns
+
+### Esquecer a vírgula em tupla unitária
+
+```python
+tupla = (5)     # ❌ Isso é um int, não uma tupla
+print(type(tupla))  # <class 'int'>
+
+tupla = (5,)    # ✅ Agora sim é uma tupla
+print(type(tupla))  # <class 'tuple'>
+```
+
+### Tentar modificar a tupla
+
+```python
+dias = ("seg", "ter", "qua")
+dias[0] = "dom"  # ❌ TypeError
+```
+
+**Solução**: se precisa modificar, use lista em vez de tupla.
+
+### Achar que tupla não serve pra nada
+
+Tuplas parecem inúteis à primeira vista, mas são muito usadas em Python para:
+
+- Retornar múltiplos valores de funções
+- Proteger dados contra alteração acidental
+- Serem mais rápidas que listas
+- Servirem como chaves de dicionário (listas não podem)
+
+## Resumo
+
+| Característica | Tupla | Lista |
+|----------------|-------|-------|
+| Sintaxe | `(1, 2)` ou `1, 2` | `[1, 2]` |
+| Mutável | ❌ | ✅ |
+| Métodos | `count()`, `index()` | Vários |
+| Usos | Constantes, coordenadas | Coleções dinâmicas |

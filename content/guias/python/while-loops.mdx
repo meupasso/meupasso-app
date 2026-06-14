@@ -1,0 +1,232 @@
+---
+titulo: "While Loops"
+slug: "while-loops"
+ordem: 15
+---
+
+O `while` repete um bloco de código **enquanto** uma condição for verdadeira. Diferente do `for`, que itera sobre uma sequência, o `while` continua até você mandar parar.
+
+## Sintaxe básica
+
+```python
+contador = 0
+
+while contador < 5:
+    print(contador)
+    contador += 1  # importante: atualizar a variável!
+```
+
+A lógica:
+1. Testa a condição (`contador < 5`)
+2. Se for `True`, executa o bloco
+3. Volta ao passo 1
+4. Quando for `False`, sai do loop
+
+> **Dica**: toda variável usada na condição do `while` precisa ser **atualizada dentro do loop**, senão ele nunca termina.
+
+## Loop infinito — e como evitar
+
+O grande perigo do `while` é o **loop infinito**:
+
+```python
+# 🔴 Isso roda para sempre!
+while True:
+    print("Socorro!")
+```
+
+Para interromper, use `Ctrl+C` no terminal.
+
+Loops infinitos **intencionais** são usados em programas que rodam continuamente:
+
+```python
+# Menu que só termina quando o usuário escolhe sair
+while True:
+    opcao = input("Digite 1 para continuar ou 0 para sair: ")
+    if opcao == "0":
+        break
+    print("Você escolheu continuar")
+```
+
+## `break` e `continue`
+
+```python
+# break — sai do loop imediatamente
+n = 0
+while n < 10:
+    if n == 5:
+        break
+    print(n)
+    n += 1  # 0, 1, 2, 3, 4
+
+# continue — pula para a próxima iteração
+n = 0
+while n < 10:
+    n += 1
+    if n % 2 == 0:
+        continue
+    print(n)  # 1, 3, 5, 7, 9
+```
+
+## `while` com `else`
+
+O `else` executa **se o loop terminou normalmente** (sem `break`):
+
+```python
+senha = ""
+tentativas = 0
+
+while senha != "1234":
+    senha = input("Digite a senha: ")
+    tentativas += 1
+    if tentativas >= 3:
+        print("Muitas tentativas!")
+        break
+else:
+    print("Senha correta!")
+```
+
+> **Nota**: o `else` não executa se o loop foi encerrado com `break`.
+
+## Exemplos práticos
+
+### Menu de opções
+
+```python
+while True:
+    print("\n=== MENU ===")
+    print("1 - Ver saldo")
+    print("2 - Depositar")
+    print("3 - Sacar")
+    print("0 - Sair")
+
+    opcao = input("Escolha: ")
+
+    if opcao == "1":
+        print("Seu saldo é R$ 1000,00")
+    elif opcao == "2":
+        print("Depósito realizado!")
+    elif opcao == "3":
+        print("Saque realizado!")
+    elif opcao == "0":
+        print("Até logo!")
+        break
+    else:
+        print("Opção inválida!")
+```
+
+### Tentativas limitadas
+
+```python
+from random import randint
+
+secreto = randint(1, 10)
+tentativas = 0
+max_tentativas = 3
+
+while tentativas < max_tentativas:
+    palpite = int(input("Adivinhe o número (1-10): "))
+    tentativas += 1
+
+    if palpite == secreto:
+        print(f"Parabéns! Você acertou em {tentativas} tentativa(s)!")
+        break
+    elif palpite < secreto:
+        print("Muito baixo!")
+    else:
+        print("Muito alto!")
+else:
+    print(f"Suas {max_tentativas} tentativas acabaram! Era {secreto}.")
+```
+
+### Validação de entrada (padrão super comum)
+
+```python
+while True:
+    try:
+        idade = int(input("Digite sua idade: "))
+        if idade < 0 or idade > 150:
+            print("Idade inválida!")
+        else:
+            break
+    except ValueError:
+        print("Digite um número válido!")
+
+print(f"Idade: {idade}")
+```
+
+## `for` vs `while` — quando usar cada um?
+
+| Use `for` quando... | Use `while` quando... |
+|---------------------|----------------------|
+| Você sabe quantas iterações | Você não sabe quando vai parar |
+| Está percorrendo uma lista/sequência | Depende de uma condição externa |
+| Tem um número fixo de repetições | O usuário decide quando parar |
+
+```python
+# FOR — número definido de iterações
+for i in range(5):
+    print(i)
+
+# WHILE — depende de condição (entrada do usuário)
+while True:
+    opcao = input("Digite 0 para sair: ")
+    if opcao == "0":
+        break
+```
+
+## Erros comuns
+
+### Esquecer de atualizar a variável
+
+```python
+x = 0
+while x < 5:
+    print(x)
+    # esqueceu o x += 1 → 🔴 loop infinito!
+```
+
+**Solução**: sempre atualize a variável da condição dentro do `while`.
+
+### Condição nunca falsa
+
+```python
+x = 1
+while x > 0:
+    print(x)
+    x += 1  # x só aumenta, nunca será <= 0
+```
+
+**Solução**: verifique se a condição pode se tornar falsa em algum momento.
+
+### Confundir `while` com `if`
+
+```python
+# if testa uma vez
+if condicao:
+    print("roda uma vez")
+
+# while testa até ser falso
+while condicao:
+    print("roda enquanto for True")
+```
+
+### Loop infinito com `or`
+
+```python
+resposta = ""
+while resposta != "s" or resposta != "n":  # 🔴 sempre True!
+    resposta = input("Continua? (s/n): ")
+```
+
+**Solução**: use `and` no lugar de `or` aqui: `while resposta != "s" and resposta != "n":`
+
+## Resumo
+
+| Conceito | O que faz |
+|----------|-----------|
+| `while condicao:` | Repete enquanto a condição for True |
+| `break` | Sai do loop imediatamente |
+| `continue` | Pula para a próxima iteração |
+| `else` | Executa se o loop não foi interrompido |
+| Loop infinito | Quando a condição nunca fica False |
+| `Ctrl+C` | Interrompe um loop infinito no terminal |

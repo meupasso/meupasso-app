@@ -1,0 +1,356 @@
+---
+titulo: "Métodos"
+slug: "metodos"
+ordem: 13
+---
+
+# Métodos em Java: O Guia Completo para Iniciantes
+
+E aí, futuro programador! Vamos mergulhar no mundo dos métodos em Java. Pensa em métodos como **receitas de bolo**: você tem uma sequência de passos que, quando executados, produzem um resultado. E o melhor: você pode reutilizar essa receita quantas vezes quiser! 🍰
+
+## O que é um Método?
+
+Um método é um bloco de código que executa uma tarefa específica. É como dar um nome para um conjunto de instruções e poder chamá-las quando precisar.
+
+## Declarando um Método
+
+A estrutura básica é:
+
+```java
+modificador_acesso tipo_retorno nomeDoMetodo(tipo parametro1, tipo parametro2) {
+    // corpo do método
+    return valor;
+}
+```
+
+### Vamos ver cada parte:
+
+1. **Modificador de acesso**: `public`, `private`, `protected` (controla quem pode usar)
+2. **Tipo de retorno**: o tipo do valor que o método devolve (ou `void` se não devolver nada)
+3. **Nome do método**: começa com letra minúscula, segue camelCase
+4. **Parâmetros**: valores que o método recebe para trabalhar
+5. **Corpo**: o código que executa a tarefa
+
+## Métodos com void vs com retorno
+
+### Método void (não retorna nada)
+
+```java
+public class ExemploVoid {
+    
+    // Método que só imprime, não retorna valor
+    public void saudacao(String nome) {
+        System.out.println("Olá, " + nome + "! Seja bem-vindo!");
+    }
+    
+    public static void main(String[] args) {
+        ExemploVoid exemplo = new ExemploVoid();
+        exemplo.saudacao("Maria"); // Chama o método
+    }
+}
+```
+
+### Método com retorno
+
+```java
+public class ExemploRetorno {
+    
+    // Método que calcula e RETORNA um valor
+    public int somar(int a, int b) {
+        int resultado = a + b;
+        return resultado; // Devolve o valor calculado
+    }
+    
+    public static void main(String[] args) {
+        ExemploRetorno calc = new ExemploRetorno();
+        int total = calc.somar(5, 3);
+        System.out.println("Total: " + total); // Imprime 8
+    }
+}
+```
+
+## A palavra-chave `return`
+
+O `return` tem duas funções:
+1. Devolver um valor
+2. Encerrar a execução do método
+
+```java
+public class ExemploReturn {
+    
+    // Exemplo com return no meio do método
+    public String verificarIdade(int idade) {
+        if (idade < 18) {
+            return "Menor de idade"; // Sai do método aqui
+        }
+        return "Maior de idade"; // Só executa se idade >= 18
+    }
+}
+```
+
+## Parâmetros e Argumentos
+
+**Parâmetro**: a variável que o método declara para receber valores
+**Argumento**: o valor real que você passa quando chama o método
+
+```java
+public class ExemploParametros {
+    
+    // 'nome' e 'ano' são PARÂMETROS
+    public void apresentar(String nome, int ano) {
+        int idade = 2024 - ano;
+        System.out.println(nome + " tem " + idade + " anos");
+    }
+    
+    public static void main(String[] args) {
+        ExemploParametros ex = new ExemploParametros();
+        
+        // "João" e 1990 são ARGUMENTOS
+        ex.apresentar("João", 1990);
+    }
+}
+```
+
+## Sobrecarga de Métodos (Overloading)
+
+Você pode ter vários métodos com o **mesmo nome**, desde que tenham **parâmetros diferentes**:
+
+```java
+public class Calculadora {
+    
+    // Versão 1: soma dois inteiros
+    public int somar(int a, int b) {
+        return a + b;
+    }
+    
+    // Versão 2: soma três inteiros
+    public int somar(int a, int b, int c) {
+        return a + b + c;
+    }
+    
+    // Versão 3: soma dois doubles
+    public double somar(double a, double b) {
+        return a + b;
+    }
+    
+    public static void main(String[] args) {
+        Calculadora calc = new Calculadora();
+        
+        System.out.println(calc.somar(2, 3));        // Chama versão 1
+        System.out.println(calc.somar(2, 3, 4));     // Chama versão 2
+        System.out.println(calc.somar(2.5, 3.7));    // Chama versão 3
+    }
+}
+```
+
+## Método static vs não-static
+
+### Método static (pertence à classe)
+
+```java
+public class Utilitarios {
+    
+    // Método static - pode ser chamado sem criar objeto
+    public static double converterCelsiusParaFahrenheit(double celsius) {
+        return (celsius * 9/5) + 32;
+    }
+    
+    public static void main(String[] args) {
+        // Chama direto da classe, sem criar objeto
+        double resultado = Utilitarios.converterCelsiusParaFahrenheit(30);
+        System.out.println("30°C = " + resultado + "°F");
+    }
+}
+```
+
+### Método não-static (precisa de objeto)
+
+```java
+public class Pessoa {
+    private String nome;
+    
+    // Método não-static - precisa de um objeto para existir
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    
+    public String getNome() {
+        return nome;
+    }
+    
+    public static void main(String[] args) {
+        // Precisa criar um objeto primeiro
+        Pessoa pessoa = new Pessoa();
+        pessoa.setNome("Ana"); // Chama o método no objeto
+        System.out.println(pessoa.getNome());
+    }
+}
+```
+
+## Passando Primitivos vs Objetos
+
+### Tipos primitivos (passagem por valor)
+
+```java
+public class PassagemPrimitivo {
+    
+    public void tentarMudar(int numero) {
+        numero = 100; // Só muda a cópia local
+        System.out.println("Dentro: " + numero); // 100
+    }
+    
+    public static void main(String[] args) {
+        PassagemPrimitivo ex = new PassagemPrimitivo();
+        
+        int x = 10;
+        ex.tentarMudar(x);
+        System.out.println("Fora: " + x); // Continua 10!
+    }
+}
+```
+
+### Objetos (passagem por referência do valor)
+
+```java
+public class Pessoa {
+    String nome;
+    
+    public Pessoa(String nome) {
+        this.nome = nome;
+    }
+}
+
+public class PassagemObjeto {
+    
+    public void mudarNome(Pessoa p) {
+        p.nome = "Modificado"; // Muda o objeto original!
+    }
+    
+    public static void main(String[] args) {
+        PassagemObjeto ex = new PassagemObjeto();
+        
+        Pessoa pessoa = new Pessoa("Original");
+        ex.mudarNome(pessoa);
+        System.out.println(pessoa.nome); // "Modificado" - mudou!
+    }
+}
+```
+
+## Exemplo Prático Completo
+
+```java
+public class SistemaBancario {
+    
+    // Método para criar saldo inicial
+    public static double criarConta(double depositoInicial) {
+        if (depositoInicial < 50) {
+            System.out.println("Depósito mínimo: R$50,00");
+            return 0;
+        }
+        return depositoInicial;
+    }
+    
+    // Método para depositar
+    public double depositar(double saldoAtual, double valor) {
+        if (valor <= 0) {
+            System.out.println("Valor inválido!");
+            return saldoAtual;
+        }
+        return saldoAtual + valor;
+    }
+    
+    // Sobrecarga: depositar com bônus
+    public double depositar(double saldoAtual, double valor, double bonus) {
+        return saldoAtual + valor + bonus;
+    }
+    
+    // Método para sacar
+    public double sacar(double saldoAtual, double valor) {
+        if (valor > saldoAtual) {
+            System.out.println("Saldo insuficiente!");
+            return saldoAtual;
+        }
+        return saldoAtual - valor;
+    }
+    
+    // Método void - só exibe informações
+    public void exibirSaldo(double saldo) {
+        System.out.printf("Saldo atual: R$%.2f%n", saldo);
+    }
+    
+    public static void main(String[] args) {
+        SistemaBancario banco = new SistemaBancario();
+        
+        // Usando método static
+        double saldo = SistemaBancario.criarConta(1000);
+        
+        // Usando métodos não-static
+        saldo = banco.depositar(saldo, 500);
+        saldo = banco.depositar(saldo, 200, 50); // Sobrecarga!
+        saldo = banco.sacar(saldo, 300);
+        
+        banco.exibirSaldo(saldo);
+    }
+}
+```
+
+## Erros Comuns (e como evitar)
+
+### 1. Esquecer o return
+
+```java
+// ERRADO
+public int calcularIdade(int anoNascimento) {
+    int idade = 2024 - anoNascimento;
+    // Faltou o return!
+}
+
+// CERTO
+public int calcularIdade(int anoNascimento) {
+    int idade = 2024 - anoNascimento;
+    return idade;
+}
+```
+
+### 2. Tipo de retorno errado
+
+```java
+// ERRADO
+public String obterNumero() {
+    return 42; // String esperada, mas retornou int
+}
+
+// CERTO
+public int obterNumero() {
+    return 42;
+}
+```
+
+### 3. Chamar método static como se fosse de instância
+
+```java
+public class Teste {
+    public static void main(String[] args) {
+        // ERRADO
+        Teste t = new Teste();
+        t.metodoStatic(); // Funciona, mas é má prática
+        
+        // CERTO
+        Teste.metodoStatic(); // Chama pela classe
+    }
+    
+    public static void metodoStatic() {
+        System.out.println("Método static");
+    }
+}
+```
+
+## Dicas Finais 💡
+
+1. **Nomes descritivos**: `calcularMedia()` é melhor que `cm()`
+2. **Um método, uma tarefa**: não faça métodos que fazem tudo
+3. **Parâmetros com moderação**: mais de 3-4 parâmetros já complica
+4. **Sempre teste**: chame seus métodos com diferentes valores
+5. **Documente**: use comentários para explicar o que o método faz
+
+Lembre-se: métodos são seus melhores amigos para organizar código! Eles evitam repetição, facilitam manutenção e tornam seu código mais legível. Pratique criando métodos para tudo que você fizer mais de uma vez! 🚀

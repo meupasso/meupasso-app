@@ -1,0 +1,338 @@
+---
+titulo: "Expressões Regulares"
+slug: "expressoes-regulares"
+ordem: 23
+---# Expressões Regulares em Python: Guia Completo para Iniciantes
+
+## O que são Expressões Regulares?
+
+Expressões Regulares (ou **regex**) são padrões usados para buscar, validar e manipular texto. Pense nelas como um "detetive" que procura por padrões específicos dentro de strings.
+
+Imagine que você precisa:
+- Verificar se um email é válido
+- Encontrar todos os números de telefone em um texto
+- Extrair dados de um arquivo
+- Substituir partes específicas de um texto
+
+Regex resolve tudo isso de forma elegante!
+
+## O Módulo `re`
+
+Python tem um módulo nativo chamado `re` que trabalha com expressões regulares. Primeiro, você precisa importá-lo:
+
+```python
+import re
+```
+
+## Funções Principais
+
+### 1. `re.match()` - Verifica no início da string
+
+```python
+import re
+
+texto = "Python é incrível"
+padrao = r"Python"
+
+resultado = re.match(padrao, texto)
+if resultado:
+    print("Encontrado:", resultado.group())
+else:
+    print("Não encontrado")
+```
+
+**Importante:** `match()` só verifica o **início** da string!
+
+```python
+texto = "Eu amo Python"
+resultado = re.match(r"Python", texto)  # Não encontra!
+print(resultado)  # None
+```
+
+### 2. `re.search()` - Procura em qualquer lugar
+
+```python
+texto = "Eu amo Python e JavaScript"
+resultado = re.search(r"Python", texto)
+if resultado:
+    print("Encontrado em:", resultado.start(), "-", resultado.end())
+    print("Trecho:", resultado.group())
+```
+
+### 3. `re.findall()` - Retorna todas as ocorrências
+
+```python
+texto = "Telefones: 1199999999, 2188888888, 3177777777"
+numeros = re.findall(r"\d{10}", texto)
+print(numeros)  # ['1199999999', '2188888888', '3177777777']
+```
+
+### 4. `re.sub()` - Substitui padrões
+
+```python
+texto = "Meu email é joao@gmail.com e maria@yahoo.com"
+emails_ocultos = re.sub(r"\w+@\w+\.\w+", "[EMAIL OCULTO]", texto)
+print(emails_ocultos)  # Meu email é [EMAIL OCULTO] e [EMAIL OCULTO]
+```
+
+## Metacaracteres Básicos
+
+### `.` (ponto) - Qualquer caractere (exceto quebra de linha)
+
+```python
+texto = "gato, gote, guta"
+print(re.findall(r"g.t.", texto))  # ['gato', 'gote', 'guta']
+```
+
+### `*` - Zero ou mais ocorrências
+
+```python
+texto = "go, goo, gooo, gato"
+print(re.findall(r"go*", texto))  # ['go', 'goo', 'gooo', 'g']
+```
+
+### `+` - Uma ou mais ocorrências
+
+```python
+texto = "go, goo, gooo, gato"
+print(re.findall(r"go+", texto))  # ['go', 'goo', 'gooo']
+```
+
+### `?` - Zero ou uma ocorrência
+
+```python
+texto = "cor, corr, corrr, corrrr"
+print(re.findall(r"corr?", texto))  # ['cor', 'corr', 'corr']
+```
+
+### `[]` - Conjunto de caracteres
+
+```python
+texto = "casa, caso, casu, casã"
+print(re.findall(r"cas[aeiou]", texto))  # ['casa', 'caso', 'casu']
+```
+
+### `^` - Início da string (quando usado fora de [])
+
+```python
+texto = "Python é legal"
+print(re.findall(r"^Python", texto))  # ['Python']
+```
+
+### `$` - Final da string
+
+```python
+texto = "legal Python"
+print(re.findall(r"Python$", texto))  # ['Python']
+```
+
+## Grupos com `()`
+
+Grupos permitem capturar partes específicas do padrão:
+
+```python
+texto = "João tem 25 anos e Maria tem 30 anos"
+padrao = r"(\w+) tem (\d+) anos"
+resultados = re.findall(padrao, texto)
+print(resultados)  # [('João', '25'), ('Maria', '30')]
+
+# Acessando grupos específicos
+for nome, idade in resultados:
+    print(f"{nome} tem {idade} anos")
+```
+
+## Exemplos Práticos
+
+### 1. Validar Email
+
+```python
+import re
+
+def validar_email(email):
+    padrao = r"^[\w\.-]+@[\w\.-]+\.\w{2,}$"
+    if re.match(padrao, email):
+        return True
+    return False
+
+# Testes
+emails = ["joao@gmail.com", "maria@yahoo", "teste@.com", "ana@empresa.com.br"]
+for email in emails:
+    print(f"{email}: {validar_email(email)}")
+```
+
+### 2. Validar CPF
+
+```python
+import re
+
+def validar_cpf(cpf):
+    # Remove caracteres não numéricos
+    cpf = re.sub(r"\D", "", cpf)
+    
+    # Verifica se tem 11 dígitos
+    padrao = r"^\d{11}$"
+    if not re.match(padrao, cpf):
+        return False
+    
+    # Verifica se todos os dígitos são iguais (CPF inválido)
+    if cpf == cpf[0] * 11:
+        return False
+    
+    # Validação dos dígitos verificadores (simplificada)
+    # (Em produção, implemente a validação completa)
+    return True
+
+cpfs = ["123.456.789-09", "111.111.111-11", "529.982.247-25"]
+for cpf in cpfs:
+    print(f"{cpf}: {validar_cpf(cpf)}")
+```
+
+### 3. Validar Telefone
+
+```python
+import re
+
+def validar_telefone(telefone):
+    # Aceita formatos: (11) 99999-9999, 11999999999, 11 99999-9999
+    padrao = r"^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$"
+    if re.match(padrao, telefone):
+        return True
+    return False
+
+telefones = ["(11) 99999-9999", "11999999999", "11 9999-9999", "12345"]
+for tel in telefones:
+    print(f"{tel}: {validar_telefone(tel)}")
+```
+
+### 4. Extrair Dados de um Texto
+
+```python
+import re
+
+texto = """
+Cliente: João Silva
+Email: joao.silva@email.com
+Telefone: (11) 98765-4321
+CPF: 123.456.789-09
+Data de nascimento: 15/03/1990
+"""
+
+# Extrair email
+email = re.search(r"[\w\.-]+@[\w\.-]+\.\w+", texto)
+print("Email:", email.group())
+
+# Extrair telefone
+telefone = re.search(r"\(?\d{2}\)?\s?\d{4,5}-?\d{4}", texto)
+print("Telefone:", telefone.group())
+
+# Extrair CPF
+cpf = re.search(r"\d{3}\.\d{3}\.\d{3}-\d{2}", texto)
+print("CPF:", cpf.group())
+
+# Extrair data
+data = re.search(r"\d{2}/\d{2}/\d{4}", texto)
+print("Data:", data.group())
+```
+
+## Dicas Importantes
+
+### 1. Use `r""` para raw strings
+
+```python
+# Sem raw string, \n é interpretado como quebra de linha
+padrao_errado = "\n"  # Quebra de linha
+
+# Com raw string, \n é literal
+padrao_certo = r"\n"  # Literalmente "\n"
+```
+
+### 2. Escape de caracteres especiais
+
+```python
+# Para buscar um ponto literal, use \.
+texto = "Preço: R$ 10.50"
+print(re.findall(r"\d+\.\d+", texto))  # ['10.50']
+```
+
+### 3. Use `re.IGNORECASE` para ignorar maiúsculas/minúsculas
+
+```python
+texto = "Python, PYTHON, python"
+print(re.findall(r"python", texto, re.IGNORECASE))  # ['Python', 'PYTHON', 'python']
+```
+
+## Erros Comuns
+
+### 1. Esquecer de escapar pontos
+
+```python
+# ERRADO
+texto = "email@exemplo.com"
+print(re.findall(r"email@exemplo.com", texto))  # None (ponto captura qualquer caractere)
+
+# CERTO
+print(re.findall(r"email@exemplo\.com", texto))  # ['email@exemplo.com']
+```
+
+### 2. Usar `match` quando deveria usar `search`
+
+```python
+texto = "O email é joao@gmail.com"
+# ERRADO: match procura no início
+resultado = re.match(r"joao@gmail.com", texto)  # None
+
+# CERTO: search procura em qualquer lugar
+resultado = re.search(r"joao@gmail.com", texto)  # Encontra!
+```
+
+### 3. Não usar raw strings
+
+```python
+# ERRADO
+padrao = "\d"  # \d é interpretado como caractere de controle
+
+# CERTO
+padrao = r"\d"  # \d é literal
+```
+
+## Exercício Prático
+
+Crie um programa que valide senhas com os seguintes critérios:
+- Mínimo 8 caracteres
+- Pelo menos uma letra maiúscula
+- Pelo menos uma letra minúscula
+- Pelo menos um número
+- Pelo menos um caractere especial (@, #, $, %, &)
+
+```python
+import re
+
+def validar_senha(senha):
+    if len(senha) < 8:
+        return "Senha muito curta (mínimo 8 caracteres)"
+    
+    if not re.search(r"[A-Z]", senha):
+        return "Senha precisa ter pelo menos uma letra maiúscula"
+    
+    if not re.search(r"[a-z]", senha):
+        return "Senha precisa ter pelo menos uma letra minúscula"
+    
+    if not re.search(r"\d", senha):
+        return "Senha precisa ter pelo menos um número"
+    
+    if not re.search(r"[@#$%&]", senha):
+        return "Senha precisa ter pelo menos um caractere especial (@, #, $, %, &)"
+    
+    return "Senha válida!"
+
+# Testes
+senhas = ["abc123", "Senha123", "Senha@123", "senha@123", "SENHA@123"]
+for senha in senhas:
+    print(f"{senha}: {validar_senha(senha)}")
+```
+
+## Conclusão
+
+Expressões regulares são ferramentas poderosas para manipulação de texto. Comece com padrões simples e vá aumentando a complexidade aos poucos. Use sites como [regex101.com](https://regex101.com) para testar seus padrões visualmente.
+
+Lembre-se: regex é como um superpoder - quando você aprende, nunca mais vai querer viver sem!

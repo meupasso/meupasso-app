@@ -1,0 +1,452 @@
+---
+titulo: "POO — Classes e Objetos"
+slug: "poo"
+ordem: 17
+---
+
+# Programação Orientada a Objetos com Classes em JavaScript
+
+E aí, dev! Vamos mergulhar no mundo da POO com classes em JavaScript? Se você já ouviu falar em "objetos", "instâncias" e "métodos" mas ainda não domina o assunto, esse guia é pra você. Bora aprender de um jeito simples e prático!
+
+## O que são Classes?
+
+Imagine uma classe como uma "receita de bolo". Você tem os ingredientes (atributos) e o passo a passo (métodos). A partir dessa receita, você pode fazer vários bolos (instâncias) que seguem a mesma estrutura.
+
+```javascript
+// Nossa primeira classe
+class Pessoa {
+  // Construtor: o que acontece quando criamos uma pessoa
+  constructor(nome, idade) {
+    this.nome = nome; // this.nome se refere ao atributo da instância
+    this.idade = idade;
+  }
+
+  // Método de instância: ação que a pessoa pode fazer
+  apresentar() {
+    console.log(`Olá! Meu nome é ${this.nome} e tenho ${this.idade} anos.`);
+  }
+}
+
+// Criando uma instância (um objeto real)
+const joao = new Pessoa("João", 25);
+joao.apresentar(); // Olá! Meu nome é João e tenho 25 anos.
+```
+
+## Constructor e a palavra `this`
+
+O `constructor` é um método especial que roda automaticamente quando usamos `new`. É aqui que inicializamos nossos atributos.
+
+A palavra `this` é crucial no JavaScript. Dentro de uma classe, `this` se refere à instância atual, ou seja, ao objeto que está sendo criado ou manipulado.
+
+```javascript
+class Carro {
+  constructor(modelo, ano) {
+    // Erro comum: esquecer o this
+    // modelo = modelo; // ISSO NÃO FUNCIONA! Não cria atributo
+    
+    // Correto: usar this
+    this.modelo = modelo;
+    this.ano = ano;
+    this.ligado = false;
+  }
+
+  ligar() {
+    this.ligado = true;
+    console.log(`${this.modelo} ligado!`);
+  }
+}
+
+const fusca = new Carro("Fusca", 1970);
+fusca.ligar(); // Fusca ligado!
+```
+
+## Métodos de Instância
+
+São funções que cada objeto pode executar. Eles têm acesso aos atributos da instância através do `this`.
+
+```javascript
+class ContaBancaria {
+  constructor(titular, saldoInicial = 0) {
+    this.titular = titular;
+    this.saldo = saldoInicial;
+  }
+
+  depositar(valor) {
+    if (valor <= 0) {
+      console.log("Valor inválido para depósito");
+      return;
+    }
+    this.saldo += valor;
+    console.log(`Depósito de R$${valor} realizado. Saldo: R$${this.saldo}`);
+  }
+
+  sacar(valor) {
+    if (valor > this.saldo) {
+      console.log("Saldo insuficiente!");
+      return;
+    }
+    this.saldo -= valor;
+    console.log(`Saque de R$${valor} realizado. Saldo: R$${this.saldo}`);
+  }
+
+  verSaldo() {
+    console.log(`Saldo de ${this.titular}: R$${this.saldo}`);
+  }
+}
+
+const minhaConta = new ContaBancaria("Maria", 1000);
+minhaConta.depositar(500); // Depósito de R$500 realizado. Saldo: R$1500
+minhaConta.sacar(200);     // Saque de R$200 realizado. Saldo: R$1300
+minhaConta.verSaldo();     // Saldo de Maria: R$1300
+```
+
+## A palavra-chave `new`
+
+`new` é o operador que cria uma nova instância da classe. Sem ele, a classe não funciona como esperado:
+
+```javascript
+class Animal {
+  constructor(nome) {
+    this.nome = nome;
+  }
+}
+
+// Certo:
+const cachorro = new Animal("Rex");
+
+// Errado (e perigoso!):
+const gato = Animal("Mimi"); // Isso não cria uma instância!
+// Em modo estrito (strict mode), isso dá erro
+```
+
+## Atributos Privados com `#`
+
+A partir do ES2022, podemos usar `#` para criar atributos realmente privados, que só podem ser acessados dentro da classe:
+
+```javascript
+class Banco {
+  #saldo; // Atributo privado
+  #senha;
+
+  constructor(titular, senha) {
+    this.titular = titular;
+    this.#senha = senha;
+    this.#saldo = 0;
+  }
+
+  depositar(valor) {
+    if (valor > 0) {
+      this.#saldo += valor;
+      return true;
+    }
+    return false;
+  }
+
+  #validarSenha(senha) { // Método privado também!
+    return this.#senha === senha;
+  }
+
+  sacar(valor, senha) {
+    if (!this.#validarSenha(senha)) {
+      console.log("Senha incorreta!");
+      return false;
+    }
+    if (valor > this.#saldo) {
+      console.log("Saldo insuficiente!");
+      return false;
+    }
+    this.#saldo -= valor;
+    return true;
+  }
+
+  verSaldo(senha) {
+    if (!this.#validarSenha(senha)) {
+      return "Acesso negado!";
+    }
+    return `Saldo: R$${this.#saldo}`;
+  }
+}
+
+const conta = new Banco("João", "1234");
+conta.depositar(1000);
+// console.log(conta.#saldo); // ERRO! Não pode acessar fora da classe
+console.log(conta.verSaldo("1234")); // Saldo: R$1000
+```
+
+## Métodos e Atributos Estáticos (`static`)
+
+Atributos e métodos estáticos pertencem à classe, não às instâncias. São úteis para funcionalidades que não dependem de um objeto específico:
+
+```javascript
+class Calculadora {
+  static PI = 3.14159;
+
+  static somar(a, b) {
+    return a + b;
+  }
+
+  static criarCalculadoraPersonalizada(nome) {
+    return {
+      nome,
+      somar: (a, b) => a + b,
+      subtrair: (a, b) => a - b
+    };
+  }
+}
+
+// Usando métodos estáticos - não precisa criar instância!
+console.log(Calculadora.PI); // 3.14159
+console.log(Calculadora.somar(5, 3)); // 8
+
+const minhaCalc = Calculadora.criarCalculadoraPersonalizada("Calc1");
+console.log(minhaCalc.somar(10, 5)); // 15
+
+// Erro comum: tentar acessar método estático pela instância
+const calc = new Calculadora();
+// console.log(calc.somar(1, 2)); // ERRO! somar não existe na instância
+```
+
+## Getters e Setters
+
+Getters e setters permitem controlar como os atributos são acessados e modificados, como se fossem propriedades normais:
+
+```javascript
+class Temperatura {
+  constructor(celsius) {
+    this._celsius = celsius; // Convenção: _ para atributos "protegidos"
+  }
+
+  // Getter - acessa como propriedade, não como método
+  get celsius() {
+    return this._celsius;
+  }
+
+  // Setter - permite validação ao atribuir valor
+  set celsius(valor) {
+    if (valor < -273.15) {
+      console.log("Temperatura abaixo do zero absoluto!");
+      this._celsius = -273.15;
+    } else {
+      this._celsius = valor;
+    }
+  }
+
+  get fahrenheit() {
+    return this._celsius * 9/5 + 32;
+  }
+
+  set fahrenheit(valor) {
+    this.celsius = (valor - 32) * 5/9;
+  }
+}
+
+const temp = new Temperatura(25);
+console.log(temp.celsius); // 25 (usa o getter)
+console.log(temp.fahrenheit); // 77
+
+temp.celsius = 30; // Usa o setter
+console.log(temp.celsius); // 30
+
+temp.celsius = -300; // "Temperatura abaixo do zero absoluto!"
+console.log(temp.celsius); // -273.15 (valor corrigido)
+
+temp.fahrenheit = 212; // Define via fahrenheit, converte para celsius
+console.log(temp.celsius); // 100
+```
+
+## Equivalente ao `toString()`
+
+Em JavaScript, podemos definir como nosso objeto se comporta quando convertido para string:
+
+```javascript
+class Produto {
+  constructor(nome, preco, quantidade) {
+    this.nome = nome;
+    this.preco = preco;
+    this.quantidade = quantidade;
+  }
+
+  // Equivalente ao toString() - define representação em string
+  toString() {
+    return `Produto: ${this.nome} | Preço: R$${this.preco.toFixed(2)} | Estoque: ${this.quantidade}`;
+  }
+
+  // Também podemos usar Symbol.toPrimitive para conversão automática
+  [Symbol.toPrimitive](tipo) {
+    if (tipo === "string") {
+      return this.toString();
+    }
+    if (tipo === "number") {
+      return this.preco * this.quantidade;
+    }
+    return null;
+  }
+}
+
+const camiseta = new Produto("Camiseta", 49.90, 10);
+
+// toString() é chamado automaticamente em contextos de string
+console.log(camiseta.toString()); // Produto: Camiseta | Preço: R$49.90 | Estoque: 10
+console.log(String(camiseta));    // Produto: Camiseta | Preço: R$49.90 | Estoque: 10
+console.log(`${camiseta}`);       // Produto: Camiseta | Preço: R$49.90 | Estoque: 10
+
+// Com Symbol.toPrimitive, podemos fazer contas!
+console.log(Number(camiseta)); // 499 (preço * quantidade)
+```
+
+## Exemplo Completo: Sistema de Biblioteca
+
+Vamos juntar tudo que aprendemos num exemplo prático:
+
+```javascript
+class Livro {
+  #id;
+  static #proximoId = 1;
+
+  constructor(titulo, autor, ano) {
+    this.titulo = titulo;
+    this.autor = autor;
+    this.ano = ano;
+    this.disponivel = true;
+    this.#id = Livro.#proximoId++;
+  }
+
+  get id() {
+    return this.#id;
+  }
+
+  toString() {
+    return `#${this.#id} - "${this.titulo}" por ${this.autor} (${this.ano}) - ${this.disponivel ? "Disponível" : "Emprestado"}`;
+  }
+}
+
+class Biblioteca {
+  #livros = [];
+
+  adicionarLivro(titulo, autor, ano) {
+    const livro = new Livro(titulo, autor, ano);
+    this.#livros.push(livro);
+    return livro;
+  }
+
+  emprestarLivro(id) {
+    const livro = this.#livros.find(l => l.id === id);
+    if (!livro) {
+      console.log("Livro não encontrado!");
+      return false;
+    }
+    if (!livro.disponivel) {
+      console.log("Livro já está emprestado!");
+      return false;
+    }
+    livro.disponivel = false;
+    console.log(`Livro "${livro.titulo}" emprestado com sucesso!`);
+    return true;
+  }
+
+  devolverLivro(id) {
+    const livro = this.#livros.find(l => l.id === id);
+    if (!livro) {
+      console.log("Livro não encontrado!");
+      return false;
+    }
+    if (livro.disponivel) {
+      console.log("Este livro já está disponível!");
+      return false;
+    }
+    livro.disponivel = true;
+    console.log(`Livro "${livro.titulo}" devolvido com sucesso!`);
+    return true;
+  }
+
+  listarLivros() {
+    console.log("\n=== LIVROS DA BIBLIOTECA ===");
+    this.#livros.forEach(livro => console.log(livro.toString()));
+    console.log("===========================\n");
+  }
+
+  static criarBibliotecaVazia() {
+    return new Biblioteca();
+  }
+}
+
+// Testando o sistema
+const biblioteca = new Biblioteca();
+
+biblioteca.adicionarLivro("1984", "George Orwell", 1949);
+biblioteca.adicionarLivro("Dom Casmurro", "Machado de Assis", 1899);
+biblioteca.adicionarLivro("O Pequeno Príncipe", "Antoine de Saint-Exupéry", 1943);
+
+biblioteca.listarLivros();
+// #1 - "1984" por George Orwell (1949) - Disponível
+// #2 - "Dom Casmurro" por Machado de Assis (1899) - Disponível
+// #3 - "O Pequeno Príncipe" por Antoine de Saint-Exupéry (1943) - Disponível
+
+biblioteca.emprestarLivro(1); // Livro "1984" emprestado com sucesso!
+biblioteca.emprestarLivro(1); // Livro já está emprestado!
+
+biblioteca.listarLivros();
+// #1 - "1984" por George Orwell (1949) - Emprestado
+// #2 - "Dom Casmurro" por Machado de Assis (1899) - Disponível
+// #3 - "O Pequeno Príncipe" por Antoine de Saint-Exupéry (1943) - Disponível
+
+biblioteca.devolverLivro(1); // Livro "1984" devolvido com sucesso!
+```
+
+## Erros Comuns e Dicas
+
+### ❌ Erros que todo iniciante comete:
+
+```javascript
+// 1. Esquecer o `new`
+class Usuario {
+  constructor(nome) {
+    this.nome = nome;
+  }
+}
+// const user = Usuario("João"); // ERRO! Sem o new, this aponta para window/global
+
+// 2. Confundir this em callbacks
+class Temporizador {
+  constructor() {
+    this.segundos = 0;
+  }
+  
+  iniciar() {
+    // ERRO: this dentro de setInterval não é a instância
+    // setInterval(function() {
+    //   this.segundos++; // this aqui é o objeto window!
+    // }, 1000);
+    
+    // CORRETO: usar arrow function
+    setInterval(() => {
+      this.segundos++; // this capturado do escopo pai
+    }, 1000);
+  }
+}
+
+// 3. Esquecer de declarar atributos no constructor
+class Aluno {
+  constructor(nome) {
+    this.nome = nome;
+    // Esquecer this.notas = []; e depois tentar this.notas.push(10) dá erro
+  }
+}
+```
+
+### ✅ Dicas importantes:
+
+1. **Sempre declare todos os atributos no constructor** - mesmo que com valor inicial `null` ou `undefined`
+2. **Use `#` para atributos realmente privados** - a convenção `_` não impede acesso externo
+3. **Prefira arrow functions para callbacks** - evita problemas com `this`
+4. **Mantenha as classes coesas** - cada classe deve ter uma responsabilidade única
+5. **Documente suas classes** - especialmente os parâmetros do constructor
+
+## Para Saber Mais
+
+- **Herança**: `extends` e `super()` para criar classes filhas
+- **Polimorfismo**: métodos com mesmo nome em classes diferentes
+- **Composição**: usar objetos dentro de outros objetos (já fizemos isso com `#livros = []`)
+- **Módulos**: exportar/importar classes entre arquivos
+
+Pronto! Agora você tem uma base sólida de POO com classes em JavaScript. Comece criando classes simples e vá adicionando complexidade aos poucos. A prática é o segredo! 🚀

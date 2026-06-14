@@ -1,0 +1,252 @@
+---
+titulo: "Scanner (Input)"
+slug: "scanner"
+ordem: 7
+---
+
+# Scanner em Java: Lendo Dados do Usuário
+
+E aí, futuro dev! Vamos aprender uma das coisas mais legais em Java: como fazer seu programa conversar com o usuário! O Scanner é a ferramenta que usamos para ler dados digitados no teclado.
+
+## O que é o Scanner?
+
+O Scanner é uma classe do Java que permite ler dados de várias fontes (teclado, arquivos, etc.). Quando usamos com `System.in`, ele lê o que o usuário digita no terminal.
+
+## 1. Importando o Scanner
+
+Primeiro, precisamos avisar ao Java que vamos usar o Scanner. Isso é feito com o `import`:
+
+```java
+import java.util.Scanner;  // Sempre no começo do arquivo!
+
+public class LeituraDados {
+    public static void main(String[] args) {
+        // Seu código aqui
+    }
+}
+```
+
+## 2. Criando o Objeto Scanner
+
+O Scanner é um objeto que precisamos criar antes de usar:
+
+```java
+Scanner entrada = new Scanner(System.in);
+```
+
+- `Scanner` é o tipo
+- `entrada` é o nome que damos ao nosso scanner (pode ser qualquer nome)
+- `new Scanner(System.in)` cria o scanner que lê do teclado
+
+## 3. Métodos Principais do Scanner
+
+### nextLine() - Para ler textos (String)
+
+```java
+System.out.print("Digite seu nome: ");
+String nome = entrada.nextLine();
+System.out.println("Olá, " + nome + "!");
+```
+
+### nextInt() - Para ler números inteiros
+
+```java
+System.out.print("Digite sua idade: ");
+int idade = entrada.nextInt();
+System.out.println("Você tem " + idade + " anos.");
+```
+
+### nextDouble() - Para ler números decimais
+
+```java
+System.out.print("Digite sua altura (ex: 1.75): ");
+double altura = entrada.nextDouble();
+System.out.println("Sua altura é " + altura);
+```
+
+## 4. Exemplo Prático Completo
+
+Vamos criar um programa que coleta dados de um aluno:
+
+```java
+import java.util.Scanner;
+
+public class CadastroAluno {
+    public static void main(String[] args) {
+        Scanner entrada = new Scanner(System.in);
+        
+        System.out.println("=== CADASTRO DO ALUNO ===");
+        
+        System.out.print("Nome completo: ");
+        String nome = entrada.nextLine();
+        
+        System.out.print("Idade: ");
+        int idade = entrada.nextInt();
+        
+        System.out.print("Nota da prova (0.0 a 10.0): ");
+        double nota = entrada.nextDouble();
+        
+        System.out.println("\n=== DADOS CADASTRADOS ===");
+        System.out.println("Nome: " + nome);
+        System.out.println("Idade: " + idade + " anos");
+        System.out.println("Nota: " + nota);
+        
+        entrada.close(); // Importante: fechar o scanner!
+    }
+}
+```
+
+## 5. O PROBLEMA DO nextLine() APÓS nextInt()
+
+Esse é o erro mais chato para quem está começando! Vamos ver:
+
+```java
+// PROBLEMA! CÓDIGO COM ERRO!
+Scanner entrada = new Scanner(System.in);
+
+System.out.print("Digite sua idade: ");
+int idade = entrada.nextInt();  // Lê o número
+
+System.out.print("Digite seu nome: ");
+String nome = entrada.nextLine();  // PROBLEMA! Pula direto!
+```
+
+**Por que isso acontece?**
+
+Quando você digita `25` e aperta ENTER, o `nextInt()` lê só o `25`, mas a "quebra de linha" (ENTER) fica no buffer. O `nextLine()` lê essa quebra de linha e termina sem esperar você digitar!
+
+**Solução: Limpar o buffer com um nextLine() extra**
+
+```java
+// SOLUÇÃO CORRETA!
+Scanner entrada = new Scanner(System.in);
+
+System.out.print("Digite sua idade: ");
+int idade = entrada.nextInt();
+
+entrada.nextLine();  // LIMPA O BUFFER! Lê a quebra de linha esquecida
+
+System.out.print("Digite seu nome: ");
+String nome = entrada.nextLine();  // Agora funciona!
+```
+
+## 6. Exemplo Prático com a Correção
+
+```java
+import java.util.Scanner;
+
+public class CadastroCompleto {
+    public static void main(String[] args) {
+        Scanner entrada = new Scanner(System.in);
+        
+        System.out.println("=== CADASTRO COMPLETO ===");
+        
+        System.out.print("Digite seu nome: ");
+        String nome = entrada.nextLine();
+        
+        System.out.print("Digite sua idade: ");
+        int idade = entrada.nextInt();
+        entrada.nextLine(); // LIMPA O BUFFER!
+        
+        System.out.print("Digite sua profissão: ");
+        String profissao = entrada.nextLine();
+        
+        System.out.print("Digite seu salário: ");
+        double salario = entrada.nextDouble();
+        
+        System.out.println("\n=== RESUMO ===");
+        System.out.println("Nome: " + nome);
+        System.out.println("Idade: " + idade);
+        System.out.println("Profissão: " + profissao);
+        System.out.println("Salário: R$ " + salario);
+        
+        entrada.close();
+    }
+}
+```
+
+## 7. Erros Comuns e Como Evitá-los
+
+### InputMismatchException
+
+```java
+// Isso vai dar erro!
+Scanner entrada = new Scanner(System.in);
+System.out.print("Digite um número: ");
+int numero = entrada.nextInt(); 
+// Se o usuário digitar "abc", dá InputMismatchException!
+```
+
+**Dica:** Sempre informe ao usuário o tipo de dado esperado:
+
+```java
+System.out.print("Digite um NÚMERO INTEIRO (ex: 25): ");
+```
+
+### Esquecer de fechar o Scanner
+
+```java
+Scanner entrada = new Scanner(System.in);
+// ... usa o scanner ...
+// Se não fechar, pode causar vazamento de recursos!
+entrada.close(); // Sempre feche quando não for mais usar!
+```
+
+## 8. Exercício Prático
+
+Crie um programa que:
+1. Pergunte o nome do usuário
+2. Pergunte a idade
+3. Pergunte o peso (em kg, com decimal)
+4. Pergunte a altura (em metros, com decimal)
+5. Calcule o IMC (peso / altura²)
+6. Mostre todos os dados
+
+Tente fazer antes de ver a solução!
+
+```java
+import java.util.Scanner;
+
+public class CalculadoraIMC {
+    public static void main(String[] args) {
+        Scanner entrada = new Scanner(System.in);
+        
+        System.out.println("=== CALCULADORA DE IMC ===");
+        
+        System.out.print("Nome: ");
+        String nome = entrada.nextLine();
+        
+        System.out.print("Idade: ");
+        int idade = entrada.nextInt();
+        entrada.nextLine(); // Limpa buffer!
+        
+        System.out.print("Peso (kg, ex: 70.5): ");
+        double peso = entrada.nextDouble();
+        
+        System.out.print("Altura (m, ex: 1.75): ");
+        double altura = entrada.nextDouble();
+        
+        double imc = peso / (altura * altura);
+        
+        System.out.println("\n=== RESULTADO ===");
+        System.out.println("Nome: " + nome);
+        System.out.println("Idade: " + idade + " anos");
+        System.out.println("Peso: " + peso + " kg");
+        System.out.println("Altura: " + altura + " m");
+        System.out.printf("IMC: %.2f%n", imc);
+        
+        entrada.close();
+    }
+}
+```
+
+## Resumo - Regras de Ouro
+
+1. **Sempre importe:** `import java.util.Scanner;`
+2. **Crie o objeto:** `Scanner entrada = new Scanner(System.in);`
+3. **Use os métodos certos:** `nextLine()` para texto, `nextInt()` para inteiros, `nextDouble()` para decimais
+4. **Limpe o buffer:** Depois de `nextInt()` ou `nextDouble()`, use `entrada.nextLine()` se for ler texto depois
+5. **Feche o Scanner:** `entrada.close()` quando não for mais usar
+6. **Informe o usuário:** Mostre o tipo de dado esperado na mensagem
+
+Com essas dicas, você já consegue criar programas interativos em Java! Pratique bastante e logo vai dominar a leitura de dados! 🚀

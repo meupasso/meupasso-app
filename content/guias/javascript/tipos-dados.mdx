@@ -1,0 +1,201 @@
+---
+titulo: "Tipos de Dados"
+slug: "tipos-dados"
+ordem: 5
+---
+
+Vamos mergulhar no mundo dos tipos de dados em JavaScript! 🚀
+
+## O que são tipos de dados?
+
+Imagine que você está organizando uma caixa de ferramentas. Cada ferramenta tem um propósito específico: martelo para pregos, chave de fenda para parafusos. No JavaScript, os tipos de dados funcionam de forma parecida - eles definem que tipo de informação você está guardando e o que pode fazer com ela.
+
+## Number (Número)
+
+No JavaScript, **não existe diferença entre número inteiro e decimal**. Tudo é do tipo `number`.
+
+```javascript
+// Todos são numbers!
+let idade = 25;           // inteiro
+let preco = 49.90;        // decimal
+let temperatura = -5;     // negativo
+let pi = 3.14159;         // várias casas decimais
+
+console.log(typeof idade);      // "number"
+console.log(typeof preco);      // "number"
+```
+
+**Dica importante:** Em outras linguagens como Java ou C#, você precisa declarar separadamente `int` (inteiro) e `float` (decimal). No JavaScript, um tipo só resolve tudo!
+
+## String (Texto)
+
+Strings são textos, e você pode usar aspas simples, duplas ou crases (template strings).
+
+```javascript
+let nome = "Maria";           // aspas duplas
+let cidade = 'São Paulo';     // aspas simples
+let frase = `Olá, ${nome}!`;  // template string (crases) - permite interpolação
+
+console.log(typeof nome);     // "string"
+```
+
+**Erro comum:** Esquecer de fechar as aspas!
+```javascript
+// ❌ ERRADO
+let texto = "Isso vai dar erro;
+
+// ✅ CORRETO
+let texto = "Isso funciona!";
+```
+
+## Boolean (Booleano)
+
+Apenas dois valores: `true` (verdadeiro) ou `false` (falso). Perfeito para decisões.
+
+```javascript
+let maiorDeIdade = true;
+let estaChovendo = false;
+
+if (maiorDeIdade) {
+  console.log("Pode entrar!");
+}
+
+console.log(typeof maiorDeIdade); // "boolean"
+```
+
+## Null e Undefined
+
+Esses dois são campeões de confusão entre iniciantes. Vamos esclarecer:
+
+- **`null`**: "Eu propositalmente não tenho valor"
+- **`undefined`**: "Ninguém me disse qual é meu valor ainda"
+
+```javascript
+let usuario = null;        // Eu decidi que não tem valor
+let endereco;              // undefined - nunca foi definido
+
+console.log(usuario);      // null
+console.log(endereco);     // undefined
+console.log(typeof null);  // "object" (isso é um bug histórico do JS!)
+console.log(typeof undefined); // "undefined"
+```
+
+**Dica de ouro:** Sempre que quiser "zerar" uma variável, use `null`. `undefined` normalmente significa que algo deu errado.
+
+## O operador typeof
+
+Seu detector de tipos! Use para descobrir o tipo de qualquer valor.
+
+```javascript
+console.log(typeof 42);           // "number"
+console.log(typeof "Olá");        // "string"
+console.log(typeof true);         // "boolean"
+console.log(typeof undefined);    // "undefined"
+console.log(typeof null);         // "object" (atenção: bug histórico!)
+console.log(typeof [1,2,3]);      // "object"
+console.log(typeof function(){}); // "function"
+```
+
+## Convertendo tipos (Type Conversion)
+
+Às vezes você precisa transformar um tipo em outro. Aqui estão as ferramentas:
+
+### Number() - Converte para número
+
+```javascript
+let texto = "123";
+let numero = Number(texto);
+console.log(numero);        // 123
+console.log(typeof numero); // "number"
+
+// Cuidado com textos que não são números!
+console.log(Number("abc")); // NaN (Not a Number)
+console.log(Number(""));    // 0
+console.log(Number("   ")); // 0
+```
+
+### String() - Converte para texto
+
+```javascript
+let numero = 456;
+let texto = String(numero);
+console.log(texto);         // "456"
+console.log(typeof texto);  // "string"
+
+console.log(String(true));  // "true"
+console.log(String(null));  // "null"
+```
+
+### Boolean() - Converte para verdadeiro/falso
+
+```javascript
+console.log(Boolean(1));     // true
+console.log(Boolean(0));     // false
+console.log(Boolean(""));    // false
+console.log(Boolean("Oi"));  // true
+console.log(Boolean(null));  // false
+console.log(Boolean(undefined)); // false
+```
+
+### parseInt() e parseFloat()
+
+Para situações específicas onde você quer garantir inteiro ou decimal:
+
+```javascript
+let preco = "49.90";
+console.log(parseInt(preco));    // 49 (só a parte inteira)
+console.log(parseFloat(preco));  // 49.9 (mantém o decimal)
+
+let idade = "25 anos";
+console.log(parseInt(idade));    // 25 (ignora o texto depois)
+console.log(Number(idade));      // NaN (Number() é mais rígido)
+```
+
+## NaN - O "Não é Número"
+
+NaN aparece quando você tenta fazer operações matemáticas com algo que não é número.
+
+```javascript
+console.log(Number("abc"));            // NaN
+console.log(Math.sqrt(-1));            // NaN
+console.log("texto" * 2);             // NaN
+
+// Como verificar se é NaN?
+let resultado = Number("abc");
+console.log(resultado == NaN);         // false! Não funciona!
+console.log(isNaN(resultado));         // true ✅ Use isNaN()
+console.log(Number.isNaN(resultado));  // true ✅ Ou Number.isNaN()
+```
+
+**Erro comum gravíssimo:** Comparar algo com NaN usando `==` ou `===`. NaN é o único valor em JavaScript que não é igual a si mesmo!
+
+```javascript
+console.log(NaN === NaN); // false! 😱
+```
+
+## Tabela rápida de conversões
+
+| Valor | Number() | String() | Boolean() |
+|-------|----------|----------|-----------|
+| 0 | 0 | "0" | false |
+| 1 | 1 | "1" | true |
+| "" | 0 | "" | false |
+| "texto" | NaN | "texto" | true |
+| null | 0 | "null" | false |
+| undefined | NaN | "undefined" | false |
+| "123" | 123 | "123" | true |
+
+## Resumo prático
+
+1. **Number** = inteiros e decimais (mesmo tipo)
+2. **String** = texto (use aspas ou crases)
+3. **Boolean** = true/false
+4. **null** = valor vazio proposital
+5. **undefined** = valor não definido
+6. Use `typeof` para descobrir o tipo
+7. `Number()`, `String()`, `Boolean()` para converter
+8. `parseInt()` para inteiros, `parseFloat()` para decimais
+9. **Nunca compare com NaN usando `==` ou `===`**
+10. Use `isNaN()` ou `Number.isNaN()` para verificar NaN
+
+Pratique esses conceitos no console do navegador ou no Node.js. Quanto mais você brincar com os tipos, mais natural vai ficar! 🎯

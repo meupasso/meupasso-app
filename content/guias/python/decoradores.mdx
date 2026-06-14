@@ -1,0 +1,345 @@
+---
+titulo: "Decoradores"
+slug: "decoradores"
+ordem: 28
+---# Decoradores em Python: Um Guia Completo para Iniciantes
+
+Olá, dev! Vamos desvendar um dos recursos mais elegantes e poderosos do Python: os **decoradores**. Pode parecer mágica no começo, mas prometo que ao final deste guia você estará criando seus próprios decoradores com confiança.
+
+## O que é um Decorador?
+
+Um **decorador** é uma função que modifica o comportamento de outra função sem alterar seu código-fonte. Pense nele como um "enfeite" que adiciona funcionalidades extras.
+
+Na prática, um decorador:
+- Recebe uma função como argumento
+- Cria uma nova função que "envolve" a original
+- Retorna essa nova função
+
+## Funções como Objetos
+
+Antes de entender decoradores, precisamos lembrar que em Python **funções são objetos de primeira classe**. Isso significa que podemos:
+
+```python
+def saudacao():
+    return "Olá, mundo!"
+
+# Atribuir função a uma variável
+minha_funcao = saudacao
+print(minha_funcao())  # Olá, mundo!
+
+# Passar função como argumento
+def executar(funcao):
+    return funcao()
+
+print(executar(saudacao))  # Olá, mundo!
+
+# Retornar função
+def criar_saudacao():
+    def saudacao_personalizada(nome):
+        return f"Olá, {nome}!"
+    return saudacao_personalizada
+
+minha_saudacao = criar_saudacao()
+print(minha_saudacao("Ana"))  # Olá, Ana!
+```
+
+## A Sintaxe @decorator
+
+A forma mais comum de usar decoradores é com o símbolo `@`:
+
+```python
+@meu_decorador
+def minha_funcao():
+    # código aqui
+    pass
+```
+
+Isso é equivalente a:
+
+```python
+def minha_funcao():
+    pass
+
+minha_funcao = meu_decorador(minha_funcao)
+```
+
+## Criando seu Primeiro Decorador
+
+Vamos criar um decorador simples que imprime mensagens antes e depois da função:
+
+```python
+def meu_decorador(func):
+    def wrapper():
+        print("Antes da função")
+        func()
+        print("Depois da função")
+    return wrapper
+
+@meu_decorador
+def dizer_oi():
+    print("Oi!")
+
+dizer_oi()
+# Saída:
+# Antes da função
+# Oi!
+# Depois da função
+```
+
+### Decorador para Funções com Argumentos
+
+Se sua função original recebe argumentos, o wrapper precisa aceitá-los:
+
+```python
+def decorador_com_argumentos(func):
+    def wrapper(*args, **kwargs):
+        print(f"Chamando função com argumentos: {args}, {kwargs}")
+        resultado = func(*args, **kwargs)
+        print(f"Resultado: {resultado}")
+        return resultado
+    return wrapper
+
+@decorador_com_argumentos
+def somar(a, b):
+    return a + b
+
+somar(3, 5)
+# Saída:
+# Chamando função com argumentos: (3, 5), {}
+# Resultado: 8
+```
+
+## Decoradores com Argumentos
+
+Às vezes queremos passar argumentos para o próprio decorador. Para isso, criamos uma função que retorna um decorador:
+
+```python
+def repetir(vezes):
+    def decorador(func):
+        def wrapper(*args, **kwargs):
+            for _ in range(vezes):
+                resultado = func(*args, **kwargs)
+            return resultado
+        return wrapper
+    return decorador
+
+@repetir(3)
+def dizer_ola():
+    print("Olá!")
+
+dizer_ola()
+# Olá!
+# Olá!
+# Olá!
+```
+
+## @functools.wraps
+
+Quando usamos decoradores, perdemos metadados importantes da função original (nome, docstring, etc.). O `functools.wraps` resolve isso:
+
+```python
+import functools
+
+def decorador_educado(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        print("Por favor,")
+        resultado = func(*args, **kwargs)
+        print("Obrigado!")
+        return resultado
+    return wrapper
+
+@decorador_educado
+def somar(a, b):
+    """Soma dois números"""
+    return a + b
+
+print(somar.__name__)  # somar (sem wraps seria 'wrapper')
+print(somar.__doc__)   # Soma dois números (sem wraps seria None)
+```
+
+**Sempre use @functools.wraps em seus decoradores!**
+
+## Exemplos Práticos
+
+### 1. Decorador Timer (Medir tempo de execução)
+
+```python
+import time
+import functools
+
+def timer(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        inicio = time.time()
+        resultado = func(*args, **kwargs)
+        fim = time.time()
+        print(f"{func.__name__} levou {fim - inicio:.4f} segundos")
+        return resultado
+    return wrapper
+
+@timer
+def calcular_soma(n):
+    soma = 0
+    for i in range(n):
+        soma += i
+    return soma
+
+resultado = calcular_soma(1000000)
+print(f"Resultado: {resultado}")
+# Exemplo de saída:
+# calcular_soma levou 0.0342 segundos
+# Resultado: 499999500000
+```
+
+### 2. Decorador de Log
+
+```python
+import functools
+from datetime import datetime
+
+def log(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        print(f"[{timestamp}] Executando {func.__name__}")
+        print(f"    Argumentos: args={args}, kwargs={kwargs}")
+        resultado = func(*args, **kwargs)
+        print(f"    Resultado: {resultado}")
+        return resultado
+    return wrapper
+
+@log
+def dividir(a, b):
+    return a / b
+
+dividir(10, 2)
+# Saída:
+# [2024-01-15 14:30:00] Executando dividir
+#     Argumentos: args=(10, 2), kwargs={}
+#     Resultado: 5.0
+```
+
+### 3. Decorador de Validação
+
+```python
+import functools
+
+def validar_positivo(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        for arg in args:
+            if isinstance(arg, (int, float)) and arg < 0:
+                raise ValueError(f"Argumento negativo não permitido: {arg}")
+        return func(*args, **kwargs)
+    return wrapper
+
+@validar_positivo
+def raiz_quadrada(n):
+    return n ** 0.5
+
+print(raiz_quadrada(9))  # 3.0
+# print(raiz_quadrada(-4))  # ValueError: Argumento negativo não permitido: -4
+```
+
+## Erros Comuns e Dicas
+
+### ❌ Erro: Esquecer de retornar o resultado da função original
+
+```python
+# ERRADO
+def decorador_errado(func):
+    def wrapper(*args, **kwargs):
+        func(*args, **kwargs)  # Não retorna o resultado!
+    return wrapper
+
+# CERTO
+def decorador_certo(func):
+    def wrapper(*args, **kwargs):
+        return func(*args, **kwargs)  # Retorna o resultado
+    return wrapper
+```
+
+### ❌ Erro: Esquecer @functools.wraps
+
+```python
+# ERRADO - perde metadados
+def decorador(func):
+    def wrapper(*args, **kwargs):
+        return func(*args, **kwargs)
+    return wrapper
+
+# CERTO - preserva metadados
+import functools
+
+def decorador(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        return func(*args, **kwargs)
+    return wrapper
+```
+
+### ❌ Erro: Confundir decoradores com argumentos
+
+```python
+# ERRADO - não é assim que se faz decorador com argumento
+@decorador(argumento)  # Isso chama decorador(argumento) antes de receber a função
+
+# CERTO - precisa de uma função extra
+def decorador(argumento):
+    def decorador_real(func):
+        def wrapper(*args, **kwargs):
+            # usa argumento aqui
+            return func(*args, **kwargs)
+        return wrapper
+    return decorador_real
+```
+
+### ✅ Dica: Use decoradores para separar responsabilidades
+
+```python
+# Em vez de misturar lógica de negócio com logging:
+def processar_dados(dados):
+    print(f"Processando dados: {dados}")  # misturado
+    # lógica real...
+    return dados * 2
+
+# Separe as responsabilidades:
+def log_processamento(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        print(f"Processando dados: {args}")
+        return func(*args, **kwargs)
+    return wrapper
+
+@log_processamento
+def processar_dados(dados):
+    # apenas lógica de negócio
+    return dados * 2
+```
+
+### ✅ Dica: Empilhe decoradores
+
+```python
+@timer
+@log
+def minha_funcao():
+    # código
+    pass
+
+# A ordem importa! Executa de baixo para cima:
+# 1. log envolve minha_funcao
+# 2. timer envolve o resultado
+```
+
+## Resumo
+
+- **Decoradores** são funções que modificam outras funções
+- Use `@functools.wraps` para preservar metadados
+- Lembre-se de retornar o resultado da função original
+- Decoradores com argumentos precisam de um nível extra de função
+- São ótimos para: timer, log, validação, autenticação, cache
+
+Pratique criando seus próprios decoradores! Comece com exemplos simples e vá aumentando a complexidade. Em pouco tempo você estará usando decoradores como um profissional.
+
+Bons estudos e mãos ao código! 🐍✨

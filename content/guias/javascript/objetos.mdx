@@ -1,0 +1,407 @@
+---
+titulo: "Objetos"
+slug: "objetos"
+ordem: 15
+---
+
+# 📦 Objetos em JavaScript: O Guia Completo para Iniciantes
+
+E aí, dev! Vamos mergulhar no mundo dos objetos em JavaScript. Objetos são como "caixinhas" que guardam informações relacionadas de forma organizada. Pense neles como uma ficha de cadastro de uma pessoa: nome, idade, profissão... tudo junto e misturado!
+
+## 🎯 O que são Objetos?
+
+Objetos são estruturas de dados que armazenam **pares de chave: valor**. A chave é como se fosse um identificador (uma "etiqueta") e o valor é a informação que queremos guardar.
+
+```javascript
+// Um objeto simples
+const pessoa = {
+  nome: "João",
+  idade: 25,
+  profissao: "Desenvolvedor"
+};
+```
+
+## 🏗️ Criando Objetos com {}
+
+Existem várias formas de criar objetos, mas a mais comum é usando as chaves `{}`:
+
+```javascript
+// Objeto vazio
+const carro = {};
+
+// Objeto com propriedades
+const usuario = {
+  username: "joaosilva",
+  email: "joao@email.com",
+  logado: true
+};
+
+// Objeto com diferentes tipos de valores
+const produto = {
+  nome: "Notebook",
+  preco: 3500.00,
+  emEstoque: true,
+  cores: ["preto", "prata"],
+  especificacoes: {
+    ram: "8GB",
+    armazenamento: "256GB SSD"
+  }
+};
+```
+
+## 🏷️ Propriedades e Métodos
+
+**Propriedades** são os valores que guardamos no objeto. **Métodos** são funções que pertencem ao objeto.
+
+```javascript
+const calculadora = {
+  // Propriedades
+  marca: "Casio",
+  modelo: "FX-82",
+  
+  // Métodos
+  somar: function(a, b) {
+    return a + b;
+  },
+  
+  // Shorthand para métodos (forma moderna)
+  subtrair(a, b) {
+    return a - b;
+  }
+};
+
+// Usando o método
+console.log(calculadora.somar(5, 3)); // 8
+```
+
+## 🔍 Acessando Propriedades
+
+Temos duas formas principais de acessar as propriedades de um objeto:
+
+### Com ponto (.)
+
+```javascript
+const aluno = {
+  nome: "Maria",
+  idade: 20,
+  curso: "Engenharia"
+};
+
+console.log(aluno.nome); // "Maria"
+console.log(aluno.curso); // "Engenharia"
+```
+
+### Com colchetes []
+
+```javascript
+console.log(aluno["nome"]); // "Maria"
+
+// Útil quando a chave é dinâmica
+const chave = "idade";
+console.log(aluno[chave]); // 20
+
+// Ou quando a chave tem caracteres especiais
+const objetoEstranho = {
+  "nome completo": "Ana Silva",
+  "e-mail": "ana@email.com"
+};
+console.log(objetoEstranho["nome completo"]); // "Ana Silva"
+```
+
+## ➕ Adicionando e Removendo Propriedades
+
+### Adicionar
+
+```javascript
+const pessoa = {
+  nome: "Carlos"
+};
+
+// Adicionando propriedades
+pessoa.idade = 30;
+pessoa["profissao"] = "Médico";
+
+console.log(pessoa);
+// { nome: "Carlos", idade: 30, profissao: "Médico" }
+```
+
+### Remover com `delete`
+
+```javascript
+const config = {
+  tema: "escuro",
+  idioma: "pt-BR",
+  versao: "1.0"
+};
+
+// Removendo uma propriedade
+delete config.versao;
+
+console.log(config);
+// { tema: "escuro", idioma: "pt-BR" }
+```
+
+## 🔑 Object.keys(), Object.values(), Object.entries()
+
+Esses métodos são essenciais para trabalhar com objetos de forma mais dinâmica.
+
+```javascript
+const pessoa = {
+  nome: "Ana",
+  idade: 28,
+  cidade: "São Paulo"
+};
+
+// Object.keys() - retorna um array com as chaves
+console.log(Object.keys(pessoa));
+// ["nome", "idade", "cidade"]
+
+// Object.values() - retorna um array com os valores
+console.log(Object.values(pessoa));
+// ["Ana", 28, "São Paulo"]
+
+// Object.entries() - retorna um array de arrays [chave, valor]
+console.log(Object.entries(pessoa));
+// [["nome", "Ana"], ["idade", 28], ["cidade", "São Paulo"]]
+```
+
+### Usando na prática
+
+```javascript
+// Iterando sobre um objeto
+const produto = {
+  nome: "Camiseta",
+  preco: 49.90,
+  tamanho: "M"
+};
+
+// Com for...of e Object.entries()
+for (const [chave, valor] of Object.entries(produto)) {
+  console.log(`${chave}: ${valor}`);
+}
+// nome: Camiseta
+// preco: 49.90
+// tamanho: M
+
+// Verificando se um objeto tem propriedades
+const vazio = {};
+console.log(Object.keys(vazio).length === 0); // true
+```
+
+## 🎯 Desestruturação de Objetos
+
+A desestruturação permite "extrair" valores de objetos de forma elegante:
+
+```javascript
+const usuario = {
+  nome: "Pedro",
+  email: "pedro@email.com",
+  idade: 32
+};
+
+// Desestruturação básica
+const { nome, email } = usuario;
+console.log(nome); // "Pedro"
+console.log(email); // "pedro@email.com"
+
+// Renomeando variáveis
+const { nome: nomeUsuario, idade: anos } = usuario;
+console.log(nomeUsuario); // "Pedro"
+console.log(anos); // 32
+
+// Valores padrão
+const { pais = "Brasil" } = usuario;
+console.log(pais); // "Brasil" (valor padrão)
+
+// Desestruturação em parâmetros de função
+function exibirInfo({ nome, idade }) {
+  console.log(`${nome} tem ${idade} anos`);
+}
+
+exibirInfo(usuario); // "Pedro tem 32 anos"
+```
+
+## 🔄 Spread Operator em Objetos
+
+O spread operator (`...`) é fantástico para copiar e combinar objetos:
+
+```javascript
+// Copiando objetos (shallow copy)
+const original = { a: 1, b: 2 };
+const copia = { ...original };
+
+console.log(copia); // { a: 1, b: 2 }
+console.log(copia === original); // false (são objetos diferentes)
+
+// Combinando objetos
+const dadosPessoais = {
+  nome: "Lucas",
+  idade: 27
+};
+
+const dadosProfissionais = {
+  cargo: "Designer",
+  empresa: "Tech Corp"
+};
+
+const funcionario = { ...dadosPessoais, ...dadosProfissionais };
+console.log(funcionario);
+// { nome: "Lucas", idade: 27, cargo: "Designer", empresa: "Tech Corp" }
+
+// Sobrescrevendo propriedades
+const configPadrao = {
+  tema: "claro",
+  fontes: "grande",
+  notificacoes: true
+};
+
+const configUsuario = {
+  tema: "escuro",
+  ...configPadrao // O que vier depois sobrescreve
+};
+
+console.log(configUsuario);
+// { tema: "claro", fontes: "grande", notificacoes: true }
+// (tema foi sobrescrito pelo valor de configPadrao)
+```
+
+### ⚠️ Atenção com spread e objetos aninhados
+
+```javascript
+const obj1 = {
+  nome: "João",
+  endereco: {
+    cidade: "Rio",
+    estado: "RJ"
+  }
+};
+
+// Isso faz uma cópia rasa (shallow copy)
+const obj2 = { ...obj1 };
+
+obj2.endereco.cidade = "São Paulo";
+
+console.log(obj1.endereco.cidade); // "São Paulo" 😱
+// O objeto interno ainda é o mesmo!
+```
+
+## 🚨 Erros Comuns e Dicas
+
+### ❌ Erro 1: Esquecer que objetos são passados por referência
+
+```javascript
+let a = { valor: 10 };
+let b = a; // b aponta para o mesmo objeto
+
+b.valor = 20;
+console.log(a.valor); // 20 (mudou o original!)
+
+// Solução: usar spread para criar cópia
+let c = { ...a };
+c.valor = 30;
+console.log(a.valor); // 20 (não afetou a)
+```
+
+### ❌ Erro 2: Tentar acessar propriedade que não existe
+
+```javascript
+const pessoa = { nome: "Ana" };
+console.log(pessoa.idade); // undefined (não dá erro)
+
+// Mas cuidado com acesso encadeado
+// console.log(pessoa.endereco.cidade); // TypeError!
+
+// Solução: verificar antes ou usar optional chaining
+console.log(pessoa.endereco?.cidade); // undefined (seguro)
+```
+
+### ❌ Erro 3: Confundir objetos com arrays
+
+```javascript
+const obj = { 0: "a", 1: "b", length: 2 };
+console.log(obj[0]); // "a"
+console.log(obj.length); // 2
+
+// Mas não é um array!
+console.log(Array.isArray(obj)); // false
+```
+
+### 💡 Dicas Importantes
+
+1. **Use `const` para objetos** - você pode modificar as propriedades, mas não pode reatribuir o objeto
+2. **Verifique se uma propriedade existe** com `in` ou `hasOwnProperty()`
+3. **Objetos podem conter qualquer tipo** de valor, incluindo funções e outros objetos
+4. **Use shorthand** para criar objetos de forma mais concisa
+
+```javascript
+const nome = "Maria";
+const idade = 25;
+
+// Shorthand (quando variável tem mesmo nome da chave)
+const pessoa = { nome, idade };
+// Equivale a: { nome: nome, idade: idade }
+```
+
+## 🎮 Exemplo Prático: Sistema de Cadastro
+
+Vamos juntar tudo que aprendemos:
+
+```javascript
+// Criando um sistema simples de cadastro
+const criarUsuario = (nome, email, idade) => {
+  return {
+    nome,
+    email,
+    idade,
+    ativo: true,
+    dataCadastro: new Date(),
+    
+    // Método
+    exibirResumo() {
+      return `${this.nome} (${this.idade} anos) - ${this.email}`;
+    },
+    
+    // Método para atualizar
+    atualizarEmail(novoEmail) {
+      this.email = novoEmail;
+      console.log(`Email atualizado para: ${novoEmail}`);
+    }
+  };
+};
+
+// Criando usuários
+const usuario1 = criarUsuario("João", "joao@email.com", 30);
+const usuario2 = criarUsuario("Maria", "maria@email.com", 25);
+
+// Usando o objeto
+console.log(usuario1.exibirResumo()); // "João (30 anos) - joao@email.com"
+
+// Desestruturando
+const { nome, idade } = usuario2;
+console.log(`${nome} tem ${idade} anos`); // "Maria tem 25 anos"
+
+// Spread para criar cópia modificada
+const usuarioAdmin = {
+  ...usuario1,
+  cargo: "Admin",
+  permissoes: ["ler", "escrever", "deletar"]
+};
+
+console.log(usuarioAdmin);
+```
+
+## 📚 Resumo Rápido
+
+| Conceito | Como Fazer | Exemplo |
+|----------|------------|---------|
+| Criar objeto | `{}` | `const obj = { a: 1 }` |
+| Acessar propriedade | `.` ou `[]` | `obj.a` ou `obj["a"]` |
+| Adicionar | Atribuição | `obj.nova = "valor"` |
+| Remover | `delete` | `delete obj.prop` |
+| Listar chaves | `Object.keys()` | `Object.keys(obj)` |
+| Listar valores | `Object.values()` | `Object.values(obj)` |
+| Listar pares | `Object.entries()` | `Object.entries(obj)` |
+| Desestruturar | `{ chave }` | `const { a } = obj` |
+| Espalhar | `...` | `{ ...obj1, ...obj2 }` |
+
+Lembre-se: objetos são a base de praticamente tudo em JavaScript! Arrays, funções, datas... tudo é objeto por baixo dos panos. Pratique bastante e logo você estará criando estruturas complexas com facilidade. 🚀

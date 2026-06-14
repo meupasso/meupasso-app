@@ -1,0 +1,198 @@
+---
+titulo: "Listas"
+slug: "listas"
+ordem: 8
+---
+
+Listas são coleções **ordenadas** e **mutáveis** de valores. Você pode guardar quantos itens quiser, de qualquer tipo, e modificá-los depois.
+
+## Criando listas
+
+Use colchetes `[]` e separe os itens por vírgula:
+
+```python
+frutas = ["maçã", "banana", "laranja"]
+numeros = [1, 2, 3, 4, 5]
+mista = ["João", 25, 1.75, True]  # tipos diferentes!
+vazia = []                           # lista vazia
+```
+
+> **Dica**: uma lista pode conter qualquer tipo de dado — números, textos, booleanos, até outras listas.
+
+## Acessando elementos
+
+Os elementos são acessados por **índice**, começando do **0**:
+
+```python
+frutas = ["maçã", "banana", "laranja"]
+
+print(frutas[0])    # maçã — primeiro elemento
+print(frutas[1])    # banana
+print(frutas[2])    # laranja
+print(frutas[-1])   # laranja — último elemento
+print(frutas[-2])   # banana — penúltimo
+```
+
+## Fatiamento (slicing)
+
+Funciona igual ao fatiamento de strings:
+
+```python
+numeros = [10, 20, 30, 40, 50]
+
+print(numeros[1:4])      # [20, 30, 40]
+print(numeros[:3])       # [10, 20, 30]
+print(numeros[2:])       # [30, 40, 50]
+print(numeros[::2])      # [10, 30, 50] — pulando de 2 em 2
+print(numeros[::-1])     # [50, 40, 30, 20, 10] — invertida
+```
+
+## Modificando listas
+
+Diferente de strings, listas **podem ser alteradas**:
+
+```python
+frutas = ["maçã", "banana", "laranja"]
+
+# Alterar um elemento
+frutas[1] = "abacaxi"
+print(frutas)  # ['maçã', 'abacaxi', 'laranja']
+
+# Adicionar ao final
+frutas.append("uva")
+print(frutas)  # ['maçã', 'abacaxi', 'laranja', 'uva']
+
+# Inserir em posição específica
+frutas.insert(1, "morango")
+print(frutas)  # ['maçã', 'morango', 'abacaxi', 'laranja', 'uva']
+
+# Remover por valor
+frutas.remove("abacaxi")
+print(frutas)  # ['maçã', 'morango', 'laranja', 'uva']
+
+# Remover por posição
+item = frutas.pop(0)
+print(item)    # maçã
+print(frutas)  # ['morango', 'laranja', 'uva']
+
+# Tamanho da lista
+print(len(frutas))  # 3
+```
+
+## Ordenando listas
+
+```python
+numeros = [5, 2, 8, 1, 9]
+numeros.sort()
+print(numeros)        # [1, 2, 5, 8, 9]
+
+numeros.sort(reverse=True)
+print(numeros)        # [9, 8, 5, 2, 1]
+
+# Cria uma nova lista ordenada sem modificar a original
+original = [3, 1, 2]
+ordenada = sorted(original)
+print(original)       # [3, 1, 2]
+print(ordenada)       # [1, 2, 3]
+```
+
+## Verificando existência
+
+```python
+frutas = ["maçã", "banana", "laranja"]
+
+if "banana" in frutas:
+    print("Tem banana sim!")
+
+if "uva" not in frutas:
+    print("Não tem uva")
+```
+
+## Iterando com `for`
+
+```python
+frutas = ["maçã", "banana", "laranja"]
+
+for fruta in frutas:
+    print(f"Eu gosto de {fruta}")
+
+# Se precisar do índice também:
+for i, fruta in enumerate(frutas):
+    print(f"{i}: {fruta}")
+```
+
+## Listas aninhadas
+
+Uma lista pode conter outras listas:
+
+```python
+matriz = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+]
+
+print(matriz[0])       # [1, 2, 3]
+print(matriz[1][2])    # 6
+print(matriz[2][0])    # 7
+
+# Iterar sobre matriz
+for linha in matriz:
+    for valor in linha:
+        print(valor, end=" ")
+    print()
+```
+
+## Erros comuns
+
+### IndexError — índice fora do limite
+
+```python
+frutas = ["maçã", "banana"]
+print(frutas[5])  # ❌ IndexError: list index out of range
+```
+
+**Solução**: verifique o tamanho com `len()` antes de acessar, ou use índices negativos para acessar do fim.
+
+### Confundir `append` com `insert`
+
+```python
+lista = [1, 2, 3]
+lista.append(4)       # ✅ [1, 2, 3, 4] — adiciona ao final
+lista.insert(0, 0)    # ✅ [0, 1, 2, 3, 4] — insere na posição
+```
+
+**Dica**: `append` sempre coloca no final. `insert` permite escolher a posição.
+
+### Modificar lista enquanto itera
+
+```python
+numeros = [1, 2, 3, 4, 5]
+for n in numeros:
+    if n % 2 == 0:
+        numeros.remove(n)  # ❌ comportamento imprevisível!
+```
+
+**Solução**: itere sobre uma cópia da lista: `for n in numeros[:]:`
+
+### Usar índice errado
+
+Lembre-se: o índice **começa em 0**, não em 1.
+
+```python
+lista = [10, 20, 30]
+print(lista[1])  # 20, não 10!
+```
+
+## Resumo
+
+| Operação | Código | O que faz |
+|----------|--------|-----------|
+| Criar | `lista = [1, 2]` | Cria uma lista |
+| Acessar | `lista[0]` | Pega o primeiro elemento |
+| Adicionar | `lista.append(3)` | Adiciona ao final |
+| Inserir | `lista.insert(0, 0)` | Insere na posição |
+| Remover | `lista.pop()` | Remove e retorna o último |
+| Tamanho | `len(lista)` | Quantos elementos |
+| Ordenar | `lista.sort()` | Ordena a própria lista |
+| Verificar | `x in lista` | Existe? |

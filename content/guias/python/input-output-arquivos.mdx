@@ -1,0 +1,215 @@
+---
+titulo: "Input & Output de Arquivos"
+slug: "input-output-arquivos"
+ordem: 19
+---
+
+Ler e escrever arquivos é essencial para programas que precisam guardar informações entre execuções. Python torna essa tarefa muito simples.
+
+## Abrindo arquivos — `open()`
+
+A função `open()` abre um arquivo e devolve um objeto que você pode ler ou escrever:
+
+```python
+arquivo = open("dados.txt", "r")  # "r" = modo leitura
+conteudo = arquivo.read()
+arquivo.close()
+
+print(conteudo)
+```
+
+> **⚠️ Importante**: sempre feche o arquivo com `close()` depois de usar.
+
+## Modos de abertura
+
+```python
+"r"   # Leitura (padrão). O arquivo precisa existir.
+"w"   # Escrita. Cria ou sobrescreve o arquivo.
+"a"   # Adicionar ao final. Cria se não existir.
+"r+"  # Leitura e escrita. O arquivo precisa existir.
+```
+
+## Lendo arquivos
+
+```python
+arquivo = open("poema.txt", "r", encoding="utf-8")
+
+# Ler tudo de uma vez
+conteudo = arquivo.read()
+
+# Ler linha por linha
+linha = arquivo.readline()   # primeira linha
+linha = arquivo.readline()   # segunda linha
+
+# Lista com todas as linhas
+linhas = arquivo.readlines()
+
+arquivo.close()
+```
+
+```python
+# Jeito mais comum: iterar sobre o arquivo
+arquivo = open("poema.txt", "r", encoding="utf-8")
+for linha in arquivo:
+    print(linha.strip())  # strip() remove a quebra de linha
+arquivo.close()
+```
+
+## Escrevendo em arquivos
+
+```python
+arquivo = open("notas.txt", "w", encoding="utf-8")
+
+# Escrever texto
+arquivo.write("Linha 1\n")
+arquivo.write("Linha 2\n")
+
+# Escrever lista de linhas
+linhas = ["Linha 3\n", "Linha 4\n"]
+arquivo.writelines(linhas)
+
+arquivo.close()
+```
+
+> **Cuidado**: modo `"w"` sobrescreve o arquivo inteiro! Se quiser adicionar sem apagar, use `"a"`.
+
+## O `with` — forma recomendada
+
+Usar `with` garante que o arquivo será fechado automaticamente, mesmo se der erro:
+
+```python
+# Leitura
+with open("poema.txt", "r", encoding="utf-8") as arquivo:
+    conteudo = arquivo.read()
+    print(conteudo)
+# Aqui o arquivo já foi fechado automaticamente
+
+# Escrita
+with open("notas.txt", "w", encoding="utf-8") as arquivo:
+    arquivo.write("Esta é uma nota.\n")
+# Fechado automaticamente
+```
+
+> **Dica**: sempre use `with open()` — é mais seguro e mais limpo.
+
+## Trabalhando com CSV
+
+CSV é o formato mais comum para dados tabulares. O módulo `csv` facilita o trabalho:
+
+### Lendo CSV
+
+```python
+import csv
+
+with open("pessoas.csv", "r", encoding="utf-8") as arquivo:
+    leitor = csv.reader(arquivo)
+    for linha in leitor:
+        print(linha)  # ['Nome', 'Idade', 'Cidade']
+                       # ['Ana', '25', 'SP']
+```
+
+### Escrevendo CSV
+
+```python
+import csv
+
+dados = [
+    ["Nome", "Idade", "Cidade"],
+    ["Ana", "25", "São Paulo"],
+    ["João", "30", "Rio de Janeiro"],
+    ["Maria", "22", "Belo Horizonte"],
+]
+
+with open("pessoas.csv", "w", newline="", encoding="utf-8") as arquivo:
+    escritor = csv.writer(arquivo)
+    escritor.writerows(dados)
+```
+
+## Exemplo prático — bloco de notas simples
+
+```python
+def salvar_nota():
+    texto = input("Digite sua nota: ")
+    with open("minhas_notas.txt", "a", encoding="utf-8") as f:
+        f.write(f"{texto}\n")
+    print("Nota salva!")
+
+def ler_notas():
+    try:
+        with open("minhas_notas.txt", "r", encoding="utf-8") as f:
+            notas = f.read()
+            print(notas if notas else "Nenhuma nota encontrada.")
+    except FileNotFoundError:
+        print("Nenhuma nota encontrada.")
+
+while True:
+    print("\n1 - Nova nota")
+    print("2 - Ver notas")
+    print("0 - Sair")
+    opcao = input("Escolha: ")
+    if opcao == "1":
+        salvar_nota()
+    elif opcao == "2":
+        ler_notas()
+    elif opcao == "0":
+        break
+```
+
+## Erros comuns
+
+### FileNotFoundError — arquivo não existe
+
+```python
+arquivo = open("nao_existe.txt", "r")  # ❌ FileNotFoundError
+```
+
+**Solução**: verifique se o arquivo existe antes ou use `try/except`:
+
+```python
+try:
+    with open("dados.txt", "r") as f:
+        conteudo = f.read()
+except FileNotFoundError:
+    print("Arquivo não encontrado.")
+```
+
+### Esquecer de fechar o arquivo
+
+```python
+f = open("dados.txt", "w")
+f.write("Olá")
+# esqueceu f.close() — arquivo pode ficar corrompido
+```
+
+**Solução**: use `with open()` que fecha automaticamente.
+
+### Sobrescrever sem querer
+
+```python
+with open("dados.txt", "w") as f:  # "w" apaga tudo!
+    f.write("Novo conteúdo")
+```
+
+**Solução**: use `"a"` para adicionar, ou verifique antes de sobrescrever.
+
+### Encoding errado
+
+```python
+with open("dados.txt", "r") as f:  # sem encoding pode dar erro com acentos
+    print(f.read())
+```
+
+**Solução**: sempre especifique `encoding="utf-8"` ao abrir arquivos de texto.
+
+## Resumo
+
+| Operação | Código | Descrição |
+|----------|--------|-----------|
+| Abrir | `open("arquivo", "r")` | Abre arquivo |
+| Ler tudo | `arquivo.read()` | Retorna string |
+| Ler linha | `arquivo.readline()` | Retorna uma linha |
+| Escrever | `arquivo.write("texto")` | Escreve no arquivo |
+| Fechar | `arquivo.close()` | Fecha arquivo |
+| Seguro | `with open() as f:` | Fecha automático |
+| CSV ler | `csv.reader(f)` | Lê arquivo CSV |
+| CSV escrever | `csv.writer(f)` | Escreve arquivo CSV |

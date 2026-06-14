@@ -1,0 +1,188 @@
+[
+  {
+    "titulo": "Guia Python",
+    "slug": "python",
+    "ordem": 0,
+    "content": ""
+  },
+  {
+    "titulo": "Introdução",
+    "slug": "introducao",
+    "ordem": 1,
+    "content": "\n## O que é Python?\n\nPython é uma linguagem de programação criada por Guido van Rossum em 1991. Ela foi projetada para ser **fácil de ler**, **fácil de escrever** e **fácil de entender**.\n\nSabe aquela sensação de olhar um código e não fazer ideia do que ele faz? Com Python isso raramente acontece. A sintaxe é tão limpa que o código parece quase com inglês escrito.\n\n```python\n# Isso aqui é Python:\nnome = input(\"Qual é o seu nome? \")\nprint(f\"Olá, {nome}! Prazer em te conhecer.\")\n```\n\n## Por que aprender Python?\n\nPython é uma das linguagens mais populares do mundo, e por bons motivos:\n\n- **Iniciantes**: a curva de aprendizado é a mais suave entre as linguagens sérias\n- **Versatilidade**: dá pra fazer de tudo com Python\n- **Comunidade gigante**: qualquer dúvida que você tiver, milhares de pessoas já tiveram antes\n- **Mercado de trabalho**: a demanda por programadores Python só cresce\n\n## Para que Python é usado?\n\nPython está em toda parte:\n\n| Área | Exemplos |\n|------|----------|\n| **Desenvolvimento web** | Django, Flask, FastAPI |\n| **Automação** | Scripts para repetir tarefas, web scraping |\n| **Análise de dados** | Pandas, NumPy |\n| **Inteligência Artificial** | Machine learning, redes neurais |\n| **Jogos** | Pygame |\n| **Aplicações desktop** | Tkinter, PyQt |\n\n## Por que Python é ideal para iniciantes?\n\n1. **Sintaxe simples** — você escreve menos e faz mais\n2. **Sem complicações** — não precisa declarar tipos, não precisa gerenciar memória\n3. **Erros claros** — quando algo dá errado, o Python tenta te explicar o motivo\n4. **Feedback rápido** — você vê o resultado quase instantaneamente\n5. **Comunidade acolhedora** — a comunidade Python é conhecida por ser inclusiva\n\n## O que você vai aprender neste guia\n\nEste guia cobre tudo que um iniciante precisa para sair do zero e começar a programar em Python:\n\n- Como configurar seu ambiente de programação\n- A sintaxe básica da linguagem\n- Variáveis e tipos de dados\n- Estruturas de controle (if, for, while)\n- Listas, dicionários e outras coleções\n- Funções e módulos\n- E muito mais...\n\nCada tópico tem exemplos práticos, dicas e erros comuns para você não cair nas mesmas armadilhas.\n\n**Pronto para começar?** Vamos para o próximo tópico configurar seu ambiente!\n"
+  },
+  {
+    "titulo": "Ambiente de Programação",
+    "slug": "ambiente",
+    "ordem": 2,
+    "content": "\nAntes de escrever a primeira linha de código, você precisa preparar o terreno. A boa notícia: é mais simples do que parece.\n\n## Instalando o Python\n\n### Windows\n\n1. Acesse [python.org/downloads](https://python.org/downloads)\n2. Baixe a versão mais recente (3.12 ou superior)\n3. **Importante**: na primeira tela do instalador, marque a opção **\"Add Python to PATH\"**\n4. Clique em \"Install Now\"\n\n### Mac\n\n1. Acesse [python.org/downloads](https://python.org/downloads)\n2. Baixe o instalador para macOS\n3. Execute o instalador\n\nOu, se você já tem o Homebrew instalado:\n\n```bash\nbrew install python3\n```\n\n### Linux\n\nProvavelmente o Python já vem instalado. Para verificar:\n\n```bash\npython3 --version\n```\n\nSe não estiver instalado:\n\n```bash\nsudo apt install python3\n```\n\n## Verificando a instalação\n\nAbra o terminal (Command Prompt no Windows, Terminal no Mac/Linux) e digite:\n\n```bash\npython --version\n```\n\nVocê deve ver algo como:\n\n```\nPython 3.13.2\n```\n\nSe aparecer uma mensagem de erro, provavelmente você esqueceu de marcar \"Add Python to PATH\" na instalação. Reinstale marcando essa opção.\n\n> **Dica**: se o comando `python` não funcionar, tente `python3`.\n\n## Instalando o VS Code\n\nVocê poderia programar em Python no bloco de notas. Sério. Mas um editor de código torna tudo muito mais fácil.\n\nRecomendo o **VS Code** (Visual Studio Code):\n\n1. Baixe em [code.visualstudio.com](https://code.visualstudio.com)\n2. Instale como qualquer outro programa\n3. Abra o VS Code\n\n### Extensão Python no VS Code\n\nNo VS Code, vá na aba de extensões (ícone de quadradinhos na barra da esquerda ou `Ctrl+Shift+X`) e procure por:\n\n**Python** (da Microsoft)\n\nInstale essa extensão. Ela adiciona:\n- Destaque de sintaxe (cores no código)\n- Autocomplete enquanto você digita\n- Detecção de erros em tempo real\n- Botão de \"play\" para rodar o código\n\n## Seu primeiro programa\n\n1. Crie uma pasta para seus projetos (ex: `C:\\Users\\SeuNome\\projetos`)\n2. Abra essa pasta no VS Code (`Arquivo > Abrir Pasta`)\n3. Crie um arquivo chamado `ola.py`\n4. Digite:\n\n```python\nprint(\"Olá, mundo!\")\n```\n\n5. Salve (`Ctrl+S`)\n6. Abra o terminal no VS Code (`Terminal > Novo Terminal`)\n7. Digite:\n\n```bash\npython ola.py\n```\n\nPronto! Você acabou de rodar seu primeiro programa em Python. 🎉\n\n## O terminal não morde\n\nO terminal pode parecer assustador no começo, mas você só precisa de alguns comandos:\n\n| Comando | O que faz |\n|---------|-----------|\n| `dir` (Windows) / `ls` (Mac/Linux) | Lista os arquivos da pasta |\n| `cd nomedapasta` | Entra em uma pasta |\n| `cd ..` | Volta para a pasta anterior |\n| `python arquivo.py` | Roda um programa Python |\n\n## Resumo rápido\n\n1. Instale o Python (marque \"Add to PATH\")\n2. Instale o VS Code\n3. Adicione a extensão Python\n4. Crie um arquivo `.py`\n5. Rode com `python nome_do_arquivo.py`\n\nDepois que você fizer isso uma ou duas vezes, vira automático. Bora programar! 🚀\n"
+  },
+  {
+    "titulo": "Sintaxe",
+    "slug": "sintaxe",
+    "ordem": 3,
+    "content": "\nSintaxe é o conjunto de regras que define como escrever código que o Python entenda. É como a gramática de um idioma: se você escrever fora das regras, o programa não roda.\n\n## Indentação — a regra mais importante\n\nDiferente da maioria das linguagens, Python **não usa chaves** `{}` para delimitar blocos de código. Em vez disso, usa **indentação** (espaços no começo da linha).\n\n```python\n# Certo — indentação consistente\nidade = 18\nif idade >= 18:\n    print(\"Maior de idade\")\n    print(\"Pode entrar\")\n```\n\n```python\n# Errado — indentação inconsistente\nidade = 18\nif idade >= 18:\nprint(\"Isso vai dar erro!\")\n```\n\nO padrão é usar **4 espaços** para cada nível de indentação. O VS Code faz isso automaticamente quando você aperta `Tab`.\n\n> **Dica**: misturar tab com espaços causa erro. Configure seu editor para converter Tab em espaços.\n\n### Por que a indentação é obrigatória?\n\nEla força você a escrever código organizado. Se você já tentou encontrar uma chave perdida em JavaScript ou C, sabe como isso pode ser frustrante. Python simplesmente não permite esse tipo de bagunça.\n\n## Comentários\n\nComentários são trechos de texto que o Python ignora. Servem para explicar o código para você e outras pessoas.\n\n```python\n# Comentário de uma linha — começa com #\n\nprint(\"Isso aparece na tela\")  # comentário no final da linha\n\n\"\"\"\nComentário de várias linhas.\nÚtil para explicar trechos maiores.\nUsa três aspas no início e no fim.\n\"\"\"\n```\n\n## Case sensitive — letras importam\n\nPython diferencia maiúsculas de minúsculas. `Nome`, `nome` e `NOME` são três coisas diferentes:\n\n```python\nnome = \"João\"\nprint(nome)   # ✅ funciona — exibe \"João\"\nprint(Nome)   # ❌ NameError — não existe \"Nome\"\nprint(NOME)   # ❌ NameError — não existe \"NOME\"\n```\n\n## Execução linha por linha\n\nO Python lê seu arquivo de cima para baixo, executando uma linha de cada vez:\n\n```python\n# Linha 1\nprint(\"Primeira linha\")\n\n# Linha 2\nprint(\"Segunda linha\")\n\n# Linha 3\nnome = input(\"Digite seu nome: \")\n\n# Linha 4\nprint(f\"Olá, {nome}\")\n```\n\nA ordem importa! Você não pode usar uma variável antes de criá-la.\n\n## Erros comuns\n\n### IndentationError\n\n```python\nif 5 > 2:\n    print(\"Dentro do if\")\n  print(\"Indentação diferente\")  # ❌ IndentationError\n```\n\n**Solução**: mantenha a indentação consistente (4 espaços por nível).\n\n### Esqueceu os dois pontos\n\n```python\nif 5 > 2   # ❌ SyntaxError — faltou os :\n    print(\"teste\")\n```\n\n**Solução**: todo `if`, `for`, `while`, `def`, `class` termina com `:`.\n\n### NameError\n\n```python\nprint(mensagem)  # ❌ NameError — 'mensagem' não foi definida\nmensagem = \"Olá\"\n```\n\n**Solução**: defina a variável antes de usá-la.\n\n### SyntaxError por esquecer aspas\n\n```python\nprint(Olá)       # ❌ SyntaxError\nprint(\"Olá\")      # ✅\n```\n\n**Solução**: strings sempre entre aspas (`\"` ou `'`).\n\n## Boas práticas desde o início\n\n- Use nomes descritivos para variáveis (`nome` em vez de `x`)\n- Mantenha a indentação consistente (sempre 4 espaços)\n- Escreva comentários para explicar o \"porquê\", não o \"o quê\"\n- Não tenha medo de errar — cada erro te ensina algo\n"
+  },
+  {
+    "titulo": "Tipos de Variáveis",
+    "slug": "tipos-variaveis",
+    "ordem": 4,
+    "content": "\n## O que é uma variável?\n\nUma variável é como uma **caixa com etiqueta** onde você guarda um valor. A etiqueta é o nome da variável, e o valor é o que está dentro da caixa.\n\n```python\nnome = \"João\"       # caixa 'nome' contém \"João\"\nidade = 25           # caixa 'idade' contém 25\naltura = 1.75        # caixa 'altura' contém 1.75\n```\n\nQuando você usa `=`, não é \"igual\" como na matemática. É **\"recebe\"** ou **\"guarda o valor\"**.\n\n## Criando variáveis em Python\n\nEm Python, você não precisa declarar o tipo da variável. Basta dar um nome e atribuir um valor:\n\n```python\nnome = \"Maria\"         # string (texto)\nidade = 30              # int (número inteiro)\naltura = 1.65           # float (número decimal)\nestudante = True        # bool (verdadeiro ou falso)\n```\n\n## Tipos de dados básicos\n\n### int — números inteiros\n\n```python\nidade = 25\nano = 2026\npopulacao = 8_000_000_000  # underscore para facilitar a leitura\n```\n\n### float — números decimais\n\n```python\npreco = 19.99\npi = 3.14159\ntemperatura = -5.5\n```\n\n### str — texto (strings)\n\n```python\nnome = \"Ana\"\nfrase = 'Olá, mundo!'\ncitacao = \"\"\"Texto com\nvárias linhas\"\"\"\n```\n\nVocê pode usar aspas simples (`'`) ou duplas (`\"`). O importante é manter consistência.\n\n### bool — verdadeiro ou falso\n\n```python\naprovado = True\nreprovado = False\n```\n\nUsado principalmente em condições (ifs e loops).\n\n## Verificando o tipo — `type()`\n\nSe você não tem certeza do tipo de uma variável, use a função `type()`:\n\n```python\nnome = \"João\"\nidade = 25\npreco = 9.99\nativo = True\n\nprint(type(nome))   # <class 'str'>\nprint(type(idade))  # <class 'int'>\nprint(type(preco))  # <class 'float'>\nprint(type(ativo))  # <class 'bool'>\n```\n\n## Conversão entre tipos\n\nÀs vezes você precisa converter um tipo em outro:\n\n```python\n# string → int\nnumero = int(\"10\")      # 10 (agora é número)\n\n# string → float\npreco = float(\"9.99\")   # 9.99\n\n# int → string\ntexto = str(25)          # \"25\"\n\n# qualquer → bool\nprint(bool(1))    # True\nprint(bool(0))    # False\nprint(bool(\"\"))   # False\nprint(bool(\"x\"))  # True\n```\n\nIsso é essencial quando você usa `input()` — que sempre retorna string:\n\n```python\nidade = input(\"Quantos anos você tem? \")   # \"25\" (string)\nidade = int(idade)                          # 25 (int)\nprint(f\"Ano que vem você terá {idade + 1} anos\")\n```\n\n## Nomes válidos para variáveis\n\n### ✅ Permitido\n\n```python\nnome = \"João\"\nnome_completo = \"João Silva\"\nnome2 = \"João\"\n_nome = \"João\"\n```\n\n### ❌ Não permitido\n\n```python\n2nome = \"João\"     # não pode começar com número\nnome completo = \"\" # não pode ter espaços\nclass = \"João\"     # não pode ser palavra reservada\nprint = \"João\"     # não pode sobrescrever funções do Python\n```\n\n> **Dica**: use `snake_case` para variáveis (letras minúsculas com underscores entre palavras). É o padrão da comunidade Python.\n\n## Erros comuns\n\n### NameError — variável não definida\n\n```python\nprint(telefone)  # ❌ NameError: name 'telefone' is not defined\n```\n\n**Causa**: você tentou usar uma variável que não existe.\n**Solução**: defina a variável antes de usá-la.\n\n### TypeError — tipo não esperado\n\n```python\nidade = \"25\"\nprint(idade + 1)  # ❌ TypeError: can only concatenate str (not \"int\") to str\n```\n\n**Causa**: você está tentando somar string com número.\n**Solução**: converta a string para int antes: `int(idade) + 1`.\n\n### Esquecer de converter input\n\n```python\nidade = input(\"Sua idade: \")\nprint(\"Ano que vem você terá\", idade + 1)  # ❌ TypeError\n```\n\n**Causa**: `input()` sempre retorna string.\n**Solução**: use `int(input(...))` para números.\n\n## Resumo\n\n| Tipo | Exemplo | Para que serve |\n|------|---------|----------------|\n| `int` | `idade = 25` | Números inteiros |\n| `float` | `preco = 9.99` | Números decimais |\n| `str` | `nome = \"Ana\"` | Texto |\n| `bool` | `ativo = True` | Verdadeiro/falso |\n\nCada tipo tem funções específicas e saber identificá-los é o primeiro passo para programar sem erros.\n"
+  },
+  {
+    "titulo": "Números",
+    "slug": "numeros",
+    "ordem": 5,
+    "content": "\nTrabalhar com números é uma das tarefas mais comuns em programação. Python tem duas categorias principais de números e um conjunto completo de operações.\n\n## Tipos numéricos\n\nEm Python, números se dividem em dois tipos principais:\n\n```python\n# int — números inteiros\nidade = 25\npopulacao = 8_000_000_000\n\n# float — números com casas decimais\npreco = 19.99\npi = 3.14159\ntemperatura = -5.5\n```\n\nPython lida muito bem com números grandes. Não há limite prático para inteiros:\n\n```python\nnumero_gigante = 2 ** 100\nprint(numero_gigante)\n# 1267650600228229401496703205376\n```\n\n## Operadores aritméticos\n\n| Operador | Operação | Exemplo | Resultado |\n|----------|----------|---------|-----------|\n| `+` | Soma | `5 + 3` | `8` |\n| `-` | Subtração | `10 - 4` | `6` |\n| `*` | Multiplicação | `6 * 3` | `18` |\n| `/` | Divisão (sempre retorna float) | `7 / 2` | `3.5` |\n| `//` | Divisão inteira | `7 // 2` | `3` |\n| `%` | Módulo (resto da divisão) | `7 % 2` | `1` |\n| `**` | Potenciação | `2 ** 3` | `8` |\n\n### Exemplos práticos\n\n```python\n# Divisão normal vs inteira\nprint(10 / 3)   # 3.3333333333333335  (float)\nprint(10 // 3)  # 3                   (int, ignora decimal)\n\n# Módulo — descobre se é par ou ímpar\nprint(10 % 2)   # 0 — par\nprint(7 % 2)    # 1 — ímpar\n\n# Potenciação\nprint(2 ** 10)  # 1024\n```\n\n> **Dica**: o módulo (`%`) é muito usado para verificar divisibilidade e ciclar entre valores.\n\n## Ordem de precedência\n\nPython segue a mesma ordem da matemática:\n\n1. Parênteses `()`\n2. Potenciação `**`\n3. Multiplicação, divisão e módulo `* / // %`\n4. Soma e subtração `+ -`\n\n```python\nresultado = 5 + 3 * 2       # 11 (multiplicação primeiro)\nresultado = (5 + 3) * 2     # 16 (parênteses primeiro)\nresultado = 2 ** 3 + 4      # 12 (potenciação primeiro)\nresultado = 2 ** (3 + 4)    # 128\n```\n\nQuando estiver na dúvida, use parênteses. Deixa o código mais claro e evita surpresas.\n\n## Funções úteis para números\n\n### `abs()` — valor absoluto\n\n```python\nprint(abs(-10))   # 10\nprint(abs(10))    # 10\n```\n\n### `round()` — arredondamento\n\n```python\nprint(round(3.14159))       # 3\nprint(round(3.14159, 2))    # 3.14 (2 casas decimais)\nprint(round(2.5))           # 2 (arredondamento bancário)\n```\n\n### `max()` e `min()` — maior e menor\n\n```python\nprint(max(10, 3, 7, 25, 1))   # 25\nprint(min(10, 3, 7, 25, 1))   # 1\n```\n\n## Módulo `math`\n\nO Python vem com uma biblioteca de funções matemáticas mais avançadas. Para usá-la, importe o módulo `math`:\n\n```python\nimport math\n\nprint(math.sqrt(16))         # 4.0 (raiz quadrada)\nprint(math.ceil(4.2))        # 5 (arredonda para cima)\nprint(math.floor(4.8))       # 4 (arredonda para baixo)\nprint(math.pi)               # 3.141592653589793\nprint(math.pow(2, 10))       # 1024.0 (potência, equivalente a 2**10)\n```\n\n## Erros comuns\n\n### Divisão por zero\n\n```python\nprint(10 / 0)  # ❌ ZeroDivisionError: division by zero\n```\n\n**Causa**: matemática básica — nenhum número pode ser dividido por zero.\n**Solução**: verifique se o divisor é zero antes de dividir.\n\n### Misturar int e float sem querer\n\n```python\n# Isso funciona — Python converte automaticamente\nprint(3 + 2.5)   # 5.5 (float)\n\n# Mas cuidado com comparações:\nprint(0.1 + 0.2 == 0.3)   # False?! 😱\nprint(0.1 + 0.2)           # 0.30000000000000004\n```\n\n**Causa**: números de ponto flutuante têm limitações de precisão.\n**Solução**: use `round()` para comparar floats ou use `math.isclose()`:\n\n```python\nprint(round(0.1 + 0.2, 2) == 0.3)   # True\n```\n\n### TypeError: can't multiply sequence by non-int\n\n```python\nprint(\"5\" * \"3\")   # ❌ TypeError\n```\n\n**Causa**: você está tentando multiplicar string por string.\n**Solução**: converta para número: `int(\"5\") * int(\"3\")`.\n\n### Esquecer de converter input\n\nLembre-se: `input()` sempre retorna string. Para fazer contas, converta:\n\n```python\n# Errado\nn1 = input(\"Primeiro número: \")\nn2 = input(\"Segundo número: \")\nprint(n1 + n2)          # \"1020\" em vez de 30 ❌\n\n# Certo\nn1 = int(input(\"Primeiro número: \"))\nn2 = int(input(\"Segundo número: \"))\nprint(n1 + n2)          # 30 ✅\n```\n\n## Desafio rápido\n\nCalcule a área de um círculo com raio 5 usando `π = 3.14159`:\n\n```python\nraio = 5\narea = 3.14159 * raio ** 2\nprint(f\"Área do círculo: {area}\")\n```\n\nConsegue modificar esse código para pedir o raio ao usuário? 🤔\n"
+  },
+  {
+    "titulo": "Strings",
+    "slug": "strings",
+    "ordem": 6,
+    "content": ""
+  },
+  {
+    "titulo": "Operadores",
+    "slug": "operadores",
+    "ordem": 7,
+    "content": ""
+  },
+  {
+    "titulo": "Listas",
+    "slug": "listas",
+    "ordem": 8,
+    "content": ""
+  },
+  {
+    "titulo": "Tuplas",
+    "slug": "tuplas",
+    "ordem": 9,
+    "content": ""
+  },
+  {
+    "titulo": "Dicionários",
+    "slug": "dicionarios",
+    "ordem": 10,
+    "content": ""
+  },
+  {
+    "titulo": "Sets",
+    "slug": "sets",
+    "ordem": 11,
+    "content": ""
+  },
+  {
+    "titulo": "Input de Dados",
+    "slug": "input",
+    "ordem": 12,
+    "content": ""
+  },
+  {
+    "titulo": "If... Else",
+    "slug": "if-else",
+    "ordem": 13,
+    "content": ""
+  },
+  {
+    "titulo": "For Loops",
+    "slug": "for-loops",
+    "ordem": 14,
+    "content": ""
+  },
+  {
+    "titulo": "While Loops",
+    "slug": "while-loops",
+    "ordem": 15,
+    "content": ""
+  },
+  {
+    "titulo": "Funções",
+    "slug": "funcoes",
+    "ordem": 16,
+    "content": ""
+  },
+  {
+    "titulo": "Expressões Lambda",
+    "slug": "expressoes-lambda",
+    "ordem": 17,
+    "content": ""
+  },
+  {
+    "titulo": "Módulos",
+    "slug": "modulos",
+    "ordem": 18,
+    "content": ""
+  },
+  {
+    "titulo": "Input & Output de Arquivos",
+    "slug": "input-output-arquivos",
+    "ordem": 19,
+    "content": ""
+  },
+  {
+    "titulo": "Erros, Exceções e Testes",
+    "slug": "erros-excecoes-testes",
+    "ordem": 20,
+    "content": ""
+  },
+  {
+    "titulo": "Data e Tempo",
+    "slug": "data-tempo",
+    "ordem": 21,
+    "content": ""
+  },
+  {
+    "titulo": "Programação Orientada a Objetos",
+    "slug": "poo",
+    "ordem": 22,
+    "content": ""
+  },
+  {
+    "titulo": "Expressões Regulares",
+    "slug": "expressoes-regulares",
+    "ordem": 23,
+    "content": ""
+  },
+  {
+    "titulo": "JSON",
+    "slug": "json",
+    "ordem": 24,
+    "content": ""
+  },
+  {
+    "titulo": "XML",
+    "slug": "xml",
+    "ordem": 25,
+    "content": ""
+  },
+  {
+    "titulo": "Iteradores",
+    "slug": "iteradores",
+    "ordem": 26,
+    "content": ""
+  },
+  {
+    "titulo": "Geradores",
+    "slug": "geradores",
+    "ordem": 27,
+    "content": ""
+  },
+  {
+    "titulo": "Decoradores",
+    "slug": "decoradores",
+    "ordem": 28,
+    "content": ""
+  },
+  {
+    "titulo": "Glossário",
+    "slug": "glossario",
+    "ordem": 29,
+    "content": ""
+  },
+  {
+    "titulo": "Erros Comuns",
+    "slug": "erros-comuns",
+    "ordem": 30,
+    "content": ""
+  }
+]

@@ -1,0 +1,213 @@
+---
+titulo: "While Loop"
+slug: "while-loops"
+ordem: 11
+---
+
+Vamos mergulhar no mundo dos loops em JavaScript! Hoje você vai aprender tudo sobre o `while` e o `do...while`, duas ferramentas poderosas para repetir ações no seu código.
+
+## O que é um loop `while`?
+
+Imagine que você precisa executar uma tarefa várias vezes até que uma condição seja atendida. O loop `while` é perfeito para isso. Ele repete um bloco de código **enquanto** uma condição for verdadeira.
+
+A estrutura básica é:
+
+```javascript
+while (condicao) {
+  // código a ser repetido
+}
+```
+
+**Como funciona:**
+1. Primeiro, a condição é verificada.
+2. Se for `true`, o bloco de código é executado.
+3. Após a execução, a condição é verificada novamente.
+4. Isso se repete até que a condição se torne `false`.
+
+### Exemplo prático: Contando até 5
+
+```javascript
+let contador = 1;
+
+while (contador <= 5) {
+  console.log(`Número: ${contador}`);
+  contador++; // ESSENCIAL: atualiza a variável
+}
+// Resultado:
+// Número: 1
+// Número: 2
+// Número: 3
+// Número: 4
+// Número: 5
+```
+
+Percebeu o `contador++`? Se você esquecer de modificar a variável dentro do loop, o código vai rodar para sempre! Isso é um **loop infinito** e trava seu programa.
+
+## O loop `do...while`
+
+A diferença principal? No `do...while`, o bloco de código é executado **pelo menos uma vez**, mesmo que a condição seja falsa desde o início.
+
+```javascript
+do {
+  // código executado primeiro
+} while (condicao);
+```
+
+### Exemplo: Perguntando até receber resposta
+
+```javascript
+let resposta;
+
+do {
+  resposta = prompt("Digite 'sim' para continuar:");
+  console.log(`Você digitou: ${resposta}`);
+} while (resposta !== "sim");
+
+console.log("Obrigado!");
+```
+
+Nesse caso, a pergunta aparece pelo menos uma vez, depois verifica se a resposta foi "sim".
+
+## Quando usar cada um?
+
+- **Use `while`** quando você quer que o loop só execute se a condição for verdadeira desde o início. Exemplo: processar itens de uma lista apenas se existirem itens.
+
+- **Use `do...while`** quando você precisa que o código execute pelo menos uma vez, independente da condição. Exemplo: mostrar um menu de opções antes de perguntar se o usuário quer sair.
+
+## Controle de fluxo: `break` e `continue`
+
+### `break` - Saia do loop imediatamente
+
+```javascript
+let numero = 0;
+
+while (true) { // loop infinito intencional
+  numero++;
+  console.log(`Tentativa ${numero}`);
+  
+  if (numero === 3) {
+    console.log("Achei o número 3! Saindo...");
+    break; // para o loop aqui
+  }
+}
+// Resultado:
+// Tentativa 1
+// Tentativa 2
+// Tentativa 3
+// Achei o número 3! Saindo...
+```
+
+### `continue` - Pule para a próxima iteração
+
+```javascript
+let i = 0;
+
+while (i < 10) {
+  i++;
+  
+  if (i % 2 === 0) {
+    continue; // pula números pares
+  }
+  
+  console.log(`Ímpar: ${i}`);
+}
+// Resultado:
+// Ímpar: 1
+// Ímpar: 3
+// Ímpar: 5
+// Ímpar: 7
+// Ímpar: 9
+```
+
+## Exemplo prático completo: Jogo de adivinhação
+
+```javascript
+const numeroSecreto = 7;
+let palpite;
+let tentativas = 0;
+
+do {
+  palpite = parseInt(prompt("Adivinhe o número (entre 1 e 10):"));
+  tentativas++;
+  
+  if (palpite === numeroSecreto) {
+    console.log(`Parabéns! Você acertou em ${tentativas} tentativa(s)!`);
+    break;
+  } else {
+    console.log("Errou! Tente novamente.");
+    if (tentativas >= 5) {
+      console.log("Você excedeu o limite de tentativas. O número era " + numeroSecreto);
+      break;
+    }
+  }
+} while (true); // loop infinito controlado por break
+```
+
+## Erros comuns e como evitá-los
+
+### 1. Loop infinito por esquecer de atualizar a variável
+
+```javascript
+let x = 0;
+while (x < 5) {
+  console.log(x);
+  // esqueci de x++ -> loop infinito!
+}
+```
+
+**Solução:** Sempre inclua uma forma de modificar a condição dentro do loop.
+
+### 2. Condição que nunca se torna falsa
+
+```javascript
+let y = 10;
+while (y > 0) {
+  console.log(y);
+  y++; // aumentando em vez de diminuir -> loop infinito!
+}
+```
+
+**Solução:** Verifique se sua lógica está movendo a variável na direção correta.
+
+### 3. Esquecer de inicializar a variável
+
+```javascript
+while (contador < 5) { // contador não foi definido
+  console.log("Olá");
+  contador++;
+}
+```
+
+**Solução:** Sempre declare e inicialize suas variáveis antes do loop.
+
+## Dicas importantes
+
+1. **Use `while` para loops com número desconhecido de repetições** (como esperar resposta do usuário).
+2. **Prefira `for` quando souber exatamente quantas vezes repetir**.
+3. **Teste seu loop com valores de borda** (0, 1, valores máximos).
+4. **Coloque um limite de segurança** se estiver usando `while(true)` com `break`.
+5. **Use nomes descritivos** para as variáveis de controle.
+
+```javascript
+// Exemplo com limite de segurança
+let tentativasRestantes = 3;
+let senhaCorreta = "1234";
+
+while (tentativasRestantes > 0) {
+  let tentativa = prompt("Digite a senha:");
+  
+  if (tentativa === senhaCorreta) {
+    console.log("Acesso concedido!");
+    break;
+  }
+  
+  tentativasRestantes--;
+  console.log(`Senha incorreta. Restam ${tentativasRestantes} tentativa(s).`);
+}
+
+if (tentativasRestantes === 0) {
+  console.log("Acesso bloqueado!");
+}
+```
+
+Agora você já sabe como usar `while` e `do...while` como um profissional! Pratique criando seus próprios loops e lembre-se: a chave é sempre garantir que a condição do loop se torne falsa em algum momento.

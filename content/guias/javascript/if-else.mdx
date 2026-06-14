@@ -1,0 +1,249 @@
+---
+titulo: "If / Else e Switch"
+slug: "if-else"
+ordem: 9
+---
+
+Vamos aprender sobre controle de fluxo no JavaScript! Quando você programa, precisa tomar decisões baseadas em condições. É aí que entram `if/else` e `switch`.
+
+## O Bloco `if` Básico
+
+O `if` executa um bloco de código apenas se uma condição for verdadeira.
+
+```javascript
+let idade = 18;
+
+if (idade >= 18) {
+  console.log("Você pode tirar a carteira de motorista");
+}
+```
+
+## `else if` e `else` - Quando uma Condição Não é Suficiente
+
+Use `else` para executar código quando a condição do `if` for falsa. Use `else if` para testar múltiplas condições.
+
+```javascript
+let nota = 7;
+
+if (nota >= 7) {
+  console.log("Aprovado");
+} else if (nota >= 5) {
+  console.log("Recuperação");
+} else {
+  console.log("Reprovado");
+}
+```
+
+**Dica importante:** A ordem das condições importa! O JavaScript testa de cima para baixo e para no primeiro resultado verdadeiro.
+
+## Truthy e Falsy - O Que é Verdadeiro e Falso no JavaScript?
+
+No JavaScript, nem todo valor é explicitamente `true` ou `false`. Existem valores que se comportam como verdadeiros (truthy) ou falsos (falsy) em contextos booleanos.
+
+**Valores falsy (são considerados falsos):**
+- `false`
+- `0`
+- `""` (string vazia)
+- `null`
+- `undefined`
+- `NaN`
+
+**Todo o resto é truthy!** Inclusive strings com texto, arrays vazios, objetos vazios.
+
+```javascript
+let nome = "";
+
+if (nome) {
+  console.log("Nome preenchido");
+} else {
+  console.log("Nome vazio - isso é falsy");
+}
+
+let numero = 0;
+
+if (numero) {
+  console.log("Número é truthy");
+} else {
+  console.log("0 é falsy no JavaScript");
+}
+```
+
+**Erro comum:** Confundir `0` com `false` ou esquecer que strings vazias são falsy.
+
+## Operador Ternário - If/Else em Uma Linha
+
+O operador ternário é uma forma concisa de escrever um `if/else` simples.
+
+```javascript
+let idade = 16;
+let podeDirigir = idade >= 18 ? "Sim" : "Não";
+console.log(podeDirigir); // Não
+
+// Equivalente com if/else:
+let podeDirigir2;
+if (idade >= 18) {
+  podeDirigir2 = "Sim";
+} else {
+  podeDirigir2 = "Não";
+}
+```
+
+**Dica:** Use ternário apenas para condições simples. Para lógicas complexas, prefira `if/else`.
+
+## Switch/Case - Alternativa para Múltiplas Comparações
+
+O `switch` é útil quando você compara uma variável com vários valores específicos.
+
+```javascript
+let diaSemana = 3;
+let nomeDia;
+
+switch (diaSemana) {
+  case 1:
+    nomeDia = "Domingo";
+    break;
+  case 2:
+    nomeDia = "Segunda";
+    break;
+  case 3:
+    nomeDia = "Terça";
+    break;
+  case 4:
+    nomeDia = "Quarta";
+    break;
+  case 5:
+    nomeDia = "Quinta";
+    break;
+  case 6:
+    nomeDia = "Sexta";
+    break;
+  case 7:
+    nomeDia = "Sábado";
+    break;
+  default:
+    nomeDia = "Dia inválido";
+}
+
+console.log(nomeDia); // Terça
+```
+
+## O `break` é Essencial!
+
+Sem o `break`, o JavaScript continua executando os próximos cases (isso se chama "fall-through").
+
+```javascript
+let fruta = "maçã";
+
+switch (fruta) {
+  case "banana":
+    console.log("Amarela");
+    // Sem break! Vai executar o próximo case
+  case "maçã":
+    console.log("Vermelha ou verde");
+    break;
+  case "uva":
+    console.log("Roxa ou verde");
+    break;
+  default:
+    console.log("Fruta não cadastrada");
+}
+// Output: Vermelha ou verde
+// (porque "maçã" não tem break, mas o case "banana" simula fall-through)
+```
+
+**Dica:** Às vezes o fall-through é intencional. Por exemplo, quando vários cases compartilham o mesmo código.
+
+## Switch com Strings
+
+O `switch` funciona perfeitamente com strings.
+
+```javascript
+let comando = "somar";
+let resultado;
+
+switch (comando) {
+  case "somar":
+    resultado = 5 + 3;
+    break;
+  case "subtrair":
+    resultado = 5 - 3;
+    break;
+  case "multiplicar":
+    resultado = 5 * 3;
+    break;
+  default:
+    resultado = "Comando inválido";
+}
+
+console.log(resultado); // 8
+```
+
+## Exemplo Prático: Sistema de Login
+
+```javascript
+let usuario = "admin";
+let senha = "1234";
+
+if (usuario === "admin" && senha === "1234") {
+  console.log("Acesso permitido");
+} else if (usuario === "admin" && senha !== "1234") {
+  console.log("Senha incorreta");
+} else if (usuario !== "admin") {
+  console.log("Usuário não encontrado");
+} else {
+  console.log("Erro desconhecido");
+}
+```
+
+## Exemplo Prático: Calculadora de IMC
+
+```javascript
+let peso = 70;
+let altura = 1.75;
+let imc = peso / (altura * altura);
+
+let classificacao;
+
+if (imc < 18.5) {
+  classificacao = "Abaixo do peso";
+} else if (imc < 25) {
+  classificacao = "Peso normal";
+} else if (imc < 30) {
+  classificacao = "Sobrepeso";
+} else {
+  classificacao = "Obesidade";
+}
+
+console.log(`Seu IMC é ${imc.toFixed(1)} - ${classificacao}`);
+```
+
+## Erros Comuns para Evitar
+
+1. **Usar `=` em vez de `===`** - `=` é atribuição, `===` é comparação
+```javascript
+if (x = 5) { // Erro! Isso atribui 5 a x e sempre será verdadeiro
+}
+
+if (x === 5) { // Correto
+}
+```
+
+2. **Esquecer o `break` no switch** - Causa execução inesperada dos próximos cases
+
+3. **Comparar com `==` em vez de `===`** - `==` faz coerção de tipos
+```javascript
+if (0 == false) { // true! (mas são tipos diferentes)
+}
+
+if (0 === false) { // false (correto, são tipos diferentes)
+}
+```
+
+4. **Colocar ponto e vírgula depois do if** - Isso encerra o if antes do bloco
+```javascript
+if (condicao); { // O if não controla mais este bloco
+  console.log("Sempre executa");
+}
+```
+
+Lembre-se: a prática leva à perfeição! Comece com exemplos simples e vá aumentando a complexidade aos poucos.

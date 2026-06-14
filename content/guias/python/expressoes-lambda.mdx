@@ -1,0 +1,183 @@
+---
+titulo: "Expressões Lambda"
+slug: "expressoes-lambda"
+ordem: 17
+---
+
+Funções lambda são **funções anônimas** de uma linha — você cria uma função sem dar nome a ela, ideal para operações simples e rápidas.
+
+## Sintaxe
+
+```python
+lambda parâmetros: expressão
+```
+
+A diferença para uma função `def` normal:
+
+```python
+# Função normal
+def dobro(x):
+    return x * 2
+
+# Lambda equivalente
+lambda x: x * 2
+```
+
+## Como usar lambda
+
+Para usar uma lambda, você normalmente a atribui a uma variável ou a passa como argumento:
+
+```python
+# Atribuindo a uma variável
+dobro = lambda x: x * 2
+print(dobro(5))  # 10
+
+soma = lambda a, b: a + b
+print(soma(3, 7))  # 10
+
+# Lambda com vários parâmetros
+area_retangulo = lambda largura, altura: largura * altura
+print(area_retangulo(5, 3))  # 15
+```
+
+> **Nota**: por trás dos panos, `lambda x: x * 2` é o mesmo que `def funcao(x): return x * 2`.
+
+## Lambda vs `def` — quando usar cada um?
+
+| Use `def` quando... | Use `lambda` quando... |
+|---------------------|------------------------|
+| A função tem várias linhas | A função cabe em uma linha |
+| Precisa de documentação | É uma operação simples |
+| A lógica é complexa | Precisa de uma "função descartável" |
+| Vai ser reutilizada em vários lugares | Vai ser passada como argumento |
+
+## Uso prático — `sorted()` com lambda
+
+O caso mais comum de lambda é como argumento de outras funções:
+
+```python
+pessoas = [
+    {"nome": "Ana", "idade": 25},
+    {"nome": "João", "idade": 20},
+    {"nome": "Maria", "idade": 30},
+]
+
+# Ordenar por idade (crescente)
+ordenado = sorted(pessoas, key=lambda p: p["idade"])
+for p in ordenado:
+    print(f"{p['nome']}: {p['idade']}")
+
+# Ordenar por nome
+ordenado = sorted(pessoas, key=lambda p: p["nome"])
+```
+
+```python
+# Ordenar tuplas pelo segundo elemento
+dados = [(1, 5), (3, 2), (4, 8), (2, 1)]
+ordenado = sorted(dados, key=lambda item: item[1])
+print(ordenado)  # [(2, 1), (3, 2), (1, 5), (4, 8)]
+```
+
+## `map()` — aplicar lambda a cada elemento
+
+```python
+numeros = [1, 2, 3, 4, 5]
+
+# Dobrar cada número
+dobrados = list(map(lambda x: x * 2, numeros))
+print(dobrados)  # [2, 4, 6, 8, 10]
+```
+
+> **Nota**: `map()` retorna um iterador, então usamos `list()` para ver os resultados.
+
+## `filter()` — filtrar elementos com lambda
+
+```python
+numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+# Filtrar só os pares
+pares = list(filter(lambda x: x % 2 == 0, numeros))
+print(pares)  # [2, 4, 6, 8, 10]
+```
+
+> **Dica**: `filter()` mantém os elementos onde a função retorna `True`.
+
+## Exemplos práticos
+
+```python
+# Lista de produtos
+produtos = [
+    ("Camiseta", 49.90),
+    ("Calça", 129.90),
+    ("Boné", 29.90),
+    ("Tênis", 199.90),
+]
+
+# Produtos abaixo de R$ 100
+baratos = list(filter(lambda p: p[1] < 100, produtos))
+print(baratos)  # [('Camiseta', 49.9), ('Boné', 29.9)]
+
+# Aplicar 10% de desconto em todos
+com_desconto = list(map(lambda p: (p[0], round(p[1] * 0.9, 2)), produtos))
+print(com_desconto)
+```
+
+## Limitações do lambda
+
+Lambda **só aceita uma expressão** — não pode ter múltiplas linhas, loops ou `if/else` complexos:
+
+```python
+# ❌ Isso não funciona — muitas operações
+lambda x: if x > 0: print("Positivo") else: print("Negativo")
+
+# ✅ Isso funciona — ternário é uma expressão
+lambda x: "Positivo" if x > 0 else "Negativo"
+
+# ❌ Não pode ter loops
+lambda x: for i in x: print(i)
+
+# ✅ O que dá pra fazer é limitado, mas intencional
+lambda a, b: a if a > b else b  # maior entre dois
+```
+
+> **Dica**: se você precisa de mais de uma linha, use `def`. Lambda é para operações simples.
+
+## Erros comuns
+
+### Tentar usar lambda para lógica complexa
+
+```python
+calcular = lambda a, b, op: (
+    a + b if op == "+" else
+    a - b if op == "-" else
+    a * b if op == "*" else
+    "Operação inválida"
+)
+
+# Funciona, mas é horrível de ler! Use def!
+```
+
+**Solução**: nesses casos, use `def` — fica muito mais legível.
+
+### Esquecer que lambda precisa de `return` implícito
+
+Diferente do `def`, o `return` no lambda é automático — o resultado da expressão é devolvido:
+
+```python
+soma = lambda a, b: a + b   # ✅ return implícito
+soma = lambda a, b: return a + b  # ❌ SyntaxError!
+```
+
+### Achar que lambda substitui funções normais
+
+Lambda é uma ferramenta para **casos específicos**. Para 90% das funções, use `def`.
+
+## Resumo
+
+| Característica | `def` | `lambda` |
+|----------------|-------|----------|
+| Nome | Obrigatório | Opcional |
+| Linhas | Várias | Uma |
+| `return` | Explícito | Implícito |
+| Uso típico | Funções reutilizáveis | Funções descartáveis como argumento |
+| Legibilidade | Ótima para lógica complexa | Ótima para operações simples |

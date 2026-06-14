@@ -1,0 +1,389 @@
+---
+titulo: "Polimorfismo"
+slug: "polimorfismo"
+ordem: 18
+---
+
+# Polimorfismo em Java: Guia Completo para Iniciantes
+
+Olá, futuro(a) programador(a) Java! Hoje vamos mergulhar em um dos conceitos mais poderosos e elegantes da programação orientada a objetos: o **polimorfismo**.
+
+## O que é Polimorfismo?
+
+Polimorfismo vem do grego: *poli* (muitas) + *morfos* (formas). Em Java, significa que um mesmo método pode se comportar de diferentes maneiras dependendo do contexto.
+
+Pense nisso como um controle remoto universal: o botão "ligar" funciona para TV, som e ar-condicionado, mas cada aparelho reage de forma diferente.
+
+## Tipos de Polimorfismo em Java
+
+### 1. Polimorfismo de Sobrecarga (Compile-time)
+
+A sobrecarga acontece quando criamos vários métodos com o **mesmo nome** mas com **parâmetros diferentes**. O Java decide qual método chamar durante a compilação.
+
+```java
+public class Calculadora {
+    
+    // Método para somar dois inteiros
+    public int somar(int a, int b) {
+        return a + b;
+    }
+    
+    // Método para somar três inteiros
+    public int somar(int a, int b, int c) {
+        return a + b + c;
+    }
+    
+    // Método para somar dois números decimais
+    public double somar(double a, double b) {
+        return a + b;
+    }
+    
+    public static void main(String[] args) {
+        Calculadora calc = new Calculadora();
+        
+        System.out.println(calc.somar(5, 3));        // Chama o primeiro método
+        System.out.println(calc.somar(5, 3, 2));     // Chama o segundo método
+        System.out.println(calc.somar(5.5, 3.2));    // Chama o terceiro método
+    }
+}
+```
+
+**Dica importante:** A sobrecarga não depende apenas do tipo dos parâmetros, mas também da **quantidade** e **ordem** deles.
+
+### 2. Polimorfismo de Sobrescrita (Runtime)
+
+A sobrescrita acontece quando uma classe filha redefine um método da classe pai. O Java decide qual método executar durante a execução do programa.
+
+```java
+// Classe pai
+class Animal {
+    public void fazerSom() {
+        System.out.println("Animal fazendo som...");
+    }
+}
+
+// Classe filha
+class Cachorro extends Animal {
+    @Override
+    public void fazerSom() {
+        System.out.println("Au au!");
+    }
+}
+
+// Outra classe filha
+class Gato extends Animal {
+    @Override
+    public void fazerSom() {
+        System.out.println("Miau!");
+    }
+}
+```
+
+## Referência do Tipo Pai Apontando para Objeto Filho
+
+Este é um conceito fundamental para entender polimorfismo:
+
+```java
+public class TesteAnimais {
+    public static void main(String[] args) {
+        // Referência do tipo Animal apontando para um Cachorro
+        Animal meuAnimal = new Cachorro();
+        meuAnimal.fazerSom();  // Saída: "Au au!"
+        
+        // Mesma referência, agora apontando para um Gato
+        meuAnimal = new Gato();
+        meuAnimal.fazerSom();  // Saída: "Miau!"
+    }
+}
+```
+
+**Por que isso é útil?** Podemos criar métodos que aceitam qualquer tipo de Animal:
+
+```java
+public class Veterinario {
+    public void examinar(Animal animal) {
+        System.out.println("Examinando animal...");
+        animal.fazerSom();
+    }
+    
+    public static void main(String[] args) {
+        Veterinario vet = new Veterinario();
+        
+        vet.examinar(new Cachorro());  // Funciona!
+        vet.examinar(new Gato());      // Funciona!
+    }
+}
+```
+
+## Classes Abstratas
+
+Uma classe abstrata é como um "esqueleto" que não pode ser instanciado diretamente. Ela serve como modelo para outras classes.
+
+```java
+// Classe abstrata - não pode ser instanciada!
+abstract class Forma {
+    protected String cor;
+    
+    // Construtor
+    public Forma(String cor) {
+        this.cor = cor;
+    }
+    
+    // Método abstrato - sem implementação
+    public abstract double calcularArea();
+    
+    // Método concreto - com implementação
+    public String getCor() {
+        return cor;
+    }
+}
+
+class Circulo extends Forma {
+    private double raio;
+    
+    public Circulo(String cor, double raio) {
+        super(cor);  // Chama o construtor da classe pai
+        this.raio = raio;
+    }
+    
+    @Override
+    public double calcularArea() {
+        return Math.PI * raio * raio;
+    }
+}
+
+class Retangulo extends Forma {
+    private double largura;
+    private double altura;
+    
+    public Retangulo(String cor, double largura, double altura) {
+        super(cor);
+        this.largura = largura;
+        this.altura = altura;
+    }
+    
+    @Override
+    public double calcularArea() {
+        return largura * altura;
+    }
+}
+```
+
+## Interfaces
+
+Uma interface é um contrato que define **o que** uma classe deve fazer, mas não **como** fazer.
+
+```java
+// Interface
+interface Voador {
+    void voar();  // Método abstrato (implícito)
+    void pousar();
+}
+
+interface Nadador {
+    void nadar();
+}
+
+// Classe que implementa múltiplas interfaces
+class Pato extends Animal implements Voador, Nadador {
+    @Override
+    public void fazerSom() {
+        System.out.println("Quack!");
+    }
+    
+    @Override
+    public void voar() {
+        System.out.println("Pato voando...");
+    }
+    
+    @Override
+    public void pousar() {
+        System.out.println("Pato pousando...");
+    }
+    
+    @Override
+    public void nadar() {
+        System.out.println("Pato nadando...");
+    }
+}
+```
+
+## Exemplo Prático Completo
+
+Vamos criar um sistema de funcionários usando polimorfismo:
+
+```java
+// Interface
+interface Trabalhador {
+    void trabalhar();
+    double calcularSalario();
+}
+
+// Classe abstrata
+abstract class Funcionario implements Trabalhador {
+    protected String nome;
+    protected int id;
+    
+    public Funcionario(String nome, int id) {
+        this.nome = nome;
+        this.id = id;
+    }
+    
+    public String getNome() {
+        return nome;
+    }
+}
+
+class Desenvolvedor extends Funcionario {
+    private double salarioBase = 5000;
+    
+    public Desenvolvedor(String nome, int id) {
+        super(nome, id);
+    }
+    
+    @Override
+    public void trabalhar() {
+        System.out.println(nome + " está programando...");
+    }
+    
+    @Override
+    public double calcularSalario() {
+        return salarioBase;
+    }
+}
+
+class Gerente extends Funcionario {
+    private double salarioBase = 8000;
+    private double bonus = 2000;
+    
+    public Gerente(String nome, int id) {
+        super(nome, id);
+    }
+    
+    @Override
+    public void trabalhar() {
+        System.out.println(nome + " está gerenciando a equipe...");
+    }
+    
+    @Override
+    public double calcularSalario() {
+        return salarioBase + bonus;
+    }
+}
+
+class Estagiario extends Funcionario {
+    public Estagiario(String nome, int id) {
+        super(nome, id);
+    }
+    
+    @Override
+    public void trabalhar() {
+        System.out.println(nome + " está aprendendo...");
+    }
+    
+    @Override
+    public double calcularSalario() {
+        return 1500;
+    }
+}
+
+public class Empresa {
+    public static void main(String[] args) {
+        // Array polimórfico
+        Funcionario[] funcionarios = {
+            new Desenvolvedor("Ana", 1),
+            new Gerente("Carlos", 2),
+            new Estagiario("Beatriz", 3)
+        };
+        
+        // Processamento polimórfico
+        double totalSalarios = 0;
+        for (Funcionario f : funcionarios) {
+            f.trabalhar();
+            System.out.println("Salário: R$" + f.calcularSalario());
+            System.out.println("---");
+            totalSalarios += f.calcularSalario();
+        }
+        
+        System.out.println("Total de salários: R$" + totalSalarios);
+    }
+}
+```
+
+## Operador instanceof
+
+O `instanceof` verifica se um objeto é de um determinado tipo:
+
+```java
+public class TesteTipo {
+    public static void main(String[] args) {
+        Animal animal = new Cachorro();
+        
+        if (animal instanceof Cachorro) {
+            System.out.println("É um cachorro!");
+            // Podemos fazer cast seguro
+            Cachorro cachorro = (Cachorro) animal;
+        }
+        
+        if (animal instanceof Gato) {
+            System.out.println("É um gato!");
+        }
+        
+        // Todo objeto é instanceof de Object
+        System.out.println(animal instanceof Object);  // true
+    }
+}
+```
+
+## Erros Comuns
+
+### ❌ Tentar instanciar classe abstrata
+
+```java
+// ERRO! Isso não compila
+Forma forma = new Forma("azul");  // Erro de compilação!
+```
+
+### ❌ Esquecer de implementar métodos abstratos
+
+```java
+abstract class Animal {
+    public abstract void fazerSom();
+}
+
+// ERRO! Classe não é abstrata mas não implementa o método
+class Peixe extends Animal {
+    // Precisa implementar fazerSom()!
+}
+```
+
+### ❌ Confundir sobrecarga com sobrescrita
+
+```java
+class Pai {
+    public void metodo(int x) { }
+}
+
+class Filho extends Pai {
+    // Isso é SOBRESCRITA (mesma assinatura)
+    @Override
+    public void metodo(int x) { }
+    
+    // Isso é SOBRECARGA (parâmetros diferentes)
+    public void metodo(String x) { }
+}
+```
+
+## Dicas Finais
+
+1. **Use @Override**: Sempre use esta anotação ao sobrescrever métodos. O Java avisará se você cometer erros.
+
+2. **Prefira interfaces a classes abstratas**: Interfaces são mais flexíveis (uma classe pode implementar várias).
+
+3. **Polimorfismo + Herança = Código elegante**: Use polimorfismo para escrever código que funciona com vários tipos.
+
+4. **Cuidado com instanceof**: Use com moderação. Muito uso pode indicar design problemático.
+
+5. **Pense em "é um"**: Um cachorro **é um** animal, um gerente **é um** funcionário. Isso ajuda a modelar suas classes.
+
+Parabéns! Você agora entende um dos conceitos mais importantes da programação orientada a objetos. Pratique criando seus próprios exemplos e logo o polimorfismo se tornará natural para você.

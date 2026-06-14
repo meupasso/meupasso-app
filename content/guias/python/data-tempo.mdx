@@ -1,0 +1,122 @@
+---
+titulo: "Data e Tempo"
+slug: "data-tempo"
+ordem: 21
+---
+
+Trabalhar com datas e horas é mais comum do que parece: calcular a idade de alguém, saber quantos dias faltam para um evento, registrar quando algo aconteceu. Python tem um módulo chamado `datetime` que resolve tudo isso de forma simples.
+
+Neste tópico você vai aprender a usar datas, horas e calcular diferenças entre elas.
+
+## O módulo datetime
+
+O módulo `datetime` contém várias classes úteis:
+
+- `date` - trabalha com datas (ano, mês, dia)
+- `time` - trabalha com horas (hora, minuto, segundo, microssegundo)
+- `datetime` - combina data e hora
+- `timedelta` - representa diferenças entre datas/horas
+
+### Importando o módulo
+
+```python
+import datetime
+```
+
+## Classe date
+
+Representa uma data específica.
+
+```python
+import datetime
+
+data_hoje = datetime.date.today()
+print(f"Data de hoje: {data_hoje}")
+
+data_aniversario = datetime.date(2024, 12, 25)
+print(f"Natal: {data_aniversario}")
+
+print(f"Ano: {data_aniversario.year}")
+print(f"Mês: {data_aniversario.month}")
+print(f"Dia: {data_aniversario.day}")
+```
+
+## Classe time
+
+Representa um horário específico.
+
+```python
+import datetime
+
+hora_atual = datetime.time(14, 30, 45)
+print(f"Horário: {hora_atual}")
+print(f"Hora: {hora_atual.hour}")
+print(f"Minuto: {hora_atual.minute}")
+print(f"Segundo: {hora_atual.second}")
+```
+
+## Classe datetime
+
+Combina data e hora.
+
+```python
+import datetime
+
+agora = datetime.datetime.now()
+print(f"Agora: {agora}")
+
+data_hora = datetime.datetime(2024, 12, 25, 14, 30, 0)
+print(f"Natal às 14:30: {data_hora}")
+
+print(f"Data: {agora.date()}")
+print(f"Hora: {agora.time()}")
+```
+
+## timedelta — diferenças entre datas
+
+```python
+from datetime import datetime, timedelta
+
+hoje = datetime.now()
+daqui_7_dias = hoje + timedelta(days=7)
+print(f"Daqui 7 dias: {daqui_7_dias}")
+
+ha_3_horas = hoje - timedelta(hours=3)
+print(f"3 horas atrás: {ha_3_horas}")
+```
+
+## Formatando datas com strftime
+
+```python
+from datetime import datetime
+agora = datetime.now()
+print(agora.strftime("%d/%m/%Y"))           # 25/12/2024
+print(agora.strftime("%H:%M:%S"))           # 14:30:00
+print(agora.strftime("%d de %B de %Y"))     # 25 de December de 2024
+```
+
+## Parsing com strptime
+
+```python
+from datetime import datetime
+data = datetime.strptime("25/12/2024", "%d/%m/%Y")
+print(data)
+```
+
+## Erros comuns
+
+```python
+from datetime import datetime, timedelta
+
+# ❌ Errado: formato não corresponde
+data = datetime.strptime("25/12/2024", "%Y-%m-%d")
+
+# ✅ Certo
+data = datetime.strptime("25/12/2024", "%d/%m/%Y")
+
+# ❌ Errado: somar direto
+amanha = datetime.now() + 1
+
+# ✅ Certo: usar timedelta
+amanha = datetime.now() + timedelta(days=1)
+```

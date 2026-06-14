@@ -1,0 +1,1 @@
+{"permissions":{"allow":["Bash(vercel *)","Bash(node scripts/*)","Bash(npm run build)","Bash(npx *)"]}}

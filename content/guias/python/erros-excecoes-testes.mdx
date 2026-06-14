@@ -1,0 +1,258 @@
+---
+titulo: "Erros, Exceções e Testes"
+slug: "erros-excecoes-testes"
+ordem: 20
+---
+
+Erros acontecem. A diferença entre um programador iniciante e um experiente não é evitar erros, mas saber **lidar com eles** quando aparecem.
+
+## Tipos de erro mais comuns
+
+### SyntaxError — erro de sintaxe
+
+O Python não entendeu o que você escreveu:
+
+```python
+print("Olá"   # ❌ SyntaxError: '(' was never closed
+if idade > 18  # ❌ SyntaxError: expected ':'
+```
+
+### NameError — nome não definido
+
+```python
+print(mensagem)  # ❌ NameError: name 'mensagem' is not defined
+```
+
+### TypeError — tipo incompatível
+
+```python
+print("5" + 3)  # ❌ TypeError: can only concatenate str (not "int") to str
+```
+
+### ValueError — valor inválido
+
+```python
+int("abc")  # ❌ ValueError: invalid literal for int()
+```
+
+### IndexError — índice fora da lista
+
+```python
+lista = [1, 2, 3]
+print(lista[10])  # ❌ IndexError: list index out of range
+```
+
+### KeyError — chave não existe
+
+```python
+dados = {"nome": "Ana"}
+print(dados["idade"])  # ❌ KeyError: 'idade'
+```
+
+### ZeroDivisionError — divisão por zero
+
+```python
+print(10 / 0)  # ❌ ZeroDivisionError: division by zero
+```
+
+## Capturando erros — `try/except`
+
+```python
+try:
+    numero = int(input("Digite um número: "))
+    print(f"O dobro é {numero * 2}")
+except:
+    print("Isso não é um número!")
+```
+
+## Capturando tipos específicos
+
+Sempre que possível, capture o tipo **específico** do erro:
+
+```python
+try:
+    numero = int(input("Digite um número: "))
+    resultado = 10 / numero
+    print(f"10 dividido por {numero} é {resultado}")
+except ValueError:
+    print("Você não digitou um número válido!")
+except ZeroDivisionError:
+    print("Não pode dividir por zero!")
+```
+
+> **Dica**: capturar `Exception` genérico demais pode esconder bugs que você não esperava.
+
+## `else` e `finally`
+
+```python
+try:
+    arquivo = open("dados.txt", "r")
+    conteudo = arquivo.read()
+except FileNotFoundError:
+    print("Arquivo não encontrado.")
+else:
+    print("Arquivo lido com sucesso!")
+    print(conteudo)
+finally:
+    print("Isso sempre executa, com erro ou sem.")
+    if 'arquivo' in locals():
+        arquivo.close()
+```
+
+- `else`: executa **se não houve erro**
+- `finally`: executa **sempre**, independente de erro
+
+## `raise` — lançando exceções
+
+Você também pode **criar** seus próprios erros:
+
+```python
+def dividir(a, b):
+    if b == 0:
+        raise ValueError("Não é possível dividir por zero!")
+    return a / b
+
+# Uso
+try:
+    resultado = dividir(10, 0)
+except ValueError as erro:
+    print(erro)  # Não é possível dividir por zero!
+```
+
+## Mensagens de erro úteis
+
+Um bom erro explica **o que aconteceu** e **como corrigir**:
+
+```python
+def cadastrar_usuario(nome, idade):
+    if not nome.strip():
+        raise ValueError("O nome não pode estar vazio!")
+    if idade < 0 or idade > 150:
+        raise ValueError("Idade deve estar entre 0 e 150 anos!")
+    if not isinstance(idade, int):
+        raise TypeError("Idade deve ser um número inteiro!")
+
+    print(f"Usuário {nome} cadastrado com {idade} anos.")
+```
+
+## Introdução a testes com `assert`
+
+`assert` verifica se uma condição é verdadeira. Se for falsa, o programa para com um `AssertionError`:
+
+```python
+def soma(a, b):
+    return a + b
+
+# Testes simples
+assert soma(2, 3) == 5, "2 + 3 deveria ser 5"
+assert soma(-1, 1) == 0, "-1 + 1 deveria ser 0"
+assert soma(0, 0) == 0, "0 + 0 deveria ser 0"
+
+print("Todos os testes passaram! ✅")
+```
+
+```python
+def maior(a, b):
+    return a if a > b else b
+
+assert maior(5, 3) == 5
+assert maior(3, 5) == 5
+assert maior(4, 4) == 4  # se forem iguais?
+```
+
+> **Nota**: `assert` é ótimo para testes rápidos, mas não substitui um framework de testes como `pytest` em projetos maiores.
+
+## Exemplo prático — calculadora robusta
+
+```python
+def calculadora():
+    while True:
+        try:
+            n1 = float(input("Primeiro número: "))
+            op = input("Operação (+, -, *, /): ")
+            n2 = float(input("Segundo número: "))
+
+            if op == "+":
+                resultado = n1 + n2
+            elif op == "-":
+                resultado = n1 - n2
+            elif op == "*":
+                resultado = n1 * n2
+            elif op == "/":
+                if n2 == 0:
+                    raise ZeroDivisionError("Não pode dividir por zero!")
+                resultado = n1 / n2
+            else:
+                print("Operação inválida!")
+                continue
+
+            print(f"Resultado: {resultado}")
+            break
+
+        except ValueError:
+            print("Digite apenas números!")
+        except ZeroDivisionError as e:
+            print(e)
+        except Exception as e:
+            print(f"Erro inesperado: {e}")
+```
+
+## Erros comuns sobre erros
+
+### Capturar Exception genérico demais
+
+```python
+try:
+    numero = int(input("Número: "))
+    resultado = 10 / numero
+except Exception:  # captura TUDO
+    pass  # silencia o erro
+```
+
+**Problema**: você nunca vai saber que algo deu errado. Capture tipos específicos.
+
+### Silenciar erros sem tratar
+
+```python
+try:
+    arquivo = open("dados.txt", "r")
+except FileNotFoundError:
+    pass  # só ignorou, mas não fez nada sobre
+```
+
+**Solução**: no mínimo, avise o usuário com `print()`.
+
+### Não tratar erro nenhum
+
+Programas que quebram com qualquer entrada inválida são frustrantes. Sempre que usar `input()` com conversão numérica, coloque um `try/except`.
+
+### Usar `assert` em produção
+
+```python
+# assert pode ser desabilitado com -O
+assert senha == "1234", "Senha incorreta!"
+```
+
+**⚠️**: `assert` pode ser desligado na execução. Não use para validar dados reais do sistema.
+
+## Resumo
+
+| Erro | Causa | Como evitar |
+|------|-------|-------------|
+| `SyntaxError` | Erro de digitação no código | Revise a sintaxe |
+| `NameError` | Variável não definida | Defina antes de usar |
+| `TypeError` | Tipo incompatível | Converta tipos |
+| `ValueError` | Valor inválido | Valide entrada |
+| `IndexError` | Índice fora do limite | Verifique `len()` |
+| `KeyError` | Chave inexistente | Use `.get()` |
+| `ZeroDivisionError` | Divisão por zero | Verifique antes |
+| `FileNotFoundError` | Arquivo não existe | Use `try/except` |
+
+| Técnica | Para que serve |
+|---------|----------------|
+| `try/except` | Capturar erros |
+| `try/except/tipo` | Capturar erro específico |
+| `else` | Executar sem erro |
+| `finally` | Executar sempre |
+| `raise` | Criar seu próprio erro |
+| `assert` | Testes rápidos |
