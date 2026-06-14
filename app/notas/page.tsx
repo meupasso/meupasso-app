@@ -9,6 +9,7 @@ const supabase = createClient();
 
 export default function NotasPage() {
   const [slug, setSlug] = useState("");
+  const [expandido, setExpandido] = useState(false);
   const [raizes, setRaizes] = useState<{ slug: string; slug_display: string }[]>([]);
   const [carregando, setCarregando] = useState(true);
   const [user, setUser] = useState<any>(null);
@@ -98,36 +99,55 @@ export default function NotasPage() {
 
       {user && raizes.length > 0 && (
         <div>
-          <p style={{ fontSize: "0.75rem", fontWeight: 600, color: "var(--text-secondary)", marginBottom: "0.5rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>
-            Suas notas
-          </p>
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.375rem" }}>
-            {raizes.map((r) => (
-              <div key={r.slug} style={{
-                display: "flex", alignItems: "center", gap: "0.5rem", padding: "0.5rem 0.75rem",
-                background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "0.375rem",
-                fontSize: "0.875rem", color: "var(--text-primary)",
-              }}>
-                <Link href={`/notas/${encodeURIComponent(r.slug)}`} style={{
-                  flex: 1, textDecoration: "none", color: "var(--text-primary)", display: "flex",
-                  alignItems: "center", gap: "0.5rem",
+          <button
+            onClick={() => setExpandido(!expandido)}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              background: "none",
+              border: "none",
+              color: "var(--text-primary)",
+              cursor: "pointer",
+              fontSize: "0.875rem",
+              fontWeight: 500,
+              padding: "0.5rem 0",
+              width: "100%",
+              textAlign: "left",
+            }}
+          >
+            {expandido ? "▾" : "▸"} Minhas notas ({raizes.length})
+          </button>
+
+          {expandido && (
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.375rem", marginTop: "0.5rem" }}>
+              {raizes.map((r) => (
+                <div key={r.slug} style={{
+                  display: "flex", alignItems: "center", gap: "0.5rem", padding: "0.5rem 0.75rem",
+                  background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "0.375rem",
+                  fontSize: "0.875rem", color: "var(--text-primary)",
                 }}>
-                  📄 {r.slug_display}
-                </Link>
-                <button onClick={() => deletarNota(r.slug)} title="Deletar nota"
-                  style={{
-                    background: "none", border: "none", cursor: "pointer", padding: "0.25rem",
-                    fontSize: "0.875rem", lineHeight: 1, color: "var(--text-secondary)",
-                    transition: "color 0.15s",
-                  }}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = "#ef4444"; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = "var(--text-secondary)"; }}
-                >
-                  🗑️
-                </button>
-              </div>
-            ))}
-          </div>
+                  <Link href={`/notas/${encodeURIComponent(r.slug)}`} style={{
+                    flex: 1, textDecoration: "none", color: "var(--text-primary)", display: "flex",
+                    alignItems: "center", gap: "0.5rem",
+                  }}>
+                    📄 {r.slug_display}
+                  </Link>
+                  <button onClick={() => deletarNota(r.slug)} title="Deletar nota"
+                    style={{
+                      background: "none", border: "none", cursor: "pointer", padding: "0.25rem",
+                      fontSize: "0.875rem", lineHeight: 1, color: "var(--text-secondary)",
+                      transition: "color 0.15s",
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.color = "#ef4444"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.color = "var(--text-secondary)"; }}
+                  >
+                    🗑️
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </main>
