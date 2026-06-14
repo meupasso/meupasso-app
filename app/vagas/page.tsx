@@ -23,16 +23,17 @@ type Resposta = {
 };
 
 function formatarData(data: string | null): string {
-  if (!data) return "";
-  const d = new Date(data + "T12:00:00");
+  if (!data) return "Data não informada";
+  const d = new Date(data);
+  if (isNaN(d.getTime())) return "Data não informada";
   const agora = new Date();
   const diffMs = agora.getTime() - d.getTime();
   const diffDias = Math.floor(diffMs / (1000 * 60 * 60 * 24));
   if (diffDias === 0) return "hoje";
-  if (diffDias === 1) return "há 1 dia";
+  if (diffDias === 1) return "ontem";
   if (diffDias < 7) return `há ${diffDias} dias`;
-  if (diffDias < 30) return `há ${Math.floor(diffDias / 7)} semanas`;
-  return d.toLocaleDateString("pt-BR");
+  if (diffDias < 30) return `há ${Math.floor(diffDias / 7)} semana(s)`;
+  return `há ${Math.floor(diffDias / 30)} mês(es)`;
 }
 
 function badgeTipo(tipo: string | null): { label: string; cor: string } {
