@@ -1,0 +1,181 @@
+---
+titulo: "Números"
+slug: "numeros"
+ordem: 5
+---
+
+Trabalhar com números é uma das tarefas mais comuns em programação. Python tem duas categorias principais de números e um conjunto completo de operações.
+
+## Tipos numéricos
+
+Em Python, números se dividem em dois tipos principais:
+
+```python
+# int — números inteiros
+idade = 25
+populacao = 8_000_000_000
+
+# float — números com casas decimais
+preco = 19.99
+pi = 3.14159
+temperatura = -5.5
+```
+
+Python lida muito bem com números grandes. Não há limite prático para inteiros:
+
+```python
+numero_gigante = 2 ** 100
+print(numero_gigante)
+# 1267650600228229401496703205376
+```
+
+## Operadores aritméticos
+
+| Operador | Operação | Exemplo | Resultado |
+|----------|----------|---------|-----------|
+| `+` | Soma | `5 + 3` | `8` |
+| `-` | Subtração | `10 - 4` | `6` |
+| `*` | Multiplicação | `6 * 3` | `18` |
+| `/` | Divisão (sempre retorna float) | `7 / 2` | `3.5` |
+| `//` | Divisão inteira | `7 // 2` | `3` |
+| `%` | Módulo (resto da divisão) | `7 % 2` | `1` |
+| `**` | Potenciação | `2 ** 3` | `8` |
+
+### Exemplos práticos
+
+```python
+# Divisão normal vs inteira
+print(10 / 3)   # 3.3333333333333335  (float)
+print(10 // 3)  # 3                   (int, ignora decimal)
+
+# Módulo — descobre se é par ou ímpar
+print(10 % 2)   # 0 — par
+print(7 % 2)    # 1 — ímpar
+
+# Potenciação
+print(2 ** 10)  # 1024
+```
+
+> **Dica**: o módulo (`%`) é muito usado para verificar divisibilidade e ciclar entre valores.
+
+## Ordem de precedência
+
+Python segue a mesma ordem da matemática:
+
+1. Parênteses `()`
+2. Potenciação `**`
+3. Multiplicação, divisão e módulo `* / // %`
+4. Soma e subtração `+ -`
+
+```python
+resultado = 5 + 3 * 2       # 11 (multiplicação primeiro)
+resultado = (5 + 3) * 2     # 16 (parênteses primeiro)
+resultado = 2 ** 3 + 4      # 12 (potenciação primeiro)
+resultado = 2 ** (3 + 4)    # 128
+```
+
+Quando estiver na dúvida, use parênteses. Deixa o código mais claro e evita surpresas.
+
+## Funções úteis para números
+
+### `abs()` — valor absoluto
+
+```python
+print(abs(-10))   # 10
+print(abs(10))    # 10
+```
+
+### `round()` — arredondamento
+
+```python
+print(round(3.14159))       # 3
+print(round(3.14159, 2))    # 3.14 (2 casas decimais)
+print(round(2.5))           # 2 (arredondamento bancário)
+```
+
+### `max()` e `min()` — maior e menor
+
+```python
+print(max(10, 3, 7, 25, 1))   # 25
+print(min(10, 3, 7, 25, 1))   # 1
+```
+
+## Módulo `math`
+
+O Python vem com uma biblioteca de funções matemáticas mais avançadas. Para usá-la, importe o módulo `math`:
+
+```python
+import math
+
+print(math.sqrt(16))         # 4.0 (raiz quadrada)
+print(math.ceil(4.2))        # 5 (arredonda para cima)
+print(math.floor(4.8))       # 4 (arredonda para baixo)
+print(math.pi)               # 3.141592653589793
+print(math.pow(2, 10))       # 1024.0 (potência, equivalente a 2**10)
+```
+
+## Erros comuns
+
+### Divisão por zero
+
+```python
+print(10 / 0)  # ❌ ZeroDivisionError: division by zero
+```
+
+**Causa**: matemática básica — nenhum número pode ser dividido por zero.
+**Solução**: verifique se o divisor é zero antes de dividir.
+
+### Misturar int e float sem querer
+
+```python
+# Isso funciona — Python converte automaticamente
+print(3 + 2.5)   # 5.5 (float)
+
+# Mas cuidado com comparações:
+print(0.1 + 0.2 == 0.3)   # False?! 😱
+print(0.1 + 0.2)           # 0.30000000000000004
+```
+
+**Causa**: números de ponto flutuante têm limitações de precisão.
+**Solução**: use `round()` para comparar floats ou use `math.isclose()`:
+
+```python
+print(round(0.1 + 0.2, 2) == 0.3)   # True
+```
+
+### TypeError: can't multiply sequence by non-int
+
+```python
+print("5" * "3")   # ❌ TypeError
+```
+
+**Causa**: você está tentando multiplicar string por string.
+**Solução**: converta para número: `int("5") * int("3")`.
+
+### Esquecer de converter input
+
+Lembre-se: `input()` sempre retorna string. Para fazer contas, converta:
+
+```python
+# Errado
+n1 = input("Primeiro número: ")
+n2 = input("Segundo número: ")
+print(n1 + n2)          # "1020" em vez de 30 ❌
+
+# Certo
+n1 = int(input("Primeiro número: "))
+n2 = int(input("Segundo número: "))
+print(n1 + n2)          # 30 ✅
+```
+
+## Desafio rápido
+
+Calcule a área de um círculo com raio 5 usando `π = 3.14159`:
+
+```python
+raio = 5
+area = 3.14159 * raio ** 2
+print(f"Área do círculo: {area}")
+```
+
+Consegue modificar esse código para pedir o raio ao usuário? 🤔

@@ -1,0 +1,168 @@
+---
+titulo: "Input de Dados"
+slug: "input"
+ordem: 12
+---
+
+De nada adianta um programa que não interage com o usuário. A função `input()` é a porta de entrada para receber dados digitados.
+
+## Como o `input()` funciona
+
+Quando você chama `input()`, o programa **pausa** e espera o usuário digitar algo e apertar Enter. O que foi digitado é devolvido como **string**.
+
+```python
+nome = input("Digite seu nome: ")
+print(f"Olá, {nome}!")  # Olá, [o que você digitou]!
+```
+
+## `input()` sempre retorna string
+
+Essa é a regra mais importante: **tudo que vem do `input()` é string**. Mesmo que o usuário digite um número.
+
+```python
+idade = input("Quantos anos você tem? ")
+print(idade)           # "25"
+print(type(idade))     # <class 'str'>
+print(idade + 1)       # ❌ TypeError!
+```
+
+## Convertendo input para números
+
+Para fazer contas, você precisa converter:
+
+```python
+# Converter para int
+idade = int(input("Quantos anos você tem? "))
+print(f"Ano que vem você terá {idade + 1} anos")  # ✅
+
+# Converter para float
+preco = float(input("Digite o preço: R$ "))
+print(f"Total com desconto: R$ {preco * 0.9:.2f}")
+```
+
+## Pedindo múltiplos dados
+
+```python
+# Vários inputs separados
+nome = input("Nome: ")
+idade = int(input("Idade: "))
+altura = float(input("Altura (m): "))
+
+print(f"{nome} tem {idade} anos e {altura}m de altura.")
+```
+
+> **Dica**: para vários números na mesma linha, use `split()`:
+> ```python
+> n1, n2 = input("Digite dois números: ").split()
+> n1, n2 = int(n1), int(n2)
+> print(f"Soma: {n1 + n2}")
+> ```
+
+## Validando entrada com try/except
+
+Se o usuário digitar "abc" onde você espera um número, o programa quebra. O `try/except` resolve isso:
+
+```python
+while True:
+    try:
+        idade = int(input("Digite sua idade: "))
+        break  # saiu do loop se deu certo
+    except ValueError:
+        print("Digite um número válido!")
+
+print(f"Idade: {idade}")
+```
+
+> **Dica**: essa é a base para fazer programas que não quebram com entrada inválida. Você vai usar muito esse padrão.
+
+## Exemplos práticos
+
+### Calculadora simples
+
+```python
+n1 = float(input("Primeiro número: "))
+n2 = float(input("Segundo número: "))
+operador = input("Operação (+, -, *, /): ")
+
+if operador == "+":
+    print(f"Resultado: {n1 + n2}")
+elif operador == "-":
+    print(f"Resultado: {n1 - n2}")
+elif operador == "*":
+    print(f"Resultado: {n1 * n2}")
+elif operador == "/":
+    if n2 != 0:
+        print(f"Resultado: {n1 / n2}")
+    else:
+        print("Não pode dividir por zero!")
+else:
+    print("Operação inválida!")
+```
+
+### Saudação personalizada
+
+```python
+nome = input("Qual é o seu nome? ")
+hobby = input("Qual é o seu hobby favorito? ")
+
+print(f"Prazer em te conhecer, {nome}!")
+print(f"Espero que você se divirta programando, já que gosta de {hobby}!")
+```
+
+## Dica importante: tratamento de erros
+
+Sempre que você usar `input()` com conversão numérica, considere que o usuário pode digitar algo inesperado:
+
+```python
+# Frágil — quebra se digitar texto
+idade = int(input("Idade: "))
+
+# Robusto — não quebra
+while True:
+    try:
+        idade = int(input("Idade: "))
+        break
+    except ValueError:
+        print("Digite apenas números, por favor!")
+```
+
+Isso faz toda a diferença na experiência do usuário.
+
+## Erros comuns
+
+### Esquecer de converter o input
+
+```python
+idade = input("Idade: ")
+print(idade + 1)  # ❌ TypeError
+```
+
+**Solução**: converta com `int()` ou `float()`.
+
+### ValueError ao converter string inválida
+
+```python
+numero = int(input("Digite um número: "))
+# Usuário digita "abc" → ❌ ValueError: invalid literal for int()
+```
+
+**Solução**: use `try/except` para capturar o erro.
+
+### Não tratar valores vazios
+
+```python
+nome = input("Nome: ")
+if nome:
+    print(f"Olá, {nome}")
+else:
+    print("Você não digitou nada!")
+```
+
+## Resumo
+
+| Função | O que faz | Retorna |
+|--------|-----------|---------|
+| `input()` | Pausa e espera o usuário digitar | `str` |
+| `int(input())` | Pede um número inteiro | `int` |
+| `float(input())` | Pede um número decimal | `float` |
+| `try/except` | Captura erro de conversão | — |

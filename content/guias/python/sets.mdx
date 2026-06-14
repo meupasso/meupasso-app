@@ -1,0 +1,184 @@
+---
+titulo: "Sets"
+slug: "sets"
+ordem: 11
+---
+
+Sets (ou **conjuntos**) são coleções que guardam elementos **únicos** e **não ordenados**. Se você precisa garantir que não há repetição, set é a ferramenta certa.
+
+## O que diferencia um set?
+
+| Característica | Lista | Tupla | Set |
+|----------------|-------|-------|-----|
+| Ordenada | ✅ | ✅ | ❌ |
+| Mutável | ✅ | ❌ | ✅ |
+| Permite duplicatas | ✅ | ✅ | ❌ |
+| Acesso por índice | ✅ | ✅ | ❌ |
+
+```python
+# Lista — permite duplicatas, mantém ordem
+lista = [1, 2, 2, 3, 3, 3]
+print(lista)  # [1, 2, 2, 3, 3, 3]
+
+# Set — sem duplicatas, sem ordem definida
+conjunto = {1, 2, 2, 3, 3, 3}
+print(conjunto)  # {1, 2, 3}
+```
+
+## Criando sets
+
+Use chaves `{}` ou a função `set()`:
+
+```python
+cores = {"vermelho", "azul", "verde"}
+print(cores)  # {'azul', 'verde', 'vermelho'} (ordem pode variar)
+
+# set() a partir de uma lista — remove duplicatas automaticamente
+numeros = set([1, 2, 2, 3, 3, 3, 4])
+print(numeros)  # {1, 2, 3, 4}
+
+# set() a partir de uma string — letras únicas
+letras = set("banana")
+print(letras)  # {'b', 'a', 'n'}
+```
+
+> **⚠️ Atenção**: `{}` cria um dicionário vazio, não um set! Use `set()` para set vazio:
+> ```python
+> vazio = {}       # ❌ dicionário
+> vazio = set()    # ✅ set vazio
+> ```
+
+## Adicionando e removendo elementos
+
+```python
+frutas = {"maçã", "banana"}
+
+# Adicionar
+frutas.add("laranja")
+print(frutas)  # {'maçã', 'banana', 'laranja'}
+
+# Adicionar elemento repetido — ignorado silenciosamente
+frutas.add("maçã")
+print(frutas)  # {'maçã', 'banana', 'laranja'} — mesma coisa
+
+# Remover (dá erro se não existir)
+frutas.remove("banana")
+print(frutas)  # {'maçã', 'laranja'}
+
+# Remover sem erro se não existir
+frutas.discard("uva")  # não dá erro, mesmo não existindo
+```
+
+## Operações matemáticas com sets
+
+Aqui mora a verdadeira utilidade dos sets:
+
+```python
+python = {"ana", "joão", "maria", "pedro"}
+java = {"maria", "carlos", "pedro", "lucas"}
+
+# União — todos os alunos
+print(python | java)
+# {'ana', 'joão', 'maria', 'pedro', 'carlos', 'lucas'}
+
+# Interseção — alunos nas duas turmas
+print(python & java)
+# {'maria', 'pedro'}
+
+# Diferença — alunos só de Python
+print(python - java)
+# {'ana', 'joão'}
+
+# Diferença simétrica — alunos em uma ou outra, mas não ambas
+print(python ^ java)
+# {'ana', 'joão', 'carlos', 'lucas'}
+```
+
+> **Dica**: `|` é união, `&` é interseção, `-` é diferença, `^` é diferença simétrica.
+
+## Verificando pertencimento
+
+```python
+convidados = {"Ana", "João", "Maria", "Pedro"}
+
+if "João" in convidados:
+    print("João está na lista")  # ✅
+```
+
+O `in` em sets é **muito rápido** — bem mais rápido que em listas para coleções grandes.
+
+## Quando usar sets?
+
+### Remover duplicatas de uma lista
+
+```python
+compras = ["arroz", "feijão", "arroz", "carne", "feijão", "leite"]
+unicos = list(set(compras))
+print(unicos)  # ['arroz', 'feijão', 'carne', 'leite'] (ordem varia)
+```
+
+> **Nota**: a ordem original se perde. Se precisar manter a ordem, use um loop com `if`:
+
+```python
+compras = ["arroz", "feijão", "arroz", "carne", "feijão", "leite"]
+vistos = set()
+unicos = []
+for item in compras:
+    if item not in vistos:
+        unicos.append(item)
+        vistos.add(item)
+print(unicos)  # ['arroz', 'feijão', 'carne', 'leite'] — ordem mantida!
+```
+
+### Verificar elementos em comum
+
+```python
+amigos_ana = {"Carlos", "Maria", "Pedro"}
+amigos_joao = {"Maria", "Lucas", "Pedro"}
+
+amigos_em_comum = amigos_ana & amigos_joao
+print(amigos_em_comum)  # {'Maria', 'Pedro'}
+```
+
+## Erros comuns
+
+### Usar {} para set vazio
+
+```python
+dados = {}          # ❌ Isso é um dicionário
+print(type(dados))  # <class 'dict'>
+
+dados = set()       # ✅ Isso é um set
+print(type(dados))  # <class 'set'>
+```
+
+### Tentar acessar por índice
+
+```python
+cores = {"azul", "verde", "vermelho"}
+print(cores[0])  # ❌ TypeError: 'set' object is not subscriptable
+```
+
+**Solução**: sets não têm ordem, então não têm índice. Converta para lista se precisar: `list(cores)[0]`.
+
+### Adicionar tipos mutáveis ao set
+
+```python
+dados = {[1, 2, 3]}  # ❌ TypeError: unhashable type: 'list'
+```
+
+**Causa**: sets só aceitam elementos **imutáveis** (números, strings, tuplas).
+**Solução**: use tupla em vez de lista: `{(1, 2, 3)}`.
+
+## Resumo
+
+| Operação | Código | O que faz |
+|----------|--------|-----------|
+| Criar | `{1, 2}` ou `set()` | Cria um set |
+| Adicionar | `s.add(3)` | Adiciona elemento |
+| Remover | `s.remove(3)` | Remove (erro se não existir) |
+| Remover seguro | `s.discard(3)` | Remove sem erro |
+| União | `a \| b` | Todos os elementos |
+| Interseção | `a & b` | Elementos em comum |
+| Diferença | `a - b` | Elementos só em a |
+| Pertencimento | `x in s` | True se existe |

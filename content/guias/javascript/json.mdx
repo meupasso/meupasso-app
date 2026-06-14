@@ -1,0 +1,353 @@
+---
+titulo: "JSON"
+slug: "json"
+ordem: 22
+---
+
+Vamos mergulhar no mundo do JSON! Se você já ouviu falar que "tudo na web se comunica com JSON", está na hora de entender o porquê.
+
+## O que é JSON?
+
+JSON significa **JavaScript Object Notation** (Notação de Objetos JavaScript). É um formato de texto leve para armazenar e transportar dados. Pense nele como uma "língua universal" que qualquer linguagem de programação entende.
+
+Um JSON se parece muito com um objeto JavaScript, mas com algumas diferenças importantes:
+
+```javascript
+// Objeto JavaScript
+const pessoa = {
+  nome: "João",
+  idade: 25,
+  hobbies: ["futebol", "música"],
+  ativo: true
+}
+
+// Mesmo dado em JSON
+// {
+//   "nome": "João",
+//   "idade": 25,
+//   "hobbies": ["futebol", "música"],
+//   "ativo": true
+// }
+```
+
+**Regras do JSON:**
+- Chaves **sempre** entre aspas duplas
+- Strings **sempre** entre aspas duplas (não simples)
+- Não aceita funções, undefined ou comentários
+- Aceita: strings, números, booleanos, arrays, objetos e null
+
+## JSON.stringify() - Transformando objeto em string
+
+Quando você precisa enviar dados para um servidor ou salvar em um arquivo, precisa converter seu objeto JavaScript em uma string JSON.
+
+```javascript
+const usuario = {
+  nome: "Maria",
+  idade: 30,
+  email: "maria@email.com",
+  admin: false
+}
+
+// Converter para string JSON
+const jsonString = JSON.stringify(usuario)
+console.log(jsonString)
+// {"nome":"Maria","idade":30,"email":"maria@email.com","admin":false}
+
+console.log(typeof jsonString)
+// string
+```
+
+### Opções avançadas do stringify
+
+```javascript
+const dados = {
+  nome: "Pedro",
+  idade: 28,
+  salario: 5000.50,
+  dataCadastro: new Date()
+}
+
+// Formatando com indentação (2 espaços)
+console.log(JSON.stringify(dados, null, 2))
+// {
+//   "nome": "Pedro",
+//   "idade": 28,
+//   "salario": 5000.5,
+//   "dataCadastro": "2024-01-15T10:30:00.000Z"
+// }
+
+// Filtrando propriedades específicas
+console.log(JSON.stringify(dados, ["nome", "idade"]))
+// {"nome":"Pedro","idade":28}
+```
+
+### Erro comum: objetos com funções
+
+```javascript
+const carro = {
+  marca: "Fiat",
+  ligar: function() {
+    console.log("Vrum vrum!")
+  }
+}
+
+// Funções são ignoradas!
+console.log(JSON.stringify(carro))
+// {"marca":"Fiat"}
+```
+
+## JSON.parse() - Transformando string em objeto
+
+Quando você recebe dados de uma API ou lê um arquivo JSON, precisa converter a string de volta para um objeto JavaScript utilizável.
+
+```javascript
+// String JSON recebida
+const dadosJSON = '{"nome":"Ana","idade":22,"cidade":"São Paulo"}'
+
+// Converter para objeto
+const objeto = JSON.parse(dadosJSON)
+console.log(objeto.nome)    // Ana
+console.log(objeto.idade)   // 22
+console.log(objeto.cidade)  // São Paulo
+```
+
+### Cuidado com JSON inválido!
+
+```javascript
+// Isso vai dar erro! Strings precisam de aspas duplas
+const jsonInvalido = "{'nome': 'João'}"
+// JSON.parse(jsonInvalido) // SyntaxError!
+
+// Sempre use aspas duplas
+const jsonValido = '{"nome": "João"}'
+console.log(JSON.parse(jsonValido)) // Funciona!
+```
+
+### Tratamento de erros com try/catch
+
+```javascript
+function parseSeguro(jsonString) {
+  try {
+    return JSON.parse(jsonString)
+  } catch (erro) {
+    console.error("JSON inválido:", erro.message)
+    return null
+  }
+}
+
+const dadosIncorretos = "{nome: 'teste'}"
+const resultado = parseSeguro(dadosIncorretos)
+console.log(resultado) // null (e mostra o erro no console)
+```
+
+## JSON com arquivos no Node.js
+
+No Node.js, podemos ler e escrever arquivos JSON usando o módulo `fs` (file system).
+
+### Escrevendo JSON em arquivo
+
+```javascript
+const fs = require('fs')
+
+const dados = {
+  produtos: [
+    { id: 1, nome: "Teclado", preco: 150 },
+    { id: 2, nome: "Mouse", preco: 80 }
+  ],
+  total: 230
+}
+
+// Converter para JSON e salvar
+const jsonString = JSON.stringify(dados, null, 2)
+fs.writeFileSync('dados.json', jsonString, 'utf-8')
+
+console.log("Arquivo salvo com sucesso!")
+```
+
+### Lendo JSON de arquivo
+
+```javascript
+const fs = require('fs')
+
+try {
+  // Ler o arquivo
+  const dadosBrutos = fs.readFileSync('dados.json', 'utf-8')
+  
+  // Converter string para objeto
+  const dados = JSON.parse(dadosBrutos)
+  
+  console.log(dados.produtos[0].nome) // Teclado
+  console.log(dados.total) // 230
+  
+} catch (erro) {
+  console.error("Erro ao ler arquivo:", erro.message)
+}
+```
+
+### Exemplo prático: lista de tarefas
+
+```javascript
+const fs = require('fs')
+
+// Nome do arquivo onde salvamos as tarefas
+const ARQUIVO_TAREFAS = 'tarefas.json'
+
+// Função para carregar tarefas
+function carregarTarefas() {
+  try {
+    if (fs.existsSync(ARQUIVO_TAREFAS)) {
+      const dados = fs.readFileSync(ARQUIVO_TAREFAS, 'utf-8')
+      return JSON.parse(dados)
+    }
+    return []
+  } catch (erro) {
+    console.error("Erro ao carregar tarefas:", erro.message)
+    return []
+  }
+}
+
+// Função para salvar tarefas
+function salvarTarefas(tarefas) {
+  try {
+    const jsonString = JSON.stringify(tarefas, null, 2)
+    fs.writeFileSync(ARQUIVO_TAREFAS, jsonString, 'utf-8')
+    console.log("Tarefas salvas!")
+  } catch (erro) {
+    console.error("Erro ao salvar tarefas:", erro.message)
+  }
+}
+
+// Função para adicionar tarefa
+function adicionarTarefa(descricao) {
+  const tarefas = carregarTarefas()
+  
+  const novaTarefa = {
+    id: Date.now(),
+    descricao: descricao,
+    concluida: false,
+    criadaEm: new Date().toISOString()
+  }
+  
+  tarefas.push(novaTarefa)
+  salvarTarefas(tarefas)
+  return novaTarefa
+}
+
+// Testando
+adicionarTarefa("Estudar JavaScript")
+adicionarTarefa("Fazer exercícios de JSON")
+
+// Ver o arquivo criado
+console.log(carregarTarefas())
+```
+
+## Casos de uso práticos
+
+### 1. Trabalhando com APIs
+
+```javascript
+// Simulando uma resposta de API
+const respostaAPI = '{"status":"ok","dados":{"usuarios":[{"nome":"Carlos","email":"carlos@email.com"}]}}'
+
+const dadosAPI = JSON.parse(respostaAPI)
+console.log(dadosAPI.dados.usuarios[0].nome) // Carlos
+```
+
+### 2. Configurações de aplicação
+
+```javascript
+// config.json
+// {
+//   "appName": "MeuApp",
+//   "versao": "1.0.0",
+//   "porta": 3000,
+//   "debug": true
+// }
+
+const fs = require('fs')
+
+function carregarConfig() {
+  const config = JSON.parse(fs.readFileSync('config.json', 'utf-8'))
+  
+  if (config.debug) {
+    console.log(`Iniciando ${config.appName} na porta ${config.porta}`)
+  }
+  
+  return config
+}
+
+const config = carregarConfig()
+```
+
+### 3. Cache de dados
+
+```javascript
+const fs = require('fs')
+
+function salvarCache(chave, dados) {
+  const cache = {}
+  
+  // Carregar cache existente
+  if (fs.existsSync('cache.json')) {
+    Object.assign(cache, JSON.parse(fs.readFileSync('cache.json', 'utf-8')))
+  }
+  
+  // Adicionar novo dado
+  cache[chave] = {
+    dados: dados,
+    timestamp: Date.now()
+  }
+  
+  // Salvar
+  fs.writeFileSync('cache.json', JSON.stringify(cache, null, 2))
+}
+
+function lerCache(chave, maxIdade = 3600000) { // 1 hora
+  if (!fs.existsSync('cache.json')) return null
+  
+  const cache = JSON.parse(fs.readFileSync('cache.json', 'utf-8'))
+  
+  if (!cache[chave]) return null
+  
+  // Verificar se o cache ainda é válido
+  const idade = Date.now() - cache[chave].timestamp
+  if (idade > maxIdade) return null
+  
+  return cache[chave].dados
+}
+
+// Usando o cache
+salvarCache("usuarios", [{ nome: "João" }, { nome: "Maria" }])
+console.log(lerCache("usuarios")) // Retorna os dados
+```
+
+## Dicas importantes
+
+1. **Sempre valide JSON recebido** - Use try/catch ao fazer parse
+2. **Use indentação para legibilidade** - `JSON.stringify(objeto, null, 2)`
+3. **Cuidado com datas** - Datas viram strings no JSON
+4. **Objetos circulares dão erro** - Referências circulares não são permitidas
+5. **JSON é case-sensitive** - `nome` é diferente de `Nome`
+
+## Erros comuns e soluções
+
+```javascript
+// Erro 1: Aspas simples
+const errado1 = "{'nome': 'João'}"
+// Correto: '{"nome": "João"}'
+
+// Erro 2: Vírgula no final
+const errado2 = '{"nome": "João",}'
+// Correto: '{"nome": "João"}'
+
+// Erro 3: undefined
+const objeto = { nome: undefined, idade: 25 }
+console.log(JSON.stringify(objeto)) // {"idade":25} - undefined some!
+
+// Erro 4: Esquecer de fazer parse
+const stringJSON = '{"valor": 10}'
+console.log(stringJSON.valor) // undefined! (é string, não objeto)
+console.log(JSON.parse(stringJSON).valor) // 10 ✅
+```
+
+JSON é uma ferramenta essencial no desenvolvimento web moderno. Depois que você pega o jeito, vai usar em praticamente todo projeto que envolver comunicação de dados. Pratique criando seus próprios arquivos JSON e manipulando-os com JavaScript!

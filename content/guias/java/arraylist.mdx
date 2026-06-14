@@ -1,0 +1,382 @@
+---
+titulo: "ArrayList"
+slug: "arraylist"
+ordem: 19
+---
+
+# ArrayList em Java: Guia Completo para Iniciantes
+
+Fala, dev! Vamos aprender uma das classes mais úteis do Java: a **ArrayList**. Se você já ficou frustrado com arrays de tamanho fixo, a ArrayList vai ser sua melhor amiga!
+
+## O que é ArrayList?
+
+ArrayList é uma **lista dinâmica** do Java. Diferente de arrays comuns, ela pode crescer e diminuir de tamanho automaticamente. É como uma mochila mágica que se expande conforme você coloca mais coisas dentro!
+
+### Importando a ArrayList
+
+Antes de usar, precisamos importar:
+
+```java
+import java.util.ArrayList;
+```
+
+## Declarando uma ArrayList
+
+Sempre usamos o **tipo genérico** (entre `< >`) para definir o tipo de dados que a lista vai guardar:
+
+```java
+// ArrayList de Strings
+ArrayList<String> nomes = new ArrayList<>();
+
+// ArrayList de Integers (não pode ser int, tem que ser Integer!)
+ArrayList<Integer> numeros = new ArrayList<>();
+```
+
+### ⚠️ ERRO COMUM: Usar tipo primitivo em vez de wrapper
+
+```java
+// ❌ ERRADO - Isso não compila!
+ArrayList<int> numeros = new ArrayList<>();
+
+// ✅ CORRETO - Use Integer (wrapper class)
+ArrayList<Integer> numeros = new ArrayList<>();
+```
+
+**Dica:** Tipos primitivos (`int`, `double`, `boolean`) viram classes wrapper (`Integer`, `Double`, `Boolean`).
+
+## Métodos Principais
+
+### add() - Adicionar elementos
+
+```java
+ArrayList<String> frutas = new ArrayList<>();
+
+frutas.add("Maçã");
+frutas.add("Banana");
+frutas.add("Laranja");
+
+System.out.println(frutas); // [Maçã, Banana, Laranja]
+
+// Adicionar em posição específica
+frutas.add(1, "Uva"); // Insere "Uva" na posição 1
+System.out.println(frutas); // [Maçã, Uva, Banana, Laranja]
+```
+
+### get() - Pegar elemento por posição
+
+```java
+ArrayList<String> cores = new ArrayList<>();
+cores.add("Azul");
+cores.add("Verde");
+cores.add("Vermelho");
+
+String primeiraCor = cores.get(0); // "Azul"
+String segundaCor = cores.get(1);  // "Verde"
+
+System.out.println("Primeira cor: " + primeiraCor);
+```
+
+### set() - Substituir elemento
+
+```java
+ArrayList<String> times = new ArrayList<>();
+times.add("Flamengo");
+times.add("Palmeiras");
+times.add("São Paulo");
+
+// Substituir o segundo time
+times.set(1, "Corinthians");
+
+System.out.println(times); // [Flamengo, Corinthians, São Paulo]
+```
+
+### remove() - Remover elementos
+
+```java
+ArrayList<String> animais = new ArrayList<>();
+animais.add("Gato");
+animais.add("Cachorro");
+animais.add("Peixe");
+animais.add("Hamster");
+
+// Remover por posição
+animais.remove(1); // Remove "Cachorro"
+
+// Remover por valor
+animais.remove("Peixe"); // Remove "Peixe"
+
+System.out.println(animais); // [Gato, Hamster]
+```
+
+### size() - Tamanho da lista
+
+```java
+ArrayList<String> listaVazia = new ArrayList<>();
+System.out.println("Tamanho: " + listaVazia.size()); // 0
+
+listaVazia.add("Item 1");
+listaVazia.add("Item 2");
+System.out.println("Tamanho: " + listaVazia.size()); // 2
+```
+
+### contains() - Verificar se contém elemento
+
+```java
+ArrayList<String> cidades = new ArrayList<>();
+cidades.add("Rio de Janeiro");
+cidades.add("São Paulo");
+cidades.add("Belo Horizonte");
+
+boolean temSP = cidades.contains("São Paulo"); // true
+boolean temBH = cidades.contains("Brasília");  // false
+
+System.out.println("Tem São Paulo? " + temSP);
+System.out.println("Tem Brasília? " + temBH);
+```
+
+### clear() - Limpar toda a lista
+
+```java
+ArrayList<String> tarefas = new ArrayList<>();
+tarefas.add("Estudar Java");
+tarefas.add("Fazer exercícios");
+
+System.out.println("Antes: " + tarefas.size()); // 2
+
+tarefas.clear();
+
+System.out.println("Depois: " + tarefas.size()); // 0
+System.out.println("Lista vazia: " + tarefas); // []
+```
+
+## Percorrendo ArrayList
+
+### For-each (recomendado)
+
+```java
+ArrayList<String> alunos = new ArrayList<>();
+alunos.add("Ana");
+alunos.add("Bruno");
+alunos.add("Carla");
+
+System.out.println("=== Alunos ===");
+for (String aluno : alunos) {
+    System.out.println("- " + aluno);
+}
+```
+
+### For tradicional (quando precisamos do índice)
+
+```java
+ArrayList<Double> notas = new ArrayList<>();
+notas.add(8.5);
+notas.add(7.0);
+notas.add(9.2);
+
+for (int i = 0; i < notas.size(); i++) {
+    System.out.println("Nota " + (i + 1) + ": " + notas.get(i));
+}
+```
+
+### ⚠️ ERRO COMUM: IndexOutOfBoundsException
+
+```java
+ArrayList<String> vazia = new ArrayList<>();
+
+// ❌ ERRADO - Tentar acessar posição que não existe
+String elemento = vazia.get(0); // IndexOutOfBoundsException!
+
+// ✅ CORRETO - Sempre verificar o tamanho
+if (!vazia.isEmpty()) {
+    String elemento = vazia.get(0);
+}
+```
+
+## Array vs ArrayList: Qual a diferença?
+
+| Característica | Array | ArrayList |
+|----------------|-------|-----------|
+| Tamanho | Fixo | Dinâmico |
+| Tipo | Pode ser primitivo | Só aceita objetos |
+| Sintaxe | `int[] nums = new int[5]` | `ArrayList<Integer> nums = new ArrayList<>()` |
+| Adicionar | Não pode | `add()` |
+| Remover | Não pode | `remove()` |
+| Performance | Mais rápido | Um pouco mais lento |
+| Flexibilidade | Menos | Mais |
+
+```java
+// Array - tamanho fixo
+int[] numerosArray = new int[3];
+numerosArray[0] = 10;
+numerosArray[1] = 20;
+numerosArray[2] = 30;
+// numerosArray[3] = 40; // ERRO! ArrayIndexOutOfBoundsException
+
+// ArrayList - tamanho dinâmico
+ArrayList<Integer> numerosList = new ArrayList<>();
+numerosList.add(10);
+numerosList.add(20);
+numerosList.add(30);
+numerosList.add(40); // Funciona! Lista cresce automaticamente
+```
+
+## Collections.sort() - Ordenando listas
+
+```java
+import java.util.Collections;
+
+ArrayList<String> nomes = new ArrayList<>();
+nomes.add("Zeca");
+nomes.add("Ana");
+nomes.add("Pedro");
+nomes.add("Maria");
+
+System.out.println("Antes: " + nomes); // [Zeca, Ana, Pedro, Maria]
+
+Collections.sort(nomes);
+
+System.out.println("Depois: " + nomes); // [Ana, Maria, Pedro, Zeca]
+```
+
+## Exemplo Prático 1: Lista de Compras
+
+```java
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class ListaCompras {
+    public static void main(String[] args) {
+        ArrayList<String> compras = new ArrayList<>();
+        
+        // Adicionar itens
+        compras.add("Arroz");
+        compras.add("Feijão");
+        compras.add("Macarrão");
+        compras.add("Leite");
+        compras.add("Pão");
+        
+        System.out.println("=== LISTA DE COMPRAS ===");
+        
+        // Verificar se tem leite
+        if (compras.contains("Leite")) {
+            System.out.println("✅ Leite já está na lista!");
+        } else {
+            compras.add("Leite");
+            System.out.println("📝 Leite adicionado!");
+        }
+        
+        // Remover pão (já tem em casa)
+        compras.remove("Pão");
+        System.out.println("❌ Pão removido (já tenho em casa)");
+        
+        // Ordenar alfabeticamente
+        Collections.sort(compras);
+        
+        // Mostrar lista final
+        System.out.println("\n=== LISTA FINAL ===");
+        for (int i = 0; i < compras.size(); i++) {
+            System.out.println((i + 1) + ". " + compras.get(i));
+        }
+        
+        System.out.println("\nTotal de itens: " + compras.size());
+    }
+}
+```
+
+## Exemplo Prático 2: Cadastro de Alunos
+
+```java
+import java.util.ArrayList;
+
+public class CadastroAlunos {
+    public static void main(String[] args) {
+        ArrayList<String> nomes = new ArrayList<>();
+        ArrayList<Integer> idades = new ArrayList<>();
+        ArrayList<Double> notas = new ArrayList<>();
+        
+        // Cadastrar alunos
+        nomes.add("Ana Silva");
+        idades.add(17);
+        notas.add(8.5);
+        
+        nomes.add("Bruno Santos");
+        idades.add(18);
+        notas.add(7.2);
+        
+        nomes.add("Carla Oliveira");
+        idades.add(16);
+        notas.add(9.0);
+        
+        System.out.println("=== CADASTRO DE ALUNOS ===");
+        System.out.println("Total: " + nomes.size() + " alunos\n");
+        
+        // Mostrar todos os alunos
+        for (int i = 0; i < nomes.size(); i++) {
+            System.out.println("Aluno " + (i + 1) + ":");
+            System.out.println("  Nome: " + nomes.get(i));
+            System.out.println("  Idade: " + idades.get(i) + " anos");
+            System.out.println("  Nota: " + notas.get(i));
+            
+            // Verificar se passou
+            if (notas.get(i) >= 7.0) {
+                System.out.println("  Status: ✅ Aprovado!");
+            } else {
+                System.out.println("  Status: ❌ Reprovado!");
+            }
+            System.out.println();
+        }
+        
+        // Calcular média da turma
+        double soma = 0;
+        for (double nota : notas) {
+            soma += nota;
+        }
+        double media = soma / notas.size();
+        System.out.println("Média da turma: " + String.format("%.1f", media));
+    }
+}
+```
+
+## Dicas Importantes
+
+1. **Sempre use o tipo genérico** - `ArrayList<String>` ao invés de `ArrayList` sem tipo
+2. **Importe Collections** - Para ordenar listas com `Collections.sort()`
+3. **Verifique o tamanho** - Antes de acessar elementos, use `size()` ou `isEmpty()`
+4. **Use wrapper classes** - `Integer`, `Double`, `Boolean` em vez de `int`, `double`, `boolean`
+
+## Erros Comuns para Evitar
+
+```java
+// ❌ 1. Esquecer de importar
+ArrayList<String> lista = new ArrayList<>(); // Erro: não importou
+
+// ❌ 2. Usar tipo primitivo
+ArrayList<int> numeros = new ArrayList<>(); // Erro: use Integer
+
+// ❌ 3. Acessar índice inexistente
+ArrayList<String> vazia = new ArrayList<>();
+vazia.get(0); // Erro: IndexOutOfBoundsException
+
+// ❌ 4. Usar == em vez de .equals() com Strings
+if (lista.get(0) == "texto") // Erro: use .equals()
+
+// ✅ Correto
+if (lista.get(0).equals("texto")) // Correto!
+```
+
+## Resumo Rápido
+
+| Operação | Como fazer |
+|----------|------------|
+| Criar | `ArrayList<Tipo> lista = new ArrayList<>()` |
+| Adicionar | `lista.add(elemento)` |
+| Pegar | `lista.get(posicao)` |
+| Substituir | `lista.set(posicao, elemento)` |
+| Remover | `lista.remove(posicao)` ou `lista.remove(objeto)` |
+| Tamanho | `lista.size()` |
+| Verificar | `lista.contains(elemento)` |
+| Limpar | `lista.clear()` |
+| Ordenar | `Collections.sort(lista)` |
+| Percorrer | `for (Tipo item : lista) { }` |
+
+ArrayList é uma ferramenta essencial no Java. Pratique bastante e logo vai estar usando ela naturalmente em seus projetos! 🚀

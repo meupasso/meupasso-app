@@ -1,0 +1,215 @@
+---
+titulo: "Introdução"
+slug: "introducao"
+ordem: 1
+---
+
+# Introdução ao Java para Iniciantes Brasileiros
+
+Olá! Seja muito bem-vindo ao mundo Java! 🎉
+
+Se você está começando agora na programação ou já tem alguma experiência e quer conhecer Java, este guia é para você. Vamos descomplicar tudo de forma direta e acolhedora.
+
+## O que é Java?
+
+Java é uma linguagem de programação criada para ser **simples, portátil e confiável**. Imagine que você escreve um código uma vez e ele roda em qualquer lugar - computador, celular, servidor, até em TVs e geladeiras inteligentes.
+
+**Em resumo:** Java é uma linguagem que permite criar programas que funcionam em praticamente qualquer dispositivo.
+
+## Um pouco de história (sem enrolação)
+
+Java foi criado em 1995 pela Sun Microsystems (hoje parte da Oracle). O objetivo inicial era programar eletrodomésticos, mas logo virou febre na internet.
+
+**Marcos importantes:**
+- 1995: Lançamento oficial
+- 2006: Código aberto (OpenJDK)
+- 2010: Oracle compra a Sun
+- Hoje: Uma das linguagens mais usadas do mundo
+
+## JVM, JDK, JRE - Entendendo de uma vez
+
+Essas siglas assustam, mas são simples. Pense como uma cozinha:
+
+### JVM (Java Virtual Machine)
+É o **forno** que cozinha seu programa. Ela executa o código Java em qualquer lugar.
+
+### JRE (Java Runtime Environment)
+É a **cozinha completa** com forno, panelas e ingredientes básicos. Só para rodar programas prontos.
+
+### JDK (Java Development Kit)
+É a **cozinha profissional** com tudo do JRE + ferramentas para criar receitas novas. Você instala o JDK para programar.
+
+```java
+// Exemplo simples para mostrar como Java funciona
+public class PrimeiroPrograma {
+    public static void main(String[] args) {
+        System.out.println("Olá, Brasil! 🚀");
+    }
+}
+```
+
+**Dica:** Para começar, instale o JDK. O JRE já vem junto.
+
+## Onde Java é usado hoje?
+
+Java está em todo lugar! Veja só:
+
+### 📱 Android
+Aplicativos de Android são escritos em Java (ou Kotlin, que roda na JVM).
+
+### 🏦 Sistemas Bancários
+Bancos como Itaú, Bradesco, Nubank usam Java para processar transações seguras.
+
+### 🏢 Grandes Empresas
+- Amazon, Netflix, Uber, Spotify (sistemas internos)
+- Governo federal, sistemas de saúde
+- Jogos como Minecraft
+
+### 🌐 Web
+Sites grandes como LinkedIn, Gmail (parte do backend) usam Java.
+
+## Por que aprender Java?
+
+### ✅ Vantagens para iniciantes brasileiros
+
+1. **Mercado gigante** - Muitas vagas para quem sabe Java
+2. **Salário competitivo** - É bem valorizado no Brasil
+3. **Lógica forte** - Java ensina programação orientada a objetos de verdade
+4. **Comunidade enorme** - Milhares de fóruns, cursos e tutoriais em português
+5. **Portabilidade** - Roda em Windows, Linux, Mac, celular...
+
+### ❌ Desvantagens (sincerão)
+
+- Curva de aprendizado um pouco maior que Python
+- Mais código para fazer a mesma coisa
+- Consome mais memória que linguagens como C
+
+## Java vs Python: Diferenças básicas
+
+| Característica | Java | Python |
+|----------------|------|--------|
+| **Sintaxe** | Mais verbosa, usa `{}` e `;` | Mais concisa, usa indentação |
+| **Tipagem** | Estática (declara tipo) | Dinâmica (descobre sozinho) |
+| **Velocidade** | Mais rápido | Mais lento |
+| **Aprendizado** | Exige mais disciplina | Mais fácil para começar |
+| **Orientação a objetos** | Obrigatória | Opcional |
+
+**Exemplo comparativo:**
+
+```java
+// Java - Precisa declarar tipo e estrutura
+public class Saudacao {
+    public static void main(String[] args) {
+        String nome = "Maria";
+        int idade = 25;
+        System.out.println("Olá " + nome + ", você tem " + idade + " anos.");
+    }
+}
+```
+
+```python
+# Python - Mais direto
+nome = "Maria"
+idade = 25
+print(f"Olá {nome}, você tem {idade} anos.")
+```
+
+## Como começar?
+
+### Passo a passo para instalar Java
+
+1. Acesse [oracle.com/java](https://www.oracle.com/java/technologies/downloads/)
+2. Baixe o JDK para seu sistema (Windows, Linux, Mac)
+3. Instale como qualquer programa
+4. Verifique se deu certo:
+
+```bash
+java --version
+# Deve mostrar algo como: java 17.0.1 2021-10-19 LTS
+```
+
+### Primeiro programa prático
+
+Crie um arquivo chamado `MeuPrimeiroPrograma.java`:
+
+```java
+public class MeuPrimeiroPrograma {
+    public static void main(String[] args) {
+        // Isso é um comentário - o computador ignora
+        
+        String nome = "João";
+        int idade = 30;
+        double altura = 1.75;
+        
+        System.out.println("Dados do usuário:");
+        System.out.println("Nome: " + nome);
+        System.out.println("Idade: " + idade + " anos");
+        System.out.println("Altura: " + altura + "m");
+        
+        // Calculando ano de nascimento
+        int anoAtual = 2025;
+        int anoNascimento = anoAtual - idade;
+        System.out.println("Ano de nascimento: " + anoNascimento);
+    }
+}
+```
+
+Para executar:
+```bash
+javac MeuPrimeiroPrograma.java   # Compila
+java MeuPrimeiroPrograma          # Executa
+```
+
+## Erros comuns de iniciantes
+
+### 🔴 Erro 1: Esquecer o `;`
+```java
+System.out.println("Oi")  // ERRO! Falta ;
+System.out.println("Oi"); // Correto
+```
+
+### 🔴 Erro 2: Nome da classe diferente do arquivo
+```java
+// Arquivo: Programa.java
+public class programinha {  // ERRO! Deve ser "Programa"
+    // ...
+}
+```
+
+### 🔴 Erro 3: Esquecer o `main`
+```java
+public class Teste {
+    public static void main(String[] args) {  // ESSA LINHA É OBRIGATÓRIA
+        // seu código aqui
+    }
+}
+```
+
+### 🔴 Erro 4: Case sensitive
+```java
+String nome = "Ana";
+System.out.println(Nome);  // ERRO! "Nome" não é "nome"
+```
+
+## Dicas para continuar aprendendo
+
+1. **Pratique todo dia** - 30 minutos já faz diferença
+2. **Use o terminal** - Aprenda a compilar e executar sem IDE
+3. **Comece com projetos simples** - Calculadora, lista de tarefas
+4. **Participe de comunidades** - Grupos no Telegram, Discord, fóruns
+5. **Não pule conceitos** - Entenda bem tipos, variáveis e loops antes de avançar
+
+## Próximos passos
+
+Depois desse guia, você pode estudar:
+- Tipos de dados (int, double, boolean, String)
+- Estruturas de controle (if, else, switch)
+- Laços de repetição (for, while)
+- Arrays e coleções
+- Orientação a objetos (classes, objetos, herança)
+
+**Lembre-se:** Todo programador experiente já foi iniciante. O segredo é não desistir nos primeiros erros. Java pode parecer mais complicado no começo, mas depois que você pega o jeito, é uma ferramenta poderosa e divertida!
+
+Bons estudos e bem-vindo ao mundo Java! 🚀
+
+*"A jornada de mil milhas começa com um único passo." - Lao Tsé*

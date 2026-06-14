@@ -1,0 +1,524 @@
+---
+titulo: "Tratamento de Exceções"
+slug: "excecoes"
+ordem: 20
+---
+
+# Tratamento de Exceções em Java - Guia Completo para Iniciantes
+
+## O que é uma Exceção?
+
+Imagine que você está programando uma calculadora. De repente, o usuário tenta dividir um número por zero. O que acontece? O programa quebra e para de funcionar? Isso seria péssimo!
+
+Uma **exceção** é um evento que ocorre durante a execução do programa que interrompe o fluxo normal das instruções. É como um "alerta" que o Java nos dá quando algo inesperado acontece.
+
+```java
+public class ExemploExcecao {
+    public static void main(String[] args) {
+        int resultado = 10 / 0; // Isso vai gerar uma exceção!
+        System.out.println("Isso nunca será executado");
+    }
+}
+```
+
+Quando você roda esse código, o Java mostra algo como:
+```
+Exception in thread "main" java.lang.ArithmeticException: / by zero
+```
+
+## Checked vs Unchecked Exceptions
+
+No Java, as exceções são divididas em dois tipos principais:
+
+### Unchecked Exceptions (RuntimeException)
+- **Não precisam** ser tratadas obrigatoriamente pelo programador
+- São erros que poderiam ser evitados com uma boa lógica de programação
+- Herdam de `RuntimeException`
+
+**Exemplos comuns:**
+- `ArithmeticException` - divisão por zero
+- `NullPointerException` - acessar método de objeto nulo
+- `ArrayIndexOutOfBoundsException` - acessar índice inválido de array
+- `NumberFormatException` - converter string inválida para número
+
+### Checked Exceptions
+- **Precisam** ser tratadas ou declaradas com `throws`
+- São situações que o programador pode prever e deve preparar o código para lidar
+- Herdam de `Exception` (mas não de `RuntimeException`)
+
+**Exemplos comuns:**
+- `IOException` - problemas com entrada/saída de dados
+- `SQLException` - problemas com banco de dados
+- `FileNotFoundException` - arquivo não encontrado
+
+```java
+import java.io.*;
+
+public class ExemploChecked {
+    public static void main(String[] args) {
+        // Isso NÃO compila sem tratamento!
+        // FileReader arquivo = new FileReader("arquivo.txt");
+        
+        // Jeito correto - precisa tratar ou declarar throws
+        try {
+            FileReader arquivo = new FileReader("arquivo.txt");
+        } catch (FileNotFoundException e) {
+            System.out.println("Arquivo não encontrado!");
+        }
+    }
+}
+```
+
+## Try/Catch - O Bloco de Proteção
+
+O `try/catch` é como um "seguro" para seu código. Você coloca o código perigoso dentro do `try` e prepara o que fazer se algo der errado no `catch`.
+
+### Estrutura básica:
+
+```java
+public class ExemploBasico {
+    public static void main(String[] args) {
+        try {
+            // Código que pode gerar exceção
+            int[] numeros = {1, 2, 3};
+            System.out.println(numeros[5]); // Isso vai dar erro!
+        } catch (ArrayIndexOutOfBoundsException e) {
+            // O que fazer se a exceção acontecer
+            System.out.println("Ops! Você tentou acessar uma posição que não existe!");
+        }
+        
+        System.out.println("Programa continua normalmente!");
+    }
+}
+```
+
+### Múltiplos Catch - Vários Tipos de Erro
+
+Você pode ter vários `catch` para tratar diferentes tipos de exceção:
+
+```java
+import java.util.Scanner;
+
+public class MultiplosCatch {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        try {
+            System.out.print("Digite um número: ");
+            String entrada = scanner.nextLine();
+            int numero = Integer.parseInt(entrada);
+            
+            System.out.print("Digite outro número: ");
+            int divisor = Integer.parseInt(scanner.nextLine());
+            
+            int resultado = numero / divisor;
+            System.out.println("Resultado: " + resultado);
+            
+        } catch (NumberFormatException e) {
+            System.out.println("Erro: Você não digitou um número válido!");
+        } catch (ArithmeticException e) {
+            System.out.println("Erro: Não é possível dividir por zero!");
+        } catch (Exception e) {
+            System.out.println("Erro inesperado: " + e.getMessage());
+        }
+        
+        scanner.close();
+    }
+}
+```
+
+**Dica importante:** Coloque as exceções mais específicas primeiro e as mais genéricas por último!
+
+## Finally - O Bloco que Sempre Executa
+
+O bloco `finally` é opcional e **sempre** executa, independente se houve exceção ou não. É perfeito para fechar recursos como arquivos, conexões de banco de dados, etc.
+
+```java
+import java.io.*;
+
+public class ExemploFinally {
+    public static void main(String[] args) {
+        FileReader arquivo = null;
+        
+        try {
+            arquivo = new FileReader("dados.txt");
+            // Código para ler o arquivo...
+            
+        } catch (FileNotFoundException e) {
+            System.out.println("Arquivo não encontrado!");
+        } finally {
+            // Isso SEMPRE será executado
+            System.out.println("Fechando arquivo...");
+            if (arquivo != null) {
+                try {
+                    arquivo.close();
+                } catch (IOException e) {
+                    System.out.println("Erro ao fechar arquivo!");
+                }
+            }
+        }
+    }
+}
+```
+
+## Throws - Declarando que seu Método Pode Lançar Exceção
+
+Quando um método pode gerar uma exceção **checked**, você precisa avisar quem vai usar esse método:
+
+```java
+import java.io.*;
+
+public class ExemploThrows {
+    
+    // Este método avisa que pode lançar uma exceção
+    public static void lerArquivo(String nome) throws FileNotFoundException, IOException {
+        FileReader arquivo = new FileReader(nome);
+        // Código para ler...
+        arquivo.close();
+    }
+    
+    public static void main(String[] args) {
+        try {
+            lerArquivo("dados.txt");
+        } catch (FileNotFoundException e) {
+            System.out.println("Arquivo não encontrado!");
+        } catch (IOException e) {
+            System.out.println("Erro ao ler arquivo!");
+        }
+    }
+}
+```
+
+## Throw - Lançando sua Própria Exceção
+
+Você também pode criar e lançar exceções manualmente com a palavra-chave `throw`:
+
+```java
+public class ExemploThrow {
+    
+    public static void validarIdade(int idade) {
+        if (idade < 0) {
+            // Lançando uma exceção manualmente
+            throw new IllegalArgumentException("Idade não pode ser negativa!");
+        }
+        if (idade > 150) {
+            throw new IllegalArgumentException("Idade inválida!");
+        }
+        System.out.println("Idade válida: " + idade);
+    }
+    
+    public static void main(String[] args) {
+        try {
+            validarIdade(-5);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Erro: " + e.getMessage());
+        }
+        
+        validarIdade(25); // Isso funciona normalmente
+    }
+}
+```
+
+## Exceções Comuns e Como Evitá-las
+
+### NullPointerException
+```java
+public class EvitarNullPointer {
+    public static void main(String[] args) {
+        String texto = null;
+        
+        // ERRADO - vai gerar NullPointerException
+        // System.out.println(texto.length());
+        
+        // CORRETO - sempre verifique se não é null
+        if (texto != null) {
+            System.out.println(texto.length());
+        } else {
+            System.out.println("A variável está vazia!");
+        }
+    }
+}
+```
+
+### ArrayIndexOutOfBoundsException
+```java
+public class EvitarArrayIndex {
+    public static void main(String[] args) {
+        int[] numeros = {10, 20, 30};
+        
+        // ERRADO
+        // System.out.println(numeros[3]);
+        
+        // CORRETO - verifique o tamanho do array
+        int indice = 3;
+        if (indice >= 0 && indice < numeros.length) {
+            System.out.println(numeros[indice]);
+        } else {
+            System.out.println("Índice inválido!");
+        }
+    }
+}
+```
+
+### NumberFormatException
+```java
+public class EvitarNumberFormat {
+    public static void main(String[] args) {
+        String texto = "abc";
+        
+        // ERRADO
+        // int numero = Integer.parseInt(texto);
+        
+        // CORRETO - use try/catch
+        try {
+            int numero = Integer.parseInt(texto);
+            System.out.println("Número: " + numero);
+        } catch (NumberFormatException e) {
+            System.out.println("Não foi possível converter para número!");
+        }
+    }
+}
+```
+
+### ClassCastException
+```java
+public class EvitarClassCast {
+    public static void main(String[] args) {
+        Object objeto = "Texto";
+        
+        // ERRADO - vai gerar ClassCastException
+        // Integer numero = (Integer) objeto;
+        
+        // CORRETO - use instanceof para verificar
+        if (objeto instanceof Integer) {
+            Integer numero = (Integer) objeto;
+            System.out.println("Número: " + numero);
+        } else {
+            System.out.println("O objeto não é um Integer!");
+        }
+    }
+}
+```
+
+## Criando Exceções Customizadas
+
+Você pode criar suas próprias exceções para situações específicas do seu programa:
+
+```java
+// Criando nossa própria exceção
+class SaldoInsuficienteException extends Exception {
+    public SaldoInsuficienteException(String mensagem) {
+        super(mensagem);
+    }
+}
+
+class ContaBancaria {
+    private double saldo;
+    
+    public ContaBancaria(double saldoInicial) {
+        this.saldo = saldoInicial;
+    }
+    
+    public void sacar(double valor) throws SaldoInsuficienteException {
+        if (valor > saldo) {
+            throw new SaldoInsuficienteException(
+                "Saldo insuficiente! Você tem R$ " + saldo + 
+                ", mas tentou sacar R$ " + valor
+            );
+        }
+        saldo -= valor;
+        System.out.println("Saque de R$ " + valor + " realizado com sucesso!");
+    }
+    
+    public double getSaldo() {
+        return saldo;
+    }
+}
+
+public class ExemploCustomizada {
+    public static void main(String[] args) {
+        ContaBancaria conta = new ContaBancaria(1000.00);
+        
+        try {
+            conta.sacar(500.00);  // OK
+            conta.sacar(600.00);  // Vai lançar exceção!
+        } catch (SaldoInsuficienteException e) {
+            System.out.println("Erro: " + e.getMessage());
+        }
+        
+        System.out.println("Saldo atual: R$ " + conta.getSaldo());
+    }
+}
+```
+
+## Exemplo Prático: Calculadora Robusta
+
+Vamos criar uma calculadora que trata todos os possíveis erros:
+
+```java
+import java.util.Scanner;
+
+public class CalculadoraRobusta {
+    
+    public static double dividir(double a, double b) {
+        if (b == 0) {
+            throw new ArithmeticException("Divisão por zero não é permitida!");
+        }
+        return a / b;
+    }
+    
+    public static double raizQuadrada(double numero) {
+        if (numero < 0) {
+            throw new IllegalArgumentException(
+                "Não é possível calcular raiz quadrada de número negativo!"
+            );
+        }
+        return Math.sqrt(numero);
+    }
+    
+    public static int lerInteiro(Scanner scanner, String mensagem) {
+        while (true) {
+            try {
+                System.out.print(mensagem);
+                String entrada = scanner.nextLine();
+                return Integer.parseInt(entrada);
+            } catch (NumberFormatException e) {
+                System.out.println("Erro: Digite um número inteiro válido!");
+            }
+        }
+    }
+    
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("=== CALCULADORA ROBUSTA ===");
+        System.out.println("1 - Divisão");
+        System.out.println("2 - Raiz Quadrada");
+        System.out.print("Escolha uma opção: ");
+        
+        try {
+            int opcao = Integer.parseInt(scanner.nextLine());
+            
+            switch (opcao) {
+                case 1:
+                    int a = lerInteiro(scanner, "Digite o primeiro número: ");
+                    int b = lerInteiro(scanner, "Digite o segundo número: ");
+                    
+                    try {
+                        double resultado = dividir(a, b);
+                        System.out.println(a + " / " + b + " = " + resultado);
+                    } catch (ArithmeticException e) {
+                        System.out.println("Erro: " + e.getMessage());
+                    }
+                    break;
+                    
+                case 2:
+                    int numero = lerInteiro(scanner, "Digite um número: ");
+                    
+                    try {
+                        double resultado = raizQuadrada(numero);
+                        System.out.println("√" + numero + " = " + resultado);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Erro: " + e.getMessage());
+                    }
+                    break;
+                    
+                default:
+                    System.out.println("Opção inválida!");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Erro: Opção inválida!");
+        } finally {
+            scanner.close();
+            System.out.println("Calculadora encerrada.");
+        }
+    }
+}
+```
+
+## Erros Comuns que Iniciantes Cometem
+
+### 1. Catch Genérico Demais
+```java
+// ERRADO - muito genérico
+try {
+    // código...
+} catch (Exception e) {
+    // Trata tudo igual
+}
+
+// CORRETO - específico
+try {
+    // código...
+} catch (NumberFormatException e) {
+    System.out.println("Erro de formato!");
+} catch (ArithmeticException e) {
+    System.out.println("Erro matemático!");
+}
+```
+
+### 2. Silenciar Exceções
+```java
+// ERRADO - silenciando a exceção
+try {
+    int numero = Integer.parseInt("abc");
+} catch (Exception e) {
+    // Não faz nada! Isso é péssimo!
+}
+
+// CORRETO - trate adequadamente
+try {
+    int numero = Integer.parseInt("abc");
+} catch (NumberFormatException e) {
+    System.out.println("Erro ao converter: " + e.getMessage());
+    e.printStackTrace(); // Mostra onde ocorreu o erro
+}
+```
+
+### 3. Não Fechar Recursos
+```java
+// ERRADO - não fecha o scanner
+Scanner scanner = new Scanner(System.in);
+try {
+    // código...
+} catch (Exception e) {
+    // tratamento
+}
+// Scanner nunca é fechado!
+
+// CORRETO - use finally ou try-with-resources
+try (Scanner scanner = new Scanner(System.in)) {
+    // código...
+} catch (Exception e) {
+    // tratamento
+}
+// Scanner é fechado automaticamente!
+```
+
+### 4. Tratar Exceção Muito Cedo
+```java
+// ERRADO - trata onde não deveria
+public void processar() {
+    try {
+        salvarDados();
+    } catch (Exception e) {
+        System.out.println("Erro ao salvar");
+    }
+}
+
+// CORRETO - deixa quem chama decidir
+public void processar() throws Exception {
+    salvarDados(); // Quem chama é que trata
+}
+```
+
+## Dicas Finais
+
+1. **Sempre trate exceções** - programas que quebram são frustrantes para o usuário
+2. **Seja específico** - trate exceções específicas, não use `catch (Exception e)` sem necessidade
+3. **Mensagens claras** - mostre mensagens que o usuário entenda
+4. **Feche recursos** - use `finally` ou `try-with-resources` para garantir que recursos sejam liberados
+5. **Documente** - se seu método pode lançar exceções, documente isso com JavaDoc
+6. **Não exagere** - nem todo erro precisa ser uma exceção, às vezes um if/else resolve
+
+Lembre-se: o tratamento de exceções não é sobre evitar erros, mas sobre lidar com eles de forma elegante e informativa para o usuário!

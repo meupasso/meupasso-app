@@ -1,0 +1,203 @@
+---
+titulo: "Ambiente — Node.js e VS Code"
+slug: "ambiente"
+ordem: 2
+---
+
+# Guia Completo: Configurando seu Ambiente JavaScript
+
+Fala, dev! Vamos preparar seu computador para começar a programar em JavaScript. Não se preocupe, vou te guiar passo a passo como se estivéssemos lado a lado.
+
+## O que vamos precisar?
+
+Para programar em JavaScript, você precisa de três coisas principais:
+1. **Node.js** - O "motor" que vai rodar seu código
+2. **VS Code** - O editor onde você vai escrever o código
+3. **Terminal** - O lugar onde você vai dar comandos
+
+## 1. Instalando o Node.js
+
+O Node.js é como um tradutor que entende JavaScript e faz o computador executar seus comandos.
+
+### Passo a passo:
+
+1. Acesse [nodejs.org](https://nodejs.org)
+2. Você vai ver dois botões: **LTS** (recomendado) e **Current**
+   - **Sempre escolha LTS** - é a versão mais estável
+3. Clique no botão LTS e o download vai começar
+4. Execute o instalador que baixou
+5. **Importante**: Marque a opção "Automatically install the necessary tools" se aparecer
+6. Clique em Next > Next > Install > Finish
+
+### Verificando se deu certo
+
+Abra o terminal (vou te mostrar como em instantes) e digite:
+
+```javascript
+node -v
+```
+
+Se aparecer algo como `v20.11.0` (o número pode variar), **deu certo!**
+
+Agora teste o npm (Node Package Manager - gerenciador de pacotes):
+
+```javascript
+npm -v
+```
+
+Você deve ver um número como `10.2.4`.
+
+## 2. O que é esse tal de Terminal?
+
+O terminal (ou prompt de comando) é uma janela onde você conversa com o computador através de texto. Parece coisa de hacker, mas é super simples!
+
+### Como abrir o terminal:
+
+**No Windows:**
+- Pressione `Windows + R`
+- Digite `cmd` e Enter
+- Ou procure por "Prompt de Comando" no menu Iniciar
+
+**No Mac:**
+- Pressione `Command + Espaço`
+- Digite "Terminal" e Enter
+
+**Dica esperta:** No VS Code, você pode abrir o terminal interno com `Ctrl + '` (acento grave) no Windows/Linux ou `Cmd + '` no Mac.
+
+## 3. Instalando o VS Code
+
+O VS Code é onde você vai escrever seu código. É como um bloco de notas turbinado.
+
+1. Acesse [code.visualstudio.com](https://code.visualstudio.com)
+2. Clique no botão de download (ele detecta seu sistema automaticamente)
+3. Execute o instalador
+4. **Importante:** Marque estas opções durante a instalação:
+   - ✅ "Add 'Open with Code' action to Windows Explorer"
+   - ✅ "Add to PATH"
+   - ✅ "Register Code as an editor for supported file types"
+5. Clique em Next > Next > Install > Finish
+
+## 4. Extensões Essenciais
+
+Abra o VS Code e clique no ícone de **extensões** (parece um quebra-cabeça na barra lateral esquerda) ou pressione `Ctrl + Shift + X`.
+
+### Instale estas extensões (na ordem):
+
+1. **Portuguese (Brazil) Language Pack**
+   - Traduz o VS Code para português
+   - Pesquise e instale, depois reinicie o VS Code
+
+2. **JavaScript (ES6) code snippets**
+   - Atalhos para escrever código mais rápido
+
+3. **ESLint**
+   - Ajuda a encontrar erros no seu código
+
+4. **Prettier**
+   - Formata seu código automaticamente
+
+5. **Live Server**
+   - Para testar páginas web (veremos mais pra frente)
+
+### Configurando o Prettier (opcional mas recomendado):
+
+1. Vá em `File > Preferences > Settings` (ou `Ctrl + ,`)
+2. Pesquise por "format on save"
+3. Marque a opção "Editor: Format On Save"
+
+## 5. Criando seu Primeiro Arquivo JavaScript
+
+Hora de colocar a mão no código!
+
+1. Crie uma pasta no seu computador, por exemplo: `C:\meus-projetos\aula1`
+2. No VS Code, vá em `File > Open Folder` e selecione essa pasta
+3. Crie um novo arquivo: clique no ícone de **novo arquivo** (ou `Ctrl + N`)
+4. Salve como `ola.js` (`Ctrl + S`)
+
+### Escreva seu primeiro código:
+
+```javascript
+// meu-primeiro-programa.js
+console.log("Olá, mundo! Estou programando em JavaScript!");
+console.log("Que legal, hein?!");
+```
+
+## 6. Rodando seu Programa
+
+Agora a parte mágica!
+
+1. No VS Code, abra o terminal integrado (`Ctrl + '`)
+2. Digite:
+
+```javascript
+node ola.js
+```
+
+Você deve ver algo assim no terminal:
+```
+Olá, mundo! Estou programando em JavaScript!
+Que legal, hein?!
+```
+
+**Parabéns!** Você acabou de rodar seu primeiro programa JavaScript! 🎉
+
+## Erros Comuns (e como resolver)
+
+### "node não é reconhecido como comando interno"
+- **Causa:** Node.js não foi instalado ou não está no PATH
+- **Solução:** Reinstale o Node.js marcando a opção "Add to PATH"
+
+### "arquivo.js não encontrado"
+- **Causa:** Você está na pasta errada no terminal
+- **Solução:** Use `cd` para navegar até a pasta do arquivo:
+  ```javascript
+  cd Desktop/minha-pasta
+  ```
+
+### O terminal não mostra nada
+- **Causa:** Esqueceu de salvar o arquivo
+- **Solução:** Salve com `Ctrl + S` antes de rodar
+
+## Dicas para Iniciantes
+
+1. **Sempre salve antes de rodar** - É o erro mais comum!
+
+2. **Use nomes claros para arquivos** - `calculadora.js` é melhor que `teste123.js`
+
+3. **Organize seus projetos** - Crie uma pasta para cada projeto
+
+4. **Não tenha medo de errar** - Erro é aprendizado! Leia as mensagens de erro
+
+5. **Terminal amigo** - Se travar, `Ctrl + C` cancela o comando atual
+
+## Próximos Passos
+
+Agora que seu ambiente está pronto, experimente:
+
+```javascript
+// brincadeira.js
+let nome = "Seu nome aqui";
+let idade = 25;
+
+console.log("Meu nome é " + nome);
+console.log("Tenho " + idade + " anos");
+console.log("Em 5 anos terei " + (idade + 5) + " anos");
+```
+
+Modifique os valores e veja o resultado!
+
+## Resumo Rápido
+
+| Comando | O que faz |
+|---------|-----------|
+| `node -v` | Mostra versão do Node |
+| `npm -v` | Mostra versão do npm |
+| `node arquivo.js` | Executa seu programa |
+| `Ctrl + '` | Abre terminal no VS Code |
+| `Ctrl + S` | Salva o arquivo |
+
+Pronto! Seu ambiente JavaScript está configurado e você já rodou seu primeiro programa. Agora é só praticar!
+
+Lembre-se: todo programador começou exatamente onde você está agora. Continue praticando que logo você estará criando coisas incríveis!
+
+Tem alguma dúvida? O erro faz parte do processo - cada erro que você resolver te torna um programador melhor. Bora codar! 🚀

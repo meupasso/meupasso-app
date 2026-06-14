@@ -1,0 +1,235 @@
+---
+titulo: "Encapsulamento"
+slug: "encapsulamento"
+ordem: 16
+---
+
+# Encapsulamento em Java: Protegendo seus Dados
+
+Fala, dev! Vamos aprender um dos conceitos mais importantes da orientação a objetos: o **encapsulamento**. Pense nele como uma **cápsula de proteção** para seus dados.
+
+## Por que encapsular?
+
+Imagine que você tem uma classe `ContaBancaria` com um atributo `saldo`. Sem encapsulamento, qualquer pessoa poderia fazer:
+
+```java
+conta.saldo = -1000; // Isso não deveria ser possível!
+```
+
+O encapsulamento resolve isso:
+
+- **Protege dados** contra alterações indevidas
+- **Controla o acesso** aos atributos
+- **Permite validações** antes de modificar valores
+- **Facilita manutenção** (muda a implementação interna sem quebrar o código externo)
+
+## Modificadores de Acesso
+
+Java tem quatro níveis de acesso:
+
+```java
+public class ExemploAcessos {
+    public int publico;       // Qualquer classe pode acessar
+    protected int protegido;  // Mesmo pacote + subclasses
+    int padrao;               // Apenas mesmo pacote (package-private)
+    private int privado;      // Apenas esta classe
+}
+```
+
+**Regra prática**: use `private` para atributos e `public` para métodos que precisam ser acessados de fora.
+
+## Atributos Private + Getters e Setters
+
+A base do encapsulamento: atributos privados com métodos públicos para acessá-los.
+
+### Convenção de Nomenclatura
+
+```java
+private String nome;
+private boolean ativo;
+
+// Para variáveis não-booleanas:
+public String getNome() { return nome; }
+public void setNome(String nome) { this.nome = nome; }
+
+// Para booleanos:
+public boolean isAtivo() { return ativo; }
+public void setAtivo(boolean ativo) { this.ativo = ativo; }
+```
+
+### Validação no Setter
+
+Aqui está o poder do encapsulamento:
+
+```java
+public void setSaldo(double saldo) {
+    if (saldo < 0) {
+        throw new IllegalArgumentException("Saldo não pode ser negativo!");
+    }
+    this.saldo = saldo;
+}
+```
+
+## Exemplo Prático: ContaBancaria Encapsulada
+
+Vamos criar uma classe completa:
+
+```java
+public class ContaBancaria {
+    // Atributos privados - ninguém acessa diretamente
+    private String titular;
+    private double saldo;
+    private boolean ativa;
+    
+    // Construtor
+    public ContaBancaria(String titular) {
+        this.titular = titular;
+        this.saldo = 0.0;
+        this.ativa = true;
+    }
+    
+    // Getters
+    public String getTitular() {
+        return titular;
+    }
+    
+    public double getSaldo() {
+        return saldo;
+    }
+    
+    public boolean isAtiva() {
+        return ativa;
+    }
+    
+    // Setters com validação
+    public void setTitular(String titular) {
+        if (titular == null || titular.trim().isEmpty()) {
+            throw new IllegalArgumentException("Titular inválido!");
+        }
+        this.titular = titular;
+    }
+    
+    // Métodos de negócio (não apenas setters simples)
+    public void depositar(double valor) {
+        if (!ativa) {
+            throw new IllegalStateException("Conta inativa!");
+        }
+        if (valor <= 0) {
+            throw new IllegalArgumentException("Valor de depósito deve ser positivo!");
+        }
+        this.saldo += valor;
+    }
+    
+    public void sacar(double valor) {
+        if (!ativa) {
+            throw new IllegalStateException("Conta inativa!");
+        }
+        if (valor <= 0) {
+            throw new IllegalArgumentException("Valor de saque deve ser positivo!");
+        }
+        if (valor > saldo) {
+            throw new IllegalArgumentException("Saldo insuficiente!");
+        }
+        this.saldo -= valor;
+    }
+    
+    public void setAtiva(boolean ativa) {
+        this.ativa = ativa;
+    }
+}
+```
+
+### Usando a Classe
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        ContaBancaria conta = new ContaBancaria("João Silva");
+        
+        // Usando métodos públicos
+        conta.depositar(1000.0);
+        System.out.println("Saldo: R$" + conta.getSaldo()); // 1000.0
+        
+        conta.sacar(200.0);
+        System.out.println("Saldo: R$" + conta.getSaldo()); // 800.0
+        
+        // Tentando algo inválido
+        try {
+            conta.sacar(5000.0); // Vai lançar exceção!
+        } catch (IllegalArgumentException e) {
+            System.out.println("Erro: " + e.getMessage());
+        }
+        
+        // Atualizando titular com validação
+        conta.setTitular("Maria Souza");
+        System.out.println("Titular: " + conta.getTitular());
+    }
+}
+```
+
+## Erros Comuns
+
+### 1. Acessar atributo private diretamente
+
+```java
+// ERRO! Isso não compila
+ContaBancaria conta = new ContaBancaria("João");
+conta.saldo = 5000; // Erro de compilação!
+```
+
+### 2. Esquecer de validar nos setters
+
+```java
+// ERRADO: setter sem validação
+public void setSaldo(double saldo) {
+    this.saldo = saldo; // Aceita qualquer valor!
+}
+
+// CERTO: com validação
+public void setSaldo(double saldo) {
+    if (saldo < 0) {
+        throw new IllegalArgumentException("Saldo não pode ser negativo!");
+    }
+    this.saldo = saldo;
+}
+```
+
+### 3. Usar getter/setter desnecessários
+
+```java
+// Desnecessário - melhor deixar como método de negócio
+public double getSaldo() { return saldo; }
+public void setSaldo(double saldo) { this.saldo = saldo; }
+
+// Melhor - criar métodos específicos
+public void depositar(double valor) { ... }
+public void sacar(double valor) { ... }
+```
+
+### 4. Expor referências mutáveis
+
+```java
+public class Cliente {
+    private List<String> telefones = new ArrayList<>();
+    
+    // ERRADO: expõe a lista original
+    public List<String> getTelefones() {
+        return telefones; // Quem recebe pode modificar!
+    }
+    
+    // CERTO: retorna cópia
+    public List<String> getTelefones() {
+        return new ArrayList<>(telefones);
+    }
+}
+```
+
+## Dicas Finais
+
+1. **Comece com private** para todos os atributos
+2. **Só crie getters/setters** quando realmente necessário
+3. **Pense no comportamento**, não só em acessar dados
+4. **Use construtores** para valores obrigatórios
+5. **Valide nos setters** ou nos métodos de negócio
+
+O encapsulamento é seu melhor amigo para criar código robusto e de fácil manutenção. Pratique bastante e logo será natural pensar em "como proteger meus dados" antes de escrever qualquer classe!

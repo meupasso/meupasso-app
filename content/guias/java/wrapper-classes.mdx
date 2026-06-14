@@ -1,0 +1,263 @@
+---
+titulo: "Classes Invólucro (Wrapper Classes)"
+slug: "wrapper-classes"
+ordem: 12
+---
+
+# Classes Invólucro (Wrapper Classes) em Java
+
+## Por que elas existem?
+
+Imagine que você está montando um quebra-cabeça. Algumas peças são simples, outras são mais complexas. Em Java, temos dois tipos de dados:
+
+**Tipos primitivos**: são os "peões" do Java - simples, rápidos, mas limitados. Exemplos: `int`, `double`, `boolean`, `char`.
+
+**Objetos**: são os "reis" do Java - poderosos, cheios de métodos, mas um pouco mais pesados.
+
+O problema? Em algumas situações, o Java só aceita objetos. É como se você precisasse de uma peça especial, mas só tem peças simples. As **Classes Invólucro (Wrapper Classes)** são a solução! Elas "embrulham" um valor primitivo dentro de um objeto.
+
+## Tabela: Primitivo vs Wrapper
+
+| Primitivo | Wrapper | Exemplo de criação |
+|-----------|---------|-------------------|
+| `int` | `Integer` | `Integer idade = new Integer(25);` |
+| `double` | `Double` | `Double altura = new Double(1.75);` |
+| `boolean` | `Boolean` | `Boolean ativo = new Boolean(true);` |
+| `char` | `Character` | `Character letra = new Character('A');` |
+| `byte` | `Byte` | `Byte b = new Byte((byte) 10);` |
+| `short` | `Short` | `Short s = new Short((short) 100);` |
+| `long` | `Long` | `Long l = new Long(1000L);` |
+| `float` | `Float` | `Float f = new Float(3.14f);` |
+
+> **Dica**: A partir do Java 9, os construtores públicos de Wrapper foram depreciados. Prefira usar `Integer.valueOf(25)` ou autoboxing.
+
+## Autoboxing e Unboxing Automático
+
+Desde o Java 5, você não precisa mais criar manualmente objetos Wrapper. O Java faz isso automaticamente!
+
+**Autoboxing**: primitivo → Wrapper (automático)
+**Unboxing**: Wrapper → primitivo (automático)
+
+```java
+// Antes do Java 5 (manual)
+Integer idade = Integer.valueOf(25);
+int valor = idade.intValue();
+
+// Depois do Java 5 (automático)
+Integer idade = 25;  // autoboxing
+int valor = idade;   // unboxing
+
+// Exemplo prático
+Integer numero1 = 10;
+Integer numero2 = 20;
+Integer soma = numero1 + numero2;  // unboxing, soma, autoboxing
+System.out.println(soma);  // 30
+```
+
+## Métodos Úteis das Wrapper Classes
+
+### Convertendo String para número
+
+```java
+// Integer.parseInt() - retorna int primitivo
+String strIdade = "25";
+int idade = Integer.parseInt(strIdade);
+System.out.println(idade + 5);  // 30
+
+// Double.parseDouble() - retorna double primitivo
+String strAltura = "1.75";
+double altura = Double.parseDouble(strAltura);
+System.out.println(altura + 0.1);  // 1.85
+
+// Boolean.parseBoolean() - retorna boolean primitivo
+String strAtivo = "true";
+boolean ativo = Boolean.parseBoolean(strAtivo);
+
+// Character não tem parse, mas tem métodos úteis
+char letra = 'A';
+System.out.println(Character.isDigit(letra));  // false
+System.out.println(Character.isLetter(letra)); // true
+System.out.println(Character.toLowerCase(letra)); // 'a'
+```
+
+### Constantes úteis
+
+```java
+System.out.println("Maior valor int: " + Integer.MAX_VALUE);  // 2147483647
+System.out.println("Menor valor int: " + Integer.MIN_VALUE);  // -2147483648
+System.out.println("Maior valor double: " + Double.MAX_VALUE);  // 1.7976931348623157E308
+```
+
+### Convertendo para binário, hexadecimal, etc.
+
+```java
+int numero = 42;
+
+System.out.println(Integer.toBinaryString(numero));  // 101010
+System.out.println(Integer.toHexString(numero));     // 2a
+System.out.println(Integer.toOctalString(numero));   // 52
+
+// O contrário também funciona
+int deVolta = Integer.parseInt("101010", 2);  // 42
+System.out.println(deVolta);  // 42
+```
+
+## Uso com ArrayList (e outras coleções)
+
+ArrayList não aceita tipos primitivos! É aqui que as Wrapper Classes brilham:
+
+```java
+import java.util.ArrayList;
+
+// ERRADO: ArrayList<int> numeros = new ArrayList<>();
+
+// CERTO:
+ArrayList<Integer> idades = new ArrayList<>();
+
+idades.add(25);    // autoboxing: int → Integer
+idades.add(30);
+idades.add(18);
+
+// Acessando valores
+int primeiraIdade = idades.get(0);  // unboxing: Integer → int
+System.out.println("Primeira idade: " + primeiraIdade);
+
+// Iterando
+for (int idade : idades) {  // unboxing automático
+    System.out.println(idade);
+}
+```
+
+## Comparação com equals()
+
+Aqui mora um perigo! Comparar Wrapper com `==` pode dar resultados inesperados:
+
+```java
+Integer a = 127;
+Integer b = 127;
+System.out.println(a == b);      // true (cuidado! funciona por causa do cache)
+System.out.println(a.equals(b)); // true (forma correta)
+
+Integer c = 128;
+Integer d = 128;
+System.out.println(c == d);      // false! (objetos diferentes)
+System.out.println(c.equals(d)); // true (comparação correta de valores)
+
+// Regra de ouro: SEMPRE use equals() para comparar Wrapper
+Integer x = new Integer(100);
+Integer y = new Integer(100);
+System.out.println(x == y);      // false (objetos diferentes)
+System.out.println(x.equals(y)); // true
+```
+
+> **Por que 127 funciona e 128 não?** O Java faz cache de Integer entre -128 e 127. Fora desse intervalo, cria novos objetos.
+
+## Erros Comuns
+
+### 1. NullPointerException com Wrapper null
+
+```java
+Integer numero = null;
+int valor = numero;  // NullPointerException! Unboxing de null
+
+// Como evitar:
+if (numero != null) {
+    int valor = numero;
+} else {
+    System.out.println("Número é null");
+}
+
+// Ou use Optional (Java 8+)
+Optional<Integer> opt = Optional.ofNullable(numero);
+int valor = opt.orElse(0);  // valor padrão se null
+```
+
+### 2. Confundir parseInt com valueOf
+
+```java
+String str = "123";
+
+// parseInt() retorna int primitivo
+int primitivo = Integer.parseInt(str);
+
+// valueOf() retorna Integer (objeto)
+Integer objeto = Integer.valueOf(str);
+
+// Ambos funcionam, mas cuidado com o tipo de retorno!
+ArrayList<Integer> lista = new ArrayList<>();
+lista.add(Integer.valueOf("10"));  // certo
+// lista.add(Integer.parseInt("10"));  // erro! não aceita int primitivo
+```
+
+### 3. Esquecer de tratar NumberFormatException
+
+```java
+String numeroInvalido = "abc";
+try {
+    int valor = Integer.parseInt(numeroInvalido);  // lança NumberFormatException
+} catch (NumberFormatException e) {
+    System.out.println("Formato inválido: " + e.getMessage());
+}
+```
+
+### 4. Comparar boolean com ==
+
+```java
+Boolean b1 = true;
+Boolean b2 = true;
+System.out.println(b1 == b2);      // true (cache funciona)
+System.out.println(b1.equals(b2)); // true
+
+Boolean b3 = new Boolean(true);
+Boolean b4 = new Boolean(true);
+System.out.println(b3 == b4);      // false! objetos diferentes
+System.out.println(b3.equals(b4)); // true
+```
+
+## Resumo Prático
+
+```java
+public class ExemploCompleto {
+    public static void main(String[] args) {
+        // 1. Criando Wrapper
+        Integer idade = 25;  // autoboxing
+        
+        // 2. Convertendo String
+        String strIdade = "30";
+        int idadePrimitivo = Integer.parseInt(strIdade);
+        Integer idadeObjeto = Integer.valueOf(strIdade);
+        
+        // 3. Usando em ArrayList
+        ArrayList<Integer> numeros = new ArrayList<>();
+        numeros.add(10);
+        numeros.add(20);
+        
+        // 4. Métodos úteis
+        System.out.println(Integer.MAX_VALUE);
+        System.out.println(Integer.toBinaryString(42));
+        
+        // 5. Comparação correta
+        Integer a = 1000;
+        Integer b = 1000;
+        System.out.println(a.equals(b));  // true
+        
+        // 6. Cuidado com null
+        Integer nulo = null;
+        // int valor = nulo;  // NullPointerException!
+        if (nulo != null) {
+            int valor = nulo;
+        }
+    }
+}
+```
+
+## Dicas Finais
+
+1. **Prefira autoboxing** para criar Wrapper: `Integer x = 10;`
+2. **Use equals()** para comparar Wrapper, nunca `==`
+3. **Sempre verifique null** antes de fazer unboxing
+4. **Use parseInt()** quando precisar de primitivo, **valueOf()** quando precisar de objeto
+5. **Trate NumberFormatException** ao converter strings
+6. **Wrapper são imutáveis**: uma vez criados, não mudam de valor
+
+Lembre-se: as Wrapper Classes são suas aliadas para trabalhar com coleções e APIs que exigem objetos. Pratique com exemplos reais e logo você estará usando-as naturalmente!

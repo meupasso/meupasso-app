@@ -1,0 +1,185 @@
+---
+titulo: "Strings"
+slug: "strings"
+ordem: 6
+---
+
+Strings são **textos**. Tudo que você digita entre aspas em Python vira uma string. É um dos tipos mais versáteis da linguagem.
+
+## Criando strings
+
+Você pode criar strings com aspas simples, duplas ou triplas:
+
+```python
+# Aspas simples
+nome = 'João'
+
+# Aspas duplas
+frase = "Olá, mundo!"
+
+# Aspas triplas — permitem múltiplas linhas
+texto_grande = """Este é um texto
+que ocupa várias linhas
+sem precisar de \n"""
+
+print(nome)          # João
+print(frase)         # Olá, mundo!
+print(texto_grande)
+```
+
+> **Dica**: escolha um estilo e mantenha consistência. A comunidade Python geralmente usa aspas simples para strings curtas e duplas quando a string contém aspas simples.
+
+### Aspas dentro de aspas
+
+```python
+# Se você precisa de aspas dentro da string:
+frase1 = "Ele disse: 'Olá'"
+frase2 = 'Ela disse: "Oi"'
+
+# Ou use a barra invertida para escapar:
+frase3 = "Ele disse: \"Olá\""
+```
+
+## Concatenação e repetição
+
+```python
+# Concatenação com +
+nome = "João"
+saudacao = "Olá, " + nome + "!"
+print(saudacao)  # Olá, João!
+
+# Repetição com *
+eco = "eco " * 3
+print(eco)  # eco eco eco
+
+linha = "-" * 30
+print(linha)  # ------------------------------
+```
+
+## f-strings — a forma moderna
+
+f-strings (ou strings formatadas) são a maneira mais fácil e legível de inserir variáveis dentro de texto:
+
+```python
+nome = "Maria"
+idade = 28
+altura = 1.65
+
+print(f"Meu nome é {nome}, tenho {idade} anos e {altura}m de altura.")
+# Meu nome é Maria, tenho 28 anos e 1.65m de altura.
+
+# Também dá para fazer contas dentro das chaves:
+print(f"Ano que vem você terá {idade + 1} anos.")
+# Ano que vem você terá 29 anos.
+```
+
+Basta colocar um `f` antes das aspas e usar `{}` para inserir qualquer expressão Python.
+
+## Métodos úteis de string
+
+Strings têm diversos métodos embutidos. Aqui os mais importantes:
+
+```python
+texto = "  Python é demais!  "
+
+print(texto.upper())           # "  PYTHON É DEMAIS!  "
+print(texto.lower())           # "  python é demais!  "
+print(texto.strip())           # "Python é demais!" (remove espaços das pontas)
+print(texto.replace("Python", "Java"))  # "  Java é demais!  "
+
+# Dividir string em lista
+dados = "banana,maçã,laranja"
+print(dados.split(","))        # ['banana', 'maçã', 'laranja']
+
+# Tamanho da string
+print(len(texto))              # 22 (contando espaços)
+```
+
+> **Dica**: métodos de string **não modificam** a original — eles retornam uma nova string. Strings são imutáveis!
+
+## Fatiamento (slicing)
+
+Você pode pegar pedaços de uma string usando colchetes:
+
+```python
+texto = "Python"
+
+print(texto[0])      # P — primeiro caractere
+print(texto[-1])     # n — último caractere
+print(texto[1:4])    # yth — do índice 1 até o 3 (4 não entra)
+print(texto[:3])     # Pyt — do início até o 2
+print(texto[3:])     # hon — do índice 3 até o fim
+print(texto[::-1])   # nohtyP — string invertida (muita gente usa isso!)
+```
+
+O formato é `[inicio:fim:passo]`. O `fim` nunca é incluído.
+
+## Verificações com strings
+
+```python
+frase = "Aprender Python é divertido"
+
+# Verificar se contém algo
+print("Python" in frase)          # True
+print("Java" in frase)            # False
+
+# Começa ou termina com...
+print(frase.startswith("Aprender"))  # True
+print(frase.endswith("divertido"))   # True
+```
+
+## Erros comuns
+
+### Esquecer as aspas
+
+```python
+print(Python)    # ❌ NameError: name 'Python' is not defined
+print("Python")  # ✅
+```
+
+**Causa**: sem aspas, Python pensa que `Python` é uma variável.
+
+### Concatenar string com número
+
+```python
+idade = 25
+print("Eu tenho " + idade + " anos")  # ❌ TypeError
+```
+
+**Solução**: converta para string ou use f-string:
+
+```python
+print("Eu tenho " + str(idade) + " anos")  # ✅
+print(f"Eu tenho {idade} anos")             # ✅ (mais simples)
+```
+
+### Índice fora do limite
+
+```python
+texto = "Python"
+print(texto[10])  # ❌ IndexError: string index out of range
+```
+
+**Solução**: verifique o tamanho com `len()` antes de acessar.
+
+### Esquecer que strings são imutáveis
+
+```python
+texto = "Python"
+texto[0] = "J"   # ❌ TypeError: 'str' object does not support item assignment
+```
+
+**Solução**: crie uma nova string: `novo_texto = "J" + texto[1:]`.
+
+## Resumo
+
+| Operação | Como fazer | Exemplo |
+|----------|------------|---------|
+| Criar string | Aspas | `"texto"` |
+| Concatenar | `+` | `"a" + "b"` |
+| Repetir | `*` | `"x" * 5` |
+| Tamanho | `len()` | `len("abc")` |
+| Fatiar | `[::]` | `"Python"[1:4]` |
+| Maiúsculas | `.upper()` | `"abc".upper()` |
+| Substituir | `.replace()` | `"a".replace("a", "b")` |
+| Dividir | `.split()` | `"a,b".split(",")` |

@@ -1,0 +1,1 @@
+- [Permissões configuradas](permissoes-configuradas.md) — Comandos liberados no settings.local.json

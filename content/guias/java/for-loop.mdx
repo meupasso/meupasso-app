@@ -1,0 +1,304 @@
+---
+titulo: "For Loop"
+slug: "for-loop"
+ordem: 9
+---
+
+# Laço For em Java: O Guia Completo para Iniciantes
+
+Oi! Vamos aprender uma das estruturas mais importantes da programação: o **laço for**. Pense nele como um robô que repete uma tarefa várias vezes, mas você controla exatamente quando começar, quando parar e como avançar.
+
+## O que é um laço for?
+
+O `for` é uma estrutura de repetição que executa um bloco de código várias vezes. É perfeito quando você sabe **quantas vezes** quer repetir algo.
+
+## Sintaxe do for tradicional
+
+A estrutura básica tem três partes:
+
+```java
+for (inicialização; condição; incremento) {
+    // código que será repetido
+}
+```
+
+Vamos ver cada parte:
+
+- **Inicialização**: Executa uma vez no início. Geralmente criamos uma variável contadora.
+- **Condição**: Verificada antes de cada repetição. Enquanto for verdadeira, o loop continua.
+- **Incremento**: Executado ao final de cada repetição. Modifica o contador.
+
+### Exemplo básico: contar de 1 a 5
+
+```java
+public class ExemploFor {
+    public static void main(String[] args) {
+        for (int i = 1; i <= 5; i++) {
+            System.out.println("Número: " + i);
+        }
+    }
+}
+```
+
+Resultado:
+```
+Número: 1
+Número: 2
+Número: 3
+Número: 4
+Número: 5
+```
+
+## For com decremento
+
+Podemos contar para trás também!
+
+```java
+public class ForDecremento {
+    public static void main(String[] args) {
+        // Contagem regressiva de 5 a 1
+        for (int i = 5; i >= 1; i--) {
+            System.out.println(i);
+        }
+        System.out.println("Fogo!");
+    }
+}
+```
+
+## For com passo diferente de 1
+
+Quer pular de 2 em 2? Ou de 3 em 3? É só mudar o incremento!
+
+```java
+public class ForPassoDiferente {
+    public static void main(String[] args) {
+        // Números pares de 0 a 10
+        for (int i = 0; i <= 10; i += 2) {
+            System.out.print(i + " ");
+        }
+        // Resultado: 0 2 4 6 8 10
+        
+        System.out.println();
+        
+        // Múltiplos de 3 de 0 a 20
+        for (int i = 0; i <= 20; i += 3) {
+            System.out.print(i + " ");
+        }
+        // Resultado: 0 3 6 9 12 15 18
+    }
+}
+```
+
+## For-each: a versão simplificada para arrays e coleções
+
+Quando você só precisa percorrer todos os elementos, o for-each é mais simples e seguro.
+
+```java
+public class ForEach {
+    public static void main(String[] args) {
+        // Array de frutas
+        String[] frutas = {"Maçã", "Banana", "Laranja", "Uva"};
+        
+        // For-each: para cada fruta no array frutas
+        for (String fruta : frutas) {
+            System.out.println("Eu gosto de " + fruta);
+        }
+        
+        // Array de números
+        int[] numeros = {10, 20, 30, 40, 50};
+        int soma = 0;
+        
+        for (int num : numeros) {
+            soma += num;
+        }
+        System.out.println("Soma: " + soma); // 150
+    }
+}
+```
+
+## Break e Continue: controlando o fluxo
+
+### Break - sair do loop
+
+O `break` interrompe o loop imediatamente.
+
+```java
+public class ExemploBreak {
+    public static void main(String[] args) {
+        // Parar quando encontrar o número 3
+        for (int i = 1; i <= 10; i++) {
+            if (i == 3) {
+                System.out.println("Encontrei o 3! Vou parar.");
+                break;
+            }
+            System.out.println("Número: " + i);
+        }
+        System.out.println("Sai do loop!");
+    }
+}
+```
+
+### Continue - pular para próxima iteração
+
+O `continue` pula o resto do código atual e vai para a próxima repetição.
+
+```java
+public class ExemploContinue {
+    public static void main(String[] args) {
+        // Pular números pares
+        for (int i = 1; i <= 10; i++) {
+            if (i % 2 == 0) {
+                continue; // pula números pares
+            }
+            System.out.println("Ímpar: " + i);
+        }
+    }
+}
+```
+
+## Loops aninhados (for dentro de for)
+
+Um loop dentro de outro! Útil para trabalhar com tabelas, matrizes e combinações.
+
+```java
+public class LoopsAninhados {
+    public static void main(String[] args) {
+        // Criar uma tabela de multiplicação simples
+        for (int i = 1; i <= 3; i++) {
+            for (int j = 1; j <= 3; j++) {
+                System.out.print(i + "x" + j + "=" + (i*j) + "\t");
+            }
+            System.out.println(); // nova linha
+        }
+    }
+}
+```
+
+## Exemplos práticos
+
+### 1. Tabuada completa
+
+```java
+public class Tabuada {
+    public static void main(String[] args) {
+        int numero = 7;
+        
+        System.out.println("Tabuada do " + numero + ":");
+        for (int i = 1; i <= 10; i++) {
+            System.out.println(numero + " x " + i + " = " + (numero * i));
+        }
+    }
+}
+```
+
+### 2. Somar números de um array
+
+```java
+public class SomarArray {
+    public static void main(String[] args) {
+        int[] notas = {8, 7, 9, 6, 10};
+        int soma = 0;
+        
+        // Usando for tradicional
+        for (int i = 0; i < notas.length; i++) {
+            soma += notas[i];
+        }
+        
+        double media = (double) soma / notas.length;
+        System.out.println("Soma: " + soma);
+        System.out.println("Média: " + media);
+    }
+}
+```
+
+### 3. Percorrer array e encontrar o maior valor
+
+```java
+public class MaiorValor {
+    public static void main(String[] args) {
+        int[] numeros = {45, 23, 89, 12, 67, 34};
+        int maior = numeros[0]; // assume que o primeiro é o maior
+        
+        for (int i = 1; i < numeros.length; i++) {
+            if (numeros[i] > maior) {
+                maior = numeros[i];
+            }
+        }
+        
+        System.out.println("O maior número é: " + maior);
+    }
+}
+```
+
+## Erros comuns (e como evitá-los)
+
+### 1. Off-by-one (erro de um a mais ou um a menos)
+
+```java
+// ERRADO: vai de 0 a 10 (11 números)
+for (int i = 0; i <= 10; i++) { // 11 repetições!
+    System.out.println(i);
+}
+
+// CORRETO: vai de 0 a 9 (10 números)
+for (int i = 0; i < 10; i++) { // 10 repetições!
+    System.out.println(i);
+}
+```
+
+**Dica**: Lembre-se que arrays começam no índice 0 e vão até `length - 1`.
+
+### 2. Loop infinito
+
+```java
+// ERRADO: condição sempre verdadeira
+for (int i = 0; i >= 0; i++) {
+    System.out.println("Isso nunca vai parar!");
+}
+
+// ERRADO: incremento errado
+for (int i = 10; i > 0; i++) { // i++ aumenta, mas queremos diminuir!
+    System.out.println(i);
+}
+
+// CORRETO para contagem regressiva
+for (int i = 10; i > 0; i--) {
+    System.out.println(i);
+}
+```
+
+### 3. Esquecer as chaves
+
+```java
+// ERRADO: sem chaves, só a primeira linha repete
+for (int i = 0; i < 5; i++)
+    System.out.println("Repete"); // só essa linha repete
+    System.out.println("Só uma vez"); // essa executa uma vez
+
+// CORRETO: com chaves, tudo repete
+for (int i = 0; i < 5; i++) {
+    System.out.println("Repete");
+    System.out.println("Também repete");
+}
+```
+
+## Dicas importantes
+
+1. **Use nomes descritivos**: em vez de `i`, use `linha`, `coluna`, `indice` quando fizer sentido
+2. **Prefira for-each** quando não precisar do índice
+3. **Cuidado com loops infinitos**: sempre verifique se a condição vai se tornar falsa
+4. **Teste com valores pequenos** antes de usar loops grandes
+5. **Use variáveis para limites**: em vez de `i < 10`, use `i < tamanho`
+
+## Resumo
+
+O `for` é seu aliado para repetições controladas. Comece simples, pratique com os exemplos e logo você estará criando loops complexos naturalmente!
+
+```java
+// Estrutura básica para decorar
+for (inicio; condicao; passo) {
+    // faça algo
+}
+```
+
+Lembre-se: programação é prática! Crie seus próprios exemplos, quebre eles de propósito para ver os erros, e divirta-se aprendendo.

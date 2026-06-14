@@ -1,0 +1,124 @@
+---
+titulo: "Ambiente de Programação"
+slug: "ambiente"
+ordem: 2
+---
+
+Antes de escrever a primeira linha de código, você precisa preparar o terreno. A boa notícia: é mais simples do que parece.
+
+## Instalando o Python
+
+### Windows
+
+1. Acesse [python.org/downloads](https://python.org/downloads)
+2. Baixe a versão mais recente (3.12 ou superior)
+3. **Importante**: na primeira tela do instalador, marque a opção **"Add Python to PATH"**
+4. Clique em "Install Now"
+
+### Mac
+
+1. Acesse [python.org/downloads](https://python.org/downloads)
+2. Baixe o instalador para macOS
+3. Execute o instalador
+
+Ou, se você já tem o Homebrew instalado:
+
+```bash
+brew install python3
+```
+
+### Linux
+
+Provavelmente o Python já vem instalado. Para verificar:
+
+```bash
+python3 --version
+```
+
+Se não estiver instalado:
+
+```bash
+sudo apt install python3
+```
+
+## Verificando a instalação
+
+Abra o terminal (Command Prompt no Windows, Terminal no Mac/Linux) e digite:
+
+```bash
+python --version
+```
+
+Você deve ver algo como:
+
+```
+Python 3.13.2
+```
+
+Se aparecer uma mensagem de erro, provavelmente você esqueceu de marcar "Add Python to PATH" na instalação. Reinstale marcando essa opção.
+
+> **Dica**: se o comando `python` não funcionar, tente `python3`.
+
+## Instalando o VS Code
+
+Você poderia programar em Python no bloco de notas. Sério. Mas um editor de código torna tudo muito mais fácil.
+
+Recomendo o **VS Code** (Visual Studio Code):
+
+1. Baixe em [code.visualstudio.com](https://code.visualstudio.com)
+2. Instale como qualquer outro programa
+3. Abra o VS Code
+
+### Extensão Python no VS Code
+
+No VS Code, vá na aba de extensões (ícone de quadradinhos na barra da esquerda ou `Ctrl+Shift+X`) e procure por:
+
+**Python** (da Microsoft)
+
+Instale essa extensão. Ela adiciona:
+- Destaque de sintaxe (cores no código)
+- Autocomplete enquanto você digita
+- Detecção de erros em tempo real
+- Botão de "play" para rodar o código
+
+## Seu primeiro programa
+
+1. Crie uma pasta para seus projetos (ex: `C:\Users\SeuNome\projetos`)
+2. Abra essa pasta no VS Code (`Arquivo > Abrir Pasta`)
+3. Crie um arquivo chamado `ola.py`
+4. Digite:
+
+```python
+print("Olá, mundo!")
+```
+
+5. Salve (`Ctrl+S`)
+6. Abra o terminal no VS Code (`Terminal > Novo Terminal`)
+7. Digite:
+
+```bash
+python ola.py
+```
+
+Pronto! Você acabou de rodar seu primeiro programa em Python. 🎉
+
+## O terminal não morde
+
+O terminal pode parecer assustador no começo, mas você só precisa de alguns comandos:
+
+| Comando | O que faz |
+|---------|-----------|
+| `dir` (Windows) / `ls` (Mac/Linux) | Lista os arquivos da pasta |
+| `cd nomedapasta` | Entra em uma pasta |
+| `cd ..` | Volta para a pasta anterior |
+| `python arquivo.py` | Roda um programa Python |
+
+## Resumo rápido
+
+1. Instale o Python (marque "Add to PATH")
+2. Instale o VS Code
+3. Adicione a extensão Python
+4. Crie um arquivo `.py`
+5. Rode com `python nome_do_arquivo.py`
+
+Depois que você fizer isso uma ou duas vezes, vira automático. Bora programar! 🚀

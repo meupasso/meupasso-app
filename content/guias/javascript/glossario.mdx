@@ -1,0 +1,361 @@
+---
+titulo: "Glossário"
+slug: "glossario"
+ordem: 23
+---
+
+# Glossário JavaScript para Iniciantes Brasileiros
+
+Aqui está um glossário completo com os termos mais importantes do JavaScript, explicados de forma simples e prática. Vamos mergulhar!
+
+---
+
+## A
+
+### Array
+Estrutura de dados que armazena uma lista ordenada de valores. Pense como uma "caixa" que guarda vários itens.
+
+```javascript
+const frutas = ['maçã', 'banana', 'laranja'];
+console.log(frutas[0]); // 'maçã'
+```
+
+**Dica**: Arrays começam no índice 0, não 1!
+
+### Arrow Function
+Forma mais curta de escrever funções, usando `=>`. Muito comum no JavaScript moderno.
+
+```javascript
+// Função tradicional
+function soma(a, b) {
+  return a + b;
+}
+
+// Arrow function equivalente
+const soma = (a, b) => a + b;
+```
+
+**Erro comum**: Esquecer que arrow functions não têm seu próprio `this`.
+
+### Assíncrono
+Código que não espera uma tarefa terminar para continuar executando. Essencial para operações como requisições de rede.
+
+```javascript
+console.log('1');
+setTimeout(() => console.log('2'), 0); // vai executar depois
+console.log('3');
+// Resultado: 1, 3, 2
+```
+
+---
+
+## C
+
+### Callback
+Função passada como argumento para outra função, executada depois que algo acontece.
+
+```javascript
+function cumprimentar(nome, callback) {
+  console.log('Olá, ' + nome);
+  callback();
+}
+
+cumprimentar('Maria', () => console.log('Callback executado!'));
+```
+
+### const
+Declara uma variável que não pode ser reatribuída. O valor pode mudar se for objeto/array, mas a referência não.
+
+```javascript
+const pi = 3.14;
+pi = 3; // Erro! Não pode reatribuir
+
+const pessoa = { nome: 'João' };
+pessoa.nome = 'Maria'; // Isso funciona!
+```
+
+### Closure
+Função que "lembra" do escopo onde foi criada, mesmo após esse escopo ter sido executado.
+
+```javascript
+function criarContador() {
+  let contador = 0;
+  return function() {
+    contador++;
+    return contador;
+  };
+}
+
+const meuContador = criarContador();
+console.log(meuContador()); // 1
+console.log(meuContador()); // 2
+```
+
+---
+
+## D
+
+### Desestruturação
+Extrair valores de objetos ou arrays de forma direta.
+
+```javascript
+// Array
+const [a, b] = [1, 2, 3];
+console.log(a); // 1
+
+// Objeto
+const pessoa = { nome: 'Ana', idade: 25 };
+const { nome, idade } = pessoa;
+console.log(nome); // 'Ana'
+```
+
+---
+
+## E
+
+### ES6 (ECMAScript 2015)
+Grande atualização do JavaScript que trouxe `let`, `const`, arrow functions, classes, promises, entre outros. É a base do JS moderno.
+
+### Event Loop
+Mecanismo que gerencia a execução do código assíncrono. Pense como um "garçom" que fica verificando se há tarefas prontas para executar.
+
+---
+
+## F
+
+### Falsy
+Valores que são considerados `false` em contextos booleanos. São eles: `false`, `0`, `""` (string vazia), `null`, `undefined`, `NaN`.
+
+```javascript
+if (!0) console.log('0 é falsy');
+if (!"") console.log('string vazia é falsy');
+```
+
+---
+
+## H
+
+### Hoisting
+Comportamento onde declarações de variáveis (com `var`) e funções são "elevadas" ao topo do escopo.
+
+```javascript
+console.log(x); // undefined (não dá erro!)
+var x = 5;
+
+// O código acima é interpretado como:
+var x;
+console.log(x);
+x = 5;
+```
+
+**Dica**: `let` e `const` também sofrem hoisting, mas ficam em uma "zona morta" até a declaração.
+
+---
+
+## J
+
+### JSON (JavaScript Object Notation)
+Formato leve para troca de dados, muito usado em APIs. Parece um objeto JS, mas com aspas duplas obrigatórias.
+
+```javascript
+const json = '{"nome": "João", "idade": 30}';
+const objeto = JSON.parse(json); // converte para objeto JS
+const voltaJson = JSON.stringify(objeto); // converte para string JSON
+```
+
+---
+
+## L
+
+### let
+Declara variável com escopo de bloco. Diferente de `var`, não vaza para fora de blocos como `if` ou `for`.
+
+```javascript
+let idade = 20;
+if (true) {
+  let idade = 30; // escopo diferente
+  console.log(idade); // 30
+}
+console.log(idade); // 20
+```
+
+---
+
+## M
+
+### Método
+Função que pertence a um objeto.
+
+```javascript
+const pessoa = {
+  nome: 'Carlos',
+  saudacao() {
+    console.log('Olá, ' + this.nome);
+  }
+};
+pessoa.saudacao(); // 'Olá, Carlos'
+```
+
+### Módulo
+Forma de organizar código em arquivos separados, importando e exportando funcionalidades.
+
+```javascript
+// arquivo utils.js
+export function soma(a, b) {
+  return a + b;
+}
+
+// arquivo principal.js
+import { soma } from './utils.js';
+console.log(soma(2, 3)); // 5
+```
+
+---
+
+## N
+
+### Node.js
+Ambiente que permite executar JavaScript no servidor, fora do navegador. Usa o motor V8 do Chrome.
+
+### null
+Valor intencionalmente vazio. Representa "nada" de forma explícita.
+
+```javascript
+let valor = null;
+console.log(valor); // null
+```
+
+**Erro comum**: Confundir `null` com `undefined`.
+
+---
+
+## O
+
+### Objeto
+Coleção de pares chave-valor. É a base de quase tudo no JavaScript.
+
+```javascript
+const carro = {
+  marca: 'Toyota',
+  ano: 2020,
+  ligar() {
+    console.log('Vrum vrum!');
+  }
+};
+```
+
+---
+
+## P
+
+### Promise
+Objeto que representa um valor que pode estar disponível agora, no futuro ou nunca. Essencial para código assíncrono.
+
+```javascript
+const promessa = new Promise((resolve, reject) => {
+  setTimeout(() => resolve('Pronto!'), 1000);
+});
+
+promessa.then(resultado => console.log(resultado));
+```
+
+### Protótipo
+Mecanismo de herança do JavaScript. Objetos podem herdar propriedades de outros objetos.
+
+```javascript
+function Animal(nome) {
+  this.nome = nome;
+}
+Animal.prototype.falar = function() {
+  console.log(this.nome + ' faz barulho');
+};
+
+const cachorro = new Animal('Rex');
+cachorro.falar(); // 'Rex faz barulho'
+```
+
+---
+
+## S
+
+### Scope (Escopo)
+Contexto onde variáveis são acessíveis. Pode ser global, de função ou de bloco.
+
+```javascript
+let global = 'acessível em todo lugar';
+
+function minhaFuncao() {
+  let local = 'só aqui dentro';
+  console.log(global); // funciona
+}
+console.log(local); // erro!
+```
+
+### Spread Operator (`...`)
+Espalha elementos de arrays ou propriedades de objetos.
+
+```javascript
+const numeros = [1, 2, 3];
+const maisNumeros = [...numeros, 4, 5];
+console.log(maisNumeros); // [1, 2, 3, 4, 5]
+
+const obj1 = { a: 1, b: 2 };
+const obj2 = { ...obj1, c: 3 };
+```
+
+---
+
+## T
+
+### Template Literal
+String que permite interpolar variáveis e quebras de linha usando crases.
+
+```javascript
+const nome = 'Maria';
+const mensagem = `Olá, ${nome}!
+Bem-vinda ao JavaScript`;
+console.log(mensagem);
+```
+
+### Truthy
+Valores que são considerados `true` em contextos booleanos. Todos os valores que não são falsy.
+
+```javascript
+if (1) console.log('1 é truthy');
+if ("texto") console.log('string não vazia é truthy');
+if ([]) console.log('array vazio é truthy');
+if ({}) console.log('objeto vazio é truthy');
+```
+
+---
+
+## U
+
+### undefined
+Valor atribuído automaticamente a variáveis que foram declaradas mas não inicializadas.
+
+```javascript
+let x;
+console.log(x); // undefined
+```
+
+**Erro comum**: Tentar acessar propriedades de `undefined` causa erro.
+
+---
+
+## V
+
+### var
+Forma antiga de declarar variáveis. Tem escopo de função e pode ser redeclarada. Evite usar no código moderno.
+
+```javascript
+var nome = 'João';
+var nome = 'Maria'; // redeclaração permitida (problema!)
+console.log(nome); // 'Maria'
+```
+
+---
+
+## Dica Final
+
+Comece usando `const` por padrão, e troque para `let` apenas quando precisar reatribuir. Evite `var` completamente. Pratique cada termo com exemplos pequenos e vá aumentando a complexidade aos poucos. JavaScript é uma jornada, não um destino!

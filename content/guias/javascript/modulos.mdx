@@ -1,0 +1,301 @@
+---
+titulo: "Módulos — import e export"
+slug: "modulos"
+ordem: 19
+---
+
+# Módulos em JavaScript: Organizando seu código como um profissional
+
+Imagina que você está construindo uma casa. Você não faria tudo no mesmo cômodo, certo? A cozinha tem seus utensílios, o quarto tem suas coisas. Com JavaScript é a mesma coisa: módulos são como cômodos organizados para cada parte do seu código.
+
+## O que são módulos?
+
+Módulos são arquivos JavaScript que exportam funcionalidades para outros arquivos usarem. Eles ajudam a:
+- Organizar código em partes menores e reutilizáveis
+- Evitar poluição do escopo global
+- Facilitar manutenção e testes
+
+## Export e Import: A dupla dinâmica
+
+### Named Exports (Exportações nomeadas)
+
+Você pode exportar múltiplas coisas de um arquivo:
+
+```javascript
+// utils.js
+export function somar(a, b) {
+  return a + b;
+}
+
+export function subtrair(a, b) {
+  return a - b;
+}
+
+export const PI = 3.14159;
+```
+
+E importar onde precisar:
+
+```javascript
+// app.js
+import { somar, subtrair, PI } from './utils.js';
+
+console.log(somar(5, 3)); // 8
+console.log(PI); // 3.14159
+```
+
+### Export Default (Exportação padrão)
+
+Cada módulo pode ter **apenas um** export default:
+
+```javascript
+// saudacao.js
+export default function dizerOla(nome) {
+  return `Olá, ${nome}!`;
+}
+
+// Ou exportar um objeto como default
+export default {
+  nome: 'Calculadora',
+  versao: '1.0'
+};
+```
+
+Importando:
+
+```javascript
+import saudacao from './saudacao.js';
+// Você pode dar qualquer nome ao importar default
+
+console.log(saudacao('Maria')); // Olá, Maria!
+```
+
+## Misturando exports nomeados com default
+
+```javascript
+// matematica.js
+export default function calcularMedia(numeros) {
+  const soma = numeros.reduce((acc, num) => acc + num, 0);
+  return soma / numeros.length;
+}
+
+export function somar(a, b) { return a + b; }
+export function multiplicar(a, b) { return a * b; }
+```
+
+```javascript
+import calcularMedia, { somar, multiplicar } from './matematica.js';
+
+console.log(calcularMedia([10, 20, 30])); // 20
+console.log(somar(5, 3)); // 8
+```
+
+## Import * : Importando tudo de uma vez
+
+Use com cuidado - importa tudo que foi exportado:
+
+```javascript
+// ferramentas.js
+export function martelo() { return 'batendo prego'; }
+export function serrote() { return 'cortando madeira'; }
+export function chaveFenda() { return 'apertando parafuso'; }
+```
+
+```javascript
+import * as Ferramentas from './ferramentas.js';
+
+console.log(Ferramentas.martelo()); // batendo prego
+console.log(Ferramentas.serrote()); // cortando madeira
+```
+
+## CommonJS vs ES Modules: A briga dos sistemas
+
+### CommonJS (require/module.exports)
+
+Usado tradicionalmente no Node.js:
+
+```javascript
+// saudacao-cjs.js
+function dizerOi(nome) {
+  return `Oi, ${nome}!`;
+}
+
+module.exports = dizerOi;
+// ou module.exports = { dizerOi, outraFuncao }
+```
+
+```javascript
+const dizerOi = require('./saudacao-cjs.js');
+console.log(dizerOi('João')); // Oi, João!
+```
+
+### ES Modules (import/export)
+
+Padrão moderno, usado em navegadores e Node.js recente:
+
+```javascript
+// saudacao-esm.js
+export function dizerOi(nome) {
+  return `Oi, ${nome}!`;
+}
+```
+
+```javascript
+import { dizerOi } from './saudacao-esm.js';
+console.log(dizerOi('João')); // Oi, João!
+```
+
+### Diferenças principais:
+
+| Característica | CommonJS | ES Modules |
+|---------------|----------|------------|
+| Sintaxe | `require()` / `module.exports` | `import` / `export` |
+| Carregamento | Síncrono | Assíncrono |
+| Uso no navegador | Não nativo | Nativo |
+| Tree-shaking | Difícil | Fácil |
+
+## Configurando package.json
+
+Para usar ES Modules no Node.js, adicione no seu `package.json`:
+
+```json
+{
+  "name": "meu-projeto",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node app.js"
+  }
+}
+```
+
+Sem `"type": "module"`, o Node.js assume CommonJS.
+
+## Organizando código em arquivos: Exemplo prático
+
+Vamos criar uma mini calculadora:
+
+```
+projeto/
+├── index.html
+├── app.js
+├── modules/
+│   ├── operacoes.js
+│   └── ui.js
+```
+
+```javascript
+// modules/operacoes.js
+export function somar(a, b) { return a + b; }
+export function subtrair(a, b) { return a - b; }
+export function multiplicar(a, b) { return a * b; }
+export function dividir(a, b) {
+  if (b === 0) throw new Error('Divisão por zero');
+  return a / b;
+}
+```
+
+```javascript
+// modules/ui.js
+export function mostrarResultado(valor) {
+  const resultado = document.getElementById('resultado');
+  resultado.textContent = `Resultado: ${valor}`;
+}
+
+export function limparTela() {
+  document.getElementById('resultado').textContent = '';
+}
+```
+
+```javascript
+// app.js
+import { somar, dividir } from './modules/operacoes.js';
+import { mostrarResultado, limparTela } from './modules/ui.js';
+
+const botaoSomar = document.getElementById('btn-somar');
+botaoSomar.addEventListener('click', () => {
+  const a = Number(document.getElementById('num1').value);
+  const b = Number(document.getElementById('num2').value);
+  const resultado = somar(a, b);
+  mostrarResultado(resultado);
+});
+```
+
+## Erros comuns e dicas
+
+### ❌ Erro: Esquecer as chaves {} nos named exports
+
+```javascript
+// ERRADO
+import somar from './utils.js'; // Se somar não é default
+
+// CERTO
+import { somar } from './utils.js';
+```
+
+### ❌ Erro: Caminho relativo incorreto
+
+```javascript
+// ERRADO
+import { algo } from 'utils.js'; // Sem o ./
+
+// CERTO
+import { algo } from './utils.js';
+```
+
+### ❌ Erro: Múltiplos exports default
+
+```javascript
+// ERRADO - só pode UM default
+export default function a() {}
+export default function b() {} // Erro!
+
+// CERTO - um default + vários nomeados
+export default function a() {}
+export function b() {}
+```
+
+### ✅ Dica: Renomeie imports para evitar conflitos
+
+```javascript
+import { somar as adicionar } from './matematica.js';
+import { somar as juntar } from './strings.js';
+
+adicionar(2, 3); // 5
+juntar('a', 'b'); // 'ab'
+```
+
+### ✅ Dica: Use imports dinâmicos para carregar sob demanda
+
+```javascript
+// Carrega módulo apenas quando necessário
+button.addEventListener('click', async () => {
+  const modulo = await import('./pesado.js');
+  modulo.fazerAlgo();
+});
+```
+
+### ✅ Dica: Nomeie seus arquivos de forma clara
+
+```
+✅ Bons nomes:
+- calculadora.js
+- validacao-formulario.js
+- api-client.js
+
+❌ Nomes confusos:
+- utils.js (muito genérico)
+- funcoes.js (não diz nada)
+- coisas.js (evite!)
+```
+
+## Resumo rápido
+
+1. **Named exports**: `export function nome()` → `import { nome }`
+2. **Default export**: `export default function()` → `import qualquerNome`
+3. **Import tudo**: `import * as Nome`
+4. **CommonJS**: `require()` / `module.exports` (Node.js antigo)
+5. **ES Modules**: `import` / `export` (moderno, navegadores)
+6. Configure `"type": "module"` no package.json para ES Modules no Node.js
+
+Comece organizando seus projetos em arquivos pequenos e focados. Cada módulo deve fazer uma coisa bem feita. Seu eu do futuro vai agradecer! 🚀

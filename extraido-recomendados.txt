@@ -1,0 +1,755 @@
+
+### [SECTION: 03a4f7eb-825d-4496-b0ab-bb7a9822cd68]
+System.out.println();
+Solução Sugerida
+---
+Solução Sugerida
+---
+Solução Sugerida
+---
+Solução Sugerida
+---
+System.out.print();
+Solução Sugerida
+---
+Solução Sugerida
+---
+Solução Sugerida
+---
+Solução Sugerida
+---
+System.out.printf();
+Solução Sugerida
+---
+Solução Sugerida
+---
+Solução Sugerida
+---
+Solução Sugerida
+---
+
+### [SECTION: a4b6c02e-e9ac-4b06-829f-8bc171ed0b8b]
+Solução Sugerida
+---
+Solução Sugerida
+---
+Solução Sugerida
+---
+Solução Sugerida
+---
+Solução Sugerida
+---
+Solução Sugerida
+---
+Solução Sugerida
+---
+Solução Sugerida
+---
+
+### [SECTION: a8e0b590-6262-4e02-8df6-de030100396e]
+Solução Sugerida
+---
+Solução Sugerida
+---
+Solução Sugerida
+---
+Solução Sugerida
+---
+Solução Sugerida
+---
+Solução Sugerida
+---
+Solução Sugerida
+---
+Solução Sugerida
+---
+Solução Sugerida
+---
+Solução Sugerida
+---
+
+### [SECTION: 68b0269f-dcd4-4ab0-880c-a134f20f9508]
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+
+### [SECTION: 6e18ac92-de72-44eb-8bd1-7e0e57136c3e]
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+
+### [SECTION: 00271442-8279-402f-8ab4-c7561b558df3]
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+
+### [SECTION: caf0d833-0748-40fa-beb0-d92ec0a8f2f9]
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+
+### [SECTION: 5fc392ba-2729-4543-81f9-f95533bd25d8]
+Solução sugerida: 
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+
+### [SECTION: fd74a3ab-ac78-43d5-b3fc-072527fb3d10]
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+
+### [SECTION: 021e5ead-40b6-4d15-bacb-b8c4db838c5a]
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+
+### [SECTION: a227493a-23fd-4c6b-b0df-1a6fe851600c]
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+Solução sugerida:
+---
+
+### [SECTION: 80f727bf-91ed-4235-be44-7268e5fecfdf]
+Solução sugerida:
+Classe Produto
+Classe TesteProduto
+---
+Classe Funcionario
+Classe TesteFuncionario
+---
+Classe Retangulo
+Classe TesteRetangulo
+---
+Classe TesteFuncionario
+Classe TesteContaBancaria
+---
+Classe Pessoa
+Classe TestePessoa
+---
+Classe Animal
+Classe TesteAnimal
+---
+Classe SerVivo
+Classe TesteSerVivo
+---
+Classe Mamifero
+Classe TesteMamifero
+---
+Classe Ave
+Classe TesteAve
+---
+Classe Planta
+Classe TestePlanta
+---
+
+### [SECTION: df552a99-7c3b-4d08-8536-4fcc793394c7]
+Imagine um sistema para gerenciar suas tarefas do dia a dia. 
+Cada tarefa é representada pela classe Tarefa , que possui:
+
+Descrição → Uma breve descrição do que precisa ser feito 
+(ex: “Comprar leite”, “Escrever relatório”).
+Data de criação → A data em que a tarefa foi criada.
+Estado → Indica se a tarefa está pendente ou concluída.
+
+A classe Tarefa também terá métodos para:
+
+Marcar Como Concluída → Altera o estado da tarefa para “concluída”.
+Editar Descrição → Permite modificar o texto da descrição da tarefa.
+---
+Imagine um sistema para controlar as funções de um carro. 
+
+A classe Carro representa um veículo com:
+- Marca: O fabricante do carro (ex: Fiat, Volkswagen, Chevrolet).
+- Modelo: O nome específico do modelo (ex: Argo, Gol, Onix).
+- Ano: O ano de fabricação do carro.
+- Cor: A cor do carro.
+- Quilometragem: A distância total percorrida pelo carro.
+- Combustível: O tipo de combustível utilizado pelo carro (gasolina, diesel, etc.).
+A classe Carro oferece métodos para:
+- Ligar: Aciona o motor do carro.
+- Desligar: Desliga o motor do carro.
+- Acelerar: Aumenta a velocidade do carro.
+- Frear: Diminui a velocidade do carro.
+- Abastecer: Adiciona combustível ao tanque do carro.
+---
+Represente  uma Música. A classe deve ter atributos como título, artista e gênero. 
+Os métodos dessa classe serão, no mínimo, reproduzir, pausar e exibir descrição.
+---
+Crie um aplicativo para cuidar de seu animal de estimação. A classe AnimalEstimação representa um animal com:
+- Nome: O nome do animal.
+- Idade: A idade do animal em anos ou meses.
+- Espécie: O tipo de animal (ex: cachorro, gato, peixe).
+- Raça: A raça específica do animal (ex: Labrador Retriever, Siamês, Guppy).
+- Porte: O tamanho do animal (ex: pequeno, médio, grande).
+- Sexo: O sexo do animal (macho ou fêmea).
+A classe AnimalEstimação oferece métodos para:
+- Alimentar: Fornece comida ao animal.
+- Brincar: Interage com o animal para se divertir e gastar energia.
+- Levar ao veterinário: Permite agendar consultas e levar o animal para receber cuidados médicos.
+- Passear: Leva o animal para passear ao ar livre.
+- Dar banho: Limpa o animal de estimação.
+- Treinar: Ensina comandos básicos ao animal.
+- Verificar felicidade: Monitora o bem-estar do animal e identifica sinais de estresse ou tristeza.
+---
+Implemente um sistema de gerenciamento para uma biblioteca. A classe Biblioteca representa o catálogo de livros, com informações sobre cada livro como:
+- Nome do livro: O título do livro.
+- Autor: O(s) autor(es) do livro.
+- Gênero: A categoria literária do livro (ex: romance, fantasia, suspense).
+- Editora: A empresa responsável pela publicação do livro.
+- Ano de publicação: O ano em que o livro foi lançado.
+- Disponibilidade: Indica se o livro está emprestado, disponível para empréstimo ou reservado.
+A classe Biblioteca oferece métodos para:
+- Empréstimo: Registra o empréstimo de um livro a um usuário.
+- Devolução: Registra a devolução de um livro pelo usuário.
+- Pesquisa por título/autor/gênero: Permite buscar livros no catálogo por diferentes critérios.
+- Reservar livro: Permite que um usuário reserve um livro emprestado por outro.
+- Renovar empréstimo: Permite estender o prazo de empréstimo de um livro, se disponível.
+- Multar por atraso: Calcula e registra multas por atraso na devolução de livros.
+---
+Desenvolva uma simulação de uma caneta para uso em um software de anotações. A classe Caneta representa uma caneta com:
+- Cor da tinta: A cor da tinta utilizada pela caneta (ex: azul, preta, vermelha).
+- Tamanho da ponta: A espessura da ponta da caneta (ex: fina, média, grossa).
+- Marca: O fabricante da caneta.
+- Nível de tinta: Indica a quantidade de tinta restante na caneta.
+A classe Caneta oferece métodos para:
+- Escrever: Simula a escrita com a caneta na interface do software.
+- Trocar cor da tinta: Permite selecionar uma cor de tinta diferente.
+- Verificar nível de tinta: Exibe o nível de tinta restante na caneta.
+---
+Implemente um sistema para controlar um veículo autônomo. A classe VeículoAutonomo representa um carro capaz de se locomover sem intervenção humana, com informações como:
+- Modelo: O nome do modelo do veículo autônomo.
+- Velocidade atual: A velocidade em que o veículo está se movendo no momento.
+- Destino: O local para onde o veículo deve se dirigir.
+A classe VeículoAutonomo oferece métodos para:
+- Definir destino: Informa o local para onde o veículo deve se dirigir.
+- Iniciar viagem: Aciona o sistema de direção autônoma e começa a viagem em direção ao destino.
+- Parar veículo: Interrompe a viagem e estaciona o veículo com segurança.
+---
+Implemente um sistema para trabalhar com formas geométricas. A classe FiguraGeometrica representa uma forma geométrica abstrata, com informações como:
+- Tipo de figura: Indica o tipo da forma geométrica (ex: triângulo, círculo, retângulo).
+- Dimensões: As medidas necessárias para definir a forma (ex: base, altura, raio).
+A classe FiguraGeometrica oferece métodos para:
+- Calcular área: Calcula a área da figura geométrica.
+- Calcular perímetro: Calcula o perímetro da figura geométrica.
+- Desenhar a figura: Exibe a figura geométrica na tela.
+---
+Simule um caixa eletrônico para realizar operações bancárias. A classe CaixaEletronico representa um terminal que permite aos usuários:
+- Sacar dinheiro;
+- Depositar dinheiro;
+- Verificar saldo disponível;
+- Pagar contas.
+---
+Neste exercício, você irá simular um caixa de supermercado para registrar compras. A classe CaixaSupermercado representa o terminal onde os produtos são registrados e o pagamento é realizado. Essa classe inclui informações como número da compra, lista de itens comprados e total da compra.
+
+Atributos
+- numeroCompra: Um identificador único para cada compra.
+- itensComprados: Uma lista contendo todos os produtos comprados, incluindo quantidade e preço.
+- totalCompra: O valor total da compra.
+
+Métodos
+- adicionarItemCompra(Produto item): Adiciona um produto à lista de itens comprados.
+- removerItemCompra(Produto item): Remove um produto da lista de itens comprados.
+- calcularTotalCompra(): Calcula o valor total de todos os itens comprados para determinar o total da compra.
+- imprimirReciboCompra(): Gera um recibo detalhando os itens comprados, seus preços individuais e o total da compra.
+- fecharCompra(): Finaliza a compra e registra o pagamento.
+- aceitarPagamento(String metodoPagamento): Permite realizar o pagamento da compra por diferentes métodos, como dinheiro, cartão ou pix.
+Instruções:
+Implemente a classe CaixaSupermercado com os atributos e métodos descritos acima. Certifique-se de que os métodos realizem suas respectivas operações de forma correta e eficiente.
+---
+
+### [SECTION: 1c68bdd2-74b2-43c9-a29a-c9c5a91a2854]
+
+### [SECTION: f9af3f79-a65b-429d-9a47-08e0393a0286]
+
+### [SECTION: 6b4c9940-ab4e-4398-ada3-df85370a0878]
+## Classe Abstrata Conta
+Crie uma classe abstrata Conta que servirá como base para os diferentes tipos de conta.
+### Atributos
+- Número da Conta
+- Nome do Titular
+- Saldo Disponível
+### Métodos
+- exibirDados(): Exibe as informações da conta.
+- depositar(double valor): Adiciona um valor ao saldo da conta.
+- getSaldo(): Retorna o saldo atual da conta.
+- alterarSaldo(double valor): Método protegido para alterar o saldo (não pode ser alterado diretamente).
+- getters e setters para os atributos necessários.
+## Interface Tarifavel
+Crie uma interface chamada Tarifavel para representar contas que podem sofrer cobranças bancárias.
+### Métodos
+- void aplicarTarifaMensal(double valor): Aplica uma tarifa mensal à conta.
+- void cobrarTaxa(double valor): Aplica uma cobrança única à conta.
+## Classes Concretas
+### 🔹 ContaCorrente (Herda de Conta e Implementa Tarifavel)
+A classe ContaCorrente representa contas que permitem saques e movimentações.
+### Requisitos:
+✅ Deve herdar todos os métodos e atributos da classe Conta.
+✅ Implementa a interface Tarifavel, permitindo a aplicação de tarifas e taxas.
+✅ Deve possuir um método sacar(double valor), que além do valor sacado, aplica uma taxa fixa por saque.
+✅ Deve possuir um método aplicar(double valor), que transfere valores para a ContaPoupanca.
+### 🔹 ContaPoupanca (Herda de Conta)
+A classe ContaPoupanca representa contas destinadas à economia, sem saques diretos.
+### Requisitos:
+✅ Deve herdar todos os métodos e atributos da classe Conta.
+✅ Não permite depósitos e saques diretamente. O dinheiro só pode ser movimentado para ou a partir de uma ContaCorrente, utilizando os métodos:
+- resgatar(double valor): Transfere dinheiro da poupança para a conta corrente.
+- aplicar(double valor): Método da conta corrente para transferir dinheiro para a poupança.
+## Classe Principal (Método main)
+Crie uma classe Principal que será o ponto de entrada do sistema.
+### Funcionalidades:
+1️⃣ Cadastro de Conta
+- O sistema deverá solicitar o nome do titular e gerar um número aleatório para a conta.
+- O usuário poderá escolher entre abrir uma Conta Corrente ou Conta Poupança.
+
+2️⃣ Depósito Inicial Opcional
+- O cliente poderá iniciar com saldo R$ 0,00 ou definir um valor inicial para depósito.
+
+3️⃣ Operações Bancárias
+- O usuário poderá escolher entre:
+✅ Sacar (aplicando taxa fixa, se for Conta Corrente)
+✅ Depositar
+✅ Aplicar dinheiro na Conta Poupança
+✅ Resgatar dinheiro da Conta Poupança para Conta Corrente
+✅ Visualizar saldo e detalhes da conta
+## Observação: Uso Opcional de enum
+Para melhorar a organização do código, você pode utilizar enums, mas isso é opcional. Algumas sugestões:
+### 🔹 Enum TaxaBancaria
+- Para armazenar valores fixos, como taxa de saque e tarifa mensal padrão.
+### 🔹 Enum TipoConta
+- Para diferenciar entre Conta Corrente e Conta Poupança.
+### 🔹 Enum MensagemOperacao
+- Para centralizar mensagens como "Saque realizado com sucesso" ou "Saldo insuficiente".
+O uso de enum pode facilitar a manutenção do código, evitando valores "mágicos".
+REGRAS:
+1. O atributo saldo não deverá ser alterado diretamente. Será preciso criar um método para sua manipulação.
+2. A primeira ação que deverá ser feita é o cadastro de uma conta. 
+Implemente uma lógica para a criação da Conta. 
+Solicite ao cliente o nome do titular e crie um número aleatório para a conta.
+3. No momento do cadastro, deverá ser perguntado ao cliente se deseja fazer um depósito inicial. 
+As contas poderão ser criadas com saldo R$ 0.00 ou com o valor de depósito inicial.
+4. A Conta-Poupança não aceitará saques e depósitos diretamente. Para que seja possível depositar ou sacar da Conta-Poupança, implemente uma lógica utilizando os métodos para resgate e aplicação, respectivamente.
+---
+Você foi contratado para desenvolver um sistema de gestão de imóveis para uma nova imobiliária. A imobiliária oferece diversos tipos de construções, como casas, prédios e lojas, e deseja uma estrutura flexível para adicionar outros tipos de construções ao catálogo.
+Especificações
+Interface Construcao:
+→ Crie uma interface Construcao com os seguintes métodos:
+- double calcularArea(): Calcula a área da construção.
+- String getDescricao(): Retorna uma descrição genérica da construção.
+Classe Abstrata Imovel:
+→ Crie uma classe abstrata Imovel que implementa a interface Construcao. Esta classe contém:
+- Atributos endereco e preco.
+double calcularArea(): Método abstrato para calcular a área da construção.
+String getDescricao(): Método abstrato para obter uma descrição genérica da construção.
+Três Tipos de Construção (Subclasses de Imovel):
+→ Crie três classes concretas que herdam da classe Imovel: Casa, Predio e Loja.
+- Implemente os métodos abstratos calcularArea e getDescricao de acordo com as especificidades de cada tipo de construção.
+Classe Imobiliaria
+→ Crie uma classe chamada Imobiliaria que fará a gestão do catálogo de construções.
+- Utilize uma ArrayList para armazenar as construções adicionadas.
+- Implemente os seguintes métodos:
+- void adicionarConstrucao(Construcao construcao): Adiciona uma construção ao catálogo.
+- void removerConstrucao(Construcao construcao): Remove uma construção do catálogo.
+- void listarConstrucoes(): Lista as construções no catálogo.
+- double informarArea(): Informa a área total das construções no catálogo.
+---
+Classe Menu
+→ Crie uma classe Menu que interage com o sistema da imobiliária.
+- Implemente um menu interativo com opções para adicionar, remover, listar construções e informar a área total.
+- Utilize a classe Scanner para receber entradas do usuário.
+Classe Principal para Testar o Sistema
+→ Crie uma classe principal com o método main para testar o sistema da imobiliária.
+→ Crie um objeto do tipo Imobiliaria, adicione diferentes construções ao catálogo, liste as construções disponíveis e informe a área total das construções no catálogo.
+---
+Você foi contratado para desenvolver o sistema de cardápio e preparação de pratos para um novo restaurante. O restaurante oferecerá algumas opções de pratos para os clientes escolherem, e é desejável criar uma estrutura flexível para adicionar novos pratos ao cardápio.
+Especificações
+Classe Abstrata Prato
+→ Crie uma classe abstrata Prato que representa os pratos do cardápio do restaurante. Esta classe deve conter pelo menos os seguintes atributos e métodos:
+- Atributo nome.
+- Atributo preco.
+- Método construtor.
+- Método preparar (obrigatório pela implementação).
+3 Pratos Diferentes (Subclasses de Prato)
+→ Crie três classes concretas que herdam da classe Prato, representando diferentes tipos de pratos do cardápio do restaurante. As classes concretas devem implementar o método preparar de acordo com suas especificidades.
+Classe Restaurante
+→ Crie uma classe chamada Restaurante que gerenciará o cardápio e a preparação dos pratos. Esta classe deve possuir uma ArrayList para armazenar os pratos adicionados ao cardápio e implementar os seguintes métodos:
+- void adicionarPrato(Prato prato): Adiciona um prato ao cardápio.
+- void removerPrato(Prato prato): Remove um prato do cardápio.
+- void listarPratos(): Lista os pratos do cardápio.
+- void prepararPratos(): Prepara todos os pratos do cardápio.
+Classe Menu
+→ Crie uma classe Menu que interage com o sistema do restaurante.
+- Implemente um menu interativo com opções para adicionar, remover, listar pratos e preparar os pratos do cardápio.
+- Utilize a classe Scanner para receber entradas do usuário.
+Classe Principal (Main):
+→ Crie uma classe principal (com o método main) para testar o sistema do restaurante.
+→ Crie um objeto do tipo Restaurante, adicione diferentes pratos ao cardápio, liste os pratos disponíveis e prepare todos os pratos do cardápio.
+---
+Para este projeto, seu objetivo é criar um sistema financeiro simples que permita aos usuários registrar suas receitas e despesas, exibir um extrato das transações realizadas, calcular o saldo atual e a média de despesas.
+> Requisitos
+> Observações
+Observações:
+- Utilize a classe Scanner para capturar a entrada do usuário.
+- Certifique-se de tratar as entradas do usuário de forma adequada para evitar erros e exceções.
+- Crie métodos adicionais nas classes conforme necessário para manter o código organizado e modularizado.
+- Faça uso de boas práticas de programação, como encapsulamento, coesão e baixo acoplamento.
+- Teste o sistema com diferentes cenários para garantir seu funcionamento correto.
+> Dica
+Você pode começar implementando uma parte do sistema de cada vez, testando e validando seu funcionamento antes de avançar para a próxima etapa. Isso ajudará a identificar e corrigir problemas mais facilmente.
+---
+---
+Você foi contratado para desenvolver um sistema para uma loja de veículos. Você precisará aplicar os conceitos de Programação Orientada a Objetos para criar uma interface de usuário com operações de consulta e manutenção no cadastro de veículos, vendedores, clientes e vendas.
+> Menu Principal → Interação com Usuário
+Você deve criar um menu que permita ao usuário efetuar as seguintes operações:
+- Opção 1: Frente de Loja.
+- Opção 2: Administração de Cadastro.
+- Opção 3: Sair.
+> Menu Frente de Loja
+A frente de loja tem o objetivo de focar nas consultas e pequenas manutenções no cadastro.
+As opções disponíveis são:
+> 
+- Opção 1: Gerenciar Veículo
+---
+---
+> 
+- Opção 2: Gerenciar Loja
+---
+---
+> 
+- Opção 3: Gerenciar Vendedor
+---
+---
+> 
+- Opção 4: Gerenciar Cliente
+---
+---
+> 
+- Opção 5: Gerenciar Venda
+---
+---
+> 
+- Opção 6: Voltar para o menu superior.
+---
+> Administração de Cadastro
+A administração de cadastro permite alterar os dados salvos no banco de dados da aplicação. As opções disponíveis são:
+> 
+- Opção 1: Gerenciar Veículo
+---
+---
+> 
+- Opção 2: Gerenciar Loja
+---
+---
+> 
+- Opção 3: Gerenciar Vendedor
+---
+---
+> 
+- Opção 4: Gerenciar Cliente
+---
+---
+> 
+- Opção 5: Gerenciar Venda
+---
+---
+> 
+- Opção 6: Voltar para o menu anterior.
+---
+> Simulação de Loja de Veículos
+Além da interface com o usuário, você precisará criar classes para representar 
+os elementos do projeto:
+veículos, loja, vendedores, clientes e vendas. 
+Utilize os conceitos de POO para criar uma estrutura modular e reutilizável.
+> Observações:
+---
+---
+---
+---
+---
+---
+Você foi contratado para desenvolver um sistema para uma loja de veículos. Você precisará aplicar os conceitos de Programação Orientada a Objetos para criar uma interface de usuário com operações de consulta e manutenção no cadastro de veículos, vendedores, clientes e vendas.
+### Será necessário criar pelo menos quatro menus interativos.
+### Regras de Negócio → Menus
+### Regras de Negócio - Menu Principal
+As opções disponíveis no Menu Principal devem ser:
+### Regras de Negócio - Submenu Frente de Loja
+### Regras de Negócio - Submenu Manutenção de Cadastro
+### Regras de Negócio - Submenu Registros
+---
+> 
+> 
+> 
+> 
+---
+---
+### Classes de modelagem → Veículo, Vendedor, Cliente e Venda.
+### Veículo
+A classe Veículo deve conter pelo menos os quatro atributos:
+- Marca
+- Modelo
+- Placa
+- Preço
+---
+### Vendedor
+A classe Vendedor deve conter pelo menos os dois atributos:
+- Nome
+- CPF
+---
+### Cliente
+A classe Cliente deve conter pelo menos os dois atributos:
+- Nome
+- CPF
+---
+### Venda
+A classe Venda deve conter pelo menos os quatro atributos:
+- Veículo vendido
+- Vendedor responsável
+- Cliente comprador
+- Data da Venda
+---
+### Regras de Negócio → Observações
+Todos os dados inseridos no sistema devem passar por uma validação rigorosa. 
+Por exemplo, o CPF deve conter exatamente 11 dígitos numéricos.
+---
+O CPF deve ser único, não podendo existir duas pessoas cadastradas 
+com o mesmo número de CPF no sistema.
+---
+Cada veículo deve possuir uma placa exclusiva, de modo que não seja permitido 
+o cadastro de dois veículos com a mesma placa.
+---
+Toda operação realizada no sistema deve retornar uma mensagem clara indicando 
+o sucesso ou falha da operação, garantindo um feedback imediato para o usuário.
+---
+Um veículo só pode ser vendido uma vez. O sistema deve verificar se o veículo 
+já foi vendido antes de permitir a conclusão de uma nova venda.
+---
+Antes de concluir uma venda, todas as informações referentes à venda (como veículo, cliente e vendedor) devem ser verificadas para garantir que são válidas e consistentes.
+---
+O sistema deve incluir pelo menos uma classe responsável por armazenar os dados inseridos, como uma classe de listas em memória.
+---
+As classes devem ser organizadas de forma estruturada, seguindo o padrão Model-View-Controller (MVC). Isso permitirá uma separação clara entre a lógica de negócios, a interface com o usuário e o controle das operações.
+---
+> 
+No contexto desse projeto, o padrão MVC será usado para dividir as classes criadas em pacotes com os nomes “model”, “view” e “controller”. Cada classe será armazenada em um desses pacotes de acordo com a sua função. Por exemplo, uma classe de modelagem será criada dentro do pacote “model”. A classe de execução do projeto, ou seja, a classe “main” será criada dentro do pacote “view”.
+---
+---
+---
+---
+---
+---
+---
+---
+### Enunciado do Projeto: Sistema de Vendas de Livraria
+### Contexto
+Você foi contratado para desenvolver um sistema para uma livraria que precisa gerenciar vendas de produtos de uma livraria. O sistema deve permitir que clientes comprem produtos e que vendedores registrem essas transações. 
+### Objetivo
+Desenvolver um sistema de vendas simples para uma livraria. O sistema permitirá gerenciar produtos, vendedores, clientes e vendas, utilizando menus interativos.
+> Menu Principal
+Ao iniciar a aplicação, o sistema deve apresentar o seguinte menu principal:
+O menu de Manutenção de Cadastro deve permitir:
+---
+O menu de Consultas deve permitir:
+---
+Quando o usuário escolher a opção Iniciar Venda, o sistema deve apresentar as seguintes opções:
+---
+> Requisitos
+Cadastro:
+- Os cadastros de produtos, clientes e vendedores devem permitir inclusão, atualização e exclusão.
+- Cada produto deve pertencer a uma categoria.
+- O CPF dos clientes e vendedores deve ser único e validado.
+Venda:
+- Deve permitir adicionar e remover produtos, associar cliente e vendedor, calcular o total e concluir a venda.
+- Deve ser possível listar todas as vendas realizadas.
+- O sistema deve calcular automaticamente o total da venda com base nos preços dos produtos.
+> Classes
+O sistema deve incluir pelo menos as seguintes classes:
+- nome (String): Nome do produto.
+- preco (double): Preço do produto.
+- categoria (Categoria): Categoria à qual o produto pertence.
+---
+- nome (String): Nome do cliente.
+- cpf (String): CPF do cliente (único e validado).
+- endereco (String): Endereço do cliente.
+---
+- nome (String): Nome do vendedor.
+- cpf (String): CPF do vendedor (único e validado).
+---
+- cliente (Cliente): Cliente associado à venda.
+- vendedor (Vendedor): Vendedor associado à venda.
+- produtos (List<Produto>): Lista de produtos da venda.
+- data (LocalDate): Data da venda.
+- total (double): Valor total da venda.
+---
+- nome (String): Nome da categoria.
+- produtos (List<Produto>): Lista de produtos da categoria.
+> Observações:
+> Organização do Código
+- Model: Classes Livro, Categoria, Autor, Usuário e Endereço.
+- Controller: Gerenciamento da lógica do menu e regras de negócio.
+- View: Interação com o usuário.
+---
+---

@@ -1,0 +1,395 @@
+---
+titulo: "For Loop"
+slug: "for-loops"
+ordem: 10
+---
+
+# 🔄 For Loop em JavaScript - Guia Completo para Iniciantes
+
+E aí, dev! Vamos mergulhar no mundo dos loops em JavaScript? O **for loop** é uma das ferramentas mais poderosas que você vai aprender. Pense nele como um robô que repete uma tarefa pra você quantas vezes precisar. Bora aprender? 🚀
+
+## O Que é um Loop For?
+
+Um loop `for` permite executar um bloco de código várias vezes. É como dizer: "Ei, faça isso 5 vezes para mim!"
+
+## 1. For Clássico (O Padrão)
+
+A estrutura básica do for tem três partes:
+
+```javascript
+for (inicialização; condição; incremento) {
+  // código a ser repetido
+}
+```
+
+### Exemplo Prático - Contando de 1 a 5
+
+```javascript
+for (let i = 1; i <= 5; i++) {
+  console.log("Número: " + i);
+}
+// Saída:
+// Número: 1
+// Número: 2
+// Número: 3
+// Número: 4
+// Número: 5
+```
+
+**Explicação passo a passo:**
+1. `let i = 1` → Começa com i valendo 1
+2. `i <= 5` → Enquanto i for menor ou igual a 5, continua
+3. `i++` → Depois de cada repetição, aumenta i em 1
+
+### Exemplo Real - Somando Números
+
+```javascript
+let soma = 0;
+
+for (let i = 1; i <= 10; i++) {
+  soma += i;  // mesma coisa que: soma = soma + i
+}
+
+console.log("Soma de 1 a 10:", soma); // 55
+```
+
+### Percorrendo um Array com For Clássico
+
+```javascript
+const frutas = ["maçã", "banana", "laranja", "uva"];
+
+for (let i = 0; i < frutas.length; i++) {
+  console.log(`Fruta ${i + 1}: ${frutas[i]}`);
+}
+// Fruta 1: maçã
+// Fruta 2: banana
+// Fruta 3: laranja
+// Fruta 4: uva
+```
+
+## 2. For...of - O Melhor Amigo dos Arrays
+
+O `for...of` foi criado para facilitar a vida quando trabalhamos com arrays e outros iteráveis.
+
+```javascript
+const cores = ["vermelho", "azul", "verde"];
+
+for (const cor of cores) {
+  console.log(`Cor: ${cor}`);
+}
+// Cor: vermelho
+// Cor: azul
+// Cor: verde
+```
+
+### Vantagens do For...of
+- Código mais limpo
+- Não precisa se preocupar com índices
+- Menos chance de erros
+
+### Exemplo Prático - Calculando Média
+
+```javascript
+const notas = [7.5, 8.0, 6.5, 9.0];
+let somaNotas = 0;
+
+for (const nota of notas) {
+  somaNotas += nota;
+}
+
+const media = somaNotas / notas.length;
+console.log(`Média: ${media.toFixed(1)}`); // Média: 7.8
+```
+
+## 3. For...in - Explorando Objetos
+
+O `for...in` é perfeito para percorrer propriedades de objetos.
+
+```javascript
+const pessoa = {
+  nome: "João",
+  idade: 25,
+  cidade: "São Paulo"
+};
+
+for (const propriedade in pessoa) {
+  console.log(`${propriedade}: ${pessoa[propriedade]}`);
+}
+// nome: João
+// idade: 25
+// cidade: São Paulo
+```
+
+### ⚠️ Cuidado! For...in em Arrays
+
+```javascript
+const numeros = [10, 20, 30];
+
+for (const indice in numeros) {
+  console.log(indice); // "0", "1", "2" (strings!)
+}
+```
+
+**Dica:** Use `for...of` para arrays e `for...in` para objetos!
+
+## 4. Break - Parando o Loop
+
+O `break` interrompe o loop imediatamente.
+
+```javascript
+// Encontrar o primeiro número par maior que 3
+for (let i = 1; i <= 10; i++) {
+  if (i > 3 && i % 2 === 0) {
+    console.log(`Encontrei: ${i}`);
+    break; // Para o loop aqui
+  }
+  console.log(`Testando: ${i}`);
+}
+// Testando: 1
+// Testando: 2
+// Testando: 3
+// Encontrei: 4
+```
+
+### Exemplo Real - Busca em Array
+
+```javascript
+const alunos = ["Ana", "Carlos", "Maria", "Pedro"];
+const procurando = "Maria";
+let encontrado = false;
+
+for (const aluno of alunos) {
+  if (aluno === procurando) {
+    encontrado = true;
+    console.log(`${procurando} encontrado(a)!`);
+    break;
+  }
+}
+
+if (!encontrado) {
+  console.log(`${procurando} não está na lista.`);
+}
+```
+
+## 5. Continue - Pulando Iterações
+
+O `continue` pula para a próxima iteração do loop.
+
+```javascript
+// Mostrar apenas números ímpares
+for (let i = 1; i <= 10; i++) {
+  if (i % 2 === 0) {
+    continue; // Pula números pares
+  }
+  console.log(`Ímpar: ${i}`);
+}
+// Ímpar: 1
+// Ímpar: 3
+// Ímpar: 5
+// Ímpar: 7
+// Ímpar: 9
+```
+
+### Exemplo Prático - Filtrando Dados
+
+```javascript
+const transacoes = [150, -50, 200, -30, 100, -80];
+let saldo = 0;
+
+for (const valor of transacoes) {
+  if (valor < 0) {
+    console.log(`Ignorando saque de R$${Math.abs(valor)}`);
+    continue;
+  }
+  saldo += valor;
+  console.log(`Depósito de R$${valor}. Saldo: R$${saldo}`);
+}
+```
+
+## 6. Loops Aninhados - Loop Dentro de Loop
+
+Às vezes precisamos de um loop dentro de outro.
+
+```javascript
+// Tabela de multiplicação simples
+for (let i = 1; i <= 3; i++) {
+  for (let j = 1; j <= 3; j++) {
+    console.log(`${i} x ${j} = ${i * j}`);
+  }
+  console.log("---"); // Separador
+}
+// 1 x 1 = 1
+// 1 x 2 = 2
+// 1 x 3 = 3
+// ---
+// 2 x 1 = 2
+// 2 x 2 = 4
+// 2 x 3 = 6
+// ---
+// 3 x 1 = 3
+// 3 x 2 = 6
+// 3 x 3 = 9
+```
+
+### Exemplo Real - Matriz 2D
+
+```javascript
+const matriz = [
+  [1, 2, 3],
+  [4, 5, 6],
+  [7, 8, 9]
+];
+
+console.log("Elementos da matriz:");
+for (let linha = 0; linha < matriz.length; linha++) {
+  for (let coluna = 0; coluna < matriz[linha].length; coluna++) {
+    console.log(`[${linha}][${coluna}] = ${matriz[linha][coluna]}`);
+  }
+}
+```
+
+## 🎯 Exemplos Práticos do Dia a Dia
+
+### 1. Gerador de Tabuada
+
+```javascript
+function gerarTabuada(numero) {
+  console.log(`=== Tabuada do ${numero} ===`);
+  for (let i = 1; i <= 10; i++) {
+    console.log(`${numero} x ${i} = ${numero * i}`);
+  }
+}
+
+gerarTabuada(7);
+```
+
+### 2. Validação de Senha
+
+```javascript
+function validarSenha(senha) {
+  let temNumero = false;
+  let temMaiuscula = false;
+  
+  for (const caractere of senha) {
+    if (caractere >= '0' && caractere <= '9') {
+      temNumero = true;
+    }
+    if (caractere >= 'A' && caractere <= 'Z') {
+      temMaiuscula = true;
+    }
+  }
+  
+  if (!temNumero) {
+    console.log("Senha deve conter pelo menos um número");
+  }
+  if (!temMaiuscula) {
+    console.log("Senha deve conter pelo menos uma letra maiúscula");
+  }
+  if (temNumero && temMaiuscula) {
+    console.log("Senha válida!");
+  }
+}
+
+validarSenha("MinhaSenha123");
+```
+
+### 3. Lista de Compras
+
+```javascript
+const listaCompras = [
+  { item: "Arroz", quantidade: 2, comprado: false },
+  { item: "Feijão", quantidade: 1, comprado: true },
+  { item: "Macarrão", quantidade: 3, comprado: false }
+];
+
+console.log("=== LISTA DE COMPRAS ===");
+for (const produto of listaCompras) {
+  const status = produto.comprado ? "✅" : "⬜";
+  console.log(`${status} ${produto.item} (${produto.quantidade} un)`);
+}
+```
+
+## ⚠️ Erros Comuns e Como Evitá-los
+
+### Erro 1: Loop Infinito
+
+```javascript
+// ERRADO - nunca vai parar!
+for (let i = 0; i < 10; i--) { // i-- ao invés de i++
+  console.log(i);
+}
+
+// CERTO
+for (let i = 0; i < 10; i++) {
+  console.log(i);
+}
+```
+
+### Erro 2: Confundir = com ===
+
+```javascript
+// ERRADO - vai rodar pra sempre!
+for (let i = 0; i = 5; i++) { // = é atribuição, não comparação
+  console.log(i);
+}
+
+// CERTO
+for (let i = 0; i < 5; i++) {
+  console.log(i);
+}
+```
+
+### Erro 3: Esquecer as Chaves {}
+
+```javascript
+// ERRADO - só a primeira linha será repetida
+for (let i = 0; i < 3; i++)
+  console.log("Repetido");
+  console.log("Só executa uma vez"); // Fora do loop!
+
+// CERTO
+for (let i = 0; i < 3; i++) {
+  console.log("Repetido");
+  console.log("Também repetido");
+}
+```
+
+## 💡 Dicas Finais
+
+1. **Escolha o loop certo:**
+   - `for` clássico: quando precisa do índice
+   - `for...of`: arrays e iteráveis
+   - `for...in`: objetos
+
+2. **Use nomes descritivos:**
+   ```javascript
+   // Ruim
+   for (let x = 0; x < 10; x++) {}
+   
+   // Bom
+   for (let contador = 0; contador < 10; contador++) {}
+   ```
+
+3. **Mantenha loops simples:** Se seu loop está muito complexo, talvez precise de uma função auxiliar
+
+4. **Teste com valores pequenos primeiro:** Antes de rodar com dados reais
+
+## 🎮 Desafio para Praticar
+
+Crie um programa que:
+1. Tenha um array de números
+2. Use um loop para encontrar o maior número
+3. Use outro loop para calcular a média
+4. Mostre os resultados
+
+```javascript
+// Sua solução aqui!
+const numeros = [12, 45, 67, 23, 89, 34, 56];
+
+// Dica: comece com uma variável para o maior número
+// e vá comparando com cada elemento do array
+```
+
+Lembre-se: a melhor forma de aprender é praticando! Crie seus próprios exemplos, quebre eles de propósito para ver o que acontece, e não tenha medo de errar. Todo desenvolvedor já criou um loop infinito na vida! 😄
+
+Bons estudos e boas codificações! 🚀

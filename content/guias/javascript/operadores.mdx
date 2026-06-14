@@ -1,0 +1,337 @@
+---
+titulo: "Operadores"
+slug: "operadores"
+ordem: 7
+---
+
+# Operadores em JavaScript: Guia Completo para Iniciantes
+
+Os operadores são como ferramentas que usamos para fazer coisas com valores e variáveis. Pense neles como os sinais matemáticos que você aprendeu na escola, mas com alguns superpoderes extras!
+
+## Operadores Aritméticos
+
+São os que fazem contas básicas. Vamos ver cada um:
+
+```javascript
+let a = 10;
+let b = 3;
+
+// Soma (+)
+console.log(a + b); // 13
+
+// Subtração (-)
+console.log(a - b); // 7
+
+// Multiplicação (*)
+console.log(a * b); // 30
+
+// Divisão (/)
+console.log(a / b); // 3.3333...
+
+// Módulo (%) - resto da divisão
+console.log(a % b); // 1 (porque 10 dividido por 3 sobra 1)
+
+// Exponenciação (**) - potência
+console.log(a ** b); // 1000 (10 elevado a 3)
+```
+
+**Dica importante:** O operador `%` é muito útil para saber se um número é par ou ímpar:
+```javascript
+let numero = 7;
+if (numero % 2 === 0) {
+    console.log("É par!");
+} else {
+    console.log("É ímpar!");
+}
+```
+
+## Operadores de Incremento e Decremento
+
+São atalhos para aumentar ou diminuir valores em 1:
+
+```javascript
+let contador = 0;
+
+// Incremento (++)
+contador++; // agora contador vale 1
+contador++; // agora contador vale 2
+
+// Decremento (--)
+contador--; // agora contador vale 1
+contador--; // agora contador vale 0
+
+console.log(contador); // 0
+```
+
+**Cuidado com a posição!** Existe diferença entre `++variavel` e `variavel++`:
+
+```javascript
+let x = 5;
+
+// Pré-incremento: primeiro incrementa, depois usa
+console.log(++x); // 6 (x virou 6, e mostrou 6)
+
+let y = 5;
+
+// Pós-incremento: primeiro usa, depois incrementa
+console.log(y++); // 5 (mostrou 5, depois y virou 6)
+console.log(y);   // 6 (agora mostra o valor atualizado)
+```
+
+## Operadores de Comparação
+
+Usamos para comparar valores e obter `true` (verdadeiro) ou `false` (falso):
+
+```javascript
+let idade = 18;
+
+// Maior que (>)
+console.log(idade > 18); // false
+
+// Menor que (<)
+console.log(idade < 18); // false
+
+// Maior ou igual (>=)
+console.log(idade >= 18); // true
+
+// Menor ou igual (<=)
+console.log(idade <= 18); // true
+```
+
+## A DIFERENÇA CRUCIAL: == vs ===
+
+Essa é uma das maiores pegadinhas do JavaScript para iniciantes!
+
+### == (Comparação solta)
+Compara só o **valor**, ignorando o tipo:
+
+```javascript
+console.log(5 == "5");  // true! (porque o valor é igual)
+console.log(0 == false); // true! (porque 0 é considerado falso)
+console.log("" == false); // true! (string vazia é considerada falsa)
+```
+
+### === (Comparação estrita)
+Compara o **valor E o tipo**:
+
+```javascript
+console.log(5 === "5");  // false! (número vs string)
+console.log(0 === false); // false! (número vs booleano)
+console.log("" === false); // false! (string vs booleano)
+```
+
+**Regra de ouro:** SEMPRE use `===` e `!==` a menos que você tenha um motivo muito específico para usar `==` ou `!=`.
+
+```javascript
+let numero = "10";
+let numeroReal = 10;
+
+// Problema que pode acontecer com ==
+if (numero == numeroReal) {
+    console.log("São iguais... mas cuidado!");
+}
+
+// Mais seguro com ===
+if (numero === numeroReal) {
+    console.log("Isso só roda se forem exatamente iguais!");
+} else {
+    console.log("São diferentes: um é string, outro é número");
+}
+```
+
+## Operadores Lógicos
+
+Combinam condições para criar lógicas mais complexas:
+
+### AND (&&) - "E"
+Todas as condições precisam ser verdadeiras:
+
+```javascript
+let idade = 20;
+let temCarteira = true;
+
+// Pode dirigir? Precisa ter 18+ E ter carteira
+if (idade >= 18 && temCarteira) {
+    console.log("Pode dirigir!");
+}
+
+let temCarro = false;
+
+// Só dirige se tiver carro também
+if (idade >= 18 && temCarteira && temCarro) {
+    console.log("Vai dirigir hoje!");
+} else {
+    console.log("Melhor pegar ônibus...");
+}
+```
+
+### OR (||) - "OU"
+Pelo menos uma condição precisa ser verdadeira:
+
+```javascript
+let temDinheiro = false;
+let temCartao = true;
+
+// Pode comprar? Se tiver dinheiro OU cartão
+if (temDinheiro || temCartao) {
+    console.log("Pode comprar!");
+}
+
+let estaChovendo = true;
+let estaFrio = false;
+
+// Vai ao parque? Se não estiver chovendo OU estiver frio
+if (!estaChovendo || estaFrio) {
+    console.log("Vamos ao parque!");
+} else {
+    console.log("Melhor ficar em casa...");
+}
+```
+
+### NOT (!) - "NÃO"
+Inverte o valor (vira o oposto):
+
+```javascript
+let estaLogado = false;
+
+// Se NÃO estiver logado
+if (!estaLogado) {
+    console.log("Faça login primeiro!");
+}
+
+let numero = 0;
+console.log(!numero); // true (porque 0 é considerado falso)
+
+let nome = "";
+console.log(!nome); // true (string vazia é considerada falsa)
+```
+
+## Operadores de Atribuição
+
+Usamos para dar valores às variáveis:
+
+```javascript
+let x = 10;
+
+// Atribuição simples (=)
+x = 5; // x agora vale 5
+
+// Atalhos para operações
+x += 3;  // equivalente a: x = x + 3 (x vira 8)
+x -= 2;  // equivalente a: x = x - 2 (x vira 6)
+x *= 4;  // equivalente a: x = x * 4 (x vira 24)
+x /= 6;  // equivalente a: x = x / 6 (x vira 4)
+
+console.log(x); // 4
+```
+
+**Exemplo prático de uso:**
+```javascript
+let pontos = 0;
+
+// Jogador ganhou 100 pontos
+pontos += 100;
+
+// Perdeu 30 pontos
+pontos -= 30;
+
+// Bônus de 2x
+pontos *= 2;
+
+console.log(`Pontuação final: ${pontos}`); // 140
+```
+
+## Operador Ternário
+
+É uma forma compacta de fazer um if/else. A estrutura é:
+`condição ? valorSeVerdadeiro : valorSeFalso`
+
+```javascript
+let idade = 20;
+
+// Versão com if/else
+let podeBeber;
+if (idade >= 18) {
+    podeBeber = "Pode";
+} else {
+    podeBeber = "Não pode";
+}
+
+// Versão com ternário (mais curta!)
+let podeBeber = idade >= 18 ? "Pode" : "Não pode";
+
+console.log(podeBeber); // "Pode"
+```
+
+**Mais exemplos do ternário:**
+```javascript
+let nota = 7;
+let resultado = nota >= 6 ? "Aprovado" : "Reprovado";
+console.log(resultado); // "Aprovado"
+
+let temperatura = 30;
+let clima = temperatura > 25 ? "Quente" : "Frio";
+console.log(clima); // "Quente"
+
+// Pode ser usado até para atribuir valores
+let usuario = null;
+let nomeExibido = usuario ? usuario.nome : "Visitante";
+console.log(nomeExibido); // "Visitante"
+```
+
+## Erros Comuns que Iniciantes Cometem
+
+```javascript
+// ❌ Erro: Confundir = com ==
+if (x = 5) {  // Isso ATRIBUI 5 a x, não compara!
+    // Sempre vai entrar aqui
+}
+
+// ✅ Correto:
+if (x === 5) {
+    // Só entra se x for exatamente 5
+}
+
+// ❌ Erro: Usar == ao invés de ===
+if (0 == false) { // true! Pode causar bugs
+    console.log("Isso roda, mas é estranho...");
+}
+
+// ✅ Correto:
+if (0 === false) { // false! Bem mais previsível
+    console.log("Isso nunca roda");
+}
+
+// ❌ Erro: Esquecer parênteses em condições lógicas
+if (idade >= 18 && temCarteira || temCarro) {
+    // Pode ser interpretado de forma diferente do que você pensa!
+}
+
+// ✅ Correto: Use parênteses para deixar claro
+if (idade >= 18 && (temCarteira || temCarro)) {
+    // Agora está claro: precisa ter 18+ E (carteira OU carro)
+}
+```
+
+## Dicas Finais
+
+1. **Sempre use `===`** em vez de `==` - vai te salvar de muitos bugs
+2. **Use o operador ternário** para if/else simples, mas não exagere
+3. **Parênteses são seus amigos** em condições complexas
+4. **O módulo `%`** é ótimo para verificar números pares/ímpares
+5. **Teste seus operadores** no console do navegador para ver como funcionam
+
+```javascript
+// Exemplo completo misturando operadores
+let salario = 3000;
+let temCursoSuperior = true;
+let anosExperiencia = 2;
+
+let bonus = (salario > 2000 && temCursoSuperior) ? salario * 0.1 : salario * 0.05;
+let valeRefeicao = anosExperiencia >= 2 ? 500 : 300;
+
+console.log(`Bônus: R$ ${bonus}`);
+console.log(`Vale refeição: R$ ${valeRefeicao}`);
+```
+
+Pratique esses operadores no console do navegador, crie pequenos programas com eles, e logo você estará usando naturalmente! 🚀

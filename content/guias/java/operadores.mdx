@@ -1,0 +1,335 @@
+---
+titulo: "Operadores"
+slug: "operadores"
+ordem: 6
+---
+
+# Operadores em Java: Guia Completo para Iniciantes
+
+Olá! Vamos mergulhar no mundo dos operadores em Java. Eles são como ferramentas que usamos para fazer cálculos, comparar valores e tomar decisões nos nossos programas. Vou te mostrar cada um deles com exemplos práticos!
+
+## 1. Operadores Aritméticos
+
+Os operadores aritméticos são os mais básicos e fazem operações matemáticas.
+
+```java
+public class OperadoresAritmeticos {
+    public static void main(String[] args) {
+        int a = 10;
+        int b = 3;
+        
+        // Soma
+        int soma = a + b;      // 13
+        System.out.println("Soma: " + soma);
+        
+        // Subtração
+        int subtracao = a - b;  // 7
+        System.out.println("Subtração: " + subtracao);
+        
+        // Multiplicação
+        int multiplicacao = a * b;  // 30
+        System.out.println("Multiplicação: " + multiplicacao);
+        
+        // Divisão
+        int divisao = a / b;    // 3 (divisão inteira!)
+        System.out.println("Divisão: " + divisao);
+        
+        // Módulo (resto da divisão)
+        int resto = a % b;      // 1
+        System.out.println("Resto: " + resto);
+    }
+}
+```
+
+### Divisão Inteira vs Decimal
+
+**Cuidado!** Quando você divide dois números inteiros em Java, o resultado é sempre um número inteiro (truncado, sem arredondamento).
+
+```java
+public class DivisaoInteira {
+    public static void main(String[] args) {
+        int a = 10;
+        int b = 3;
+        
+        // Divisão inteira - PERIGO!
+        int resultadoInteiro = a / b;  // Resultado: 3 (não 3.333...)
+        System.out.println("Divisão inteira: " + resultadoInteiro);
+        
+        // Para ter resultado decimal, pelo menos um dos valores deve ser double
+        double resultadoDecimal = 10.0 / 3;  // Resultado: 3.333333...
+        System.out.println("Divisão decimal: " + resultadoDecimal);
+        
+        // Outra forma: converter para double
+        double resultadoConvertido = (double) a / b;  // 3.333333...
+        System.out.println("Com casting: " + resultadoConvertido);
+    }
+}
+```
+
+### Operadores de Incremento e Decremento (++ e --)
+
+```java
+public class IncrementoDecremento {
+    public static void main(String[] args) {
+        int contador = 5;
+        
+        // Pós-incremento (usa o valor depois incrementa)
+        System.out.println("Pós-incremento: " + contador++);  // Mostra 5, depois vira 6
+        System.out.println("Valor atual: " + contador);       // Mostra 6
+        
+        // Pré-incremento (incrementa depois usa)
+        System.out.println("Pré-incremento: " + ++contador);  // Vira 7, depois mostra 7
+        
+        // Decremento
+        System.out.println("Pós-decremento: " + contador--);  // Mostra 7, depois vira 6
+        System.out.println("Pré-decremento: " + --contador);  // Vira 5, depois mostra 5
+    }
+}
+```
+
+## 2. Operadores de Comparação
+
+Usamos para comparar valores. O resultado é sempre `boolean` (true ou false).
+
+```java
+public class OperadoresComparacao {
+    public static void main(String[] args) {
+        int x = 10;
+        int y = 20;
+        
+        System.out.println("x == y: " + (x == y));   // false (igual a)
+        System.out.println("x != y: " + (x != y));   // true (diferente de)
+        System.out.println("x > y: " + (x > y));     // false (maior que)
+        System.out.println("x < y: " + (x < y));     // true (menor que)
+        System.out.println("x >= y: " + (x >= y));   // false (maior ou igual)
+        System.out.println("x <= y: " + (x <= y));   // true (menor ou igual)
+        
+        // Comparação com Strings (cuidado!)
+        String nome1 = "Java";
+        String nome2 = "Java";
+        String nome3 = new String("Java");
+        
+        System.out.println("nome1 == nome2: " + (nome1 == nome2));       // true (mesmo objeto)
+        System.out.println("nome1 == nome3: " + (nome1 == nome3));       // false (objetos diferentes)
+        System.out.println("nome1.equals(nome3): " + nome1.equals(nome3)); // true (mesmo conteúdo)
+    }
+}
+```
+
+## 3. Operadores Lógicos
+
+Combinam ou invertem expressões booleanas.
+
+```java
+public class OperadoresLogicos {
+    public static void main(String[] args) {
+        boolean temCarteira = true;
+        boolean temCarro = false;
+        int idade = 20;
+        
+        // && (E) - todas as condições devem ser verdadeiras
+        boolean podeDirigir = temCarteira && idade >= 18;
+        System.out.println("Pode dirigir? " + podeDirigir);  // true
+        
+        // || (OU) - pelo menos uma condição verdadeira
+        boolean temTransporte = temCarro || temCarteira;
+        System.out.println("Tem transporte? " + temTransporte);  // true
+        
+        // ! (NÃO) - inverte o valor
+        boolean naoTemCarteira = !temCarteira;
+        System.out.println("Não tem carteira? " + naoTemCarteira);  // false
+        
+        // Combinando operadores
+        boolean podeBeber = idade >= 18 && !temCarteira;
+        System.out.println("Pode beber? " + podeBeber);  // false (tem carteira)
+    }
+}
+```
+
+## 4. Operadores de Atribuição
+
+```java
+public class OperadoresAtribuicao {
+    public static void main(String[] args) {
+        int numero = 10;  // Atribuição simples
+        
+        numero += 5;      // equivalente a: numero = numero + 5
+        System.out.println("Após += 5: " + numero);  // 15
+        
+        numero -= 3;      // equivalente a: numero = numero - 3
+        System.out.println("Após -= 3: " + numero);  // 12
+        
+        numero *= 2;      // equivalente a: numero = numero * 2
+        System.out.println("Após *= 2: " + numero);  // 24
+        
+        numero /= 4;      // equivalente a: numero = numero / 4
+        System.out.println("Após /= 4: " + numero);  // 6
+        
+        numero %= 4;      // equivalente a: numero = numero % 4
+        System.out.println("Após %= 4: " + numero);  // 2
+    }
+}
+```
+
+## 5. Precedência de Operadores
+
+A precedência determina a ordem em que as operações são realizadas. Use parênteses para garantir a ordem desejada!
+
+```java
+public class Precedencia {
+    public static void main(String[] args) {
+        // Ordem de precedência (do maior para o menor):
+        // 1. Parênteses ()
+        // 2. Incremento/Decremento ++ --
+        // 3. Multiplicação, Divisão, Módulo * / %
+        // 4. Adição, Subtração + -
+        // 5. Comparação == != > < >= <=
+        // 6. Lógicos && ||
+        // 7. Atribuição = += -= *= /= %=
+        
+        int resultado1 = 10 + 5 * 2;        // 10 + 10 = 20 (multiplicação primeiro)
+        int resultado2 = (10 + 5) * 2;      // 15 * 2 = 30 (parênteses primeiro)
+        
+        System.out.println("Sem parênteses: " + resultado1);  // 20
+        System.out.println("Com parênteses: " + resultado2);  // 30
+        
+        // Exemplo mais complexo
+        boolean logico = 10 > 5 && 3 + 2 == 5;
+        // Passo a passo:
+        // 1. 3 + 2 = 5
+        // 2. 10 > 5 = true
+        // 3. 5 == 5 = true
+        // 4. true && true = true
+        System.out.println("Expressão lógica: " + logico);  // true
+    }
+}
+```
+
+## 6. Casting (Conversão de Tipos)
+
+Às vezes precisamos converter um tipo para outro.
+
+```java
+public class Casting {
+    public static void main(String[] args) {
+        // Casting implícito (automático) - int para double
+        int numeroInt = 42;
+        double numeroDouble = numeroInt;  // Java faz automaticamente
+        System.out.println("Int para double: " + numeroDouble);  // 42.0
+        
+        // Casting explícito (forçado) - double para int
+        double valorDecimal = 3.14;
+        int valorInteiro = (int) valorDecimal;  // Perde a parte decimal!
+        System.out.println("Double para int: " + valorInteiro);  // 3 (truncou)
+        
+        // Casting com divisão
+        int a = 7;
+        int b = 2;
+        
+        // Sem casting - divisão inteira
+        int divisaoInt = a / b;
+        System.out.println("Sem casting: " + divisaoInt);  // 3
+        
+        // Com casting - divisão decimal
+        double divisaoDouble = (double) a / b;
+        System.out.println("Com casting: " + divisaoDouble);  // 3.5
+    }
+}
+```
+
+## 7. Erros Comuns e Como Evitá-los
+
+### Erro 1: Usar = em vez de ==
+
+```java
+public class ErrosComuns {
+    public static void main(String[] args) {
+        int numero = 10;
+        
+        // ERRADO! Isso atribui 5 a numero e retorna true
+        if (numero = 5) {  // ERRO DE COMPILAÇÃO em Java
+            System.out.println("Isso não compila!");
+        }
+        
+        // CORRETO
+        if (numero == 5) {
+            System.out.println("Número é igual a 5");
+        }
+    }
+}
+```
+
+### Erro 2: Divisão inteira inesperada
+
+```java
+public class ErroDivisaoInteira {
+    public static void main(String[] args) {
+        // Situação comum que gera erro
+        int total = 10;
+        int pessoas = 3;
+        
+        // ERRADO! Resultado será 3, não 3.33
+        double parteErrada = total / pessoas;
+        System.out.println("Errado: " + parteErrada);  // 3.0
+        
+        // CORRETO - converter pelo menos um operando
+        double parteCorreta = (double) total / pessoas;
+        System.out.println("Correto: " + parteCorreta);  // 3.333...
+        
+        // Outra forma correta
+        double parteCorreta2 = total / (double) pessoas;
+        System.out.println("Correto 2: " + parteCorreta2);  // 3.333...
+    }
+}
+```
+
+### Erro 3: Comparação de Strings com ==
+
+```java
+public class ErroComparacaoString {
+    public static void main(String[] args) {
+        String senha1 = "1234";
+        String senha2 = "1234";
+        String senha3 = new String("1234");
+        
+        // ERRADO! Pode funcionar às vezes, mas não confie
+        if (senha1 == senha3) {
+            System.out.println("Senhas iguais (com ==)");  // Isso NÃO executa
+        }
+        
+        // CORRETO - usar equals()
+        if (senha1.equals(senha3)) {
+            System.out.println("Senhas iguais (com equals)");  // Isso executa
+        }
+    }
+}
+```
+
+## Dicas Importantes
+
+1. **Sempre use parênteses** em expressões complexas para deixar claro a ordem das operações
+2. **Cuidado com divisão de inteiros** - se precisar de resultado decimal, converta para double
+3. **Para comparar Strings**, sempre use `equals()`, nunca `==`
+4. **Operadores de incremento** (++ e --) podem ser confusos - use com cuidado
+5. **Teste seus operadores** com valores diferentes para entender o comportamento
+
+## Exercício Prático
+
+Tente prever a saída deste código:
+
+```java
+public class Exercicio {
+    public static void main(String[] args) {
+        int x = 5;
+        int y = 2;
+        double resultado = (double) (x / y) * 2 + 1;
+        System.out.println(resultado);
+    }
+}
+```
+
+**Resposta:** O resultado é 5.0, porque `x / y` é divisão inteira (resulta em 2), depois multiplica por 2 (4), soma 1 (5), e o casting para double acontece no final.
+
+---
+
+Pratique esses conceitos e logo você estará usando operadores naturalmente! Lembre-se: a prática leva à perfeição. Qualquer dúvida, volte e revise os exemplos!

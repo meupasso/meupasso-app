@@ -1,0 +1,455 @@
+---
+titulo: "Herança e Polimorfismo"
+slug: "heranca"
+ordem: 18
+---
+
+# Herança em JavaScript: Guia Completo para Iniciantes
+
+E aí, dev! Vamos mergulhar em um dos conceitos mais importantes da programação orientada a objetos: **herança**. Se você já ouviu falar que JavaScript "não é uma linguagem orientada a objetos de verdade", pode esquecer isso - desde o ES6 (2015), temos suporte completo a classes e herança!
+
+## O que é Herança?
+
+Herança é quando uma classe "filha" herda características (propriedades e métodos) de uma classe "pai". Pense nisso como uma família: filhos herdam características dos pais, mas também têm suas próprias particularidades.
+
+```javascript
+// Classe pai (superclasse)
+class Animal {
+  constructor(nome) {
+    this.nome = nome;
+  }
+  
+  fazerSom() {
+    console.log(`${this.nome} faz um som.`);
+  }
+}
+
+// Classe filha (subclasse)
+class Cachorro extends Animal {
+  // Já herda nome e fazerSom() automaticamente!
+}
+```
+
+## extends: Criando Herança
+
+A palavra-chave `extends` é usada para criar uma classe filha. Ela estabelece a relação de herança.
+
+```javascript
+class Animal {
+  constructor(nome) {
+    this.nome = nome;
+  }
+}
+
+class Cachorro extends Animal {}
+class Gato extends Animal {}
+
+const rex = new Cachorro('Rex');
+const mimi = new Gato('Mimi');
+
+console.log(rex.nome); // "Rex"
+console.log(mimi.nome); // "Mimi"
+
+// Ambos são instâncias de Animal
+console.log(rex instanceof Animal); // true
+console.log(mimi instanceof Animal); // true
+```
+
+## super(): Chamando o Construtor do Pai
+
+Quando a classe filha tem seu próprio construtor, ela precisa chamar `super()` para executar o construtor da classe pai. Isso é obrigatório!
+
+```javascript
+class Animal {
+  constructor(nome) {
+    this.nome = nome;
+    this.vivo = true;
+  }
+}
+
+class Cachorro extends Animal {
+  constructor(nome, raca) {
+    super(nome); // Chama o construtor de Animal
+    this.raca = raca; // Propriedade específica do Cachorro
+  }
+}
+
+const rex = new Cachorro('Rex', 'Labrador');
+console.log(rex.nome); // "Rex" (herdado)
+console.log(rex.vivo); // true (herdado)
+console.log(rex.raca); // "Labrador" (próprio)
+```
+
+**Erro comum #1**: Esquecer de chamar `super()` no construtor da classe filha!
+```javascript
+class Gato extends Animal {
+  constructor(nome, cor) {
+    // Esqueceu de chamar super(nome)!
+    this.cor = cor; // ReferenceError: precisa chamar super primeiro
+  }
+}
+```
+
+## Override de Métodos
+
+Você pode sobrescrever métodos da classe pai na classe filha, dando um comportamento diferente.
+
+```javascript
+class Animal {
+  fazerSom() {
+    console.log('Som genérico de animal');
+  }
+}
+
+class Cachorro extends Animal {
+  fazerSom() {
+    console.log('Au au!');
+  }
+}
+
+class Gato extends Animal {
+  fazerSom() {
+    console.log('Miau!');
+  }
+}
+
+const animais = [
+  new Cachorro(),
+  new Gato(),
+  new Animal()
+];
+
+animais.forEach(animal => animal.fazerSom());
+// "Au au!"
+// "Miau!"
+// "Som genérico de animal"
+```
+
+### Chamando o Método do Pai com super
+
+Às vezes você quer adicionar comportamento ao método do pai, não substituir completamente.
+
+```javascript
+class Animal {
+  constructor(nome) {
+    this.nome = nome;
+  }
+  
+  apresentar() {
+    return `Olá, eu sou ${this.nome}`;
+  }
+}
+
+class Cachorro extends Animal {
+  apresentar() {
+    const apresentacaoBase = super.apresentar(); // Chama método do pai
+    return `${apresentacaoBase} e sou um cachorro!`;
+  }
+}
+
+const rex = new Cachorro('Rex');
+console.log(rex.apresentar()); // "Olá, eu sou Rex e sou um cachorro!"
+```
+
+## instanceof: Verificando o Tipo
+
+O operador `instanceof` verifica se um objeto é instância de uma classe (ou de suas classes pai).
+
+```javascript
+class Animal {}
+class Cachorro extends Animal {}
+class Gato extends Animal {}
+
+const rex = new Cachorro();
+const mimi = new Gato();
+
+console.log(rex instanceof Cachorro); // true
+console.log(rex instanceof Animal);   // true (herdou!)
+console.log(rex instanceof Gato);     // false
+console.log(mimi instanceof Animal);  // true
+```
+
+## Polimorfismo: Um Método, Múltiplas Formas
+
+Polimorfismo é a capacidade de objetos de diferentes classes responderem ao mesmo método de maneiras diferentes. Já vimos isso com `fazerSom()`!
+
+```javascript
+class Funcionario {
+  constructor(nome) {
+    this.nome = nome;
+  }
+  
+  calcularSalario() {
+    return 0; // Genérico
+  }
+}
+
+class FuncionarioCLT extends Funcionario {
+  constructor(nome, salarioBase) {
+    super(nome);
+    this.salarioBase = salarioBase;
+  }
+  
+  calcularSalario() {
+    return this.salarioBase - (this.salarioBase * 0.08); // Desconto INSS
+  }
+}
+
+class FuncionarioPJ extends Funcionario {
+  constructor(nome, valorHora, horas) {
+    super(nome);
+    this.valorHora = valorHora;
+    this.horas = horas;
+  }
+  
+  calcularSalario() {
+    return this.valorHora * this.horas;
+  }
+}
+
+// Polimorfismo em ação!
+const funcionarios = [
+  new FuncionarioCLT('João', 3000),
+  new FuncionarioPJ('Maria', 100, 160)
+];
+
+funcionarios.forEach(func => {
+  console.log(`${func.nome}: R$ ${func.calcularSalario()}`);
+});
+// "João: R$ 2760"
+// "Maria: R$ 16000"
+```
+
+## Classe Abstrata Simulada
+
+JavaScript não tem classes abstratas nativas (como Java ou C#), mas podemos simulá-las. Uma classe abstrata não pode ser instanciada diretamente - ela serve apenas como modelo.
+
+```javascript
+class Veiculo {
+  constructor(marca) {
+    if (new.target === Veiculo) {
+      throw new Error('Não pode instanciar Veiculo diretamente!');
+    }
+    this.marca = marca;
+  }
+  
+  // Método "abstrato" - deve ser implementado pelas filhas
+  ligar() {
+    throw new Error('Método ligar() deve ser implementado!');
+  }
+  
+  // Método concreto - já tem implementação
+  info() {
+    return `Veículo da marca ${this.marca}`;
+  }
+}
+
+class Carro extends Veiculo {
+  constructor(marca, modelo) {
+    super(marca);
+    this.modelo = modelo;
+  }
+  
+  ligar() {
+    console.log(`Vrum vrum! ${this.marca} ${this.modelo} ligado!`);
+  }
+}
+
+// Isso vai dar erro:
+// const veiculo = new Veiculo('Ford'); // Error!
+
+// Isso funciona:
+const fusca = new Carro('Volkswagen', 'Fusca');
+fusca.ligar(); // "Vrum vrum! Volkswagen Fusca ligado!"
+console.log(fusca.info()); // "Veículo da marca Volkswagen"
+```
+
+## Exemplo Prático Completo
+
+Vamos construir um sistema simples de uma biblioteca!
+
+```javascript
+// Classe abstrata simulada
+class ItemBiblioteca {
+  constructor(titulo, ano) {
+    if (new.target === ItemBiblioteca) {
+      throw new Error('ItemBiblioteca é abstrata!');
+    }
+    this.titulo = titulo;
+    this.ano = ano;
+    this.emprestado = false;
+  }
+  
+  // Método abstrato
+  descricao() {
+    throw new Error('Método descricao() deve ser implementado!');
+  }
+  
+  emprestar() {
+    if (this.emprestado) {
+      console.log(`${this.titulo} já está emprestado!`);
+      return false;
+    }
+    this.emprestado = true;
+    console.log(`${this.titulo} emprestado com sucesso!`);
+    return true;
+  }
+  
+  devolver() {
+    if (!this.emprestado) {
+      console.log(`${this.titulo} não está emprestado!`);
+      return false;
+    }
+    this.emprestado = false;
+    console.log(`${this.titulo} devolvido com sucesso!`);
+    return true;
+  }
+  
+  info() {
+    return `${this.titulo} (${this.ano}) - ${this.emprestado ? 'Emprestado' : 'Disponível'}`;
+  }
+}
+
+// Classe Livro
+class Livro extends ItemBiblioteca {
+  constructor(titulo, ano, autor, paginas) {
+    super(titulo, ano);
+    this.autor = autor;
+    this.paginas = paginas;
+  }
+  
+  descricao() {
+    return `Livro: ${this.titulo} por ${this.autor}, ${this.paginas} páginas`;
+  }
+  
+  info() {
+    return `${super.info()} - Autor: ${this.autor}`;
+  }
+}
+
+// Classe DVD
+class DVD extends ItemBiblioteca {
+  constructor(titulo, ano, diretor, duracao) {
+    super(titulo, ano);
+    this.diretor = diretor;
+    this.duracao = duracao;
+  }
+  
+  descricao() {
+    return `DVD: ${this.titulo} dirigido por ${this.diretor}, ${this.duracao}min`;
+  }
+  
+  info() {
+    return `${super.info()} - Diretor: ${this.diretor}`;
+  }
+}
+
+// Classe Revista (herda de ItemBiblioteca também)
+class Revista extends ItemBiblioteca {
+  constructor(titulo, ano, edicao) {
+    super(titulo, ano);
+    this.edicao = edicao;
+  }
+  
+  descricao() {
+    return `Revista: ${this.titulo}, Edição ${this.edicao}`;
+  }
+}
+
+// Testando o sistema
+console.log('=== SISTEMA DA BIBLIOTECA ===\n');
+
+const itens = [
+  new Livro('O Senhor dos Anéis', 1954, 'J.R.R. Tolkien', 1178),
+  new DVD('Matrix', 1999, 'Irmãos Wachowski', 136),
+  new Revista('Super Interessante', 2023, 250)
+];
+
+// Polimorfismo: cada item responde ao mesmo método de forma diferente
+itens.forEach(item => {
+  console.log(item.descricao());
+  console.log(`Status: ${item.info()}\n`);
+});
+
+// Testando empréstimos
+console.log('=== TESTE DE EMPRÉSTIMOS ===\n');
+
+const livro = itens[0];
+const dvd = itens[1];
+
+livro.emprestar(); // "O Senhor dos Anéis emprestado com sucesso!"
+livro.emprestar(); // "O Senhor dos Anéis já está emprestado!"
+dvd.emprestar();   // "Matrix emprestado com sucesso!"
+livro.devolver();  // "O Senhor dos Anéis devolvido com sucesso!"
+dvd.devolver();    // "Matrix devolvido com sucesso!"
+
+// Verificando tipos
+console.log('\n=== VERIFICAÇÃO DE TIPOS ===');
+console.log(livro instanceof Livro);          // true
+console.log(livro instanceof ItemBiblioteca); // true
+console.log(livro instanceof DVD);            // false
+console.log(dvd instanceof ItemBiblioteca);   // true
+
+// Tentando instanciar classe abstrata
+// const item = new ItemBiblioteca('Teste', 2024); // Error!
+```
+
+## Dicas Importantes
+
+1. **Sempre chame `super()`** antes de usar `this` no construtor da classe filha
+2. **Use `instanceof`** para verificar tipos, mas cuidado com heranças profundas
+3. **Prefira composição** em vez de herança quando a relação não for "é um" (ex: um Carro "tem um" Motor, não "é um" Motor)
+4. **Mantenha a hierarquia rasa** - heranças muito profundas são difíceis de manter
+
+## Erros Comuns
+
+```javascript
+// ❌ Erro: Esquecer super()
+class Gato extends Animal {
+  constructor(nome) {
+    // Faltou super(nome);
+    this.nome = nome; // ReferenceError
+  }
+}
+
+// ❌ Erro: Chamar super() depois de usar this
+class Gato extends Animal {
+  constructor(nome) {
+    this.vidas = 7; // ReferenceError
+    super(nome);
+  }
+}
+
+// ✅ Correto
+class Gato extends Animal {
+  constructor(nome) {
+    super(nome);
+    this.vidas = 7;
+  }
+}
+
+// ❌ Erro: Achar que herança substitui composição
+class Carro extends Motor {
+  // Um carro NÃO é um motor!
+}
+
+// ✅ Melhor: Composição
+class Carro {
+  constructor() {
+    this.motor = new Motor();
+  }
+}
+```
+
+## Conclusão
+
+Herança em JavaScript é poderosa quando usada corretamente. Lembre-se:
+- `extends` para herdar
+- `super()` para chamar o construtor/métodos do pai
+- Override para personalizar comportamentos
+- Polimorfismo para tratar objetos diferentes de forma uniforme
+- Classes abstratas simuladas para criar modelos
+
+Pratique criando seus próprios sistemas - uma loja, uma escola, um jogo - e veja como a herança pode organizar seu código!
+
+Bons estudos e até a próxima! 🚀

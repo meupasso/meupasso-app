@@ -1,0 +1,214 @@
+---
+titulo: "Iteradores"
+slug: "iteradores"
+ordem: 26
+---# O que são Iteradores em Python?
+
+Imagine que você tem uma caixa de bombons. Você quer comer um bombom de cada vez, sem precisar revirar a caixa inteira. Um **iterador** é exatamente isso: um "entregador" que te dá um elemento por vez de uma coleção.
+
+Em Python, iteradores são objetos que permitem percorrer elementos um a um, sem precisar acessar todos de uma vez. Eles são fundamentais para loops `for`, list comprehensions e muito mais.
+
+## O Protocolo do Iterador
+
+Para um objeto ser um iterador, ele precisa seguir um "contrato" com dois métodos especiais:
+
+1. **`__iter__()`** - Retorna o próprio iterador (ou um objeto iterador)
+2. **`__next__()`** - Retorna o próximo elemento da sequência
+
+Quando não há mais elementos, `__next__()` deve lançar a exceção `StopIteration`.
+
+## Diferença Crucial: Iterável vs Iterador
+
+Essa é a parte que mais confunde iniciantes. Vamos deixar claro:
+
+- **Iterável**: É qualquer objeto que pode ser percorrido (como listas, strings, dicionários). Ele tem o método `__iter__()`.
+- **Iterador**: É o objeto que realmente percorre os elementos. Ele tem `__iter__()` e `__next__()`.
+
+**Pense assim:** Um iterável é como uma biblioteca (tem muitos livros), e um iterador é como um bibliotecário que te entrega um livro por vez.
+
+```python
+# Exemplo prático
+lista = [1, 2, 3]  # Isso é um ITERÁVEL
+iterador = iter(lista)  # Isso é um ITERADOR
+
+print(type(lista))     # <class 'list'> - iterável
+print(type(iterador))  # <class 'list_iterator'> - iterador
+```
+
+## A Função `iter()` e `next()`
+
+Vamos ver como usar essas funções na prática:
+
+```python
+# Criando um iterador a partir de uma lista
+frutas = ["maçã", "banana", "uva"]
+iterador_frutas = iter(frutas)
+
+# Obtendo elementos um por um
+print(next(iterador_frutas))  # maçã
+print(next(iterador_frutas))  # banana
+print(next(iterador_frutas))  # uva
+# print(next(iterador_frutas))  # Isso causaria StopIteration!
+```
+
+## StopIteration: O Sinal de Fim
+
+Quando o iterador não tem mais elementos, ele levanta a exceção `StopIteration`. É assim que os loops sabem quando parar.
+
+```python
+# Tratando StopIteration
+letras = iter("ABC")
+
+try:
+    while True:
+        letra = next(letras)
+        print(f"Letra: {letra}")
+except StopIteration:
+    print("Acabaram as letras!")
+
+# Saída:
+# Letra: A
+# Letra: B
+# Letra: C
+# Acabaram as letras!
+```
+
+## Exemplos com Listas e Strings
+
+### Percorrendo uma lista manualmente
+
+```python
+numeros = [10, 20, 30, 40, 50]
+it = iter(numeros)
+
+print(next(it))  # 10
+print(next(it))  # 20
+print(next(it))  # 30
+```
+
+### Percorrendo uma string caractere por caractere
+
+```python
+palavra = "Python"
+it_palavra = iter(palavra)
+
+for i in range(len(palavra)):
+    print(f"Caractere {i+1}: {next(it_palavra)}")
+
+# Saída:
+# Caractere 1: P
+# Caractere 2: y
+# Caractere 3: t
+# Caractere 4: h
+# Caractere 5: o
+# Caractere 6: n
+```
+
+## Criando seu Próprio Iterador
+
+Você pode criar classes que se comportam como iteradores:
+
+```python
+class Contador:
+    def __init__(self, limite):
+        self.limite = limite
+        self.atual = 0
+    
+    def __iter__(self):
+        return self  # O próprio objeto é o iterador
+    
+    def __next__(self):
+        if self.atual < self.limite:
+            valor = self.atual
+            self.atual += 1
+            return valor
+        else:
+            raise StopIteration
+
+# Usando nosso iterador personalizado
+contador = Contador(5)
+for numero in contador:
+    print(numero)  # 0, 1, 2, 3, 4
+```
+
+## Como o `for` Funciona por Baixo dos Panos
+
+Quando você escreve `for item in lista:`, o Python faz isso:
+
+```python
+# O que acontece internamente
+iterador = iter(lista)  # Pega o iterador
+while True:
+    try:
+        item = next(iterador)  # Pega próximo elemento
+        # executa o bloco do for com 'item'
+    except StopIteration:
+        break  # Sai do loop quando acaba
+```
+
+## Erros Comuns e Dicas
+
+### ❌ Erro 1: Tentar reutilizar um iterador
+```python
+lista = [1, 2, 3]
+it = iter(lista)
+
+print(list(it))  # [1, 2, 3]
+print(list(it))  # [] - vazio! O iterador já se esgotou
+```
+
+### ❌ Erro 2: Confundir iterável com iterador
+```python
+lista = [1, 2, 3]
+# next(lista)  # ERRO! list não é iterador, é iterável
+# Correto:
+next(iter(lista))  # Funciona!
+```
+
+### ✅ Dica 1: Use `list()` para "materializar" um iterador
+```python
+# Se você precisa ver todos os elementos de um iterador
+meu_iter = iter(range(10))
+todos = list(meu_iter)
+print(todos)  # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+```
+
+### ✅ Dica 2: Iteradores economizam memória
+```python
+# range(1000000) não cria uma lista com 1 milhão de números
+# Ele cria um iterador que gera cada número sob demanda
+for i in range(1000000):
+    if i > 10:
+        break
+    print(i)
+```
+
+## Resumo Visual
+
+```
+ITERÁVEL (tem __iter__)
+    |
+    | iter()
+    v
+ITERADOR (tem __iter__ e __next__)
+    |
+    | next()
+    v
+ELEMENTOS (um por vez até StopIteration)
+```
+
+## Na Prática: Quando Usar Iteradores
+
+1. **Arquivos grandes**: Processar linha por linha sem carregar tudo na memória
+2. **Sequências infinitas**: Gerar números sob demanda
+3. **Pipelines de dados**: Processar dados em etapas
+4. **Economia de memória**: Quando você não precisa de todos os elementos de uma vez
+
+```python
+# Exemplo prático: lendo um arquivo grande
+with open("arquivo_grande.txt") as arquivo:
+    for linha in arquivo:  # arquivo já é um iterador!
+        processar(linha)   # Processa uma linha por vez
+```
+
+Lembre-se: **iteradores são como um canudo de refrigerante** - você só consegue sugar um gole de cada vez, e depois que acaba, não tem mais volta!

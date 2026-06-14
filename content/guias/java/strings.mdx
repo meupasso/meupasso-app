@@ -1,0 +1,286 @@
+---
+titulo: "Strings"
+slug: "strings"
+ordem: 5
+---
+
+# Guia Completo de Strings em Java para Iniciantes
+
+Oi! Vamos aprender tudo sobre Strings em Java. Strings são super importantes - você vai usá-las em praticamente todo programa que escrever.
+
+## O que é uma String?
+
+Em Java, **String** (com S maiúsculo mesmo!) é um tipo especial de objeto que representa uma sequência de caracteres. Diferente de tipos primitivos como `int` ou `double`, String é uma classe.
+
+```java
+String nome = "Maria";
+```
+
+Percebeu que usamos aspas duplas? Isso é obrigatório em Java! Aspas simples são para caracteres individuais (`char`).
+
+## Criando Strings
+
+A forma mais comum é com aspas duplas:
+
+```java
+String saudacao = "Olá, mundo!";
+String vazia = "";
+String comEspacos = "   Java é legal   ";
+```
+
+## Concatenação com +
+
+Concatenar significa juntar strings. O operador `+` faz isso:
+
+```java
+String parte1 = "Java";
+String parte2 = " é";
+String parte3 = " demais!";
+String resultado = parte1 + parte2 + parte3;
+System.out.println(resultado); // Java é demais!
+```
+
+Você pode concatenar diretamente também:
+
+```java
+System.out.println("Olá" + " " + "turma!"); // Olá turma!
+```
+
+## Concatenação com Variáveis
+
+Aqui a mágica acontece - você mistura texto com variáveis:
+
+```java
+String nome = "João";
+int idade = 25;
+System.out.println("Meu nome é " + nome + " e tenho " + idade + " anos.");
+// Meu nome é João e tenho 25 anos.
+```
+
+Repare que o Java automaticamente converte o número `25` para string durante a concatenação. Muito prático!
+
+## Métodos Úteis de String
+
+Vamos conhecer os métodos mais usados:
+
+### length() - Tamanho da string
+
+```java
+String texto = "Java";
+System.out.println(texto.length()); // 4
+```
+
+### toUpperCase() e toLowerCase() - Mudar maiúsculas/minúsculas
+
+```java
+String original = "Java é Show";
+System.out.println(original.toUpperCase()); // JAVA É SHOW
+System.out.println(original.toLowerCase()); // java é show
+```
+
+**Importante:** Esses métodos não alteram a string original, criam uma nova!
+
+### trim() - Remover espaços extras
+
+```java
+String sujo = "   Olá mundo   ";
+System.out.println("'" + sujo.trim() + "'"); // 'Olá mundo'
+```
+
+### substring() - Pegar parte da string
+
+```java
+String palavra = "Programação";
+System.out.println(palavra.substring(0, 7)); // Program
+// Começa no índice 0, pega 7 caracteres
+System.out.println(palavra.substring(4)); // amação
+// Começa do índice 4 até o final
+```
+
+### contains() - Verificar se contém
+
+```java
+String frase = "Aprender Java é divertido";
+System.out.println(frase.contains("Java")); // true
+System.out.println(frase.contains("Python")); // false
+```
+
+### equals() e equalsIgnoreCase() - Comparar conteúdo
+
+```java
+String str1 = "Java";
+String str2 = "java";
+String str3 = "Java";
+
+System.out.println(str1.equals(str2)); // false (case sensitive)
+System.out.println(str1.equalsIgnoreCase(str2)); // true (ignora maiúsculas)
+System.out.println(str1.equals(str3)); // true
+```
+
+### replace() - Substituir caracteres
+
+```java
+String original = "Java é legal";
+System.out.println(original.replace("legal", "incrível")); // Java é incrível
+System.out.println(original.replace('a', 'o')); // Jovo é legol
+```
+
+## A Grande Armadilha: == vs equals()
+
+Esse é o erro mais comum de quem está começando! Vamos entender:
+
+```java
+String a = "Java";
+String b = "Java";
+String c = new String("Java");
+
+System.out.println(a == b); // true (por causa do pool de strings)
+System.out.println(a == c); // false! (são objetos diferentes)
+System.out.println(a.equals(c)); // true (compara o conteúdo)
+```
+
+**Regra de ouro:** SEMPRE use `.equals()` para comparar conteúdo de strings!
+
+```java
+String senha = "1234";
+String input = "1234";
+
+// ERRADO!
+if (senha == input) {
+    System.out.println("Nunca confie nisso!");
+}
+
+// CORRETO!
+if (senha.equals(input)) {
+    System.out.println("Senha correta!");
+}
+```
+
+## String.valueOf() - Convertendo para String
+
+Útil quando você quer converter outros tipos para string:
+
+```java
+int numero = 42;
+double preco = 19.99;
+boolean ativo = true;
+char letra = 'A';
+
+String strNumero = String.valueOf(numero);
+String strPreco = String.valueOf(preco);
+String strAtivo = String.valueOf(ativo);
+String strLetra = String.valueOf(letra);
+
+System.out.println(strNumero + " - " + strPreco); // 42 - 19.99
+```
+
+## Convertendo Números para String
+
+Além do `String.valueOf()`, temos outras formas:
+
+```java
+int valor = 100;
+
+// Forma 1: String.valueOf()
+String s1 = String.valueOf(valor);
+
+// Forma 2: Concatenação com vazio
+String s2 = valor + "";
+
+// Forma 3: Integer.toString()
+String s3 = Integer.toString(valor);
+
+System.out.println(s1 + " " + s2 + " " + s3); // 100 100 100
+```
+
+## Erros Comuns e Como Evitá-los
+
+### 1. Usar == para comparar strings ❌
+
+```java
+String nome1 = "Ana";
+String nome2 = new String("Ana");
+
+// ERRADO
+if (nome1 == nome2) {
+    System.out.println("Isso pode não funcionar!");
+}
+
+// CORRETO
+if (nome1.equals(nome2)) {
+    System.out.println("Isso sempre funciona!");
+}
+```
+
+### 2. Esquecer que strings são imutáveis
+
+```java
+String texto = "Olá";
+texto.toUpperCase(); // Isso NÃO altera texto!
+System.out.println(texto); // Olá
+
+// CORRETO
+texto = texto.toUpperCase();
+System.out.println(texto); // OLÁ
+```
+
+### 3. Esquecer do trim() ao comparar inputs
+
+```java
+String input = "  Maria  ";
+String banco = "Maria";
+
+// ERRADO (espaços extras)
+if (input.equals(banco)) {
+    System.out.println("Usuário encontrado");
+}
+
+// CORRETO
+if (input.trim().equals(banco)) {
+    System.out.println("Usuário encontrado");
+}
+```
+
+## Exemplo Prático Completo
+
+Vamos ver tudo junto num programa simples:
+
+```java
+public class ExemploString {
+    public static void main(String[] args) {
+        String nome = "   João Silva   ";
+        String email = "JOAO@EMAIL.COM";
+        
+        // Limpando e preparando dados
+        nome = nome.trim();
+        email = email.toLowerCase();
+        
+        System.out.println("Nome: " + nome);
+        System.out.println("Email: " + email);
+        System.out.println("Tamanho do nome: " + nome.length());
+        System.out.println("Começa com 'João'? " + nome.startsWith("João"));
+        System.out.println("Contém 'Silva'? " + nome.contains("Silva"));
+        
+        // Simulando validação
+        String emailDigitado = "joao@email.com";
+        if (email.equals(emailDigitado)) {
+            System.out.println("Email confirmado!");
+        }
+        
+        // Convertendo idade
+        int idade = 30;
+        String mensagem = nome + " tem " + idade + " anos";
+        System.out.println(mensagem);
+    }
+}
+```
+
+## Dicas Finais
+
+1. **Sempre use equals()** para comparar strings
+2. **Strings são imutáveis** - métodos criam novas strings
+3. **Use trim()** antes de comparar inputs de usuário
+4. **Prefira concatenação com +** para casos simples
+5. **String.valueOf()** é seu amigo para conversões
+
+Strings em Java são poderosas e essenciais. Pratique esses conceitos e logo você estará manipulando textos como um profissional!

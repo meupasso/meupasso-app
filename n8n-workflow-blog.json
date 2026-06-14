@@ -1,0 +1,545 @@
+{
+  "name": "MeuPasso Blog Automatizado",
+  "nodes": [
+    {
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [0, 300],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 9 * * 1,3,5"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "dev.to trending",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [280, 300],
+      "parameters": {
+        "method": "GET",
+        "url": "https://dev.to/api/articles?top=7&per_page=10",
+        "options": {
+          "splitIntoItems": true
+        }
+      }
+    },
+    {
+      "name": "Stack Overflow hot",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [560, 300],
+      "parameters": {
+        "method": "GET",
+        "url": "https://api.stackexchange.com/2.3/questions?order=desc&sort=hot&tagged=python;javascript;java&site=stackoverflow&pagesize=10",
+        "options": {}
+      }
+    },
+    {
+      "name": "Buscar histórico Supabase",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [840, 300],
+      "parameters": {
+        "method": "GET",
+        "url": "https://xjyvwxcqrywnnkbrngku.supabase.co/rest/v1/blog_historico?select=tema,status&order=created_at.desc&limit=30",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqeXZ3eGNxcnl3bm5rYnJuZ2t1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MDUxMzY5NSwiZXhwIjoyMDk2MDg5Njk1fQ.bNckI8YuLZVaSkg2jUiZiDhk-noyJxEP3avCvBD9lPU"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqeXZ3eGNxcnl3bm5rYnJuZ2t1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MDUxMzY5NSwiZXhwIjoyMDk2MDg5Njk1fQ.bNckI8YuLZVaSkg2jUiZiDhk-noyJxEP3avCvBD9lPU"
+            }
+          ]
+        },
+        "options": {
+          "splitIntoItems": true
+        }
+      }
+    },
+    {
+      "name": "Escolher nicho",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1120, 300],
+      "parameters": {
+        "language": "javascript",
+        "code": "const devtoItems = $('dev.to trending').all().map(i => i.json);\nconst soResponse = $('Stack Overflow hot').first().json;\nconst soItems = soResponse?.items || [];\nconst historicoItems = $('Buscar histórico Supabase').all().map(i => i.json?.tema).filter(Boolean);\n\nconst TEMAS_CURADOS = [\n  \"python-para-iniciantes-primeiros-passos\",\n  \"javascript-o-que-e-e-por-onde-comecar\",\n  \"java-para-iniciantes-guia-completo\",\n  \"logica-de-programacao-conceitos-essenciais\",\n  \"git-e-github-guia-pratico-para-iniciantes\",\n  \"algoritmos-basicos-que-todo-dev-deve-conhecer\",\n  \"poo-orientacao-a-objetos-explicada-simples\",\n  \"sql-basico-para-desenvolvedores-iniciantes\",\n  \"apis-rest-o-que-sao-e-como-usar\",\n  \"terminal-linux-comandos-essenciais-dev\",\n  \"vs-code-dicas-extensoes-para-programar\",\n  \"erros-comuns-python-como-corrigir\",\n  \"erros-comuns-java-como-corrigir\",\n  \"mercado-ti-brasil-salarios-vagas-2026\",\n  \"portfolio-github-como-montar-do-zero\",\n  \"primeiro-emprego-ti-como-conseguir\",\n  \"diferenca-frontend-backend-fullstack\",\n  \"como-aprender-programacao-mais-rapido\",\n  \"debugar-codigo-tecnicas-para-iniciantes\",\n  \"funcoes-python-guia-completo\",\n  \"arrays-listas-javascript-pratico\",\n  \"classes-objetos-java-exemplos\",\n  \"loops-for-while-quando-usar\",\n  \"condicionais-if-else-exemplos-reais\",\n  \"recursao-o-que-e-quando-usar\",\n  \"try-catch-tratamento-erros-programacao\",\n  \"modulos-imports-python-organizar-codigo\",\n  \"variaveis-tipos-dados-todas-linguagens\",\n  \"strings-manipulacao-python-javascript-java\",\n  \"dicionarios-objetos-mapas-programacao\"\n];\n\nconst temasUsados = historicoItems.slice(0, 30);\nconst temasDisponiveis = TEMAS_CURADOS.filter(t => !temasUsados.includes(t));\nconst lista = temasDisponiveis.length > 0 ? temasDisponiveis : TEMAS_CURADOS;\nconst tema = lista[Math.floor(Math.random() * lista.length)];\n\nconst inspiracao_devto = devtoItems.slice(0, 5).map(a => a.title).join(' | ');\nconst inspiracao_so = soItems.slice(0, 5).map(q => q.title).join(' | ');\n\nreturn [{ json: { tema, inspiracao_devto, inspiracao_so } }];"
+      }
+    },
+    {
+      "name": "Gerar post DeepSeek",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1400, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.deepseek.com/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer sk-96a0c7406b8e4176805d06a17e599667"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"deepseek-chat\",\n  \"max_tokens\": 2000,\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"Você é um redator especialista em programação para iniciantes brasileiros. Escreva posts diretos, práticos e sem clichês. Use exemplos de código reais e funcionais. Tom: professor experiente explicando para aluno motivado. NUNCA use frases como 'No mundo atual da tecnologia', 'Com o avanço da IA', 'Neste artigo vamos explorar'. Comece direto no assunto. Os posts devem ter entre 600-900 palavras, mínimo 3 blocos de código, e mencionar o MeuPasso (meupasso.com.br) naturalmente no final.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"Escreva um post de blog em MDX sobre: {{ $json.tema }}\\n\\nInspire-se (mas não copie) nos temas em alta:\\ndev.to: {{ $json.inspiracao_devto }}\\nStack Overflow: {{ $json.inspiracao_so }}\\n\\nEstrutura:\\n1. Frontmatter com title, date ({{ $now.format('YYYY-MM-DD') }}), tags, description\\n2. Introdução direta (2-3 frases) — qual problema resolve\\n3. 3-5 seções com exemplos de código reais em blocos ```python/javascript/java\\n4. Conclusão curta com próximo passo\\n\\nFormato do frontmatter:\\n---\\ntitle: 'Título do post'\\ndate: '{{ $now.format('YYYY-MM-DD') }}'\\ntags: ['programação', 'iniciantes']\\ndescription: 'Descrição curta'\\n---\"\n    }\n  ]\n}"
+      }
+    },
+    {
+      "name": "Extrair MDX",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1680, 300],
+      "parameters": {
+        "language": "javascript",
+        "code": "const resposta = $json.choices?.[0]?.message?.content || '';\nconst tema = $('Escolher nicho').first().json.tema;\n\nconst tituloMatch = resposta.match(/title:\\s*['\"](.+?)['\"]/);\nconst descMatch = resposta.match(/description:\\s*['\"](.+?)['\"]/);\n\nconst titulo = tituloMatch ? tituloMatch[1] : tema.replace(/-/g, ' ');\nconst descricao = descMatch ? descMatch[1] : '';\nconst slug = tema;\nconst preview = resposta.substring(0, 800) + '\\n\\n[... continua ...]';\nconst data = new Date().toISOString().split('T')[0];\n\nreturn [{ json: { conteudo_mdx: resposta, titulo, slug, tema, preview, descricao, data } }];"
+      }
+    },
+    {
+      "name": "Salvar rascunho Supabase",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1960, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "https://xjyvwxcqrywnnkbrngku.supabase.co/rest/v1/blog_historico",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqeXZ3eGNxcnl3bm5rYnJuZ2t1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MDUxMzY5NSwiZXhwIjoyMDk2MDg5Njk1fQ.bNckI8YuLZVaSkg2jUiZiDhk-noyJxEP3avCvBD9lPU"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqeXZ3eGNxcnl3bm5rYnJuZ2t1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MDUxMzY5NSwiZXhwIjoyMDk2MDg5Njk1fQ.bNckI8YuLZVaSkg2jUiZiDhk-noyJxEP3avCvBD9lPU"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=representation"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"tema\": \"{{ $json.tema }}\",\n  \"titulo\": \"{{ $json.titulo }}\",\n  \"slug\": \"{{ $json.slug }}\",\n  \"status\": \"pendente\",\n  \"conteudo_mdx\": \"{{ $json.conteudo_mdx }}\"\n}"
+      }
+    },
+    {
+      "name": "Telegram enviar aprovação",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [2240, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.telegram.org/bot8904864257:AAFnfqgdgs0LH_VZ6PO2Rh14zOXUOuTCjk4/sendMessage",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"chat_id\": 7581068489,\n  \"text\": \"🖊️ MeuPasso Blog — Novo Post\\n📌 Tema: {{ $json.tema }}\\n📝 Título: {{ $json.titulo }}\\n📅 Data: {{ $json.data }}\\n\\nPreview:\\n{{ $json.preview }}\\n\\nResponda:\\n\\u2705 /aprovar\\n\\u274C /rejeitar\",\n  \"parse_mode\": \"HTML\"\n}"
+      }
+    },
+    {
+      "name": "Webhook Receber resposta",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [0, 900],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "meupasso-blog-aprovacao",
+        "options": {}
+      }
+    },
+    {
+      "name": "Extrair dados do reply",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [280, 900],
+      "parameters": {
+        "language": "javascript",
+        "code": "const body = $json.body || $json;\nconst message = body.message || {};\nconst text = message.text || '';\nconst replyTo = message.reply_to_message?.text || '';\n\n// Extract slug from the reply message\nconst slugMatch = replyTo.match(/\\*\\*Slug:\\*\\*\\s*(\\S+)/) || replyTo.match(/📌 Tema:\\s*(\\S+)/);\nconst slug = slugMatch ? slugMatch[1].trim() : '';\n\nconst aprovado = text.includes('/aprovar') || text.includes('/aprovar@');\n\nreturn [{ json: { slug, aprovado, text } }];"
+      }
+    },
+    {
+      "name": "IF Verificar aprovação",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [560, 900],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "cond-001",
+              "leftValue": "={{ $json.aprovado }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "name": "Buscar post Supabase",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [840, 800],
+      "parameters": {
+        "method": "GET",
+        "sendHeaders": true,
+        "url": "=https://xjyvwxcqrywnnkbrngku.supabase.co/rest/v1/blog_historico?slug=eq.{{ $json.slug }}",
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqeXZ3eGNxcnl3bm5rYnJuZ2t1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MDUxMzY5NSwiZXhwIjoyMDk2MDg5Njk1fQ.bNckI8YuLZVaSkg2jUiZiDhk-noyJxEP3avCvBD9lPU"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqeXZ3eGNxcnl3bm5rYnJuZ2t1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MDUxMzY5NSwiZXhwIjoyMDk2MDg5Njk1fQ.bNckI8YuLZVaSkg2jUiZiDhk-noyJxEP3avCvBD9lPU"
+            }
+          ]
+        },
+        "options": {
+          "splitIntoItems": true
+        }
+      }
+    },
+    {
+      "name": "Publicar MDX GitHub",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1120, 800],
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://api.github.com/repos/meupasso/meupasso/contents/content/blog/{{ $json.slug }}.mdx",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer GITHUB_TOKEN_AQUI"
+            },
+            {
+              "name": "Accept",
+              "value": "application/vnd.github+json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"message\": \"Blog: {{ $json.titulo }}\",\n  \"content\": \"{{ Buffer.from($json.conteudo_mdx).toString('base64') }}\"\n}"
+      }
+    },
+    {
+      "name": "Atualizar status publicado",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1400, 800],
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://xjyvwxcqrywnnkbrngku.supabase.co/rest/v1/blog_historico?slug=eq.{{ $json.slug }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqeXZ3eGNxcnl3bm5rYnJuZ2t1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MDUxMzY5NSwiZXhwIjoyMDk2MDg5Njk1fQ.bNckI8YuLZVaSkg2jUiZiDhk-noyJxEP3avCvBD9lPU"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqeXZ3eGNxcnl3bm5rYnJuZ2t1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MDUxMzY5NSwiZXhwIjoyMDk2MDg5Njk1fQ.bNckI8YuLZVaSkg2jUiZiDhk-noyJxEP3avCvBD9lPU"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"status\": \"publicado\"\n}"
+      }
+    },
+    {
+      "name": "Telegram confirmar publicação",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1680, 800],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.telegram.org/bot8904864257:AAFnfqgdgs0LH_VZ6PO2Rh14zOXUOuTCjk4/sendMessage",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"chat_id\": 7581068489,\n  \"text\": \"\\u2705 Post publicado!\\n📝 {{ $json.titulo }}\\n🔗 https://www.meupasso.com.br/blog/{{ $json.slug }}\",\n  \"parse_mode\": \"HTML\"\n}"
+      }
+    },
+    {
+      "name": "Atualizar status rejeitado",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [840, 1000],
+      "parameters": {
+        "method": "PATCH",
+        "sendHeaders": true,
+        "url": "=https://xjyvwxcqrywnnkbrngku.supabase.co/rest/v1/blog_historico?slug=eq.{{ $('Extrair dados do reply').first().json.slug }}",
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqeXZ3eGNxcnl3bm5rYnJuZ2t1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MDUxMzY5NSwiZXhwIjoyMDk2MDg5Njk1fQ.bNckI8YuLZVaSkg2jUiZiDhk-noyJxEP3avCvBD9lPU"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqeXZ3eGNxcnl3bm5rYnJuZ2t1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MDUxMzY5NSwiZXhwIjoyMDk2MDg5Njk1fQ.bNckI8YuLZVaSkg2jUiZiDhk-noyJxEP3avCvBD9lPU"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"status\": \"rejeitado\"\n}"
+      }
+    },
+    {
+      "name": "Telegram avisar rejeição",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1120, 1000],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.telegram.org/bot8904864257:AAFnfqgdgs0LH_VZ6PO2Rh14zOXUOuTCjk4/sendMessage",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"chat_id\": 7581068489,\n  \"text\": \"\\u274C Post rejeitado. Um novo post ser\\u00e1 gerado na pr\\u00f3xima execu\\u00e7\\u00e3o.\",\n  \"parse_mode\": \"HTML\"\n}"
+      }
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "dev.to trending",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "dev.to trending": {
+      "main": [
+        [
+          {
+            "node": "Stack Overflow hot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Stack Overflow hot": {
+      "main": [
+        [
+          {
+            "node": "Buscar histórico Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar histórico Supabase": {
+      "main": [
+        [
+          {
+            "node": "Escolher nicho",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Escolher nicho": {
+      "main": [
+        [
+          {
+            "node": "Gerar post DeepSeek",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gerar post DeepSeek": {
+      "main": [
+        [
+          {
+            "node": "Extrair MDX",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extrair MDX": {
+      "main": [
+        [
+          {
+            "node": "Salvar rascunho Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Salvar rascunho Supabase": {
+      "main": [
+        [
+          {
+            "node": "Telegram enviar aprovação",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook Receber resposta": {
+      "main": [
+        [
+          {
+            "node": "Extrair dados do reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extrair dados do reply": {
+      "main": [
+        [
+          {
+            "node": "IF Verificar aprovação",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF Verificar aprovação": {
+      "main": [
+        [
+          {
+            "node": "Buscar post Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Atualizar status rejeitado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar post Supabase": {
+      "main": [
+        [
+          {
+            "node": "Publicar MDX GitHub",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Publicar MDX GitHub": {
+      "main": [
+        [
+          {
+            "node": "Atualizar status publicado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Atualizar status publicado": {
+      "main": [
+        [
+          {
+            "node": "Telegram confirmar publicação",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Atualizar status rejeitado": {
+      "main": [
+        [
+          {
+            "node": "Telegram avisar rejeição",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": []
+}

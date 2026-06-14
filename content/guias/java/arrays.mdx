@@ -1,0 +1,260 @@
+---
+titulo: "Arrays"
+slug: "arrays"
+ordem: 11
+---
+
+# Arrays em Java: O Guia Completo para Iniciantes
+
+Arrays são uma das estruturas mais fundamentais em Java. Pense neles como uma "gaveta organizadora" onde você guarda vários itens do mesmo tipo em sequência.
+
+## O que é um Array?
+
+Um array é uma coleção ordenada de elementos do **mesmo tipo**. Imagine uma fila de cadeiras numeradas - cada cadeira pode ter uma pessoa sentada, e você sabe exatamente em qual cadeira cada pessoa está.
+
+## Declarando um Array
+
+Em Java, declaramos um array assim:
+
+```java
+tipo[] nomeDoArray;
+```
+
+Exemplos:
+
+```java
+int[] numeros;        // Array de inteiros
+double[] precos;      // Array de doubles
+String[] nomes;       // Array de Strings
+boolean[] flags;      // Array de booleanos
+```
+
+**Dica:** O colchetes `[]` pode vir depois do tipo ou depois do nome da variável:
+
+```java
+int numeros[];  // Também funciona, mas a primeira forma é mais comum
+```
+
+## Inicializando um Array
+
+### Com a palavra-chave `new`
+
+```java
+int[] numeros = new int[5];  // Array de 5 posições
+```
+
+Quando você usa `new`, o array é criado com valores padrão:
+- Números: 0
+- boolean: false
+- String/objetos: null
+
+### Com valores literais `{}`
+
+```java
+int[] numeros = {10, 20, 30, 40, 50};  // Já cria com valores
+String[] frutas = {"maçã", "banana", "laranja"};
+```
+
+## Acessando Elementos por Índice
+
+**Atenção!** Em Java, os índices começam em **0** (zero)!
+
+```java
+int[] numeros = {10, 20, 30, 40, 50};
+
+System.out.println(numeros[0]);  // Imprime: 10
+System.out.println(numeros[2]);  // Imprime: 30
+System.out.println(numeros[4]);  // Imprime: 50
+```
+
+## A Propriedade `length`
+
+Todo array tem uma propriedade `length` que diz quantos elementos ele pode armazenar:
+
+```java
+int[] numeros = {10, 20, 30, 40, 50};
+System.out.println("Tamanho do array: " + numeros.length);  // Imprime: 5
+```
+
+**Atenção:** `length` é uma **propriedade**, não um método! Não use `numeros.length()`.
+
+## Percorrendo Arrays
+
+### Com `for` tradicional
+
+```java
+int[] numeros = {10, 20, 30, 40, 50};
+
+for (int i = 0; i < numeros.length; i++) {
+    System.out.println("Posição " + i + ": " + numeros[i]);
+}
+```
+
+### Com `for-each` (enhanced for)
+
+Mais simples e seguro:
+
+```java
+int[] numeros = {10, 20, 30, 40, 50};
+
+for (int numero : numeros) {
+    System.out.println(numero);
+}
+```
+
+**Diferença importante:** No `for-each` você não tem acesso ao índice, apenas ao valor.
+
+## Array de Strings
+
+```java
+String[] nomes = {"Ana", "Bruno", "Carla", "Diego"};
+
+// Acessando
+System.out.println(nomes[1]);  // Bruno
+
+// Percorrendo
+for (String nome : nomes) {
+    System.out.println("Olá, " + nome + "!");
+}
+```
+
+## Arrays Multidimensionais (Básico)
+
+Pense como uma tabela (linhas x colunas):
+
+```java
+int[][] matriz = {
+    {1, 2, 3},
+    {4, 5, 6},
+    {7, 8, 9}
+};
+
+// Acessando: matriz[linha][coluna]
+System.out.println(matriz[0][0]);  // 1
+System.out.println(matriz[1][2]);  // 6
+
+// Percorrendo
+for (int i = 0; i < matriz.length; i++) {
+    for (int j = 0; j < matriz[i].length; j++) {
+        System.out.print(matriz[i][j] + " ");
+    }
+    System.out.println();
+}
+```
+
+## Métodos Úteis da Classe `Arrays`
+
+### `Arrays.sort()`
+
+Ordena o array em ordem crescente:
+
+```java
+import java.util.Arrays;
+
+int[] numeros = {5, 2, 8, 1, 9};
+Arrays.sort(numeros);
+
+// Resultado: {1, 2, 5, 8, 9}
+```
+
+### `Arrays.toString()`
+
+Converte o array em uma string legível:
+
+```java
+import java.util.Arrays;
+
+int[] numeros = {1, 2, 3, 4, 5};
+System.out.println(Arrays.toString(numeros));
+// Imprime: [1, 2, 3, 4, 5]
+```
+
+## Exemplo Completo
+
+```java
+import java.util.Arrays;
+
+public class ExemploArrays {
+    public static void main(String[] args) {
+        // Declarando e inicializando
+        String[] alunos = {"Ana", "Bruno", "Carla", "Diego", "Eduarda"};
+        double[] notas = {8.5, 7.0, 9.2, 6.8, 8.0};
+        
+        // Mostrando alunos e notas
+        System.out.println("=== Alunos e Notas ===");
+        for (int i = 0; i < alunos.length; i++) {
+            System.out.println(alunos[i] + ": " + notas[i]);
+        }
+        
+        // Calculando média
+        double soma = 0;
+        for (double nota : notas) {
+            soma += nota;
+        }
+        double media = soma / notas.length;
+        System.out.println("\nMédia da turma: " + media);
+        
+        // Ordenando notas
+        Arrays.sort(notas);
+        System.out.println("Notas ordenadas: " + Arrays.toString(notas));
+    }
+}
+```
+
+## Erros Comuns
+
+### 1. `ArrayIndexOutOfBoundsException`
+
+O erro mais comum! Acontece quando você tenta acessar um índice que não existe:
+
+```java
+int[] numeros = {1, 2, 3};
+System.out.println(numeros[3]);  // ERRO! Índices válidos: 0, 1, 2
+```
+
+### 2. Esquecer que o índice começa em 0
+
+```java
+int[] numeros = new int[5];
+// Índices válidos: 0, 1, 2, 3, 4
+// NÃO existem índices 5, 6, etc.
+
+// ERRADO:
+for (int i = 1; i <= numeros.length; i++) {  // Vai dar erro!
+    System.out.println(numeros[i]);
+}
+
+// CORRETO:
+for (int i = 0; i < numeros.length; i++) {
+    System.out.println(numeros[i]);
+}
+```
+
+### 3. Confundir `length` com `length()`
+
+```java
+String texto = "Java";
+String[] palavras = {"Olá", "Mundo"};
+
+System.out.println(texto.length());     // Método de String
+System.out.println(palavras.length);    // Propriedade de array
+```
+
+## Dicas Importantes
+
+1. **Sempre verifique o tamanho** antes de acessar um índice
+2. **Use `for-each`** quando não precisar do índice
+3. **Arrays têm tamanho fixo** - depois de criados, não podem crescer
+4. **Para arrays dinâmicos**, use `ArrayList` (veremos em outra aula)
+5. **Use `Arrays.toString()`** para debugar rapidamente
+
+## Resumo
+
+- Array guarda vários valores do mesmo tipo
+- Índices começam em 0
+- Use `length` para saber o tamanho
+- `for-each` é mais seguro que `for` tradicional
+- Cuidado com `ArrayIndexOutOfBoundsException`
+- `Arrays.sort()` e `Arrays.toString()` são seus amigos
+
+Pratique bastante! Arrays são a base para muitas estruturas de dados mais complexas.

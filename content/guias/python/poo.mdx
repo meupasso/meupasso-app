@@ -1,0 +1,372 @@
+---
+titulo: "Programação Orientada a Objetos"
+slug: "poo"
+ordem: 22
+---
+# Programação Orientada a Objetos em Python
+
+## O que é POO?
+
+Imagine que você está construindo uma cidade em um jogo. Você não quer criar cada prédio do zero - seria muito trabalhoso! Em vez disso, você cria "plantas" (classes) e depois constrói vários prédios (objetos) seguindo essa planta.
+
+**Programação Orientada a Objetos (POO)** é exatamente isso: um paradigma de programação que organiza o código em torno de **objetos** que possuem **características** (atributos) e **comportamentos** (métodos).
+
+### Por que usar POO?
+- ✅ **Reutilização**: Crie uma vez, use várias vezes
+- ✅ **Organização**: Código mais limpo e fácil de entender
+- ✅ **Manutenção**: Mais fácil de modificar sem quebrar outras partes
+- ✅ **Modelagem real**: Representa melhor objetos do mundo real
+
+## Classes e Objetos
+
+**Classe** = a planta/blueprint
+**Objeto** = a construção real baseada na planta
+
+```python
+# Definindo uma classe
+class Cachorro:
+    pass  # por enquanto, vazia
+
+# Criando objetos (instâncias)
+rex = Cachorro()
+bob = Cachorro()
+
+print(type(rex))  # <class '__main__.Cachorro'>
+print(type(bob))  # <class '__main__.Cachorro'>
+```
+
+## O método __init__ e o self
+
+O `__init__` é o **construtor** - ele roda automaticamente quando criamos um objeto. O `self` se refere ao próprio objeto que está sendo criado.
+
+```python
+class Cachorro:
+    def __init__(self, nome, idade, raca):
+        self.nome = nome
+        self.idade = idade
+        self.raca = raca
+
+# Criando cachorros com características diferentes
+rex = Cachorro("Rex", 3, "Labrador")
+bob = Cachorro("Bob", 1, "Vira-lata")
+
+print(rex.nome)   # Rex
+print(bob.idade)  # 1
+```
+
+## Atributos e Métodos
+
+**Atributos** = características (variáveis dentro do objeto)
+**Métodos** = comportamentos (funções dentro do objeto)
+
+```python
+class Cachorro:
+    def __init__(self, nome, idade):
+        self.nome = nome
+        self.idade = idade
+        self.energia = 100  # atributo com valor padrão
+    
+    # Método
+    def latir(self):
+        print(f"{self.nome} diz: Au au!")
+    
+    def dormir(self, horas):
+        self.energia += horas * 10
+        print(f"{self.nome} dormiu {horas} horas. Energia: {self.energia}")
+    
+    def brincar(self):
+        if self.energia >= 20:
+            self.energia -= 20
+            print(f"{self.nome} está brincando! Energia: {self.energia}")
+        else:
+            print(f"{self.nome} está cansado demais para brincar!")
+
+# Usando a classe
+rex = Cachorro("Rex", 3)
+rex.latir()          # Rex diz: Au au!
+rex.brincar()        # Rex está brincando! Energia: 80
+rex.dormir(2)        # Rex dormiu 2 horas. Energia: 100
+```
+
+## Herança
+
+Herança permite criar uma nova classe baseada em uma existente. É como ter uma "planta padrão" e criar versões mais específicas.
+
+```python
+# Classe base (pai)
+class Animal:
+    def __init__(self, nome):
+        self.nome = nome
+    
+    def fazer_som(self):
+        print(f"{self.nome} faz algum som")
+
+# Classe derivada (filho)
+class Gato(Animal):
+    def __init__(self, nome, cor):
+        super().__init__(nome)  # chama o __init__ do pai
+        self.cor = cor
+    
+    def fazer_som(self):
+        print(f"{self.nome} diz: Miau!")
+    
+    def ronronar(self):
+        print(f"{self.nome} está ronronando...")
+
+class Peixe(Animal):
+    def fazer_som(self):
+        print(f"{self.nome} faz: Glub glub")
+
+# Usando herança
+gato = Gato("Mimi", "preto")
+gato.fazer_som()    # Mimi diz: Miau!
+gato.ronronar()     # Mimi está ronronando...
+
+peixe = Peixe("Nemo")
+peixe.fazer_som()   # Nemo faz: Glub glub
+```
+
+## Encapsulamento
+
+Encapsulamento protege dados internos do objeto. Em Python, usamos `_` (underline) para indicar que algo é "privado" (por convenção).
+
+```python
+class ContaBancaria:
+    def __init__(self, titular, saldo_inicial=0):
+        self.titular = titular
+        self._saldo = saldo_inicial  # "privado" por convenção
+        self.__senha = "1234"  # name mangling (mais protegido)
+    
+    def depositar(self, valor):
+        if valor > 0:
+            self._saldo += valor
+            print(f"Depósito de R${valor:.2f} realizado")
+    
+    def sacar(self, valor, senha):
+        if senha == self.__senha:
+            if valor <= self._saldo:
+                self._saldo -= valor
+                print(f"Saque de R${valor:.2f} realizado")
+            else:
+                print("Saldo insuficiente!")
+        else:
+            print("Senha incorreta!")
+    
+    def ver_saldo(self, senha):
+        if senha == self.__senha:
+            return f"Saldo: R${self._saldo:.2f}"
+        return "Senha incorreta!"
+
+# Exemplo
+conta = ContaBancaria("João", 1000)
+conta.depositar(500)         # Depósito de R$500.00 realizado
+print(conta.ver_saldo("1234"))  # Saldo: R$1500.00
+print(conta._saldo)          # 1500 (funciona, mas não é recomendado)
+# print(conta.__senha)        # Erro! Atributo "escondido"
+```
+
+## Polimorfismo
+
+Polimorfismo = "muitas formas". Permite que objetos de classes diferentes respondam ao mesmo método de formas diferentes.
+
+```python
+class Animal:
+    def mover(self):
+        pass
+
+class Cobra(Animal):
+    def mover(self):
+        return "Rastejando..."
+
+class Passaro(Animal):
+    def mover(self):
+        return "Voando..."
+
+class Peixe(Animal):
+    def mover(self):
+        return "Nadando..."
+
+# Função que usa polimorfismo
+def mostrar_movimento(animal):
+    print(animal.mover())
+
+# Todos respondem ao mesmo método de forma diferente
+animais = [Cobra(), Passaro(), Peixe()]
+for animal in animais:
+    mostrar_movimento(animal)
+# Rastejando...
+# Voando...
+# Nadando...
+```
+
+## Métodos Especiais: __str__ e __repr__
+
+Estes métodos controlam como nossos objetos são representados como texto.
+
+```python
+class Pessoa:
+    def __init__(self, nome, idade):
+        self.nome = nome
+        self.idade = idade
+    
+    def __str__(self):
+        # Usado por print() e str()
+        return f"{self.nome} ({self.idade} anos)"
+    
+    def __repr__(self):
+        # Representação técnica, útil para debug
+        return f"Pessoa('{self.nome}', {self.idade})"
+
+pessoa = Pessoa("Maria", 30)
+print(str(pessoa))   # Maria (30 anos)
+print(repr(pessoa))  # Pessoa('Maria', 30)
+print(pessoa)        # Maria (30 anos)  - usa __str__ por padrão
+```
+
+## Exemplo Prático Completo
+
+Vamos criar um sistema de biblioteca simples:
+
+```python
+class Livro:
+    def __init__(self, titulo, autor, ano):
+        self.titulo = titulo
+        self.autor = autor
+        self.ano = ano
+        self._disponivel = True
+    
+    def __str__(self):
+        status = "Disponível" if self._disponivel else "Emprestado"
+        return f"'{self.titulo}' - {self.autor} ({self.ano}) - {status}"
+    
+    def emprestar(self):
+        if self._disponivel:
+            self._disponivel = False
+            return True
+        return False
+    
+    def devolver(self):
+        self._disponivel = True
+
+class Biblioteca:
+    def __init__(self, nome):
+        self.nome = nome
+        self._livros = []
+    
+    def adicionar_livro(self, livro):
+        self._livros.append(livro)
+        print(f"Livro '{livro.titulo}' adicionado à biblioteca")
+    
+    def listar_livros(self):
+        if not self._livros:
+            print("Biblioteca vazia!")
+            return
+        print(f"\n=== {self.nome} ===")
+        for i, livro in enumerate(self._livros, 1):
+            print(f"{i}. {livro}")
+    
+    def emprestar_livro(self, titulo):
+        for livro in self._livros:
+            if livro.titulo.lower() == titulo.lower():
+                if livro.emprestar():
+                    print(f"Livro '{titulo}' emprestado com sucesso!")
+                    return
+                else:
+                    print(f"Livro '{titulo}' já está emprestado!")
+                    return
+        print(f"Livro '{titulo}' não encontrado!")
+    
+    def devolver_livro(self, titulo):
+        for livro in self._livros:
+            if livro.titulo.lower() == titulo.lower():
+                livro.devolver()
+                print(f"Livro '{titulo}' devolvido!")
+                return
+        print(f"Livro '{titulo}' não encontrado!")
+
+# Testando o sistema
+biblioteca = Biblioteca("Biblioteca Central")
+
+# Criando livros
+livro1 = Livro("1984", "George Orwell", 1949)
+livro2 = Livro("Dom Casmurro", "Machado de Assis", 1899)
+livro3 = Livro("O Pequeno Príncipe", "Antoine de Saint-Exupéry", 1943)
+
+# Adicionando à biblioteca
+biblioteca.adicionar_livro(livro1)
+biblioteca.adicionar_livro(livro2)
+biblioteca.adicionar_livro(livro3)
+
+# Listando livros
+biblioteca.listar_livros()
+
+# Emprestando e devolvendo
+biblioteca.emprestar_livro("1984")
+biblioteca.listar_livros()
+biblioteca.emprestar_livro("1984")  # Tentando emprestar de novo
+biblioteca.devolver_livro("1984")
+biblioteca.listar_livros()
+```
+
+## Erros Comuns e Dicas
+
+### ❌ Erro: Esquecer o `self`
+```python
+class Carro:
+    def __init__(self, modelo):
+        modelo = modelo  # ERRO! Deveria ser self.modelo = modelo
+```
+
+### ❌ Erro: Confundir classe e instância
+```python
+class Contador:
+    valor = 0  # Atributo de classe
+
+c1 = Contador()
+c2 = Contador()
+c1.valor += 1
+print(c2.valor)  # 0 (não 1!) - cada instância tem seu próprio valor
+```
+
+### ✅ Dica: Use type hints (dicas de tipo)
+```python
+class Produto:
+    def __init__(self, nome: str, preco: float):
+        self.nome = nome
+        self.preco = preco
+    
+    def aplicar_desconto(self, percentual: float) -> float:
+        return self.preco * (1 - percentual / 100)
+```
+
+### ✅ Dica: Herança múltipla com cuidado
+```python
+class A:
+    def metodo(self):
+        print("A")
+
+class B:
+    def metodo(self):
+        print("B")
+
+class C(A, B):  # Ordem importa! A tem prioridade
+    pass
+
+c = C()
+c.metodo()  # A (primeira na ordem)
+```
+
+## Resumo
+
+| Conceito | O que faz | Exemplo |
+|----------|-----------|---------|
+| **Classe** | Define um tipo de objeto | `class Cachorro:` |
+| **Objeto** | Instância de uma classe | `rex = Cachorro()` |
+| **__init__** | Construtor/inicializador | `def __init__(self, nome):` |
+| **self** | Referência ao próprio objeto | `self.nome = nome` |
+| **Herança** | Reutilizar código de outra classe | `class Gato(Animal):` |
+| **Encapsulamento** | Proteger dados internos | `self._saldo` |
+| **Polimorfismo** | Mesmo método, comportamento diferente | `animal.mover()` |
+| **__str__** | Representação amigável | `def __str__(self):` |
+
+POO é uma ferramenta poderosa! Comece com exemplos simples e vá aumentando a complexidade. A prática leva à perfeição! 🚀

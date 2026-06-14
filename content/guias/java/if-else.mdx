@@ -1,0 +1,447 @@
+---
+titulo: "If / Else"
+slug: "if-else"
+ordem: 8
+---
+
+# Guia Completo de If/Else em Java para Iniciantes
+
+Olá, futuro programador Java! Hoje vamos aprender sobre uma das estruturas mais importantes da programação: os comandos de decisão. Pense neles como os "semáforos" do seu código - eles controlam qual caminho seu programa vai seguir.
+
+## O que são estruturas condicionais?
+
+Estruturas condicionais permitem que seu programa tome decisões baseadas em condições. É como na vida real: "SE estiver chovendo, PEGO o guarda-chuva; SENÃO, VOU sem guarda-chuva".
+
+## 1. O comando if (SE)
+
+O `if` é a estrutura condicional mais básica. Ele executa um bloco de código apenas se uma condição for verdadeira.
+
+### Sintaxe básica:
+
+```java
+if (condicao) {
+    // código executado se condição for verdadeira
+}
+```
+
+### Exemplo prático:
+
+```java
+int idade = 18;
+
+if (idade >= 18) {
+    System.out.println("Você é maior de idade!");
+}
+```
+
+## 2. O comando else (SENÃO)
+
+O `else` complementa o `if`, executando um código quando a condição for falsa.
+
+```java
+int idade = 15;
+
+if (idade >= 18) {
+    System.out.println("Maior de idade");
+} else {
+    System.out.println("Menor de idade");
+}
+```
+
+## 3. O comando else if (SENÃO SE)
+
+Para testar múltiplas condições, usamos `else if`.
+
+```java
+int nota = 85;
+
+if (nota >= 90) {
+    System.out.println("Conceito A");
+} else if (nota >= 80) {
+    System.out.println("Conceito B");
+} else if (nota >= 70) {
+    System.out.println("Conceito C");
+} else {
+    System.out.println("Conceito D - Precisa melhorar!");
+}
+```
+
+## 4. Chaves: obrigatórias vs opcionais
+
+### Quando são obrigatórias?
+Sempre que você tiver mais de uma linha de código no bloco.
+
+### Quando são opcionais?
+Quando o bloco tem apenas UMA linha.
+
+```java
+// Com uma linha - chaves opcionais
+if (idade >= 18) 
+    System.out.println("Maior de idade");
+
+// Com múltiplas linhas - chaves obrigatórias
+if (idade >= 18) {
+    System.out.println("Maior de idade");
+    System.out.println("Pode dirigir");
+}
+
+// ⚠️ Atenção: Sem chaves, apenas a primeira linha pertence ao if!
+if (idade >= 18)
+    System.out.println("Maior de idade"); // Esta linha está no if
+    System.out.println("Pode dirigir"); // Esta linha NÃO está no if!
+```
+
+**Dica do professor:** Sempre use chaves, mesmo com uma linha. Isso evita erros e torna o código mais legível!
+
+## 5. Operador Ternário
+
+O operador ternário é uma forma compacta de escrever um if/else simples.
+
+```java
+// Forma tradicional
+String mensagem;
+if (idade >= 18) {
+    mensagem = "Maior de idade";
+} else {
+    mensagem = "Menor de idade";
+}
+
+// Com operador ternário
+String mensagem = (idade >= 18) ? "Maior de idade" : "Menor de idade";
+```
+
+### Sintaxe:
+```java
+variavel = (condicao) ? valorSeVerdadeiro : valorSeFalso;
+```
+
+### Exemplo prático:
+
+```java
+int numero = 7;
+String resultado = (numero % 2 == 0) ? "Par" : "Ímpar";
+System.out.println("O número é " + resultado);
+```
+
+## 6. Switch/Case
+
+O `switch` é ideal quando você tem múltiplas opções baseadas no valor de uma variável.
+
+### Sintaxe básica:
+
+```java
+switch (variavel) {
+    case valor1:
+        // código para valor1
+        break;
+    case valor2:
+        // código para valor2
+        break;
+    default:
+        // código para outros casos
+        break;
+}
+```
+
+### Exemplo com números:
+
+```java
+int diaSemana = 3;
+String nomeDia;
+
+switch (diaSemana) {
+    case 1:
+        nomeDia = "Domingo";
+        break;
+    case 2:
+        nomeDia = "Segunda-feira";
+        break;
+    case 3:
+        nomeDia = "Terça-feira";
+        break;
+    case 4:
+        nomeDia = "Quarta-feira";
+        break;
+    case 5:
+        nomeDia = "Quinta-feira";
+        break;
+    case 6:
+        nomeDia = "Sexta-feira";
+        break;
+    case 7:
+        nomeDia = "Sábado";
+        break;
+    default:
+        nomeDia = "Dia inválido";
+        break;
+}
+
+System.out.println("Hoje é " + nomeDia);
+```
+
+## 7. Switch com String (Java 7+)
+
+A partir do Java 7, podemos usar Strings no switch!
+
+```java
+String fruta = "maçã";
+String mensagem;
+
+switch (fruta.toLowerCase()) {
+    case "maçã":
+        mensagem = "Maçã é vermelha ou verde";
+        break;
+    case "banana":
+        mensagem = "Banana é amarela";
+        break;
+    case "laranja":
+        mensagem = "Laranja é laranja (óbvio!)";
+        break;
+    default:
+        mensagem = "Fruta desconhecida";
+        break;
+}
+
+System.out.println(mensagem);
+```
+
+## Exemplos Práticos
+
+### 1. Calculadora Simples
+
+```java
+import java.util.Scanner;
+
+public class Calculadora {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("=== CALCULADORA ===");
+        System.out.print("Digite o primeiro número: ");
+        double num1 = scanner.nextDouble();
+        
+        System.out.print("Digite o segundo número: ");
+        double num2 = scanner.nextDouble();
+        
+        System.out.print("Digite a operação (+, -, *, /): ");
+        char operacao = scanner.next().charAt(0);
+        
+        double resultado;
+        
+        switch (operacao) {
+            case '+':
+                resultado = num1 + num2;
+                System.out.println(num1 + " + " + num2 + " = " + resultado);
+                break;
+            case '-':
+                resultado = num1 - num2;
+                System.out.println(num1 + " - " + num2 + " = " + resultado);
+                break;
+            case '*':
+                resultado = num1 * num2;
+                System.out.println(num1 + " * " + num2 + " = " + resultado);
+                break;
+            case '/':
+                if (num2 != 0) {
+                    resultado = num1 / num2;
+                    System.out.println(num1 + " / " + num2 + " = " + resultado);
+                } else {
+                    System.out.println("Erro: Divisão por zero!");
+                }
+                break;
+            default:
+                System.out.println("Operação inválida!");
+                break;
+        }
+        
+        scanner.close();
+    }
+}
+```
+
+### 2. Classificação de Notas
+
+```java
+import java.util.Scanner;
+
+public class ClassificadorNotas {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.print("Digite a nota do aluno (0-100): ");
+        int nota = scanner.nextInt();
+        
+        String conceito;
+        
+        if (nota < 0 || nota > 100) {
+            System.out.println("Nota inválida! Digite um valor entre 0 e 100.");
+        } else {
+            if (nota >= 90) {
+                conceito = "A - Excelente!";
+            } else if (nota >= 80) {
+                conceito = "B - Muito bom!";
+            } else if (nota >= 70) {
+                conceito = "C - Bom";
+            } else if (nota >= 60) {
+                conceito = "D - Regular";
+            } else {
+                conceito = "F - Reprovado";
+            }
+            
+            System.out.println("Nota: " + nota);
+            System.out.println("Conceito: " + conceito);
+            
+            // Usando operador ternário para aprovação
+            String status = (nota >= 60) ? "Aprovado" : "Reprovado";
+            System.out.println("Status: " + status);
+        }
+        
+        scanner.close();
+    }
+}
+```
+
+### 3. Verificar Maioridade
+
+```java
+import java.util.Scanner;
+
+public class VerificadorMaioridade {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.print("Digite sua idade: ");
+        int idade = scanner.nextInt();
+        
+        if (idade < 0) {
+            System.out.println("Idade inválida!");
+        } else if (idade < 12) {
+            System.out.println("Você é uma criança");
+            System.out.println("Não pode dirigir, votar ou beber");
+        } else if (idade < 18) {
+            System.out.println("Você é adolescente");
+            System.out.println("Pode trabalhar com autorização");
+        } else if (idade < 65) {
+            System.out.println("Você é adulto");
+            System.out.println("Pode dirigir, votar e beber (com moderação!)");
+        } else {
+            System.out.println("Você é idoso");
+            System.out.println("Tem direito a benefícios especiais");
+        }
+        
+        scanner.close();
+    }
+}
+```
+
+## Erros Comuns (e como evitá-los)
+
+### ❌ Erro 1: Esquecer o break no switch
+
+```java
+// ERRADO - vai executar todos os cases!
+int mes = 2;
+switch (mes) {
+    case 1:
+        System.out.println("Janeiro");
+    case 2:
+        System.out.println("Fevereiro");
+    case 3:
+        System.out.println("Março");
+}
+// Saída: Fevereiro Março
+```
+
+```java
+// CERTO - com break
+int mes = 2;
+switch (mes) {
+    case 1:
+        System.out.println("Janeiro");
+        break;
+    case 2:
+        System.out.println("Fevereiro");
+        break;
+    case 3:
+        System.out.println("Março");
+        break;
+}
+// Saída: Fevereiro
+```
+
+### ❌ Erro 2: Usar = em vez de ==
+
+```java
+// ERRADO - = é atribuição, não comparação!
+int x = 5;
+if (x = 10) {  // Isso não compila!
+    System.out.println("x é 10");
+}
+
+// CERTO - == é comparação
+int x = 5;
+if (x == 10) {
+    System.out.println("x é 10");
+} else {
+    System.out.println("x não é 10");
+}
+```
+
+### ❌ Erro 3: Esquecer o default no switch
+
+```java
+// ERRADO - sem default, valores não esperados são ignorados
+switch (opcao) {
+    case 1:
+        System.out.println("Opção 1");
+        break;
+    case 2:
+        System.out.println("Opção 2");
+        break;
+}
+
+// CERTO - com default
+switch (opcao) {
+    case 1:
+        System.out.println("Opção 1");
+        break;
+    case 2:
+        System.out.println("Opção 2");
+        break;
+    default:
+        System.out.println("Opção inválida!");
+        break;
+}
+```
+
+### ❌ Erro 4: Comparar Strings com ==
+
+```java
+// ERRADO - == compara referências, não conteúdo!
+String nome1 = "João";
+String nome2 = new String("João");
+if (nome1 == nome2) {
+    System.out.println("Nomes iguais"); // Isso NÃO executa!
+}
+
+// CERTO - use equals() para comparar conteúdo
+String nome1 = "João";
+String nome2 = new String("João");
+if (nome1.equals(nome2)) {
+    System.out.println("Nomes iguais"); // Isso executa!
+}
+```
+
+## Dicas Finais
+
+1. **Sempre use chaves** - mesmo com uma linha, previne erros
+2. **Use switch para múltiplas opções** - mais legível que vários if/else
+3. **Nunca esqueça o break** no switch
+4. **Sempre inclua default** no switch
+5. **Use equals() para Strings**, não ==
+6. **Prefira operador ternário** para condições simples
+7. **Mantenha as condições simples** - se ficar complexo, quebre em partes
+
+Pratique bastante! Crie pequenos programas que usem essas estruturas. Com o tempo, você vai naturalmente escolher a melhor estrutura para cada situação.
+
+Bons estudos e qualquer dúvida, volte aqui! 🚀

@@ -1,0 +1,200 @@
+---
+titulo: "For Loops"
+slug: "for-loops"
+ordem: 14
+---
+
+O `for` é usado para **percorrer** (iterar) uma sequência de valores — um por um. É o loop mais comum em Python.
+
+## Sintaxe básica
+
+```python
+for fruta in ["maçã", "banana", "laranja"]:
+    print(fruta)
+```
+
+A lógica é simples: para cada elemento na lista, execute o bloco indentado.
+
+## Iterando sobre diferentes tipos
+
+```python
+# Listas
+for item in [1, 2, 3]:
+    print(item)
+
+# Strings — percorre cada caractere
+for letra in "Python":
+    print(letra)
+
+# Tuplas
+for cor in ("azul", "verde", "vermelho"):
+    print(cor)
+
+# Dicionários — itera sobre as chaves
+aluno = {"nome": "Ana", "idade": 22, "curso": "Python"}
+for chave in aluno:
+    print(f"{chave}: {aluno[chave]}")
+```
+
+## `range()` — a dupla perfeita do `for`
+
+`range()` gera sequências numéricas sem precisar criar uma lista:
+
+```python
+# range(5) → 0, 1, 2, 3, 4
+for i in range(5):
+    print(i)  # 0, 1, 2, 3, 4
+
+# range(1, 6) → 1, 2, 3, 4, 5
+for i in range(1, 6):
+    print(i)
+
+# range(0, 10, 2) → 0, 2, 4, 6, 8
+for i in range(0, 10, 2):
+    print(i)
+
+# range(10, 0, -1) → 10, 9, ..., 1 (contagem regressiva)
+for i in range(10, 0, -1):
+    print(i)
+```
+
+> **Lembrete**: o `range` **não inclui** o valor final. `range(1, 6)` vai até 5.
+
+## `enumerate()` — índice e valor juntos
+
+```python
+frutas = ["maçã", "banana", "laranja"]
+
+for i, fruta in enumerate(frutas):
+    print(f"{i}: {fruta}")  # 0: maçã, 1: banana, 2: laranja
+```
+
+## `zip()` — iterar duas listas ao mesmo tempo
+
+```python
+nomes = ["Ana", "João", "Maria"]
+notas = [9.0, 7.5, 8.5]
+
+for nome, nota in zip(nomes, notas):
+    print(f"{nome}: {nota}")
+# Ana: 9.0
+# João: 7.5
+# Maria: 8.5
+```
+
+## `break` e `continue`
+
+```python
+# break — interrompe o loop
+for i in range(10):
+    if i == 5:
+        break
+    print(i)  # 0, 1, 2, 3, 4
+
+# continue — pula para a próxima iteração
+for i in range(10):
+    if i % 2 == 0:
+        continue
+    print(i)  # 1, 3, 5, 7, 9
+```
+
+## `for` com `else`
+
+O `else` no `for` executa **se o loop não foi interrompido por `break`**:
+
+```python
+numeros = [1, 3, 5, 7, 9]
+
+for n in numeros:
+    if n == 3:
+        print("Achou!")
+        break
+else:
+    print("Não encontrou")  # Não executa, porque deu break
+```
+
+## List comprehension — introdução
+
+É uma forma compacta de criar listas:
+
+```python
+# Jeito normal
+quadrados = []
+for i in range(10):
+    quadrados.append(i * i)
+
+# List comprehension
+quadrados = [i * i for i in range(10)]
+
+print(quadrados)  # [0, 1, 4, 9, ..., 81]
+```
+
+Com condição:
+
+```python
+pares = [i for i in range(20) if i % 2 == 0]
+print(pares)  # [0, 2, 4, ..., 18]
+```
+
+Você vai usar muito list comprehension quando pegar mais prática.
+
+## Exemplo prático — média da turma
+
+```python
+notas = []
+quantidade = int(input("Quantas notas? "))
+
+for i in range(quantidade):
+    nota = float(input(f"Nota {i + 1}: "))
+    notas.append(nota)
+
+media = sum(notas) / len(notas)
+print(f"Média da turma: {media:.2f}")
+```
+
+## Erros comuns
+
+### Esquecer que range não inclui o fim
+
+```python
+for i in range(5):
+    print(i)  # 0, 1, 2, 3, 4 — nunca o 5!
+```
+
+**Solução**: se quer até 5, use `range(1, 6)`.
+
+### Modificar a lista enquanto itera
+
+```python
+numeros = [1, 2, 3, 4, 5]
+for n in numeros:
+    numeros.remove(n)  # ❌ comportamento imprevisível
+```
+
+**Solução**: itere sobre uma cópia: `for n in numeros[:]:`.
+
+### Loop infinito com for (improvável, mas...)
+
+Isso é mais comum com `while`. O `for` sempre termina porque tem um número definido de iterações.
+
+### Usar `range` sem pensar no início
+
+```python
+for i in range(1, 5):
+    print(i)  # 1, 2, 3, 4 — okay
+```
+
+Lembre-se que `range` começa em 0 por padrão.
+
+## Resumo
+
+| Função | O que faz | Exemplo |
+|--------|-----------|---------|
+| `for x in lista` | Itera sobre uma lista | `for f in frutas:` |
+| `range(n)` | Gera 0 até n-1 | `range(5)` → 0..4 |
+| `range(1, n)` | Gera 1 até n-1 | `range(1, 6)` → 1..5 |
+| `range(1, n, 2)` | Gera com passo | `range(1, 10, 2)` → 1,3,5,7,9 |
+| `enumerate()` | Índice + valor | `for i, v in enumerate(x):` |
+| `zip()` | Duas listas juntas | `for a, b in zip(x, y):` |
+| `break` | Sai do loop | — |
+| `continue` | Pula iteração | — |

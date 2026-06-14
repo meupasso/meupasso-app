@@ -1,0 +1,323 @@
+---
+titulo: "Tratamento de Erros — try/catch"
+slug: "erros"
+ordem: 20
+---
+
+## Tratamento de Erros em JavaScript: Um Guia para Iniciantes
+
+Oi! Vamos falar sobre um assunto que todo desenvolvedor precisa dominar: tratamento de erros. Sabe quando seu código quebra e você fica sem saber o que aconteceu? Pois é, o JavaScript tem ferramentas poderosas para lidar com esses momentos.
+
+### Por que tratar erros?
+
+Imagine que você está construindo um site de compras. O usuário clica em "Finalizar Compra", mas o servidor está fora do ar. Sem tratamento de erro, a página simplesmente quebra e o usuário fica perdido. Com tratamento adequado, você mostra uma mensagem amigável como "Ops, algo deu errado! Tente novamente mais tarde."
+
+## Try/Catch/Finally: O Trio Protetor
+
+### Try (Tentar)
+O `try` é onde colocamos o código que pode dar problema. É como colocar um capacete antes de andar de bicicleta.
+
+```javascript
+try {
+  // Código que pode dar erro
+  console.log("Vou tentar executar algo arriscado...");
+  let resultado = 10 / 0; // Isso não dá erro em JS!
+  console.log("Deu certo!");
+} catch (erro) {
+  // Só executa se algo der errado no try
+  console.log("Ops, algo deu errado!");
+}
+```
+
+### Catch (Pegar)
+O `catch` é nossa rede de segurança. Ele captura o erro e nos permite decidir o que fazer.
+
+```javascript
+try {
+  let numero = prompt("Digite um número:");
+  if (isNaN(numero)) {
+    throw new Error("Isso não é um número!");
+  }
+  console.log(`O dobro de ${numero} é ${numero * 2}`);
+} catch (erro) {
+  console.log(`Erro capturado: ${erro.message}`);
+}
+```
+
+### Finally (Finalmente)
+O `finally` executa **sempre**, independente de ter dado erro ou não. Perfeito para limpeza de recursos.
+
+```javascript
+function conectarBanco() {
+  console.log("Conectando ao banco...");
+  
+  try {
+    // Simulando uma conexão que pode falhar
+    if (Math.random() > 0.5) {
+      throw new Error("Falha na conexão!");
+    }
+    console.log("Conectado com sucesso!");
+  } catch (erro) {
+    console.log(`Erro: ${erro.message}`);
+  } finally {
+    console.log("Fechando conexão...");
+    // Sempre executa, mesmo com erro
+  }
+}
+
+conectarBanco();
+```
+
+## Throw: Quando Você Quer Lançar um Erro
+
+O `throw` é como jogar uma bandeira vermelha. Você decide quando algo está errado.
+
+```javascript
+function sacarDinheiro(saldo, valor) {
+  if (valor <= 0) {
+    throw new Error("Valor de saque deve ser positivo!");
+  }
+  
+  if (valor > saldo) {
+    throw new Error("Saldo insuficiente!");
+  }
+  
+  return saldo - valor;
+}
+
+try {
+  let novoSaldo = sacarDinheiro(100, 200);
+  console.log(`Novo saldo: R$ ${novoSaldo}`);
+} catch (erro) {
+  console.log(`Erro no saque: ${erro.message}`);
+}
+```
+
+## Tipos de Erro no JavaScript
+
+### TypeError
+Acontece quando você tenta usar um valor de forma incompatível com seu tipo.
+
+```javascript
+try {
+  let numero = 42;
+  numero();
+  // TypeError: numero is not a function
+} catch (erro) {
+  console.log(`TypeError: ${erro.message}`);
+  // Você pode verificar o tipo específico
+  if (erro instanceof TypeError) {
+    console.log("É um TypeError mesmo!");
+  }
+}
+```
+
+### RangeError
+Ocorre quando um número está fora do intervalo permitido.
+
+```javascript
+try {
+  let array = [];
+  array.length = -1; // RangeError: Invalid array length
+} catch (erro) {
+  console.log(`RangeError: ${erro.message}`);
+}
+```
+
+### ReferenceError
+Acontece quando você tenta acessar uma variável que não existe.
+
+```javascript
+try {
+  console.log(variavelInexistente);
+  // ReferenceError: variavelInexistente is not defined
+} catch (erro) {
+  console.log(`ReferenceError: ${erro.message}`);
+}
+```
+
+### SyntaxError (não pego pelo try/catch)
+Importante: erros de sintaxe não são capturados pelo try/catch porque o código nem chega a executar.
+
+```javascript
+// Isso NÃO funciona:
+try {
+  // if (true {  // Erro de sintaxe!
+} catch (erro) {
+  console.log("Nunca vou executar");
+}
+```
+
+## Criando Erros Personalizados
+
+Você pode criar seus próprios tipos de erro para situações específicas.
+
+```javascript
+class ErroDeValidacao extends Error {
+  constructor(mensagem, campo) {
+    super(mensagem);
+    this.name = "ErroDeValidacao";
+    this.campo = campo;
+    this.timestamp = new Date();
+  }
+}
+
+function validarUsuario(usuario) {
+  if (!usuario.nome) {
+    throw new ErroDeValidacao("Nome é obrigatório", "nome");
+  }
+  
+  if (usuario.idade < 18) {
+    throw new ErroDeValidacao("Usuário deve ser maior de idade", "idade");
+  }
+  
+  return true;
+}
+
+try {
+  validarUsuario({ nome: "João", idade: 15 });
+} catch (erro) {
+  if (erro instanceof ErroDeValidacao) {
+    console.log(`Erro de validação no campo ${erro.campo}: ${erro.message}`);
+    console.log(`Ocorreu em: ${erro.timestamp}`);
+  } else {
+    console.log("Erro desconhecido:", erro);
+  }
+}
+```
+
+## Quando Usar Try/Catch
+
+### ✅ Use quando:
+- Trabalhar com APIs externas
+- Fazer parsing de JSON
+- Acessar dados de usuário não confiáveis
+- Operações de arquivo
+- Conexões de rede
+
+```javascript
+async function buscarDadosDaAPI() {
+  try {
+    const resposta = await fetch("https://api.exemplo.com/dados");
+    const dados = await resposta.json();
+    return dados;
+  } catch (erro) {
+    console.log("Não foi possível buscar dados:", erro.message);
+    return null;
+  }
+}
+```
+
+### ❌ Evite usar para:
+- Controle de fluxo normal (use if/else)
+- Verificar se variável existe (use typeof/optional chaining)
+- Validar argumentos de função (valide antes)
+
+```javascript
+// ❌ RUIM: Usando try/catch para controle de fluxo
+try {
+  let resultado = dividir(10, 0);
+  console.log(resultado);
+} catch (erro) {
+  console.log("Divisão por zero!");
+}
+
+// ✅ BOM: Usando validação adequada
+function dividir(a, b) {
+  if (b === 0) {
+    throw new Error("Divisão por zero não é permitida!");
+  }
+  return a / b;
+}
+```
+
+## Erros Comuns e Como Evitá-los
+
+### Erro 1: Capturar erros genéricos demais
+```javascript
+// ❌ RUIM
+try {
+  // código
+} catch (erro) {
+  console.log("Deu erro"); // Muito genérico!
+}
+
+// ✅ BOM
+try {
+  // código
+} catch (erro) {
+  if (erro instanceof TypeError) {
+    console.log("Erro de tipo:", erro.message);
+  } else if (erro instanceof ReferenceError) {
+    console.log("Variável não encontrada:", erro.message);
+  } else {
+    console.log("Erro inesperado:", erro);
+  }
+}
+```
+
+### Erro 2: Engolir erros silenciosamente
+```javascript
+// ❌ RUIM
+try {
+  // código importante
+} catch (erro) {
+  // Não faz nada - erro engolido!
+}
+
+// ✅ BOM
+try {
+  // código importante
+} catch (erro) {
+  console.error("Erro crítico:", erro);
+  // Pelo menos logue o erro
+}
+```
+
+## Dicas Finais
+
+1. **Sempre trate erros em operações assíncronas** com async/await
+2. **Use `console.error`** em vez de `console.log` para erros
+3. **Crie erros descritivos** - mensagens claras ajudam na depuração
+4. **Não exagere** - try/catch tem custo de performance
+5. **Teste seus tratamentos de erro** - garanta que funcionam como esperado
+
+```javascript
+// Exemplo completo e prático
+class AplicacaoError extends Error {
+  constructor(mensagem, codigo) {
+    super(mensagem);
+    this.name = "AplicacaoError";
+    this.codigo = codigo;
+  }
+}
+
+function processarPedido(pedido) {
+  try {
+    if (!pedido.itens || pedido.itens.length === 0) {
+      throw new AplicacaoError("Pedido sem itens", 400);
+    }
+    
+    if (!pedido.cliente) {
+      throw new AplicacaoError("Cliente não informado", 401);
+    }
+    
+    // Processa o pedido...
+    console.log("Pedido processado com sucesso!");
+    
+  } catch (erro) {
+    if (erro instanceof AplicacaoError) {
+      console.error(`Erro ${erro.codigo}: ${erro.message}`);
+      // Mostra mensagem amigável para o usuário
+      mostrarMensagem(`Não foi possível processar: ${erro.message}`);
+    } else {
+      console.error("Erro inesperado:", erro);
+      mostrarMensagem("Ocorreu um erro inesperado. Tente novamente.");
+    }
+  } finally {
+    console.log("Finalizando processamento do pedido");
+  }
+}
+```
+
+Lembre-se: tratar erros não é sobre evitar que eles aconteçam, mas sim sobre lidar com eles de forma elegante quando acontecerem. Com prática, você vai pegar o jeito!

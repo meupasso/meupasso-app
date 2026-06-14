@@ -1,0 +1,256 @@
+---
+titulo: "Introdução"
+slug: "introducao"
+ordem: 1
+---
+
+# Introdução ao JavaScript para Iniciantes Brasileiros
+
+## O que é JavaScript?
+
+JavaScript é uma linguagem de programação que **faz as páginas web ganharem vida**. Enquanto HTML organiza o conteúdo e CSS cuida da aparência, o JavaScript é responsável pela **interatividade** e **comportamento dinâmico** dos sites.
+
+Imagine que você está montando um carrinho de compras online:
+- **HTML** seria a estrutura do carrinho (rodinhas, cestinho, alça)
+- **CSS** seria a pintura, adesivos e cores
+- **JavaScript** seria o motor que faz ele andar, frear e responder aos comandos
+
+```javascript
+// Um exemplo simples: quando o usuário clica em um botão
+document.querySelector('button').addEventListener('click', function() {
+  alert('Você clicou no botão!');
+});
+```
+
+## Onde o JavaScript roda?
+
+### 1. No Navegador (Front-end)
+
+Todo navegador moderno (Chrome, Firefox, Edge, Safari) já vem com um **motor JavaScript** embutido. Isso significa que você não precisa instalar nada para começar.
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Minha primeira página JS</title>
+</head>
+<body>
+  <h1 id="titulo">Olá, mundo!</h1>
+  
+  <script>
+    // Isso roda direto no navegador
+    document.getElementById('titulo').style.color = 'blue';
+  </script>
+</body>
+</html>
+```
+
+### 2. No Servidor (Node.js)
+
+Node.js é uma tecnologia que permite rodar JavaScript fora do navegador, no servidor. Isso significa que você pode criar **aplicações completas** usando apenas JavaScript.
+
+```javascript
+// Exemplo com Node.js - criando um servidor web simples
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+  res.end('Servidor rodando JavaScript!');
+});
+
+server.listen(3000, () => {
+  console.log('Servidor rodando na porta 3000');
+});
+```
+
+## Diferença entre JavaScript, Python e Java
+
+Muita gente confunde essas linguagens. Vamos esclarecer:
+
+### JavaScript vs Python
+
+| Característica | JavaScript | Python |
+|----------------|------------|--------|
+| **Onde roda** | Navegador + servidor | Principalmente servidor |
+| **Sintaxe** | `{}` e `;` | Indentação (espaços) |
+| **Tipos** | Dinâmicos (como Python) | Dinâmicos |
+| **Uso principal** | Web, apps, servidores | Dados, IA, automação |
+
+```javascript
+// JavaScript
+let nome = "Maria";
+if (nome === "Maria") {
+  console.log("Olá, Maria!");
+}
+```
+
+```python
+# Python
+nome = "Maria"
+if nome == "Maria":
+    print("Olá, Maria!")
+```
+
+### JavaScript vs Java
+
+Apesar dos nomes parecidos, são linguagens **completamente diferentes**:
+
+- **Java**: Compilada, tipagem estática, roda em máquinas virtuais (JVM)
+- **JavaScript**: Interpretada, tipagem dinâmica, roda em navegadores e Node.js
+
+```javascript
+// JavaScript - tipos são dinâmicos
+let valor = 10;       // número
+valor = "texto";      // agora é string (funciona!)
+```
+
+```java
+// Java - tipos são fixos
+int valor = 10;       // só pode ser número
+valor = "texto";      // ERRO de compilação!
+```
+
+## Por que aprender JavaScript?
+
+### 1. **É a linguagem mais versátil do mercado**
+Você pode construir praticamente qualquer coisa com JavaScript.
+
+### 2. **Demanda gigante no mercado**
+Toda empresa que tem site ou app precisa de desenvolvedores JavaScript.
+
+### 3. **Comunidade enorme**
+Milhares de tutoriais, fóruns e bibliotecas gratuitas disponíveis.
+
+### 4. **Aprendizado gradual**
+Você começa com o básico (alertas, botões) e chega a apps complexos.
+
+### 5. **Resultados rápidos**
+Em 5 minutos você já pode ver seu código funcionando no navegador.
+
+## O que é possível construir com JavaScript?
+
+### 🎨 **Sites interativos**
+- Animações, sliders, formulários inteligentes
+- Páginas que atualizam sem recarregar
+
+```javascript
+// Criando um contador interativo
+let contador = 0;
+const botao = document.querySelector('#botao');
+const display = document.querySelector('#contador');
+
+botao.addEventListener('click', () => {
+  contador++;
+  display.textContent = contador;
+});
+```
+
+### 📱 **Aplicativos Mobile**
+Com React Native ou Ionic, você cria apps para Android e iOS usando JavaScript.
+
+### 🖥️ **Aplicativos Desktop**
+Com Electron (usado pelo VS Code, Slack, Discord), você cria apps de computador.
+
+### 🌐 **Servidores e APIs**
+Com Node.js e Express, você constrói o backend completo de aplicações.
+
+### 🎮 **Jogos**
+Jogos simples em canvas ou jogos complexos com engines como Phaser.
+
+```javascript
+// Um joguinho básico de adivinhação
+const numeroSecreto = Math.floor(Math.random() * 10) + 1;
+const palpite = prompt('Adivinhe o número (1-10):');
+
+if (parseInt(palpite) === numeroSecreto) {
+  alert('Parabéns! Você acertou!');
+} else {
+  alert(`Errou! O número era ${numeroSecreto}`);
+}
+```
+
+### 🤖 **Automação**
+Robôs que preenchem formulários, fazem scraping de dados, automatizam tarefas.
+
+### 🧠 **Inteligência Artificial**
+Bibliotecas como TensorFlow.js permitem rodar modelos de IA no navegador.
+
+## Como começar?
+
+### 🔧 **Ferramentas necessárias**
+
+1. **Navegador** (Chrome ou Firefox - já incluem console JavaScript)
+2. **Editor de código** (VS Code é gratuito e o mais usado)
+3. **Node.js** (para rodar JavaScript no servidor - opcional no início)
+
+### 📚 **Primeiros passos práticos**
+
+```javascript
+// 1. Abra o console do navegador (F12 > Console)
+// 2. Digite e veja o resultado:
+
+console.log('Olá, mundo!');
+console.log(2 + 2);
+console.log('JavaScript é' + ' incrível!');
+
+// 3. Crie variáveis
+let meuNome = 'João';
+const idade = 25;
+var cidade = 'São Paulo'; // não use var, prefira let ou const
+
+// 4. Faça operações
+let soma = 10 + 5;
+let texto = 'Aprendendo ' + 'JavaScript';
+let template = `Meu nome é ${meuNome} e tenho ${idade} anos`;
+```
+
+### ⚠️ **Erros comuns de iniciantes**
+
+```javascript
+// ❌ ERRO: Esquecer de declarar variável
+nome = 'Maria'; // funciona, mas é má prática
+
+// ✅ CORRETO: Sempre declarar
+let nome = 'Maria';
+
+// ❌ ERRO: Confundir = com ==
+if (x = 5) { // atribuição, não comparação
+  console.log('Sempre executa');
+}
+
+// ✅ CORRETO: Usar === para comparação
+if (x === 5) {
+  console.log('Só executa se x for exatamente 5');
+}
+
+// ❌ ERRO: Esquecer ponto e vírgula (pode causar bugs)
+let a = 1
+let b = 2 // sem ; pode dar problema em alguns casos
+
+// ✅ CORRETO: Usar ; sempre
+let a = 1;
+let b = 2;
+```
+
+### 💡 **Dicas para iniciantes**
+
+1. **Comece pelo básico**: variáveis, funções, condicionais, loops
+2. **Pratique no console do navegador** - é rápido e visual
+3. **Faça pequenos projetos**: calculadora, lista de tarefas, jogo da velha
+4. **Use o ChatGPT como tutor** - pergunte dúvidas específicas
+5. **Não pule etapas** - entenda cada conceito antes de avançar
+6. **Leia erros do console** - eles mostram exatamente o que deu errado
+7. **Participe de comunidades** - grupos no Discord, fóruns, meetups
+
+## Conclusão
+
+JavaScript é a **porta de entrada perfeita** para programação web. Com ela você constrói desde sites simples até aplicações complexas, e o melhor: **tudo com uma única linguagem**.
+
+O mercado brasileiro está sedento por desenvolvedores JavaScript. Comece hoje, pratique todos os dias, e em poucos meses você já estará criando suas próprias aplicações.
+
+**Próximo passo**: Abra o console do navegador agora mesmo e escreva:
+
+```javascript
+console.log('Vou aprender JavaScript!');
+```
+
+Parabéns! Você acabou de escrever seu primeiro código JavaScript! 🚀

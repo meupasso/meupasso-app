@@ -1,0 +1,309 @@
+---
+titulo: "JSON"
+slug: "json"
+ordem: 24
+---
+Vamos aprender sobre **JSON** em Python! O JSON é um formato de dados super comum na web, usado para transmitir informações entre sistemas.
+
+## O que é JSON?
+
+JSON significa **JavaScript Object Notation** (Notação de Objetos JavaScript). É um formato leve para armazenar e transportar dados. Ele é fácil de ler tanto para humanos quanto para máquinas.
+
+Um arquivo JSON se parece com isso:
+
+```json
+{
+  "nome": "Ana",
+  "idade": 25,
+  "cidade": "São Paulo",
+  "hobbies": ["ler", "correr", "cozinhar"],
+  "ativo": true
+}
+```
+
+Percebeu a semelhança com dicionários Python? É por isso que JSON é tão natural para nós!
+
+## O módulo `json` do Python
+
+Python tem um módulo nativo chamado `json` que nos permite trabalhar com dados JSON. Primeiro, precisamos importá-lo:
+
+```python
+import json
+```
+
+## Convertendo JSON para Python: `json.loads()`
+
+A função `json.loads()` converte uma **string** JSON em um objeto Python (geralmente um dicionário ou lista).
+
+```python
+import json
+
+# String JSON
+dados_json = '{"nome": "Ana", "idade": 25, "cidade": "São Paulo"}'
+
+# Convertendo para dicionário Python
+dados_python = json.loads(dados_json)
+
+print(dados_python)
+print(type(dados_python))
+print(dados_python["nome"])
+```
+
+**Saída:**
+```
+{'nome': 'Ana', 'idade': 25, 'cidade': 'São Paulo'}
+<class 'dict'>
+Ana
+```
+
+## Convertendo Python para JSON: `json.dumps()`
+
+A função `json.dumps()` faz o contrário: converte um objeto Python em uma **string** JSON.
+
+```python
+import json
+
+# Dicionário Python
+dados_python = {
+    "nome": "Carlos",
+    "idade": 30,
+    "cidade": "Rio de Janeiro",
+    "hobbies": ["futebol", "música"]
+}
+
+# Convertendo para string JSON
+dados_json = json.dumps(dados_python)
+
+print(dados_json)
+print(type(dados_json))
+```
+
+**Saída:**
+```
+{"nome": "Carlos", "idade": 30, "cidade": "Rio de Janeiro", "hobbies": ["futebol", "música"]}
+<class 'str'>
+```
+
+## Trabalhando com arquivos JSON: `json.load()` e `json.dump()`
+
+Agora vamos para a versão com arquivos! Essas funções trabalham diretamente com objetos de arquivo.
+
+### Lendo arquivo JSON: `json.load()`
+
+```python
+import json
+
+# Suponha que temos um arquivo 'dados.json'
+with open('dados.json', 'r', encoding='utf-8') as arquivo:
+    dados = json.load(arquivo)
+
+print(dados)
+print(type(dados))
+```
+
+### Escrevendo arquivo JSON: `json.dump()`
+
+```python
+import json
+
+dados = {
+    "nome": "Mariana",
+    "idade": 28,
+    "cidade": "Belo Horizonte"
+}
+
+with open('dados.json', 'w', encoding='utf-8') as arquivo:
+    json.dump(dados, arquivo)
+
+print("Arquivo salvo com sucesso!")
+```
+
+## Formatando JSON com `indent`
+
+Por padrão, `json.dumps()` e `json.dump()` produzem JSON compacto (sem espaços extras). Para deixar mais legível, use o parâmetro `indent`:
+
+```python
+import json
+
+dados = {"nome": "Pedro", "idade": 35, "endereco": {"rua": "Av. Paulista", "numero": 1000}}
+
+# Sem indent
+print("Sem indent:")
+print(json.dumps(dados))
+
+# Com indent
+print("\nCom indent:")
+print(json.dumps(dados, indent=4))
+```
+
+**Saída:**
+```
+Sem indent:
+{"nome": "Pedro", "idade": 35, "endereco": {"rua": "Av. Paulista", "numero": 1000}}
+
+Com indent:
+{
+    "nome": "Pedro",
+    "idade": 35,
+    "endereco": {
+        "rua": "Av. Paulista",
+        "numero": 1000
+    }
+}
+```
+
+## Trabalhando com APIs que retornam JSON
+
+As APIs (interfaces de programação) frequentemente retornam dados em JSON. Vamos ver um exemplo usando a biblioteca `requests`:
+
+```python
+import json
+import requests
+
+# Fazendo requisição para uma API pública
+resposta = requests.get('https://jsonplaceholder.typicode.com/todos/1')
+
+# Convertendo a resposta JSON para Python
+tarefa = resposta.json()  # Equivalente a json.loads(resposta.text)
+
+print("Título da tarefa:", tarefa["title"])
+print("Completa:", tarefa["completed"])
+```
+
+**Saída:**
+```
+Título da tarefa: delectus aut autem
+Completa: False
+```
+
+## Exemplos práticos completos
+
+### Exemplo 1: Salvando e carregando configurações
+
+```python
+import json
+
+# Configurações do usuário
+config = {
+    "usuario": "joao123",
+    "tema": "escuro",
+    "notificacoes": True,
+    "ultimo_acesso": "2024-01-15"
+}
+
+# Salvando configurações
+with open('config.json', 'w', encoding='utf-8') as f:
+    json.dump(config, f, indent=2)
+
+# Carregando configurações depois
+with open('config.json', 'r', encoding='utf-8') as f:
+    config_carregada = json.load(f)
+
+print("Configurações carregadas:")
+print(config_carregada)
+```
+
+### Exemplo 2: Trabalhando com lista de dados
+
+```python
+import json
+
+# Lista de dicionários (muito comum em APIs)
+produtos = [
+    {"id": 1, "nome": "Notebook", "preco": 3500.00},
+    {"id": 2, "nome": "Mouse", "preco": 150.00},
+    {"id": 3, "nome": "Teclado", "preco": 200.00}
+]
+
+# Convertendo para JSON
+json_produtos = json.dumps(produtos, indent=2)
+print("Lista de produtos em JSON:")
+print(json_produtos)
+
+# De volta para Python
+produtos_python = json.loads(json_produtos)
+for produto in produtos_python:
+    print(f"{produto['nome']}: R$ {produto['preco']:.2f}")
+```
+
+## Dicas importantes
+
+1. **Sempre use `encoding='utf-8'`** ao trabalhar com arquivos para evitar problemas com acentos
+2. **JSON só aceita aspas duplas** ("), não aspas simples. O Python cuida disso automaticamente
+3. **Tipos suportados pelo JSON**: strings, números, booleanos, null, objetos (dicionários) e arrays (listas)
+4. **Para garantir a ordem** dos campos, use `OrderedDict` ou Python 3.7+ (dicionários mantêm ordem)
+
+## Erros comuns
+
+### Erro 1: Esquecer de usar aspas duplas nas chaves
+```python
+# ❌ Errado
+json.loads("{'nome': 'João'}")
+
+# ✅ Correto
+json.loads('{"nome": "João"}')
+```
+
+### Erro 2: Tentar serializar objetos não suportados
+```python
+import json
+from datetime import datetime
+
+# ❌ Errado - datetime não é serializável
+dados = {"data": datetime.now()}
+# json.dumps(dados)  # Isso daria erro!
+
+# ✅ Correto - converter para string primeiro
+dados = {"data": datetime.now().isoformat()}
+print(json.dumps(dados))
+```
+
+### Erro 3: Arquivo JSON mal formatado
+```python
+import json
+
+# ❌ Errado - vírgula extra no final
+json_invalido = '{"nome": "Ana", "idade": 25,}'
+
+# ✅ Correto - sem vírgula no último item
+json_valido = '{"nome": "Ana", "idade": 25}'
+
+try:
+    dados = json.loads(json_invalido)
+except json.JSONDecodeError as e:
+    print(f"Erro no JSON: {e}")
+```
+
+## Para praticar
+
+Crie um programa que:
+1. Pega dados de uma API pública (como a de clima)
+2. Salva os dados em um arquivo JSON
+3. Lê o arquivo e exibe as informações formatadas
+
+```python
+import json
+import requests
+
+# Exemplo com API de clima (gratuita)
+try:
+    resposta = requests.get('https://api.open-meteo.com/v1/forecast?latitude=-23.55&longitude=-46.63&current_weather=true')
+    dados_clima = resposta.json()
+    
+    # Salvando em arquivo
+    with open('clima.json', 'w', encoding='utf-8') as f:
+        json.dump(dados_clima, f, indent=2)
+    
+    # Lendo e exibindo
+    with open('clima.json', 'r', encoding='utf-8') as f:
+        clima = json.load(f)
+    
+    tempo = clima['current_weather']
+    print(f"Temperatura atual: {tempo['temperature']}°C")
+    print(f"Velocidade do vento: {tempo['windspeed']} km/h")
+    
+except Exception as e:
+    print(f"Erro ao acessar API: {e}")
+```
+
+JSON é essencial para qualquer programador Python, especialmente quando você começar a trabalhar com APIs, armazenar configurações ou trocar dados entre sistemas. Pratique bastante e logo estará dominando esse formato!

@@ -1,0 +1,211 @@
+---
+titulo: "If... Else"
+slug: "if-else"
+ordem: 13
+---
+
+Nem sempre seu programa deve fazer a mesma coisa. Às vezes você precisa tomar decisões: **se** algo for verdade, faça uma coisa; **senão**, faça outra. É para isso que servem as estruturas condicionais.
+
+## Sintaxe do `if`
+
+```python
+idade = 18
+
+if idade >= 18:
+    print("Você é maior de idade")
+    print("Pode dirigir")
+```
+
+A estrutura é:
+1. A palavra `if`
+2. Uma condição (expressão que dá True ou False)
+3. Dois pontos `:`
+4. Bloco indentado (4 espaços) com o código a executar
+
+## `if` e `else`
+
+```python
+idade = 16
+
+if idade >= 18:
+    print("Maior de idade")
+else:
+    print("Menor de idade")
+```
+
+O `else` executa quando a condição do `if` é falsa. Ele não leva condição — é o "se não" simples.
+
+## `elif` — múltiplas condições
+
+Quando você tem mais de duas possibilidades:
+
+```python
+nota = 7.5
+
+if nota >= 7:
+    print("Aprovado")
+elif nota >= 4:
+    print("Recuperação")
+else:
+    print("Reprovado")
+```
+
+> **Dica**: a ordem importa! O Python testa as condições de cima para baixo. A primeira verdadeira vence.
+
+## Condições compostas com `and`, `or`, `not`
+
+```python
+idade = 22
+carteira = True
+
+# and — as duas precisam ser True
+if idade >= 18 and carteira:
+    print("Pode dirigir")
+
+# or — pelo menos uma True
+frio = False
+sol = False
+if frio or sol:
+    print("Vou à praia")
+else:
+    print("Fico em casa")
+
+# not — inverte o booleano
+if not carteira:
+    print("Não pode dirigir")
+```
+
+## Aninhamento de `if`
+
+```python
+idade = 22
+carteira = True
+
+if idade >= 18:
+    if carteira:
+        print("Pode dirigir")
+    else:
+        print("Tem idade, mas não tem carteira")
+else:
+    print("Menor de idade")
+```
+
+Cuidado para não aninhar demais — fica difícil de ler. Prefira `and` quando possível.
+
+## Operador ternário
+
+Uma forma compacta de escrever if/else em uma linha:
+
+```python
+# Forma normal
+idade = 20
+if idade >= 18:
+    status = "Maior"
+else:
+    status = "Menor"
+
+# Operador ternário (mesma lógica em uma linha)
+status = "Maior" if idade >= 18 else "Menor"
+
+print(status)  # Maior
+```
+
+A estrutura é: `valor_se_verdadeiro if condição else valor_se_falso`
+
+## `match-case` (Python 3.10+)
+
+Uma alternativa moderna ao `if/elif` para comparar um valor contra várias opções:
+
+```python
+codigo = 200
+
+match codigo:
+    case 200:
+        print("OK")
+    case 201:
+        print("Criado")
+    case 400 | 401:
+        print("Erro de cliente")
+    case 500:
+        print("Erro no servidor")
+    case _:
+        print("Código desconhecido")
+```
+
+> **Dica**: o `case _` funciona como o `else` — captura qualquer valor não listado.
+
+## Exemplo prático
+
+```python
+print("=== CALCULADORA ===")
+n1 = float(input("Primeiro número: "))
+n2 = float(input("Segundo número: "))
+op = input("Operação (+, -, *, /): ")
+
+if op == "+":
+    print(f"{n1} + {n2} = {n1 + n2}")
+elif op == "-":
+    print(f"{n1} - {n2} = {n1 - n2}")
+elif op == "*":
+    print(f"{n1} * {n2} = {n1 * n2}")
+elif op == "/":
+    if n2 != 0:
+        print(f"{n1} / {n2} = {n1 / n2:.2f}")
+    else:
+        print("Erro: divisão por zero!")
+else:
+    print("Operação inválida!")
+```
+
+## Erros comuns
+
+### Usar `=` em vez de `==`
+
+```python
+if senha = "1234":   # ❌ SyntaxError
+```
+
+**Causa**: `=` atribui, `==` compara.
+**Solução**: em condições, sempre use `==`.
+
+### Esquecer os dois pontos
+
+```python
+if idade >= 18   # ❌ SyntaxError
+    print("Maior")
+```
+
+**Solução**: todo `if`, `elif`, `else` termina com `:`.
+
+### Indentação errada
+
+```python
+if idade >= 18:
+print("Maior")   # ❌ IndentationError
+```
+
+**Solução**: o bloco do `if` precisa estar indentado (4 espaços).
+
+### Condições fora de ordem
+
+```python
+nota = 8
+if nota >= 4:
+    print("Recuperação")
+elif nota >= 7:
+    print("Aprovado")   # Nunca vai executar!
+```
+
+**Causa**: a primeira condição verdadeira vence. `8 >= 4` é True, então nem testa o `elif`.
+**Solução**: coloque as condições mais específicas primeiro.
+
+## Resumo
+
+| Estrutura | Quando usar |
+|-----------|-------------|
+| `if` | Uma condição simples |
+| `if/else` | Duas possibilidades |
+| `if/elif/else` | Múltiplas possibilidades |
+| `and`/`or` | Combinar condições |
+| Ternário | if/else em uma linha |
+| `match/case` | Múltiplos valores fixos (Python 3.10+) |

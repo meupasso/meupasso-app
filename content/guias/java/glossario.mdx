@@ -1,0 +1,373 @@
+---
+titulo: "Glossário"
+slug: "glossario"
+ordem: 21
+---
+
+# Glossário de Java para Iniciantes Brasileiros
+
+## **abstract**
+Palavra-chave usada para declarar classes ou métodos que não podem ser instanciados diretamente. Classes abstratas servem como modelo para outras classes, e métodos abstratos precisam ser implementados nas subclasses.
+
+```java
+abstract class Animal {
+    abstract void fazerSom(); // Método abstrato
+}
+
+class Cachorro extends Animal {
+    void fazerSom() {
+        System.out.println("Au au!");
+    }
+}
+```
+
+## **ArrayList**
+Uma classe que implementa uma lista dinâmica, ou seja, um array que pode crescer ou diminuir de tamanho automaticamente. Muito útil quando você não sabe quantos elementos vai precisar.
+
+```java
+import java.util.ArrayList;
+
+ArrayList<String> nomes = new ArrayList<>();
+nomes.add("Ana");
+nomes.add("João");
+System.out.println(nomes.get(0)); // Ana
+```
+
+## **atributo**
+Variável que pertence a uma classe ou objeto, representando as características ou propriedades de um objeto. Também chamado de campo.
+
+```java
+public class Pessoa {
+    String nome; // atributo
+    int idade;   // atributo
+}
+```
+
+## **autoboxing**
+Processo automático que o Java faz para converter tipos primitivos (como `int`, `double`) em seus objetos wrapper correspondentes (como `Integer`, `Double`).
+
+```java
+int numero = 10;
+Integer objeto = numero; // autoboxing - int vira Integer automaticamente
+System.out.println(objeto + 5); // Funciona normalmente
+```
+
+## **casting**
+Conversão de um tipo de dado para outro. Pode ser implícito (automático) ou explícito (quando você força a conversão).
+
+```java
+double decimal = 10.5;
+int inteiro = (int) decimal; // casting explícito - perde a parte decimal
+System.out.println(inteiro); // 10
+
+int numero = 5;
+double outro = numero; // casting implícito - automático
+```
+
+## **classe**
+Modelo ou molde que define a estrutura e o comportamento de objetos. É como uma planta de casa: define como os objetos serão construídos.
+
+```java
+public class Carro {
+    String modelo;
+    int ano;
+    
+    void acelerar() {
+        System.out.println("Vrum vrum!");
+    }
+}
+```
+
+## **construtor**
+Método especial que é executado automaticamente quando um objeto é criado. Serve para inicializar os atributos do objeto.
+
+```java
+public class Aluno {
+    String nome;
+    
+    // Construtor
+    Aluno(String nome) {
+        this.nome = nome; // this.nome se refere ao atributo da classe
+    }
+}
+```
+
+## **encapsulamento**
+Princípio que esconde os detalhes internos de uma classe, expondo apenas o necessário através de métodos públicos. Protege os dados de acesso indevido.
+
+```java
+public class Conta {
+    private double saldo; // privado - só a classe pode acessar
+    
+    public void depositar(double valor) {
+        if (valor > 0) {
+            saldo += valor; // só deposita se valor for positivo
+        }
+    }
+    
+    public double getSaldo() {
+        return saldo; // acesso controlado
+    }
+}
+```
+
+## **herança**
+Mecanismo que permite uma classe herdar atributos e métodos de outra classe. Usa-se a palavra `extends`. Promove reuso de código.
+
+```java
+public class Animal {
+    void comer() {
+        System.out.println("Comendo...");
+    }
+}
+
+public class Gato extends Animal { // Gato herda de Animal
+    void miar() {
+        System.out.println("Miau!");
+    }
+}
+// gato.comer() funciona porque foi herdado
+```
+
+## **instância**
+Objeto criado a partir de uma classe. Quando você usa `new`, está criando uma instância (um exemplar) da classe.
+
+```java
+public class Fruta {
+    String nome;
+}
+
+// Criando uma instância
+Fruta maca = new Fruta(); // maca é uma instância de Fruta
+maca.nome = "Maçã";
+```
+
+## **interface**
+Tipo de referência que define um contrato: lista de métodos que uma classe deve implementar. Todas as classes que implementam a interface precisam ter esses métodos.
+
+```java
+interface Voador {
+    void voar(); // método sem implementação
+}
+
+class Passaro implements Voador {
+    public void voar() { // obrigatório implementar
+        System.out.println("Bate asas");
+    }
+}
+```
+
+## **JDK (Java Development Kit)**
+Kit de desenvolvimento completo para criar programas Java. Inclui o compilador (`javac`), bibliotecas, ferramentas de depuração e a JRE. É o que você precisa baixar para programar em Java.
+
+```bash
+# Verificar se o JDK está instalado
+javac --version
+```
+
+## **JRE (Java Runtime Environment)**
+Ambiente de execução do Java. Contém a JVM e as bibliotecas necessárias para rodar programas Java, mas não tem ferramentas de desenvolvimento.
+
+```bash
+# Verificar a JRE
+java --version
+```
+
+## **JVM (Java Virtual Machine)**
+Máquina virtual que executa o bytecode Java. Faz o Java ser multiplataforma: "escreva uma vez, execute em qualquer lugar". Cada sistema operacional tem sua própria JVM.
+
+```java
+// O código Java é compilado para bytecode
+// A JVM interpreta esse bytecode
+public class Ola {
+    public static void main(String[] args) {
+        System.out.println("Rodando na JVM!");
+    }
+}
+```
+
+## **main**
+Método principal que é o ponto de entrada de um programa Java. Sem ele, o programa não pode ser executado. Deve ser declarado exatamente assim.
+
+```java
+public class Programa {
+    public static void main(String[] args) {
+        System.out.println("Olá, mundo!");
+    }
+}
+```
+
+## **método**
+Bloco de código que executa uma tarefa específica. Pode receber parâmetros e retornar valores. É como uma "função" dentro de uma classe.
+
+```java
+public class Calculadora {
+    int somar(int a, int b) { // método que soma dois números
+        return a + b;
+    }
+}
+```
+
+## **null**
+Valor especial que indica que uma variável de referência não aponta para nenhum objeto. É como um endereço vazio.
+
+```java
+String texto = null; // não aponta para nenhum objeto
+// Cuidado: usar null causa NullPointerException!
+```
+
+## **NullPointerException**
+Erro mais comum em Java! Acontece quando você tenta usar um método ou atributo de um objeto que é `null`. Sempre verifique se o objeto não é nulo antes de usar.
+
+```java
+String nome = null;
+// System.out.println(nome.length()); // Isso daria NullPointerException!
+
+// Solução: verificar antes
+if (nome != null) {
+    System.out.println(nome.length());
+} else {
+    System.out.println("Nome é nulo!");
+}
+```
+
+## **objeto**
+Instância concreta de uma classe. Tem estado (atributos) e comportamento (métodos). É criado com a palavra `new`.
+
+```java
+public class Bicicleta {
+    String cor;
+    void pedalar() {
+        System.out.println("Pedalando...");
+    }
+}
+
+// Criando um objeto
+Bicicleta minhaBike = new Bicicleta();
+minhaBike.cor = "Vermelha"; // definindo estado
+minhaBike.pedalar(); // chamando comportamento
+```
+
+## **overload (sobrecarga)**
+Ter vários métodos com o mesmo nome, mas com parâmetros diferentes. O Java sabe qual método chamar baseado nos argumentos passados.
+
+```java
+public class Impressora {
+    void imprimir(String texto) {
+        System.out.println(texto);
+    }
+    
+    void imprimir(int numero) { // mesmo nome, parâmetro diferente
+        System.out.println(numero);
+    }
+    
+    void imprimir(String texto, int vezes) { // dois parâmetros
+        for (int i = 0; i < vezes; i++) {
+            System.out.println(texto);
+        }
+    }
+}
+```
+
+## **override (sobrescrita)**
+Quando uma classe filha reescreve um método da classe pai, alterando seu comportamento. Usa-se a anotação `@Override` para indicar isso.
+
+```java
+class Animal {
+    void fazerSom() {
+        System.out.println("Som genérico");
+    }
+}
+
+class Gato extends Animal {
+    @Override // indica que está sobrescrevendo
+    void fazerSom() {
+        System.out.println("Miau!"); // comportamento diferente
+    }
+}
+```
+
+## **polimorfismo**
+Capacidade de um objeto assumir várias formas. Uma variável de um tipo pode se comportar como outro tipo, desde que haja herança ou interface envolvida.
+
+```java
+Animal animal = new Gato(); // polimorfismo: Animal aponta para Gato
+animal.fazerSom(); // Chama o método do Gato, não do Animal
+
+// Outro exemplo
+List<Animal> animais = new ArrayList<>();
+animais.add(new Gato());
+animais.add(new Cachorro());
+// Todos podem ser tratados como Animal
+```
+
+## **Scanner**
+Classe usada para ler entrada do usuário pelo teclado. Muito útil para programas interativos.
+
+```java
+import java.util.Scanner;
+
+public class Entrada {
+    public static void main(String[] args) {
+        Scanner teclado = new Scanner(System.in);
+        
+        System.out.print("Digite seu nome: ");
+        String nome = teclado.nextLine(); // lê texto
+        
+        System.out.print("Digite sua idade: ");
+        int idade = teclado.nextInt(); // lê número
+        
+        System.out.println("Olá, " + nome + "! Você tem " + idade + " anos.");
+        teclado.close(); // sempre feche o Scanner
+    }
+}
+```
+
+## **static**
+Palavra-chave que torna um método ou atributo pertencente à classe, não aos objetos. Pode ser acessado sem criar uma instância.
+
+```java
+public class Matematica {
+    static double PI = 3.14159; // atributo da classe
+    
+    static int somar(int a, int b) { // método da classe
+        return a + b;
+    }
+}
+
+// Uso: não precisa criar objeto
+System.out.println(Matematica.PI); // 3.14159
+System.out.println(Matematica.somar(5, 3)); // 8
+```
+
+## **void**
+Palavra-chave usada como tipo de retorno de um método que não retorna nenhum valor. Indica que o método executa uma ação, mas não devolve nada.
+
+```java
+public class Mensagem {
+    void exibirOla() { // método void - não retorna nada
+        System.out.println("Olá!");
+        // sem return
+    }
+    
+    int somar(int a, int b) { // método com retorno
+        return a + b;
+    }
+}
+```
+
+---
+
+### Dicas Importantes:
+- **Sempre nomeie classes com letra maiúscula** e métodos com letra minúscula
+- **Use nomes descritivos** para variáveis e métodos
+- **Nunca confie em `null`** - sempre verifique antes de usar
+- **Feche o Scanner** após usar para evitar vazamento de recursos
+- **Pratique herança** mas prefira composição quando possível
+
+### Erros Comuns:
+- Esquecer `;` no final das instruções
+- Confundir `=` (atribuição) com `==` (comparação)
+- Tentar usar métodos em objetos `null`
+- Não importar classes como `Scanner` ou `ArrayList`
+- Esquecer que índices de array começam em 0

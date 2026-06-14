@@ -1,0 +1,229 @@
+---
+titulo: "Variáveis — var, let e const"
+slug: "variaveis"
+ordem: 4
+---
+
+# `var`, `let` e `const` em JavaScript: Um Guia Completo
+
+E aí, futuro(a) programador(a)! Vamos bater um papo sobre uma das primeiras coisas que você precisa dominar em JavaScript: como declarar variáveis. Você já deve ter visto por aí `var`, `let` e `const`, mas qual a diferença entre elas? Vamos descobrir juntos!
+
+## O Problema com `var` (e por que evitar)
+
+Imagine que você está organizando seu quarto. O `var` é como jogar tudo no meio do quarto - funciona, mas cria uma bagunça. Em JavaScript, `var` tem um comportamento que pode causar dores de cabeça.
+
+```javascript
+// Exemplo do problema com var
+if (true) {
+  var mensagem = "Olá, mundo!";
+}
+console.log(mensagem); // "Olá, mundo!" - funciona, mas é confuso!
+
+// O pior: você pode redeclarar var sem querer
+var nome = "João";
+var nome = "Maria"; // Isso funciona! (e pode causar bugs)
+console.log(nome); // "Maria"
+```
+
+O `var` ignora o escopo de bloco (aquele `{}`), o que significa que variáveis declaradas dentro de `if`, `for` ou `while` vazam para fora. Isso é uma receita para bugs difíceis de encontrar.
+
+### Hoisting com `var` (comportamento estranho)
+
+```javascript
+console.log(idade); // undefined (não dá erro!)
+var idade = 25;
+// Isso acontece porque var é "içada" para o topo, mas sem o valor
+```
+
+Com `var`, a declaração vai para o topo do escopo, mas a atribuição fica no lugar. É como se o JavaScript lesse assim:
+
+```javascript
+var idade; // declaração vai pro topo
+console.log(idade); // undefined
+idade = 25; // atribuição fica aqui
+```
+
+## `let`: A Variável Mutável e Controlada
+
+`let` é como ter gavetas organizadas no seu quarto. Cada variável fica no seu devido lugar (escopo de bloco) e você pode mudar o valor quando precisar.
+
+```javascript
+// Escopo de bloco funciona de verdade!
+if (true) {
+  let segredo = "só existe aqui dentro";
+  console.log(segredo); // "só existe aqui dentro"
+}
+// console.log(segredo); // ERRO! segredo não existe fora
+
+// Você pode mudar o valor
+let contador = 0;
+contador = 1; // OK!
+contador = contador + 1; // OK! Agora é 2
+
+// Mas não pode redeclarar no mesmo escopo
+let animal = "gato";
+// let animal = "cachorro"; // ERRO! já foi declarado
+```
+
+### Quando usar `let`
+
+Use `let` quando você PRECISA que o valor mude ao longo do tempo. Exemplos clássicos:
+
+```javascript
+// Contadores em loops
+for (let i = 0; i < 5; i++) {
+  console.log(i); // 0, 1, 2, 3, 4
+}
+// console.log(i); // ERRO! i não existe aqui fora
+
+// Acumuladores
+let soma = 0;
+soma += 10; // soma = 10
+soma += 5;  // soma = 15
+
+// Valores que mudam com interação do usuário
+let tentativas = 3;
+// ... quando o usuário erra:
+tentativas--; // tentativas = 2
+```
+
+## `const`: A Constante (Imutável)
+
+`const` é como um cadeado na sua gaveta. Depois que você coloca um valor, não pode trocá-lo. Mas atenção: se for um objeto ou array, você pode modificar o conteúdo!
+
+```javascript
+// Valores primitivos são realmente constantes
+const PI = 3.14159;
+// PI = 3; // ERRO! Não pode reatribuir
+
+// Mas objetos e arrays são diferentes
+const pessoa = { nome: "Ana", idade: 25 };
+pessoa.idade = 26; // OK! Estamos modificando, não reatribuindo
+// pessoa = { nome: "João" }; // ERRO! Isso seria reatribuir
+
+const numeros = [1, 2, 3];
+numeros.push(4); // OK! [1, 2, 3, 4]
+// numeros = [5, 6, 7]; // ERRO! Reatribuição não permitida
+```
+
+### Quando usar `const`
+
+**SEMPRE que possível!** Essa é a melhor prática. Use `const` como padrão e só mude para `let` quando realmente precisar reatribuir.
+
+```javascript
+// Configurações que não mudam
+const URL_API = "https://api.exemplo.com";
+const TEMPO_LIMITE = 3000;
+
+// Referências que não mudam
+const botao = document.querySelector("#meu-botao");
+const dados = await fetch(URL_API);
+```
+
+## Comparação Rápida
+
+| Característica | `var` | `let` | `const` |
+|----------------|-------|-------|---------|
+| Pode reatribuir | ✅ | ✅ | ❌ |
+| Escopo de bloco | ❌ | ✅ | ✅ |
+| Redeclarar no mesmo escopo | ✅ | ❌ | ❌ |
+| Hoisting comportado | Estranho | Normal (TDZ) | Normal (TDZ) |
+| Quando usar | **EVITAR** | Quando precisar mudar | **SEMPRE que puder** |
+
+## Hoisting com `let` e `const` (Temporal Dead Zone)
+
+Diferente do `var`, `let` e `const` também sofrem hoisting, mas de forma mais segura. Eles entram na "Zona Morta Temporal" (TDZ) até a linha onde são declarados.
+
+```javascript
+// console.log(minhaVar); // ERRO! Não pode acessar antes da declaração
+let minhaVar = "teste";
+
+// console.log(minhaConst); // ERRO! Mesma coisa
+const minhaConst = "teste";
+```
+
+Isso é BOM! Ajuda a evitar bugs onde você usa uma variável antes de ela ser definida.
+
+## Boas Práticas na Prática
+
+Vamos ver um exemplo real de como usar tudo isso:
+
+```javascript
+// 🚫 EVITE isso:
+var total = 0;
+var itens = ["maçã", "banana"];
+var desconto = true;
+
+if (desconto) {
+  var total = 10; // Redeclarou sem querer!
+}
+
+// ✅ FAÇA assim:
+const itens = ["maçã", "banana"]; // não vai mudar a lista
+const TEM_DESCONTO = true; // constante
+
+let total = 0; // vai mudar
+
+if (TEM_DESCONTO) {
+  total = 8; // só reatribui, não redeclara
+}
+
+// Calculando
+for (let i = 0; i < itens.length; i++) {
+  total += 2; // cada item custa 2 reais
+}
+
+console.log(`Total: R$ ${total}`); // Total: R$ 12
+```
+
+## Erros Comuns (e como evitar)
+
+### 1. Tentar reatribuir `const`
+```javascript
+const nome = "João";
+// nome = "Maria"; // ERRO! Isso não funciona
+// Solução: use let se precisar mudar
+```
+
+### 2. Achar que `const` torna objetos imutáveis
+```javascript
+const usuario = { nome: "Ana" };
+usuario.nome = "Maria"; // Funciona! 😱
+// Para realmente congelar: Object.freeze()
+```
+
+### 3. Usar `var` em loops
+```javascript
+// Problema com var em loops
+for (var i = 0; i < 3; i++) {
+  setTimeout(() => console.log(i), 100);
+}
+// Vai imprimir: 3, 3, 3 (por causa do var)
+
+// Solução com let
+for (let i = 0; i < 3; i++) {
+  setTimeout(() => console.log(i), 100);
+}
+// Vai imprimir: 0, 1, 2 (cada loop tem seu próprio i)
+```
+
+## Resumo para o Dia a Dia
+
+1. **Sempre comece com `const`** - É a opção mais segura
+2. **Use `let` apenas quando precisar reatribuir** - Como contadores ou acumuladores
+3. **Esqueça o `var`** - A não ser que esteja mantendo código muito antigo
+4. **Lembre-se**: `const` não congela objetos, só impede reatribuição
+5. **Escopo de bloco é seu amigo** - Use `{}` para isolar variáveis
+
+```javascript
+// Padrão que você vai ver em código moderno:
+const config = { tema: "escuro" };
+let pontuacao = 0;
+
+function jogar() {
+  // ...
+  pontuacao += 10;
+}
+```
+
+Pronto! Agora você já sabe como declarar variáveis como um(a) profissional. Lembre-se: const é seu melhor amigo, let é o amigo que você chama quando precisa de ajuda, e var é aquele amigo que você evita porque sempre arruma confusão. 😄

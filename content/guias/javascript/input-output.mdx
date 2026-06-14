@@ -1,0 +1,243 @@
+---
+titulo: "Input e Output — readline"
+slug: "input-output"
+ordem: 8
+---
+
+Aqui está o guia completo sobre Input e Output em JavaScript com Node.js:
+
+## Entrada e Saída (I/O) no Node.js
+
+Quando você programa, precisa de duas coisas básicas: mostrar informações para o usuário (output) e receber informações dele (input). No Node.js, isso funciona de um jeito específico, diferente do navegador.
+
+### Output com console.log()
+
+O `console.log()` é a forma mais comum de mostrar informações no terminal. Ele exibe o que você passar entre parênteses.
+
+```javascript
+// Exibindo texto simples
+console.log("Olá, mundo!");
+
+// Exibindo números
+console.log(42);
+
+// Exibindo variáveis
+let nome = "Maria";
+console.log(nome);
+
+// Exibindo múltiplos valores
+console.log("O resultado é:", 10 + 5);
+
+// Exibindo objetos e arrays
+console.log({ nome: "João", idade: 30 });
+console.log([1, 2, 3, 4, 5]);
+```
+
+**Dica importante:** O `console.log()` sempre adiciona uma quebra de linha no final. Isso significa que cada chamada dele aparece em uma linha separada.
+
+### Output sem quebra de linha: process.stdout.write()
+
+Diferente do `console.log()`, o `process.stdout.write()` não adiciona quebra de linha automaticamente. Isso é útil quando você quer construir uma saída gradualmente.
+
+```javascript
+// Escreve sem quebrar linha
+process.stdout.write("Olá, ");
+process.stdout.write("mundo!");
+// Resultado: Olá, mundo! (tudo na mesma linha)
+
+// Para quebrar linha manualmente
+process.stdout.write("Primeira linha\n");
+process.stdout.write("Segunda linha\n");
+```
+
+**Exemplo prático:** Criar uma barra de progresso simples.
+
+```javascript
+let progresso = 0;
+const total = 10;
+
+for (let i = 1; i <= total; i++) {
+    progresso = Math.round((i / total) * 100);
+    process.stdout.write(`\rProgresso: ${progresso}%`);
+    // O \r volta para o início da linha
+}
+```
+
+### Output de erros: console.error()
+
+Para mensagens de erro, use `console.error()`. Ele funciona igual ao `console.log()`, mas direciona a saída para o fluxo de erros (stderr).
+
+```javascript
+console.error("Erro: arquivo não encontrado!");
+console.error("Falha na conexão com o banco de dados");
+
+// Útil para diferenciar saída normal de erros
+console.log("Processo iniciado com sucesso");
+console.error("Algo deu errado durante a execução");
+```
+
+**Por que usar console.error()?** Em sistemas mais complexos, você pode redirecionar a saída normal para um arquivo e os erros para outro, facilitando a depuração.
+
+### Input com readline
+
+Para receber dados do usuário no terminal, usamos o módulo `readline`. Ele precisa ser configurado em três etapas:
+
+1. **Importar o módulo**
+2. **Criar a interface**
+3. **Usar os métodos de leitura**
+
+#### Criando a interface readline
+
+```javascript
+const readline = require('readline');
+
+const rl = readline.createInterface({
+    input: process.stdin,   // Teclado
+    output: process.stdout  // Terminal
+});
+```
+
+#### Lendo dados com question()
+
+O método `question()` recebe uma pergunta e uma função de callback que processa a resposta.
+
+```javascript
+const readline = require('readline');
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+rl.question("Qual é o seu nome? ", (nome) => {
+    console.log(`Olá, ${nome}!`);
+    rl.close();
+});
+```
+
+**Exemplo completo:** Calculadora simples
+
+```javascript
+const readline = require('readline');
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+rl.question("Digite o primeiro número: ", (num1) => {
+    rl.question("Digite o segundo número: ", (num2) => {
+        const resultado = Number(num1) + Number(num2);
+        console.log(`A soma é: ${resultado}`);
+        rl.close();
+    });
+});
+```
+
+#### Fechando a interface com close()
+
+Sempre feche a interface `readline` quando terminar de usá-la. Isso libera recursos do sistema.
+
+```javascript
+const readline = require('readline');
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+rl.question("Digite algo: ", (resposta) => {
+    console.log("Você digitou:", resposta);
+    rl.close(); // Importante!
+});
+
+// Após fechar, não é possível mais usar rl.question()
+```
+
+### Programa completo: Coleta de dados do usuário
+
+Vamos criar um programa que coleta nome, idade e cidade do usuário:
+
+```javascript
+const readline = require('readline');
+
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+console.log("=== Cadastro de Usuário ===\n");
+
+rl.question("Nome: ", (nome) => {
+    rl.question("Idade: ", (idade) => {
+        rl.question("Cidade: ", (cidade) => {
+            // Limpa o terminal (funciona na maioria dos terminais)
+            console.clear();
+            
+            console.log("=== Dados Cadastrados ===\n");
+            console.log(`Nome: ${nome}`);
+            console.log(`Idade: ${idade} anos`);
+            console.log(`Cidade: ${cidade}`);
+            
+            // Validação básica
+            if (Number(idade) < 18) {
+                console.error("Aviso: Usuário menor de idade!");
+            }
+            
+            rl.close();
+        });
+    });
+});
+```
+
+### Erros comuns e como evitá-los
+
+**Erro 1: Esquecer de fechar o readline**
+```javascript
+// ERRADO - O programa não termina
+rl.question("Nome: ", (nome) => {
+    console.log(nome);
+});
+
+// CERTO
+rl.question("Nome: ", (nome) => {
+    console.log(nome);
+    rl.close();
+});
+```
+
+**Erro 2: Tentar usar question após close**
+```javascript
+// ERRADO
+rl.close();
+rl.question("Isso não funciona!", () => {}); // ERRO!
+
+// CERTO - Sempre feche depois de todas as perguntas
+```
+
+**Erro 3: Não converter string para número**
+```javascript
+rl.question("Digite um número: ", (numero) => {
+    // ERRADO - Concatena strings
+    console.log(numero + 10); // "510" se digitou 5
+    
+    // CERTO - Converte para número
+    console.log(Number(numero) + 10); // 15
+});
+```
+
+**Erro 4: Usar console.log quando deveria usar console.error**
+```javascript
+// ERRADO - Mistura saída normal com erros
+console.log("Erro: arquivo não encontrado");
+
+// CERTO - Separa os fluxos
+console.error("Erro: arquivo não encontrado");
+```
+
+### Dicas finais
+
+- **Sempre valide** os dados recebidos do usuário antes de usar
+- **Use template strings** (crases) para montar mensagens complexas
+- **Limpe a saída** com `console.clear()` quando necessário
+- **Teste seu código** com diferentes tipos de entrada
+- **Documente** as funções que criarem para facilitar a manutenção
+
+Com esses conceitos, você já consegue criar programas interativos no terminal usando Node.js!

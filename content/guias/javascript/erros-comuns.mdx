@@ -1,0 +1,433 @@
+---
+titulo: "Erros Comuns"
+slug: "erros-comuns"
+ordem: 24
+---
+
+# Erros Mais Comuns em JavaScript para Iniciantes Brasileiros
+
+Vamos aprender sobre os erros mais frequentes que aparecem no JavaScript. Cada erro tem seu jeitinho de ser resolvido, e com a prática você vai reconhecê-los rapidamente.
+
+## 1. TypeError: Cannot read property of undefined
+
+**O que significa:** Você está tentando acessar uma propriedade de algo que não existe (undefined).
+
+**Exemplo que causa o erro:**
+```javascript
+const usuario = {
+  nome: "Maria"
+};
+
+// Tentando acessar endereço que não existe
+console.log(usuario.endereco.rua); // TypeError: Cannot read property 'rua' of undefined
+```
+
+**Como corrigir:**
+```javascript
+const usuario = {
+  nome: "Maria",
+  endereco: {
+    rua: "Rua das Flores"
+  }
+};
+
+// Opção 1: Verificar se existe antes
+if (usuario.endereco) {
+  console.log(usuario.endereco.rua);
+}
+
+// Opção 2: Usar optional chaining (encadeamento opcional)
+console.log(usuario?.endereco?.rua); // "Rua das Flores" se existir, undefined se não
+
+// Opção 3: Valor padrão
+console.log(usuario.endereco?.rua ?? "Endereço não informado");
+```
+
+**Dica:** Sempre verifique se o objeto existe antes de acessar propriedades aninhadas.
+
+## 2. ReferenceError: Variable is not defined
+
+**O que significa:** Você está tentando usar uma variável que não foi declarada.
+
+**Exemplo que causa o erro:**
+```javascript
+// Esqueceu de declarar a variável
+console.log(nome); // ReferenceError: nome is not defined
+
+// Ou escreveu o nome errado
+let idade = 25;
+console.log(idad); // ReferenceError: idad is not defined
+```
+
+**Como corrigir:**
+```javascript
+// Sempre declare a variável antes de usar
+let nome = "João";
+console.log(nome); // "João"
+
+// Verifique a ortografia
+let idade = 25;
+console.log(idade); // 25
+
+// Lembre-se: const e let têm escopo de bloco
+if (true) {
+  let mensagem = "Olá";
+}
+// console.log(mensagem); // Isso daria erro, mensagem não existe aqui fora
+```
+
+**Dica:** Use `const` por padrão e `let` quando precisar reatribuir. Evite `var`.
+
+## 3. SyntaxError
+
+**O que significa:** Você escreveu algo que não segue as regras da linguagem. É como um erro de português no código.
+
+**Exemplo que causa o erro:**
+```javascript
+// Esqueceu de fechar parênteses
+console.log("Olá"; // SyntaxError: missing ) after argument list
+
+// Esqueceu de fechar chaves
+function saudacao() {
+  console.log("Oi");
+// SyntaxError: missing } in function body
+
+// String não fechada
+let texto = "Isso não vai funcionar; // SyntaxError: Unterminated string constant
+```
+
+**Como corrigir:**
+```javascript
+// Sempre verifique pares: (), {}, []
+console.log("Olá"); // Correto
+
+// Use um editor que destaque erros
+function saudacao() {
+  console.log("Oi");
+} // Correto
+
+// Strings sempre fechadas
+let texto = "Isso funciona"; // Correto
+let texto2 = 'Também funciona'; // Correto
+let texto3 = `Template literals também`; // Correto
+```
+
+**Dica:** Use um editor como VS Code que mostra erros em tempo real. Preste atenção nas cores.
+
+## 4. Usar == em vez de ===
+
+**O que significa:** `==` faz comparação com conversão automática de tipos, o que pode causar resultados inesperados.
+
+**Exemplo que causa o erro:**
+```javascript
+// Comparações que parecem estranhas
+console.log(0 == false);  // true (???)
+console.log("" == false); // true (???)
+console.log(1 == "1");    // true (???)
+console.log(null == undefined); // true (???)
+
+// Isso pode causar bugs difíceis de encontrar
+function verificarIdade(idade) {
+  if (idade == 18) {
+    console.log("Tem 18 anos");
+  }
+}
+
+verificarIdade("18"); // "Tem 18 anos" - mas "18" é string, não número!
+```
+
+**Como corrigir:**
+```javascript
+// Use === sempre (compara valor E tipo)
+console.log(0 === false);  // false ✓
+console.log("" === false); // false ✓
+console.log(1 === "1");    // false ✓
+console.log(null === undefined); // false ✓
+
+// Correção do exemplo anterior
+function verificarIdade(idade) {
+  if (idade === 18) {
+    console.log("Tem 18 anos");
+  }
+}
+
+verificarIdade("18"); // Não imprime nada - correto!
+verificarIdade(18);   // "Tem 18 anos"
+
+// Exceção: null check
+if (valor == null) {
+  // Isso verifica null e undefined
+}
+```
+
+**Dica:** Faça do `===` seu padrão. Só use `==` quando realmente precisar da conversão automática.
+
+## 5. Esquecer o return
+
+**O que significa:** Uma função que deveria retornar um valor não tem a palavra `return`.
+
+**Exemplo que causa o erro:**
+```javascript
+function somar(a, b) {
+  // Esqueceu o return!
+  a + b; // Isso só calcula, mas não retorna
+}
+
+let resultado = somar(5, 3);
+console.log(resultado); // undefined
+
+// Outro exemplo comum
+function criarUsuario(nome) {
+  const usuario = {
+    nome: nome,
+    ativo: true
+  };
+  // Esqueceu de retornar o objeto!
+}
+
+let novoUsuario = criarUsuario("Ana");
+console.log(novoUsuario); // undefined
+```
+
+**Como corrigir:**
+```javascript
+function somar(a, b) {
+  return a + b; // Agora retorna o resultado
+}
+
+let resultado = somar(5, 3);
+console.log(resultado); // 8 ✓
+
+function criarUsuario(nome) {
+  const usuario = {
+    nome: nome,
+    ativo: true
+  };
+  return usuario; // Retorna o objeto criado
+}
+
+let novoUsuario = criarUsuario("Ana");
+console.log(novoUsuario); // { nome: "Ana", ativo: true } ✓
+
+// Arrow functions com return implícito
+const dobrar = (x) => x * 2; // Não precisa de return e {}
+```
+
+**Dica:** Antes de escrever a função, pense: "O que essa função deve retornar?"
+
+## 6. Problema com this em arrow function
+
+**O que significa:** Arrow functions não têm seu próprio `this`, elas herdam do escopo pai.
+
+**Exemplo que causa o erro:**
+```javascript
+const pessoa = {
+  nome: "Carlos",
+  saudacao: () => {
+    console.log(`Olá, eu sou ${this.nome}`);
+  }
+};
+
+pessoa.saudacao(); // "Olá, eu sou undefined" - this não é o objeto pessoa!
+
+// Em eventos
+const botao = document.querySelector("button");
+botao.addEventListener("click", () => {
+  console.log(this); // window, não o botão!
+  this.textContent = "Clicado"; // Não funciona como esperado
+});
+```
+
+**Como corrigir:**
+```javascript
+// Use function tradicional quando precisar do this do objeto
+const pessoa = {
+  nome: "Carlos",
+  saudacao: function() {
+    console.log(`Olá, eu sou ${this.nome}`);
+  }
+};
+
+pessoa.saudacao(); // "Olá, eu sou Carlos" ✓
+
+// Ou com método shorthand
+const pessoa2 = {
+  nome: "Maria",
+  saudacao() {
+    console.log(`Olá, eu sou ${this.nome}`);
+  }
+};
+
+// Em eventos, use function tradicional
+botao.addEventListener("click", function() {
+  console.log(this); // O botão ✓
+  this.textContent = "Clicado";
+});
+
+// Arrow function é boa quando você quer o this do contexto pai
+class Timer {
+  constructor() {
+    this.segundos = 0;
+    
+    setInterval(() => {
+      this.segundos++; // this é o Timer ✓
+      console.log(this.segundos);
+    }, 1000);
+  }
+}
+```
+
+**Dica:** Use arrow function para callbacks e funções aninhadas. Use function para métodos de objetos.
+
+## 7. Callback Hell
+
+**O que significa:** Múltiplos callbacks aninhados criando código difícil de ler e manter.
+
+**Exemplo que causa o erro:**
+```javascript
+// Callback hell - código em formato de pirâmide
+buscarUsuario(1, function(usuario) {
+  console.log("Usuário:", usuario);
+  
+  buscarPosts(usuario.id, function(posts) {
+    console.log("Posts:", posts);
+    
+    buscarComentarios(posts[0].id, function(comentarios) {
+      console.log("Comentários:", comentarios);
+      
+      buscarLikes(comentarios[0].id, function(likes) {
+        console.log("Likes:", likes);
+        
+        // Mais um nível e já era...
+      });
+    });
+  });
+});
+```
+
+**Como corrigir:**
+```javascript
+// Opção 1: Promises com then/catch
+buscarUsuario(1)
+  .then(usuario => {
+    console.log("Usuário:", usuario);
+    return buscarPosts(usuario.id);
+  })
+  .then(posts => {
+    console.log("Posts:", posts);
+    return buscarComentarios(posts[0].id);
+  })
+  .then(comentarios => {
+    console.log("Comentários:", comentarios);
+    return buscarLikes(comentarios[0].id);
+  })
+  .then(likes => {
+    console.log("Likes:", likes);
+  })
+  .catch(erro => {
+    console.error("Erro:", erro);
+  });
+
+// Opção 2 (melhor): async/await
+async function carregarDados() {
+  try {
+    const usuario = await buscarUsuario(1);
+    console.log("Usuário:", usuario);
+    
+    const posts = await buscarPosts(usuario.id);
+    console.log("Posts:", posts);
+    
+    const comentarios = await buscarComentarios(posts[0].id);
+    console.log("Comentários:", comentarios);
+    
+    const likes = await buscarLikes(comentarios[0].id);
+    console.log("Likes:", likes);
+  } catch (erro) {
+    console.error("Erro:", erro);
+  }
+}
+
+carregarDados();
+```
+
+**Dica:** Use `async/await` sempre que possível. É mais legível e fácil de dar manutenção.
+
+## 8. NaN em operações
+
+**O que significa:** NaN significa "Not a Number" (Não é um Número). Acontece quando você tenta fazer operações matemáticas com valores não numéricos.
+
+**Exemplo que causa o erro:**
+```javascript
+// Operações que resultam em NaN
+console.log(10 * "abc");      // NaN
+console.log(0 / 0);           // NaN
+console.log(Math.sqrt(-1));   // NaN
+console.log(parseInt("abc")); // NaN
+console.log(undefined + 1);   // NaN
+
+// O problema: NaN se propaga
+let total = 100;
+let desconto = "vinte";
+console.log(total - desconto); // NaN
+
+// E o pior: NaN não é igual a nada, nem a ele mesmo
+console.log(NaN === NaN); // false (!)
+```
+
+**Como corrigir:**
+```javascript
+// Validar entradas antes de operar
+function calcularTotal(preco, quantidade) {
+  const precoNum = Number(preco);
+  const qtdNum = Number(quantidade);
+  
+  if (isNaN(precoNum) || isNaN(qtdNum)) {
+    return "Erro: valores inválidos";
+  }
+  
+  return precoNum * qtdNum;
+}
+
+console.log(calcularTotal(10, 3));        // 30
+console.log(calcularTotal("10", "3"));    // 30
+console.log(calcularTotal("abc", 3));     // "Erro: valores inválidos"
+
+// Verificar se é NaN corretamente
+function verificarNumero(valor) {
+  // Não use valor === NaN
+  if (isNaN(valor)) {
+    console.log("Não é um número válido");
+  } else {
+    console.log("Número válido:", valor);
+  }
+}
+
+// Converter strings para números com segurança
+const entrada = "123";
+const numero = parseInt(entrada, 10); // Sempre especifique a base
+
+if (!isNaN(numero)) {
+  console.log("Número convertido:", numero);
+}
+
+// Usar Number() para conversão explícita
+const preco = Number("99.99");
+console.log(preco); // 99.99
+```
+
+**Dica:** Sempre valide dados vindos de formulários ou APIs antes de fazer operações matemáticas.
+
+## Resumo Rápido
+
+| Erro | Causa | Solução |
+|------|-------|---------|
+| TypeError | Acessar propriedade de undefined/null | Optional chaining `?.` |
+| ReferenceError | Variável não declarada | Declare antes de usar |
+| SyntaxError | Erro de sintaxe | Verifique pares e fechamentos |
+| == vs === | Comparação com conversão | Use `===` sempre |
+| Esquecer return | Função sem retorno | Adicione `return` |
+| this em arrow | this não aponta para o objeto | Use function() em métodos |
+| Callback hell | Callbacks aninhados | Use async/await |
+| NaN | Operação com não-número | Valide entradas com isNaN() |
+
+Lembre-se: errar é parte do aprendizado! Cada erro que você encontrar vai te ensinar algo novo. Com o tempo, você vai reconhecer esses padrões rapidamente e saber exatamente como corrigi-los.
