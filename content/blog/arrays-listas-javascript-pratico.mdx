@@ -1,0 +1,222 @@
+---
+title: 'Arrays em JavaScript: Guia Prático para Iniciantes'
+date: '2026-06-21'
+tags: ['javascript', 'arrays', 'iniciantes']
+description: 'Aprenda a usar arrays em JavaScript na prática, com exemplos reais de manipulação de listas.'
+---
+
+Arrays são a estrutura de dados mais comum em JavaScript. Você vai encontrá-los em toda aplicação que lida com coleções: listas de usuários, produtos, resultados de APIs. Vamos direto ao ponto.
+
+## Criando e Acessando Arrays
+
+Um array é uma lista ordenada. Você pode criá-lo de duas formas:
+
+```javascript
+// Forma literal (mais comum)
+const cores = ['vermelho', 'azul', 'verde'];
+
+// Usando o construtor
+const numeros = new Array(1, 2, 3, 4, 5);
+
+// Array vazio que será preenchido depois
+const usuarios = [];
+```
+
+Para acessar elementos, use índices começando em 0:
+
+```javascript
+const frutas = ['maçã', 'banana', 'laranja'];
+
+console.log(frutas[0]); // 'maçã'
+console.log(frutas[1]); // 'banana'
+console.log(frutas[2]); // 'laranja'
+console.log(frutas[3]); // undefined (não existe)
+```
+
+Propriedade útil: `length` retorna o tamanho do array.
+
+```javascript
+const numeros = [10, 20, 30, 40];
+console.log(numeros.length); // 4
+console.log(numeros[numeros.length - 1]); // 40 (último elemento)
+```
+
+## Métodos Essenciais para Manipulação
+
+Vamos aos métodos que você vai usar 80% do tempo.
+
+### Adicionar e Remover Elementos
+
+```javascript
+const lista = ['a', 'b', 'c'];
+
+// push() - adiciona ao final
+lista.push('d');
+console.log(lista); // ['a', 'b', 'c', 'd']
+
+// pop() - remove do final
+lista.pop();
+console.log(lista); // ['a', 'b', 'c']
+
+// unshift() - adiciona no início
+lista.unshift('z');
+console.log(lista); // ['z', 'a', 'b', 'c']
+
+// shift() - remove do início
+lista.shift();
+console.log(lista); // ['a', 'b', 'c']
+```
+
+Cuidado: `push/pop` são rápidos. `unshift/shift` são lentos em arrays grandes porque precisam reindexar todos os elementos.
+
+### Encontrar Elementos
+
+```javascript
+const frutas = ['maçã', 'banana', 'laranja', 'banana'];
+
+// indexOf() - retorna o índice da primeira ocorrência
+console.log(frutas.indexOf('banana')); // 1
+console.log(frutas.indexOf('uva')); // -1 (não encontrou)
+
+// includes() - retorna true/false
+console.log(frutas.includes('laranja')); // true
+
+// find() - retorna o primeiro elemento que satisfaz uma condição
+const numeros = [10, 25, 30, 45];
+const maiorQueVinte = numeros.find(num => num > 20);
+console.log(maiorQueVinte); // 25
+```
+
+## Iterando Sobre Arrays
+
+O loop `for` clássico funciona, mas JavaScript tem métodos mais elegantes.
+
+### forEach: Quando Você Só Precisa Executar Algo
+
+```javascript
+const usuarios = ['Ana', 'João', 'Maria'];
+
+usuarios.forEach((nome, indice) => {
+  console.log(`${indice + 1}. ${nome}`);
+});
+
+// Saída:
+// 1. Ana
+// 2. João
+// 3. Maria
+```
+
+### map: Transformar Todos os Elementos
+
+O `map` cria um novo array transformado. É imutável - não modifica o original.
+
+```javascript
+const precos = [10, 25, 30, 45];
+
+const precosComImposto = precos.map(preco => preco * 1.1);
+console.log(precosComImposto); // [11, 27.5, 33, 49.5]
+console.log(precos); // [10, 25, 30, 45] (original intacto)
+
+// Exemplo real: arredondar valores
+const valores = [10.555, 20.333, 30.999];
+const arredondados = valores.map(v => Math.round(v * 100) / 100);
+console.log(arredondados); // [10.56, 20.33, 31]
+```
+
+### filter: Selecionar Subconjuntos
+
+```javascript
+const idades = [15, 22, 18, 30, 12, 45];
+
+const maioresDeIdade = idades.filter(idade => idade >= 18);
+console.log(maioresDeIdade); // [22, 18, 30, 45]
+
+// Combinando com map: filtrar e transformar
+const usuarios = [
+  { nome: 'Ana', ativo: true },
+  { nome: 'João', ativo: false },
+  { nome: 'Maria', ativo: true }
+];
+
+const nomesAtivos = usuarios
+  .filter(user => user.ativo)
+  .map(user => user.nome);
+console.log(nomesAtivos); // ['Ana', 'Maria']
+```
+
+### reduce: Acumular Valores
+
+O `reduce` é o mais poderoso e o que mais assusta iniciantes. Mas é simples: você percorre o array acumulando um valor.
+
+```javascript
+const numeros = [1, 2, 3, 4, 5];
+
+// Somar todos os números
+const soma = numeros.reduce((acumulador, valorAtual) => {
+  return acumulador + valorAtual;
+}, 0); // 0 é o valor inicial
+
+console.log(soma); // 15
+
+// Exemplo real: contar frequência de itens
+const frutas = ['maçã', 'banana', 'maçã', 'laranja', 'banana', 'maçã'];
+
+const frequencia = frutas.reduce((contador, fruta) => {
+  contador[fruta] = (contador[fruta] || 0) + 1;
+  return contador;
+}, {});
+
+console.log(frequencia); 
+// { 'maçã': 3, 'banana': 2, 'laranja': 1 }
+```
+
+## Destructuring e Spread
+
+Dois recursos modernos que tornam o trabalho com arrays muito mais limpo.
+
+### Destructuring: Extrair Valores
+
+```javascript
+// Atribuição direta
+const [primeiro, segundo, terceiro] = [100, 200, 300];
+console.log(primeiro); // 100
+console.log(segundo); // 200
+
+// Ignorar elementos
+const [a, , c] = [1, 2, 3];
+console.log(a); // 1
+console.log(c); // 3
+
+// Rest operator
+const [head, ...tail] = [1, 2, 3, 4];
+console.log(head); // 1
+console.log(tail); // [2, 3, 4]
+```
+
+### Spread: Copiar e Combinar
+
+```javascript
+const array1 = [1, 2, 3];
+const array2 = [4, 5, 6];
+
+// Combinar arrays
+const combinado = [...array1, ...array2];
+console.log(combinado); // [1, 2, 3, 4, 5, 6]
+
+// Copiar array (não referência)
+const copia = [...array1];
+copia.push(99);
+console.log(array1); // [1, 2, 3] (original intacto)
+console.log(copia); // [1, 2, 3, 99]
+
+// Adicionar itens no meio
+const numeros = [1, 2, 5];
+const completo = [...numeros.slice(0, 2), 3, 4, ...numeros.slice(2)];
+console.log(completo); // [1, 2, 3, 4, 5]
+```
+
+## Conclusão
+
+Arrays são fundamentais em JavaScript. Domine `map`, `filter`, `reduce` e você vai escrever código mais limpo. Pratique esses exemplos no console do navegador ou num arquivo `.js`.
+
+Quer receber mais conteúdos práticos como este direto no seu email? Cadastre-se no **MeuPasso** (meupasso.com.br) e tenha acesso a uma trilha completa de aprendizado em programação, com exercícios reais e projetos guiados.
