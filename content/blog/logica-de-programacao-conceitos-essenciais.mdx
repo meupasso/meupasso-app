@@ -1,0 +1,134 @@
+---
+title: 'Lógica de Programação: Os 4 Conceitos que Você Precisa Dominar'
+date: '2026-06-21'
+tags: ['lógica de programação', 'iniciantes', 'conceitos']
+description: 'Aprenda os 4 fundamentos da lógica de programação com exemplos práticos em Python e JavaScript.'
+---
+
+Lógica de programação é a base de tudo. Sem ela, você não escreve código que funciona — você só junta linhas aleatórias. O problema é que muitos tutoriais pulam essa base e vão direto para frameworks e bibliotecas. O resultado? Você trava na primeira tarefa real.
+
+Vamos direto ao ponto: existem 4 conceitos que você precisa dominar para pensar como um programador. São eles: variáveis e tipos, condicionais, loops e funções.
+
+## 1. Variáveis e Tipos: Onde Tudo Começa
+
+Variável é um espaço na memória que guarda um valor. Pense como uma caixa com um nome. Em Python e JavaScript, você não precisa declarar o tipo explicitamente — a linguagem descobre sozinha.
+
+```python
+# Python
+nome = "João"        # string
+idade = 25           # inteiro
+altura = 1.75        # float
+programador = True   # boolean
+
+print(f"{nome} tem {idade} anos e {altura}m de altura.")
+```
+
+```javascript
+// JavaScript
+let nome = "João";
+let idade = 25;
+let altura = 1.75;
+let programador = true;
+
+console.log(`${nome} tem ${idade} anos e ${altura}m de altura.`);
+```
+
+O segredo aqui: entenda que cada tipo tem comportamentos diferentes. Você não soma string com número sem converter antes. Esse "erro" é o mais comum entre iniciantes.
+
+## 2. Condicionais: Tomando Decisões no Código
+
+Condicionais permitem que seu código tome decisões baseadas em condições. O `if` é seu melhor amigo.
+
+```python
+# Python
+temperatura = 30
+
+if temperatura > 35:
+    print("Muito quente!")
+elif temperatura > 25:
+    print("Clima agradável.")
+else:
+    print("Está frio.")
+```
+
+```javascript
+// JavaScript
+let temperatura = 30;
+
+if (temperatura > 35) {
+    console.log("Muito quente!");
+} else if (temperatura > 25) {
+    console.log("Clima agradável.");
+} else {
+    console.log("Está frio.");
+}
+```
+
+A lógica é simples: você avalia uma expressão booleana (verdadeiro ou falso) e executa o bloco correspondente. Pratique criando condições com `==`, `!=`, `>`, `<`, `>=`, `<=`.
+
+## 3. Loops: Repetição sem Enlouquecer
+
+Loops evitam que você repita código manualmente. Use `for` quando souber quantas iterações precisa, e `while` quando a condição for mais dinâmica.
+
+```python
+# Python - for loop
+for i in range(5):
+    print(f"Item {i+1}")
+
+# Python - while loop
+contador = 0
+while contador < 5:
+    print(f"Contador: {contador}")
+    contador += 1
+```
+
+```javascript
+// JavaScript - for loop
+for (let i = 0; i < 5; i++) {
+    console.log(`Item ${i+1}`);
+}
+
+// JavaScript - while loop
+let contador = 0;
+while (contador < 5) {
+    console.log(`Contador: ${contador}`);
+    contador++;
+}
+```
+
+O maior erro aqui é loop infinito. Sempre garanta que sua condição de parada será alcançada. Teste com valores pequenos primeiro.
+
+## 4. Funções: Organizando o Caos
+
+Funções encapsulam blocos de código reutilizáveis. Você cria uma vez e chama quantas vezes quiser.
+
+```python
+# Python
+def calcular_media(nota1, nota2):
+    return (nota1 + nota2) / 2
+
+media = calcular_media(7.5, 8.0)
+print(f"Média: {media}")
+```
+
+```javascript
+// JavaScript
+function calcularMedia(nota1, nota2) {
+    return (nota1 + nota2) / 2;
+}
+
+let media = calcularMedia(7.5, 8.0);
+console.log(`Média: ${media}`);
+```
+
+Funções também podem não retornar nada (apenas executar uma ação). O importante é que elas isolam responsabilidades. Se você tem um código que faz dois trabalhos diferentes, separe em duas funções.
+
+## Conclusão: Do Conceito ao Código
+
+Esses 4 conceitos são o alicerce. Dominando variáveis, condicionais, loops e funções, você resolve 90% dos problemas de lógica. O próximo passo? Praticar — muito.
+
+Pegue um problema simples, como "calcular a média de 3 notas" ou "verificar se um número é par". Implemente usando os 4 conceitos. Depois, tente refatorar usando funções.
+
+Para continuar evoluindo, recomendo o [MeuPasso](https://meupasso.com.br), onde você encontra trilhas práticas de lógica de programação com exemplos reais e suporte para iniciantes. Lá você treina esses conceitos com exercícios progressivos, sem pular etapas.
+
+Agora, fecha esse post e vai codar. A teoria sem prática não serve para nada.
