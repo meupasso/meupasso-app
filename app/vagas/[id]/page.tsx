@@ -193,8 +193,40 @@ export default async function VagaPage({
   const badge = badgeTipo(vagaData.tipo);
   const nomeLinguagem = linguagem;
 
+  const jsonLd: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "JobPosting",
+    title: vagaData.titulo,
+    description: vagaData.descricao || vagaData.titulo,
+    hiringOrganization: {
+      "@type": "Organization",
+      name: vagaData.empresa || "Empresa",
+    },
+    jobLocation: vagaData.remoto
+      ? { "@type": "VirtualLocation" }
+      : {
+          "@type": "Place",
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: vagaData.cidade,
+            addressCountry: "BR",
+          },
+        },
+    employmentType: vagaData.tipo === "estagio" ? "INTERN" : "FULL_TIME",
+    datePosted: vagaData.publicada_em,
+    jobLocationType: vagaData.remoto ? "TELECOMMUTE" : undefined,
+    inLanguage: "pt-BR",
+    url: `https://www.meupasso.com.br/vagas/${vagaData.id}`,
+    skills: vagaData.tecnologias?.join(", "),
+  };
+
   return (
-    <main style={{ padding: "2rem", maxWidth: "900px", margin: "0 auto" }}>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <main style={{ padding: "2rem", maxWidth: "900px", margin: "0 auto" }}>
       {/* Breadcrumb */}
       <div
         style={{
@@ -698,5 +730,6 @@ export default async function VagaPage({
         </section>
       )}
     </main>
+    </>
   );
 }

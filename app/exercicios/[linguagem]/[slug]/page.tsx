@@ -118,8 +118,41 @@ export default async function ExercicioPage({
     desafio: "Desafio",
   };
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    name: exercicio.titulo,
+    description: exercicio.descricao?.substring(0, 200),
+    educationalLevel: (
+      {
+        basico: "Beginner",
+        intermediario: "Intermediate",
+        avancado: "Advanced",
+        desafio: "Advanced",
+      } as Record<string, string>
+    )[exercicio.nivel] || "Beginner",
+    learningResourceType: "Exercise",
+    teaches: exercicio.modulo,
+    inLanguage: "pt-BR",
+    isAccessibleForFree: true,
+    provider: {
+      "@type": "Organization",
+      name: "MeuPasso",
+      url: "https://www.meupasso.com.br",
+    },
+    url: `https://www.meupasso.com.br/exercicios/${exercicio.linguagem.toLowerCase()}/${exercicio.slug}`,
+    about: {
+      "@type": "ComputerLanguage",
+      name: exercicio.linguagem,
+    },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <ExercicioClient exercicio={exercicio} />
       {relacionados && relacionados.length > 0 && (
         <section

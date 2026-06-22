@@ -76,8 +76,28 @@ async function getVagasRecentes(): Promise<Vaga[]> {
 export default async function Home() {
   const vagas = await getVagasRecentes();
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "MeuPasso",
+    url: "https://www.meupasso.com.br",
+    description:
+      "Plataforma de exercícios de programação com tutor IA para iniciantes brasileiros.",
+    inLanguage: "pt-BR",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: "https://www.meupasso.com.br/exercicios/{search_term_string}",
+      "query-input": "required name=search_term_string",
+    },
+  };
+
   return (
-    <main style={{ background: "var(--bg-primary)" }}>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <main style={{ background: "var(--bg-primary)" }}>
       {/* Hero */}
       <section style={{ ...secaoStyle, paddingTop: "8rem", paddingBottom: "0", textAlign: "center" }}>
         <span style={{ display: "inline-block", fontSize: "0.75rem", fontWeight: 600, padding: "0.25rem 0.75rem", borderRadius: "9999px", background: "var(--accent)", color: "#fff", marginBottom: "1rem" }}>
@@ -275,5 +295,6 @@ export default async function Home() {
         .vagas-carrossel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
       `}</style>
     </main>
+    </>
   );
 }
