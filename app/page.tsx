@@ -3,9 +3,21 @@ import Link from "next/link";
 import { createServiceClient } from "@/lib/supabase/service";
 
 export const metadata: Metadata = {
-  title: "MeuPasso — Aprenda Programação com Exercícios e Tutor IA",
+  title: "MeuPasso — Aprenda Python, Java e JavaScript com Exercícios e Tutor IA",
   description:
-    "Exercícios gratuitos de Python, Java e JavaScript para iniciantes. Travou? O tutor IA te guia passo a passo sem dar a resposta.",
+    "Resolva exercícios, receba ajuda quando travar, construa projetos e monte um portfólio para conquistar sua primeira vaga em TI. Gratuito para começar.",
+  openGraph: {
+    title: "MeuPasso — Aprenda Programação do Jeito Certo",
+    description:
+      "Resolva exercícios, receba ajuda quando travar, construa projetos e monte um portfólio para conquistar sua primeira vaga em TI.",
+    url: "https://www.meupasso.com.br",
+    siteName: "MeuPasso",
+    locale: "pt_BR",
+    type: "website",
+  },
+  alternates: {
+    canonical: "https://www.meupasso.com.br",
+  },
 };
 
 const secaoStyle: React.CSSProperties = { padding: "5rem 2rem", maxWidth: "900px", margin: "0 auto" };

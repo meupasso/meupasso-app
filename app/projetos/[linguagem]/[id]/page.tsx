@@ -7,6 +7,45 @@ import EtapaConcluir from "@/components/EtapaConcluir";
 
 export const dynamic = "force-dynamic";
 
+export async function generateMetadata({ params }: { params: { linguagem: string; id: string } }): Promise<Metadata> {
+  const supabase = createClient();
+
+  const { data: projeto } = await supabase
+    .from("projetos")
+    .select("titulo, descricao, linguagem, nivel")
+    .eq("id", params.id)
+    .single();
+
+  if (!projeto) return { title: "Projeto | MeuPasso" };
+
+  const nivelLabels: Record<string, string> = {
+    intermediario: "Intermediário",
+    avancado: "Avançado",
+  };
+  const nivelLabel = nivelLabels[projeto.nivel] || projeto.nivel;
+
+  const title = `${projeto.titulo} em ${projeto.linguagem} — Projeto Prático ${nivelLabel} | MeuPasso`;
+  const description = projeto.descricao
+    ? projeto.descricao.substring(0, 155).trim()
+    : `Projeto prático de ${projeto.linguagem} com etapas guiadas. Construa seu portfólio com projetos reais no MeuPasso.`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `https://www.meupasso.com.br/projetos/${projeto.linguagem.toLowerCase()}/${params.id}`,
+      siteName: "MeuPasso",
+      locale: "pt_BR",
+      type: "article",
+    },
+    alternates: {
+      canonical: `https://www.meupasso.com.br/projetos/${projeto.linguagem.toLowerCase()}/${params.id}`,
+    },
+  };
+}
+
 export default async function ProjetoPage({ params }: { params: { linguagem: string; id: string } }) {
   const supabase = createClient();
   const { data: projeto } = await supabase.from("projetos").select("*").eq("id", params.id).single();

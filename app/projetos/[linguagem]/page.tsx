@@ -5,8 +5,24 @@ import { createClient } from "@/lib/supabase/server";
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: { linguagem: string } }): Promise<Metadata> {
-  const nome = params.linguagem === "javascript" ? "JavaScript" : params.linguagem === "java" ? "Java" : params.linguagem.charAt(0).toUpperCase() + params.linguagem.slice(1);
-  return { title: `Projetos Práticos de ${nome}`, description: `Projetos integradores de ${nome} para praticar programação.` };
+  const linguagem = params.linguagem === "javascript" ? "JavaScript" : params.linguagem === "java" ? "Java" : params.linguagem.charAt(0).toUpperCase() + params.linguagem.slice(1);
+
+  const title = `Projetos Práticos de ${linguagem} para Portfólio | MeuPasso`;
+  const description = `Projetos guiados de ${linguagem} com etapas detalhadas. Construa calculadora financeira, sistema de cadastro, jogo e mais. Ideal para quem quer o primeiro emprego em TI.`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `https://www.meupasso.com.br/projetos/${params.linguagem}`,
+      siteName: "MeuPasso",
+    },
+    alternates: {
+      canonical: `https://www.meupasso.com.br/projetos/${params.linguagem}`,
+    },
+  };
 }
 
 export default async function LinguagemProjetosPage({ params }: { params: { linguagem: string } }) {

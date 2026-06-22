@@ -5,10 +5,31 @@ import ExercicioListClient from "./ExercicioListClient";
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: { linguagem: string } }): Promise<Metadata> {
-  const nome = params.linguagem === "javascript" ? "JavaScript" : params.linguagem === "java" ? "Java" : params.linguagem.charAt(0).toUpperCase() + params.linguagem.slice(1);
+  const linguagem = params.linguagem === "javascript" ? "JavaScript" : params.linguagem === "java" ? "Java" : params.linguagem.charAt(0).toUpperCase() + params.linguagem.slice(1);
+
+  const descricoes: Record<string, string> = {
+    Python: "Aprenda Python com 230+ exercícios progressivos — do básico ao avançado. Sintaxe, condicionais, loops, listas, funções, POO e mais.",
+    Java: "Aprenda Java com 140+ exercícios práticos. Sintaxe, condicionais, repetição, ArrayList e orientação a objetos.",
+    JavaScript: "Aprenda JavaScript com 240+ exercícios. Sintaxe, arrays, funções, objetos, POO e módulos.",
+  };
+
+  const title = `Exercícios de ${linguagem} para Iniciantes | MeuPasso`;
+  const description = descricoes[linguagem] || `Exercícios práticos de ${linguagem} para quem está começando a programar.`;
+
   return {
-    title: `Exercícios de ${nome}`,
-    description: `Pratique ${nome} com exercícios organizados por módulo e dificuldade.`,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `https://www.meupasso.com.br/exercicios/${params.linguagem}`,
+      siteName: "MeuPasso",
+      locale: "pt_BR",
+      type: "website",
+    },
+    alternates: {
+      canonical: `https://www.meupasso.com.br/exercicios/${params.linguagem}`,
+    },
   };
 }
 

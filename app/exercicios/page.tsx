@@ -5,9 +5,21 @@ import { createClient } from "@/lib/supabase/server";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Exercícios de Programação",
+  title: "Exercícios de Programação para Iniciantes | MeuPasso",
   description:
-    "Pratique programação com exercícios de Python, Java e JavaScript organizados por módulo e dificuldade.",
+    "Mais de 610 exercícios de Python, Java e JavaScript organizados por nível. Do básico ao desafio, com tutor IA para quando você travar.",
+  openGraph: {
+    title: "Exercícios de Programação para Iniciantes | MeuPasso",
+    description:
+      "Mais de 610 exercícios de Python, Java e JavaScript organizados por nível.",
+    url: "https://www.meupasso.com.br/exercicios",
+    siteName: "MeuPasso",
+    locale: "pt_BR",
+    type: "website",
+  },
+  alternates: {
+    canonical: "https://www.meupasso.com.br/exercicios",
+  },
 };
 
 export default async function ExerciciosPage() {
@@ -37,7 +49,7 @@ export default async function ExerciciosPage() {
     {
       nome: "JavaScript",
       slug: "javascript",
-      descricao: `${contagem["JavaScript"] || 0} exercícios · Sintaxe`,
+      descricao: `${contagem["JavaScript"] || 0} exercícios · Sintaxe, Condicionais, Repetição, Arrays, Funções, Objetos, POO, Módulos e Erros`,
       disponivel: true,
     },
   ];
