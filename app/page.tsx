@@ -79,15 +79,15 @@ export default async function Home() {
   return (
     <main style={{ background: "var(--bg-primary)" }}>
       {/* Hero */}
-      <section style={{ ...secaoStyle, paddingTop: "8rem", paddingBottom: "3rem", textAlign: "center" }}>
+      <section style={{ ...secaoStyle, paddingTop: "8rem", paddingBottom: "0", textAlign: "center" }}>
         <span style={{ display: "inline-block", fontSize: "0.75rem", fontWeight: 600, padding: "0.25rem 0.75rem", borderRadius: "9999px", background: "var(--accent)", color: "#fff", marginBottom: "1rem" }}>
           🚀 Mais de 610 exercícios disponíveis
         </span>
         <h1 style={{ fontSize: "3rem", fontWeight: 800, color: "var(--text-primary)", marginBottom: "1rem", lineHeight: 1.15 }}>
-          Resolva exercícios, receba ajuda quando travar<br />e construa projetos para conquistar sua primeira vaga em TI.
+          Aprenda a programar, construa projetos<br />e conquiste sua primeira vaga em TI.
         </h1>
         <p style={{ fontSize: "1rem", color: "var(--text-secondary)", maxWidth: "42rem", margin: "0 auto 2rem", lineHeight: 1.6 }}>
-          610+ exercícios de Python, Java e JavaScript — do básico ao avançado. Tutor IA socrático, projetos práticos e vagas reais para iniciantes.
+          610+ exercícios de Python, Java e JavaScript — do básico ao avançado. Tutor IA que te guia sem dar a resposta, projetos práticos e vagas reais para iniciantes.
         </p>
         <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
           <Link href="/exercicios" className="btn-primary" style={{ display: "inline-block", padding: "0.875rem 2rem", borderRadius: "0.5rem", fontWeight: 600, fontSize: "1.0625rem", textDecoration: "none", background: "var(--accent)", color: "#fff" }}>
