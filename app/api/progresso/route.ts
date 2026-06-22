@@ -1,6 +1,46 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 
+async function atualizarStreak(userId: string, supabase: ReturnType<typeof createClient>) {
+  const hoje = new Date().toISOString().split("T")[0];
+  const ontem = new Date(Date.now() - 86400000).toISOString().split("T")[0];
+
+  const { data: user } = await supabase
+    .from("users")
+    .select("streak_atual, streak_maximo, ultimo_estudo")
+    .eq("id", userId)
+    .single();
+
+  if (!user) return null;
+
+  const ultimoEstudo = user.ultimo_estudo;
+  let novoStreak = user.streak_atual || 0;
+
+  if (ultimoEstudo === hoje) {
+    // Já estudou hoje — não muda streak
+    return { streak_atual: novoStreak, streak_maximo: Math.max(novoStreak, user.streak_maximo || 0) };
+  } else if (ultimoEstudo === ontem) {
+    // Estudou ontem — incrementa
+    novoStreak += 1;
+  } else {
+    // Quebrou o streak — começa do 1
+    novoStreak = 1;
+  }
+
+  const novoMaximo = Math.max(novoStreak, user.streak_maximo || 0);
+
+  await supabase
+    .from("users")
+    .update({
+      streak_atual: novoStreak,
+      streak_maximo: novoMaximo,
+      ultimo_estudo: hoje,
+    })
+    .eq("id", userId);
+
+  return { streak_atual: novoStreak, streak_maximo: novoMaximo };
+}
+
 export async function POST(req: NextRequest) {
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -27,7 +67,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json({ success: true });
+  // Atualizar streak de estudos
+  const streak = await atualizarStreak(user.id, supabase);
+
+  return NextResponse.json({ success: true, streak });
 }
 
 export async function DELETE(req: NextRequest) {
@@ -63,6 +106,21 @@ export async function GET(req: NextRequest) {
   const tipo = searchParams.get("tipo");
   const linguagem = searchParams.get("linguagem");
   const referencia_id = searchParams.get("referencia_id");
+
+  // Se tipo=streak, retorna dados de streak do usuário
+  if (tipo === "streak") {
+    const { data: streakData } = await supabase
+      .from("users")
+      .select("streak_atual, streak_maximo, ultimo_estudo")
+      .eq("id", user.id)
+      .single();
+
+    return NextResponse.json({
+      streak_atual: streakData?.streak_atual || 0,
+      streak_maximo: streakData?.streak_maximo || 0,
+      ultimo_estudo: streakData?.ultimo_estudo || null,
+    });
+  }
 
   // Se referencia_id foi passado, retorna se está concluído ou não
   if (referencia_id) {

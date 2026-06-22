@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import Sidebar from "@/components/Sidebar";
@@ -85,6 +86,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
+        <GoogleAnalytics gaId="G-NJW71HMDHE" />
         <ThemeProvider>
           <Sidebar />
           <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }} className="main-content">

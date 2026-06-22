@@ -152,6 +152,7 @@ export default function Sidebar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [userName, setUserName] = useState<string | null>(null);
+  const [streakAtual, setStreakAtual] = useState(0);
   const pathname = usePathname();
   const router = useRouter();
   const { theme, toggle } = useTheme();
@@ -183,6 +184,7 @@ export default function Sidebar() {
         setUser(session.user);
         const nome = session.user.user_metadata?.nome || session.user.user_metadata?.full_name || session.user.email?.split("@")[0] || "";
         setUserName(nome);
+        carregarStreak();
       }
     }
     loadUser();
@@ -192,14 +194,24 @@ export default function Sidebar() {
         setUser(session.user);
         const nome = session.user.user_metadata?.nome || session.user.user_metadata?.full_name || session.user.email?.split("@")[0] || "";
         setUserName(nome);
+        carregarStreak();
       } else {
         setUser(null);
         setUserName(null);
+        setStreakAtual(0);
       }
     });
 
     return () => subscription.unsubscribe();
   }, []);
+
+  async function carregarStreak() {
+    try {
+      const res = await fetch("/api/progresso?tipo=streak");
+      const data = await res.json();
+      if (data.streak_atual > 0) setStreakAtual(data.streak_atual);
+    } catch {}
+  }
 
   async function handleLogout() {
     await supabase.auth.signOut();
@@ -362,6 +374,19 @@ export default function Sidebar() {
                   }}
                 >
                   {userName}
+                </span>
+              )}
+              {!collapsed && streakAtual > 0 && (
+                <span
+                  style={{
+                    fontSize: "0.75rem",
+                    color: "#f59e0b",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  🔥 {streakAtual} {streakAtual === 1 ? "dia" : "dias"} seguidos
                 </span>
               )}
               <button

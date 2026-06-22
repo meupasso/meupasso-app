@@ -56,6 +56,15 @@ export default function ExercicioClient({
   const [concluidoPorTutor, setConcluidoPorTutor] = useState(false);
   const [chatConcluido, setChatConcluido] = useState(false);
   const [mensagemConclusao, setMensagemConclusao] = useState("");
+  const [mensagemMotivacional, setMensagemMotivacional] = useState("");
+
+  function getMensagemStreak(streak: number): string {
+    if (streak >= 30) return "30 dias! Você é uma máquina 🔥";
+    if (streak >= 7) return "1 semana seguida! Isso é consistência de verdade 🔥";
+    if (streak >= 3) return "3 dias seguidos! Você está pegando o ritmo 🔥";
+    if (streak >= 1) return "Bom começo! Volte amanhã para manter o streak 🔥";
+    return "";
+  }
 
   // Reset ao trocar de exercício
   useEffect(() => {
@@ -67,6 +76,7 @@ export default function ExercicioClient({
     setConcluidoPorTutor(false);
     setChatConcluido(false);
     setMensagemConclusao("");
+    setMensagemMotivacional("");
     setMarcando(false);
     setCarregando(false);
   }, [exercicio.id]);
@@ -107,7 +117,7 @@ export default function ExercicioClient({
     setMarcando(true);
     try {
       const ref = exercicio.id_referencia || exercicio.id;
-      await fetch("/api/progresso", {
+      const res = await fetch("/api/progresso", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -117,7 +127,11 @@ export default function ExercicioClient({
           modulo: exercicio.modulo,
         }),
       });
+      const data = await res.json();
       setConcluido(true);
+      if (data.streak?.streak_atual) {
+        setMensagemMotivacional(getMensagemStreak(data.streak.streak_atual));
+      }
     } catch {}
     setMarcando(false);
   }
@@ -139,6 +153,7 @@ export default function ExercicioClient({
       setConcluidoPorTutor(false);
       setChatConcluido(false);
       setMensagemConclusao("");
+      setMensagemMotivacional("");
     } catch {}
     setMarcando(false);
   }
@@ -208,7 +223,14 @@ export default function ExercicioClient({
             linguagem: exercicio.linguagem,
             modulo: exercicio.modulo,
           }),
-        }).catch(() => {});
+        })
+          .then((r) => r.json())
+          .then((data) => {
+            if (data.streak?.streak_atual) {
+              setMensagemMotivacional(getMensagemStreak(data.streak.streak_atual));
+            }
+          })
+          .catch(() => {});
       }
     } catch {
       setMensagens((prev) => [
@@ -327,26 +349,33 @@ export default function ExercicioClient({
         {/* Botão concluir/desmarcar exercício */}
         <div style={{ marginBottom: "1rem" }}>
           {concluido ? (
-            <button
-              onClick={desmarcarConcluido}
-              disabled={marcando}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.375rem",
-                padding: "0.5rem 1rem",
-                background: "#166534",
-                color: "#dcfce7",
-                border: "1px solid #22c55e",
-                borderRadius: "0.5rem",
-                fontSize: "0.875rem",
-                fontWeight: 600,
-                cursor: marcando ? "not-allowed" : "pointer",
-                opacity: marcando ? 0.6 : 1,
-              }}
-            >
-              {marcando ? "Salvando..." : "✅ Concluído — clique para desmarcar"}
-            </button>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+              <button
+                onClick={desmarcarConcluido}
+                disabled={marcando}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.375rem",
+                  padding: "0.5rem 1rem",
+                  background: "#166534",
+                  color: "#dcfce7",
+                  border: "1px solid #22c55e",
+                  borderRadius: "0.5rem",
+                  fontSize: "0.875rem",
+                  fontWeight: 600,
+                  cursor: marcando ? "not-allowed" : "pointer",
+                  opacity: marcando ? 0.6 : 1,
+                }}
+              >
+                {marcando ? "Salvando..." : "✅ Concluído — clique para desmarcar"}
+              </button>
+              {mensagemMotivacional && (
+                <span style={{ fontSize: "0.875rem", color: "#f59e0b", fontWeight: 500 }}>
+                  {mensagemMotivacional}
+                </span>
+              )}
+            </div>
           ) : (
             <button
               onClick={marcarConcluido}
@@ -573,9 +602,14 @@ export default function ExercicioClient({
 
                 {concluidoPorTutor && (
                   <div style={{ textAlign: "center", padding: "0.75rem 0" }}>
-                    <p style={{ color: "#22c55e", fontWeight: 600, fontSize: "0.9375rem", marginBottom: "0.75rem" }}>
+                    <p style={{ color: "#22c55e", fontWeight: 600, fontSize: "0.9375rem", marginBottom: "0.5rem" }}>
                       ✅ Exercício concluído! Bom trabalho!
                     </p>
+                    {mensagemMotivacional && (
+                      <p style={{ color: "#f59e0b", fontWeight: 500, fontSize: "0.875rem", marginBottom: "0.75rem" }}>
+                        {mensagemMotivacional}
+                      </p>
+                    )}
                     <a
                       href={`/exercicios/${exercicio.linguagem.toLowerCase()}`}
                       style={{

@@ -8,8 +8,14 @@ import AdSlot from "@/components/AdSlot";
 export const dynamic = "force-dynamic";
 
 function formatarData(data: string): string {
-  const d = new Date(data + "T12:00:00");
-  return d.toLocaleDateString("pt-BR", { day: "numeric", month: "short", year: "numeric" });
+  if (!data) return "";
+  try {
+    const d = new Date(data + "T12:00:00");
+    if (isNaN(d.getTime())) return data;
+    return d.toLocaleDateString("pt-BR", { day: "numeric", month: "long", year: "numeric" });
+  } catch {
+    return data;
+  }
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {

@@ -43,6 +43,8 @@ export default function PerfilPage() {
   const [carregando, setCarregando] = useState(true);
   const [progresso, setProgresso] = useState<any[]>([]);
   const [projetosEtapas, setProjetosEtapas] = useState<{ projeto_id: string; titulo: string; linguagem: string; total: number; concluidas: number }[]>([]);
+  const [streakAtual, setStreakAtual] = useState(0);
+  const [streakMaximo, setStreakMaximo] = useState(0);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
@@ -57,10 +59,15 @@ export default function PerfilPage() {
 
   async function carregarDados() {
     try {
-      const [progRes, etapasRes] = await Promise.all([
+      const [progRes, etapasRes, streakRes] = await Promise.all([
         fetch("/api/progresso"),
         fetch("/api/progresso?tipo=etapa_projeto"),
+        fetch("/api/progresso?tipo=streak"),
       ]);
+
+      const streakData = await streakRes.json();
+      if (streakData.streak_atual > 0) setStreakAtual(streakData.streak_atual);
+      if (streakData.streak_maximo > 0) setStreakMaximo(streakData.streak_maximo);
 
       const prog = await progRes.json();
       const etapas = await etapasRes.json();
@@ -140,6 +147,36 @@ export default function PerfilPage() {
       <p style={{ color: "var(--text-secondary)", fontSize: "0.9375rem", marginBottom: "2rem" }}>
         Acompanhe seu desempenho nos exercícios e projetos.
       </p>
+
+      {/* Streak cards */}
+      <div style={{ display: "flex", gap: "1rem", marginBottom: "2rem", flexWrap: "wrap" }}>
+        <div style={{
+          flex: 1, minWidth: "180px",
+          background: "var(--bg-card)", border: "1px solid var(--border)",
+          borderRadius: "0.75rem", padding: "1.25rem", textAlign: "center",
+        }}>
+          <div style={{ fontSize: "2rem", marginBottom: "0.25rem" }}>🔥</div>
+          <div style={{ fontSize: "1.75rem", fontWeight: 700, color: "var(--text-primary)" }}>
+            {streakAtual}
+          </div>
+          <div style={{ fontSize: "0.8125rem", color: "var(--text-secondary)" }}>
+            {streakAtual === 1 ? "dia" : "dias"} seguidos
+          </div>
+        </div>
+        <div style={{
+          flex: 1, minWidth: "180px",
+          background: "var(--bg-card)", border: "1px solid var(--border)",
+          borderRadius: "0.75rem", padding: "1.25rem", textAlign: "center",
+        }}>
+          <div style={{ fontSize: "2rem", marginBottom: "0.25rem" }}>🏆</div>
+          <div style={{ fontSize: "1.75rem", fontWeight: 700, color: "var(--text-primary)" }}>
+            {streakMaximo}
+          </div>
+          <div style={{ fontSize: "0.8125rem", color: "var(--text-secondary)" }}>
+            recorde de {streakMaximo === 1 ? "dia" : "dias"}
+          </div>
+        </div>
+      </div>
 
       {/* Python */}
       <div style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "0.75rem", padding: "1.5rem", marginBottom: "1.5rem" }}>
