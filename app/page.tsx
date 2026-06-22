@@ -80,11 +80,14 @@ export default async function Home() {
     <main style={{ background: "var(--bg-primary)" }}>
       {/* Hero */}
       <section style={{ ...secaoStyle, paddingTop: "8rem", paddingBottom: "3rem", textAlign: "center" }}>
+        <span style={{ display: "inline-block", fontSize: "0.75rem", fontWeight: 600, padding: "0.25rem 0.75rem", borderRadius: "9999px", background: "var(--accent)", color: "#fff", marginBottom: "1rem" }}>
+          🚀 Mais de 610 exercícios disponíveis
+        </span>
         <h1 style={{ fontSize: "3rem", fontWeight: 800, color: "var(--text-primary)", marginBottom: "1rem", lineHeight: 1.15 }}>
-          Aprenda a programar<br />do jeito certo.
+          Resolva exercícios, receba ajuda quando travar<br />e construa projetos para conquistar sua primeira vaga em TI.
         </h1>
-        <p style={{ fontSize: "1.125rem", color: "var(--text-secondary)", maxWidth: "36rem", margin: "0 auto 2rem", lineHeight: 1.6 }}>
-          Exercícios práticos, tutor IA, projetos reais e trilhas guiadas para quem quer migrar de área para TI.
+        <p style={{ fontSize: "1rem", color: "var(--text-secondary)", maxWidth: "42rem", margin: "0 auto 2rem", lineHeight: 1.6 }}>
+          610+ exercícios de Python, Java e JavaScript — do básico ao avançado. Tutor IA socrático, projetos práticos e vagas reais para iniciantes.
         </p>
         <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
           <Link href="/exercicios" className="btn-primary" style={{ display: "inline-block", padding: "0.875rem 2rem", borderRadius: "0.5rem", fontWeight: 600, fontSize: "1.0625rem", textDecoration: "none", background: "var(--accent)", color: "#fff" }}>
@@ -99,7 +102,7 @@ export default async function Home() {
       {/* Linguagens */}
       <section style={secaoStyle}>
         <h2 style={tituloSecao}>Python, Java e JavaScript</h2>
-        <p style={subtituloSecao}>Três das linguagens mais demandadas no mercado brasileiro.</p>
+        <p style={subtituloSecao}>As linguagens mais pedidas nas vagas de desenvolvedor júnior no Brasil.</p>
         <div style={{ display: "grid", gap: "1.5rem", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))" }}>
           {[
             { icone: "🐍", nome: "Python", desc: "A linguagem mais fácil para começar. Ideal para automação, dados e web.", ok: true },
@@ -208,9 +211,9 @@ export default async function Home() {
         <p style={subtituloSecao}>Três perfis, um objetivo: te ajudar a programar.</p>
         <div style={{ display: "grid", gap: "1.5rem", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))" }}>
           {[
-            { icone: "🔄", tit: "Estou migrando de área", desc: "Trilha completa do zero ao primeiro emprego em TI." },
-            { icone: "🌱", tit: "Nunca programei", desc: "Exercícios do absoluto básico com tutor IA disponível." },
-            { icone: "📈", tit: "Já sei o básico", desc: "Exercícios avançados, projetos práticos e revisão de código." },
+            { icone: "🔄", tit: "Estou migrando de área", desc: "Sequência estruturada do zero ao portfólio — sem enrolação." },
+            { icone: "🌱", tit: "Nunca programei", desc: "Comece pelo Olá Mundo e avance no seu ritmo. O tutor explica quando você travar." },
+            { icone: "📈", tit: "Já sei o básico", desc: "Projetos reais para o portfólio, revisão de código por IA e exercícios avançados." },
           ].map((p) => (
             <div key={p.tit} style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "0.75rem", padding: "1.5rem" }}>
               <div style={{ fontSize: "2rem", marginBottom: "0.75rem" }}>{p.icone}</div>
@@ -225,10 +228,10 @@ export default async function Home() {
       <section style={{ ...secaoStyle, maxWidth: "600px" }}>
         <div style={{ border: "2px solid var(--accent)", borderRadius: "1rem", padding: "2.5rem", background: "var(--bg-card)", textAlign: "center" }}>
           <h2 style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--text-primary)", marginBottom: "1.5rem" }}>
-            Desbloqueie tudo por <span style={{ color: "var(--accent)" }}>R$27,90/mês</span>
+            Desbloqueie os projetos e o tutor ilimitado por <span style={{ color: "var(--accent)" }}>R$27,90/mês</span>
           </h2>
           <p style={{ color: "var(--text-secondary)", fontSize: "0.875rem", marginBottom: "1.5rem", textAlign: "center" }}>
-            Por menos de R$1 por dia você tem acesso a tudo.
+            Por menos de R$1 por dia — cancele quando quiser.
           </p>
           <div style={{ textAlign: "left", maxWidth: "280px", margin: "0 auto 1.5rem" }}>
             {["Projetos Práticos com etapas guiadas", "Revisão de código por IA", "Sessões ilimitadas com o tutor", "Trilhas de empregabilidade"].map((item) => (
