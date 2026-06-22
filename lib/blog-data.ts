@@ -16,7 +16,7 @@ export const blogRegistry: BlogPost[] = [
     "titulo": "JavaScript: O que é e por onde começar",
     "slug": "javascript-o-que-e-e-por-onde-comecar",
     "descricao": "JavaScript é a linguagem que roda em qualquer navegador. Aprenda o básico com exemplos práticos e saiba por onde começar.",
-    "data": "2026-06-Jun 22, 2026",
+    "data": "2026-06-22",
     "tags": [
       "javascript",
       "iniciantes",
