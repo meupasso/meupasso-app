@@ -57,6 +57,23 @@ export default function ExercicioClient({
   const [chatConcluido, setChatConcluido] = useState(false);
   const [mensagemConclusao, setMensagemConclusao] = useState("");
   const [mensagemMotivacional, setMensagemMotivacional] = useState("");
+  const [historicoCarregado, setHistoricoCarregado] = useState(false);
+
+  async function salvarHistorico(mensagens: Mensagem[]) {
+    const ref = exercicio.id_referencia || exercicio.id;
+    const mensagensParaSalvar = mensagens.slice(-20);
+    try {
+      await fetch("/api/historico-tutor", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          exercicio_id: ref,
+          linguagem: exercicio.linguagem,
+          mensagens: mensagensParaSalvar,
+        }),
+      });
+    } catch {}
+  }
 
   function getMensagemStreak(streak: number): string {
     if (streak >= 30) return "30 dias! Você é uma máquina 🔥";
@@ -77,9 +94,25 @@ export default function ExercicioClient({
     setChatConcluido(false);
     setMensagemConclusao("");
     setMensagemMotivacional("");
+    setHistoricoCarregado(false);
     setMarcando(false);
     setCarregando(false);
   }, [exercicio.id]);
+
+  // Carregar histórico de conversa do tutor
+  useEffect(() => {
+    const ref = exercicio.id_referencia || exercicio.id;
+    fetch(`/api/historico-tutor?exercicio_id=${encodeURIComponent(ref)}`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.mensagens?.length > 0) {
+          setMensagens(data.mensagens);
+          setChatAberto(true);
+          setHistoricoCarregado(true);
+        }
+      })
+      .catch(() => {});
+  }, [exercicio.id, exercicio.id_referencia]);
 
   // Ler arquivos do GitHub salvos em localStorage
   useEffect(() => {
@@ -175,6 +208,7 @@ export default function ExercicioClient({
     const texto = input;
     setInput("");
     setCarregando(true);
+    const novaMensagem: Mensagem = { role: "user", content: texto };
 
     try {
       const res = await fetch("/api/tutor", {
@@ -193,7 +227,6 @@ export default function ExercicioClient({
       }
 
       // Só adiciona a mensagem após confirmação do servidor
-      const novaMensagem: Mensagem = { role: "user", content: texto };
       const novaLista = [...mensagens, novaMensagem];
       setMensagens(novaLista);
 
@@ -208,6 +241,10 @@ export default function ExercicioClient({
         ...prev,
         { role: "assistant", content: conteudoLimpo },
       ]);
+
+      // Salvar histórico
+      const comAssistente = [...novaLista, { role: "assistant" as const, content: conteudoLimpo }];
+      salvarHistorico(comAssistente);
 
       if (temConclusao) {
         setConcluidoPorTutor(true);
@@ -233,13 +270,9 @@ export default function ExercicioClient({
           .catch(() => {});
       }
     } catch {
-      setMensagens((prev) => [
-        ...prev,
-        {
-          role: "assistant",
-          content: "Erro ao conectar com o tutor. Tente novamente.",
-        },
-      ]);
+      const errMensagens = [...mensagens, novaMensagem, { role: "assistant" as const, content: "Erro ao conectar com o tutor. Tente novamente." }];
+      setMensagens(errMensagens);
+      salvarHistorico(errMensagens);
     } finally {
       setCarregando(false);
     }
@@ -442,9 +475,34 @@ export default function ExercicioClient({
               fontSize: "0.875rem",
               fontWeight: 600,
               color: "var(--text-primary)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
             }}
           >
-            Tutor MeuPasso
+            <span>Tutor MeuPasso</span>
+            <button
+              onClick={async () => {
+                if (!confirm("Limpar o histórico desta conversa?")) return;
+                const ref = exercicio.id_referencia || exercicio.id;
+                await fetch(`/api/historico-tutor?exercicio_id=${encodeURIComponent(ref)}`, { method: "DELETE" });
+                setMensagens([]);
+                setHistoricoCarregado(false);
+              }}
+              style={{
+                fontSize: "0.75rem",
+                color: "var(--text-secondary)",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                padding: "0.25rem 0.5rem",
+                borderRadius: "0.25rem",
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.color = "var(--text-primary)"}
+              onMouseLeave={(e) => e.currentTarget.style.color = "var(--text-secondary)"}
+            >
+              Limpar conversa
+            </button>
           </div>
 
           {bloqueado ? (
@@ -527,6 +585,11 @@ export default function ExercicioClient({
                     <p style={{ color: "var(--text-secondary)", fontSize: "0.8125rem", marginTop: "0.5rem" }}>
                       Clique em "Desmarcar" acima para reabilitar o chat e tentar novamente.
                     </p>
+                  </div>
+                )}
+                {historicoCarregado && mensagens.length > 0 && (
+                  <div style={{ fontSize: "0.75rem", color: "var(--text-secondary)", textAlign: "center", padding: "0.25rem 0 0.5rem" }}>
+                    💬 Conversa anterior carregada
                   </div>
                 )}
                 {mensagens.map((msg, i) => (
