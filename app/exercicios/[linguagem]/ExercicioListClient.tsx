@@ -6,6 +6,7 @@ import Link from "next/link";
 type Exercicio = {
   id: string;
   id_referencia: string;
+  slug: string;
   titulo: string;
   linguagem: string;
   modulo: string;
@@ -28,6 +29,36 @@ const ORDEM_MODULOS_JAVA = [
 const ORDEM_MODULOS_JAVASCRIPT = [
   "Sintaxe", "Condicionais", "Repetição", "Arrays", "Funções", "Objetos", "POO", "Módulos e Erros",
 ];
+
+const DESCRICOES_MODULOS: Record<string, Record<string, string>> = {
+  Python: {
+    'Sintaxe': 'Aprenda os fundamentos da sintaxe Python: variáveis, tipos de dados, operadores e entrada e saída. É o ponto de partida para qualquer programa Python.',
+    'Condicionais': 'Domine estruturas condicionais em Python com if, elif e else. Aprenda a tomar decisões no código e controlar o fluxo de execução.',
+    'Repetição': 'Pratique loops em Python com for e while. Automatize tarefas repetitivas e processe coleções de dados com eficiência.',
+    'Listas': 'Explore listas em Python: criação, acesso, modificação e métodos essenciais. Fundamental para armazenar e manipular coleções de dados.',
+    'Funções': 'Aprenda a criar funções em Python para organizar e reutilizar código. Cubra parâmetros, retorno, escopo e boas práticas.',
+    'Coleções': 'Domine dicionários, tuplas e sets em Python. Estruturas de dados poderosas para resolver problemas complexos com elegância.',
+    'Arquivos': 'Aprenda a ler e escrever arquivos em Python. Persista dados além da execução do programa com manipulação de arquivos texto e CSV.',
+    'POO': 'Pratique Orientação a Objetos em Python: classes, objetos, herança, encapsulamento e polimorfismo. Base para projetos profissionais.',
+  },
+  Java: {
+    'Sintaxe': 'Aprenda a sintaxe Java: estrutura de classes, tipos primitivos, operadores e entrada de dados com Scanner. Base para todo desenvolvimento Java.',
+    'Condicionais': 'Domine if/else e switch/case em Java. Aprenda a controlar o fluxo do programa com lógica condicional robusta.',
+    'Repetição': 'Pratique loops for, while e do-while em Java. Aprenda a repetir operações e iterar sobre coleções de forma eficiente.',
+    'ArrayList': 'Explore ArrayList em Java: a estrutura de dados dinâmica mais usada. Adicione, remova e manipule elementos com facilidade.',
+    'POO': 'Domine Orientação a Objetos em Java: classes, objetos, herança e encapsulamento. O coração da linguagem mais usada em empresas brasileiras.',
+  },
+  JavaScript: {
+    'Sintaxe': 'Aprenda a sintaxe JavaScript: variáveis com const e let, tipos de dados, operadores e template literals. O primeiro passo para a web.',
+    'Condicionais': 'Domine if/else, switch e operador ternário em JavaScript. Controle o fluxo do seu código com lógica condicional moderna.',
+    'Repetição': 'Pratique loops for, while e for...of em JavaScript. Itere sobre arrays e objetos com as estruturas de repetição mais usadas na web.',
+    'Arrays': 'Explore arrays em JavaScript: criação, acesso e os poderosos métodos map, filter, reduce, forEach e mais.',
+    'Funções': 'Aprenda funções em JavaScript: declaração, arrow functions, closures, callbacks e programação funcional.',
+    'Objetos': 'Domine objetos em JavaScript: criação, propriedades, métodos, desestruturação e spread operator.',
+    'POO': 'Pratique Orientação a Objetos com classes JavaScript: constructor, herança com extends, encapsulamento e polimorfismo.',
+    'Módulos e Erros': 'Aprenda módulos ES6 com import/export e tratamento de erros com try/catch em JavaScript. Organize e proteja seu código.',
+  }
+};
 
 const ORDEM_NIVEIS = ["basico", "intermediario", "avancado", "desafio"];
 
@@ -432,6 +463,21 @@ export default function ExercicioListClient({
           <input value={busca} onChange={(e) => setBusca(e.target.value)} placeholder="Buscar exercício..."
             style={{ width: "100%", padding: "0.625rem 1rem", background: "var(--bg-card)", color: "var(--text-primary)", border: "1px solid var(--border)", borderRadius: "0.5rem", fontSize: "0.875rem", outline: "none", marginBottom: "1.5rem" }} />
 
+          {modulosAtivos.size === 1 && DESCRICOES_MODULOS[nomeLinguagem]?.[Array.from(modulosAtivos)[0]] && (
+            <p style={{
+              color: "var(--text-secondary)",
+              fontSize: "0.9rem",
+              lineHeight: 1.6,
+              marginBottom: "1.5rem",
+              padding: "1rem",
+              background: "var(--bg-secondary)",
+              borderRadius: "0.5rem",
+              borderLeft: "3px solid var(--accent)",
+            }}>
+              {DESCRICOES_MODULOS[nomeLinguagem][Array.from(modulosAtivos)[0]]}
+            </p>
+          )}
+
           {grupos.length === 0 && (
             <p style={{ color: "var(--text-secondary)", textAlign: "center", padding: "3rem 1rem", fontSize: "0.9375rem" }}>
               Nenhum exercício encontrado com esses filtros.
@@ -516,7 +562,7 @@ export default function ExercicioListClient({
                             </div>
                           )}
 
-                          <Link href={`/exercicios/${linguagem}/${ex.id}`}
+                          <Link href={`/exercicios/${linguagem}/${ex.slug}`}
                             style={{ display: "inline-block", padding: "0.5rem 1.25rem", background: "var(--accent)", color: "#ffffff", borderRadius: "0.375rem", fontSize: "0.875rem", fontWeight: 600, textDecoration: "none" }}>
                             Resolver →
                           </Link>
