@@ -33,7 +33,7 @@ export async function generateMetadata({
   };
   const nivelLabel = nivelLabels[exercicio.nivel] || exercicio.nivel;
 
-  const title = `${exercicio.titulo} — ${exercicio.linguagem} ${nivelLabel} | MeuPasso`;
+  const title = `${exercicio.titulo} — ${exercicio.linguagem} ${nivelLabel}`;
   const description = exercicio.descricao
     ? exercicio.descricao.substring(0, 155).replace(/\n/g, " ").trim()
     : `Exercício ${nivelLabel.toLowerCase()} de ${exercicio.linguagem} — módulo ${exercicio.modulo}. Pratique programação com exercícios progressivos no MeuPasso.`;

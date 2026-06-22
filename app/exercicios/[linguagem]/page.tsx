@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: { params: { linguagem: string
     JavaScript: "Aprenda JavaScript com 240+ exercícios. Sintaxe, arrays, funções, objetos, POO e módulos.",
   };
 
-  const title = `Exercícios de ${linguagem} para Iniciantes | MeuPasso`;
+  const title = `Exercícios de ${linguagem} para Iniciantes`;
   const description = descricoes[linguagem] || `Exercícios práticos de ${linguagem} para quem está começando a programar.`;
 
   return {

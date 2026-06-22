@@ -5,11 +5,11 @@ import { createClient } from "@/lib/supabase/server";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Exercícios de Programação para Iniciantes | MeuPasso",
+  title: "Exercícios de Programação para Iniciantes",
   description:
     "Mais de 610 exercícios de Python, Java e JavaScript organizados por nível. Do básico ao desafio, com tutor IA para quando você travar.",
   openGraph: {
-    title: "Exercícios de Programação para Iniciantes | MeuPasso",
+    title: "Exercícios de Programação para Iniciantes",
     description:
       "Mais de 610 exercícios de Python, Java e JavaScript organizados por nível.",
     url: "https://www.meupasso.com.br/exercicios",

@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata({ params }: { params: { linguagem: string } }): Promise<Metadata> {
   const linguagem = params.linguagem === "javascript" ? "JavaScript" : params.linguagem === "java" ? "Java" : params.linguagem.charAt(0).toUpperCase() + params.linguagem.slice(1);
 
-  const title = `Projetos Práticos de ${linguagem} para Portfólio | MeuPasso`;
+  const title = `Projetos Práticos de ${linguagem} para Portfólio`;
   const description = `Projetos guiados de ${linguagem} com etapas detalhadas. Construa calculadora financeira, sistema de cadastro, jogo e mais. Ideal para quem quer o primeiro emprego em TI.`;
 
   return {

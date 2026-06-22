@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: { params: { linguagem: string
   };
   const nivelLabel = nivelLabels[projeto.nivel] || projeto.nivel;
 
-  const title = `${projeto.titulo} em ${projeto.linguagem} — Projeto Prático ${nivelLabel} | MeuPasso`;
+  const title = `${projeto.titulo} em ${projeto.linguagem} — Projeto Prático ${nivelLabel}`;
   const description = projeto.descricao
     ? projeto.descricao.substring(0, 155).trim()
     : `Projeto prático de ${projeto.linguagem} com etapas guiadas. Construa seu portfólio com projetos reais no MeuPasso.`;
