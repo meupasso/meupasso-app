@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import remarkGfm from "remark-gfm";
 import { getTopico, getTopicos } from "@/lib/guias";
 import AdSlot from "@/components/AdSlot";
 
@@ -150,7 +151,14 @@ export default async function TopicoPage({
             fontSize: "0.9375rem",
           }}
         >
-          <MDXRemote source={topico.content} />
+          <MDXRemote
+            source={topico.content}
+            options={{
+              mdxOptions: {
+                remarkPlugins: [remarkGfm],
+              },
+            }}
+          />
         </div>
 
         <AdSlot slot="guia-bottom" />
