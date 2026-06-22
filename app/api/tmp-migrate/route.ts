@@ -21,7 +21,7 @@ export async function GET() {
     // Try session pooler (port 5432) with JWT as password
     const configs = [
       {
-        name: "Session pooler (JWT as password)",
+        name: "Session pooler (with ref)",
         config: {
           host: `aws-0-${region}.pooler.supabase.com`,
           port: 5432,
@@ -33,7 +33,19 @@ export async function GET() {
         },
       },
       {
-        name: "Transaction pooler (JWT as password)",
+        name: "Session pooler (just postgres)",
+        config: {
+          host: `aws-0-${region}.pooler.supabase.com`,
+          port: 5432,
+          database: "postgres",
+          user: "postgres",
+          password: supabaseKey,
+          ssl: { rejectUnauthorized: false },
+          connectionTimeoutMillis: 8000,
+        },
+      },
+      {
+        name: "Transaction pooler (with ref)",
         config: {
           host: `aws-0-${region}.pooler.supabase.com`,
           port: 6543,
@@ -45,12 +57,60 @@ export async function GET() {
         },
       },
       {
-        name: "Direct (JWT as password)",
+        name: "Transaction pooler (just postgres)",
+        config: {
+          host: `aws-0-${region}.pooler.supabase.com`,
+          port: 6543,
+          database: "postgres",
+          user: "postgres",
+          password: supabaseKey,
+          ssl: { rejectUnauthorized: false },
+          connectionTimeoutMillis: 8000,
+        },
+      },
+      {
+        name: "Direct (with project ref user)",
+        config: {
+          host: `db.${projectRef}.supabase.co`,
+          port: 5432,
+          database: "postgres",
+          user: `postgres.${projectRef}`,
+          password: supabaseKey,
+          ssl: { rejectUnauthorized: false },
+          connectionTimeoutMillis: 8000,
+        },
+      },
+      {
+        name: "Direct (postgres user)",
         config: {
           host: `db.${projectRef}.supabase.co`,
           port: 5432,
           database: "postgres",
           user: "postgres",
+          password: supabaseKey,
+          ssl: { rejectUnauthorized: false },
+          connectionTimeoutMillis: 8000,
+        },
+      },
+      {
+        name: "Direct via API host (postgres user)",
+        config: {
+          host: `${projectRef}.supabase.co`,
+          port: 5432,
+          database: "postgres",
+          user: "postgres",
+          password: supabaseKey,
+          ssl: { rejectUnauthorized: false },
+          connectionTimeoutMillis: 8000,
+        },
+      },
+      {
+        name: "Direct via API host (project.user)",
+        config: {
+          host: `${projectRef}.supabase.co`,
+          port: 5432,
+          database: "postgres",
+          user: `postgres.${projectRef}`,
           password: supabaseKey,
           ssl: { rejectUnauthorized: false },
           connectionTimeoutMillis: 8000,
