@@ -1,124 +1,110 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const results: Record<string, any> = {};
-
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
   const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
-  // Check if env vars are available
-  results.envVars = {
-    urlAvailable: !!supabaseUrl,
-    keyAvailable: !!supabaseKey,
-    urlPrefix: supabaseUrl?.substring(0, 35),
-    keyPrefix: supabaseKey?.substring(0, 20),
-  };
-
   if (!supabaseUrl || !supabaseKey) {
-    return NextResponse.json({ error: "Env vars not available", results });
+    return NextResponse.json({ error: "Env vars not available" }, { status: 500 });
   }
 
-  const supabase = createClient(supabaseUrl, supabaseKey);
   const projectRef = supabaseUrl.match(/https:\/\/([^.]+)/)?.[1] || "unknown";
+  const region = "sa-east-1";
+  const results: Record<string, any> = {};
 
-  const sqlStatements = [
-    `CREATE TABLE IF NOT EXISTS historico_tutor (
-      id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-      usuario_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
-      exercicio_id TEXT NOT NULL,
-      linguagem TEXT,
-      mensagens JSONB NOT NULL DEFAULT '[]',
-      created_at TIMESTAMP DEFAULT NOW(),
-      updated_at TIMESTAMP DEFAULT NOW(),
-      UNIQUE(usuario_id, exercicio_id)
-    );`,
-    `CREATE INDEX IF NOT EXISTS idx_historico_usuario ON historico_tutor(usuario_id);`,
-    `CREATE INDEX IF NOT EXISTS idx_historico_exercicio ON historico_tutor(exercicio_id);`,
-    `ALTER TABLE users ADD COLUMN IF NOT EXISTS streak_atual INT DEFAULT 0;`,
-    `ALTER TABLE users ADD COLUMN IF NOT EXISTS streak_maximo INT DEFAULT 0;`,
-    `ALTER TABLE users ADD COLUMN IF NOT EXISTS ultimo_estudo DATE;`,
-  ];
+  // Method: Try direct DB connection via pg with service_role JWT as password
+  try {
+    const { default: pg } = await import("pg");
 
-  const migrationResults: Record<string, any>[] = [];
+    // Try session pooler (port 5432) with JWT as password
+    const configs = [
+      {
+        name: "Session pooler (JWT as password)",
+        config: {
+          host: `aws-0-${region}.pooler.supabase.com`,
+          port: 5432,
+          database: "postgres",
+          user: `postgres.${projectRef}`,
+          password: supabaseKey,
+          ssl: { rejectUnauthorized: false },
+          connectionTimeoutMillis: 8000,
+        },
+      },
+      {
+        name: "Transaction pooler (JWT as password)",
+        config: {
+          host: `aws-0-${region}.pooler.supabase.com`,
+          port: 6543,
+          database: "postgres",
+          user: `postgres.${projectRef}`,
+          password: supabaseKey,
+          ssl: { rejectUnauthorized: false },
+          connectionTimeoutMillis: 8000,
+        },
+      },
+      {
+        name: "Direct (JWT as password)",
+        config: {
+          host: `db.${projectRef}.supabase.co`,
+          port: 5432,
+          database: "postgres",
+          user: "postgres",
+          password: supabaseKey,
+          ssl: { rejectUnauthorized: false },
+          connectionTimeoutMillis: 8000,
+        },
+      },
+    ];
 
-  // Method 1: Try calling exec_sql via RPC (if function exists)
-  for (const sql of sqlStatements) {
-    const label = sql.substring(0, 60) + "...";
-    const rpcResult: Record<string, any> = { sql: label, method: "rpc(exec_sql)" };
+    const sqlStatements = [
+      `CREATE TABLE IF NOT EXISTS historico_tutor (
+        id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+        usuario_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+        exercicio_id TEXT NOT NULL,
+        linguagem TEXT,
+        mensagens JSONB NOT NULL DEFAULT '[]',
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW(),
+        UNIQUE(usuario_id, exercicio_id)
+      );`,
+      `CREATE INDEX IF NOT EXISTS idx_historico_usuario ON historico_tutor(usuario_id);`,
+      `CREATE INDEX IF NOT EXISTS idx_historico_exercicio ON historico_tutor(exercicio_id);`,
+      `ALTER TABLE users ADD COLUMN IF NOT EXISTS streak_atual INT DEFAULT 0;`,
+      `ALTER TABLE users ADD COLUMN IF NOT EXISTS streak_maximo INT DEFAULT 0;`,
+      `ALTER TABLE users ADD COLUMN IF NOT EXISTS ultimo_estudo DATE;`,
+    ];
 
-    try {
-      const { data, error } = await supabase.rpc("exec_sql", { sql_text: sql });
-      rpcResult.data = data;
-      rpcResult.error = error?.message || null;
-    } catch (e: any) {
-      rpcResult.error = e.message;
+    for (const { name, config } of configs) {
+      const client = new pg.Client(config);
+      try {
+        await client.connect();
+        const dbResults: Record<string, any>[] = [];
+        for (const sql of sqlStatements) {
+          try {
+            const label = sql.substring(0, 50) + "...";
+            await client.query(sql);
+            dbResults.push({ sql: label, success: true });
+          } catch (e: any) {
+            dbResults.push({ sql: sql.substring(0, 50) + "...", error: e.message });
+          }
+        }
+        await client.end();
+        results[name] = { connected: true, results: dbResults };
+        // If we got here and all succeeded, great!
+        const allOk = dbResults.every(r => r.success);
+        if (allOk) {
+          results.status = "MIGRATION_COMPLETE";
+          break;
+        }
+      } catch (e: any) {
+        results[name] = { connected: false, error: e.message };
+        try { await client.end(); } catch {}
+      }
     }
-    migrationResults.push(rpcResult);
-  }
-
-  // Method 2: Try raw REST API call as fallback (auth admin endpoint)
-  results.migration = migrationResults;
-
-  // Method 3: Try the management API directly
-  try {
-    const response = await fetch(`https://api.supabase.com/v1/projects/${projectRef}/database/query`, {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${supabaseKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ query: "SELECT 1 AS test" }),
-    });
-    const mgmtData = await response.text();
-    results.managementApi = { status: response.status, body: mgmtData.substring(0, 200) };
   } catch (e: any) {
-    results.managementApi = { error: e.message };
-  }
-
-  // Method 4: Try to use the sql endpoint
-  try {
-    const response = await fetch(`${supabaseUrl}/rest/v1/rpc/exec_sql`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "apikey": supabaseKey,
-        "Authorization": `Bearer ${supabaseKey}`,
-      },
-      body: JSON.stringify({ sql_text: "SELECT 1" }),
-    });
-    const sqlData = await response.text();
-    results.rpcEndpoint = { status: response.status, body: sqlData.substring(0, 200) };
-  } catch (e: any) {
-    results.rpcEndpoint = { error: e.message };
-  }
-
-  // Method 5: Try creating the function first via rest
-  try {
-    const createFuncSql = `
-      CREATE OR REPLACE FUNCTION exec_sql(sql_text text) RETURNS void AS $$
-      BEGIN
-        EXECUTE sql_text;
-      END;
-      $$ LANGUAGE plpgsql SECURITY DEFINER;
-    `;
-
-    // This won't work via REST, but let's try anyway with a direct approach
-    const response = await fetch(`${supabaseUrl}/rest/v1/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "apikey": supabaseKey,
-        "Authorization": `Bearer ${supabaseKey}`,
-        "Prefer": "params=single-object",
-      },
-      body: JSON.stringify({ query: createFuncSql }),
-    });
-    results.directRest = { status: response.status, text: (await response.text()).substring(0, 200) };
-  } catch (e: any) {
-    results.directRest = { error: e.message };
+    results.error = e.message;
   }
 
   return NextResponse.json(results);
