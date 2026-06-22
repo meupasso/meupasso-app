@@ -102,5 +102,95 @@ export default async function ExercicioPage({
     );
   }
 
-  return <ExercicioClient exercicio={exercicio} />;
+  // Buscar exercícios relacionados (mesmo módulo, mesma linguagem)
+  const { data: relacionados } = await supabase
+    .from("exercicios")
+    .select("id, slug, titulo, nivel, modulo, linguagem, id_referencia")
+    .eq("linguagem", exercicio.linguagem)
+    .eq("modulo", exercicio.modulo)
+    .neq("id", exercicio.id)
+    .limit(4);
+
+  const nivelLabels: Record<string, string> = {
+    basico: "Básico",
+    intermediario: "Intermediário",
+    avancado: "Avançado",
+    desafio: "Desafio",
+  };
+
+  return (
+    <>
+      <ExercicioClient exercicio={exercicio} />
+      {relacionados && relacionados.length > 0 && (
+        <section
+          style={{
+            maxWidth: "780px",
+            margin: "3rem auto 0",
+            padding: "2rem 2rem 0",
+            borderTop: "1px solid var(--border)",
+          }}
+        >
+          <h3
+            style={{
+              fontSize: "1rem",
+              fontWeight: 600,
+              marginBottom: "1rem",
+              color: "var(--text-secondary)",
+            }}
+          >
+            Mais exercícios de {exercicio.modulo}
+          </h3>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+              gap: "0.75rem",
+            }}
+          >
+            {relacionados.map((ex) => (
+              <a
+                key={ex.id}
+                href={`/exercicios/${ex.linguagem.toLowerCase()}/${ex.slug}`}
+                style={{
+                  display: "block",
+                  padding: "0.75rem 1rem",
+                  background: "var(--bg-secondary)",
+                  border: "1px solid var(--border)",
+                  borderRadius: "0.5rem",
+                  textDecoration: "none",
+                  color: "var(--text-primary)",
+                  fontSize: "0.875rem",
+                  transition: "border-color 0.2s",
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: "0.7rem",
+                    color: "var(--text-secondary)",
+                    display: "block",
+                    marginBottom: "0.25rem",
+                  }}
+                >
+                  {ex.id_referencia} ·{" "}
+                  {nivelLabels[ex.nivel as keyof typeof nivelLabels] || ex.nivel}
+                </span>
+                {ex.titulo}
+              </a>
+            ))}
+          </div>
+          <a
+            href={`/exercicios/${exercicio.linguagem.toLowerCase()}`}
+            style={{
+              fontSize: "0.875rem",
+              color: "var(--accent)",
+              display: "inline-block",
+              marginTop: "1rem",
+            }}
+          >
+            Ver todos os exercícios de {exercicio.linguagem} →
+          </a>
+        </section>
+      )}
+    </>
+  );
 }
