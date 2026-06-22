@@ -152,11 +152,9 @@ export default function VagasPage() {
             {vagas.map((vaga) => {
               const badge = badgeTipo(vaga.tipo);
               return (
-                <a
+                <Link
                   key={vaga.id}
-                  href={vaga.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={`/vagas/${vaga.id}`}
                   className="vaga-card"
                   style={{
                     textDecoration: "none",
@@ -213,7 +211,7 @@ export default function VagasPage() {
                       Ver vaga →
                     </span>
                   </div>
-                </a>
+                </Link>
               );
             })}
           </div>

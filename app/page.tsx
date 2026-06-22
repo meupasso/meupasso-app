@@ -158,11 +158,9 @@ export default async function Home() {
             }}
           >
             {vagas.map((vaga) => (
-              <a
+              <Link
                 key={vaga.id}
-                href={vaga.url}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={`/vagas/${vaga.id}`}
                 className="vaga-card-carrossel"
                 style={{
                   minWidth: "280px",
@@ -194,7 +192,7 @@ export default async function Home() {
                 <div style={{ fontSize: "0.7rem", color: "var(--text-secondary)", opacity: 0.6, marginTop: "auto", paddingTop: "0.5rem" }}>
                   {formatarData(vaga.publicada_em)}
                 </div>
-              </a>
+              </Link>
             ))}
           </div>
           <div style={{ textAlign: "center" }}>
