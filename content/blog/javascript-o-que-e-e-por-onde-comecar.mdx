@@ -1,0 +1,115 @@
+---
+title: 'JavaScript: O que é e por onde começar'
+date: '2026-06-Jun 22, 2026'
+tags: ['javascript', 'iniciantes', 'programação']
+description: 'JavaScript é a linguagem que roda em qualquer navegador. Aprenda o básico com exemplos práticos e saiba por onde começar.'
+---
+
+Você abriu um site. Ele tem botões, animações, formulários que validam dados sem recarregar a página. Isso é JavaScript. Não é uma biblioteca, não é um framework. É a linguagem de programação padrão da web.
+
+Se você quer ser programador web, JavaScript é o primeiro passo. Ele roda no navegador do usuário, sem precisar de servidor. Com Node.js, roda também no servidor. Mas vamos começar do zero: o que ele faz e como escrever seu primeiro código.
+
+## O que JavaScript faz na prática
+
+Imagine que você quer que o usuário clique num botão e uma mensagem apareça. Sem JavaScript, isso não acontece. HTML só monta a estrutura, CSS só dá estilo. A interação é responsabilidade do JavaScript.
+
+Veja o exemplo mais básico possível:
+
+```javascript
+// Exibe um alerta na tela do navegador
+alert('Olá, mundo!');
+```
+
+Se você colocar isso dentro de uma tag `<script>` no HTML, ao abrir a página, aparece uma janelinha com "Olá, mundo!". Prático, direto.
+
+Mas JavaScript não serve só para isso. Ele pode:
+
+- Manipular o conteúdo da página (DOM)
+- Responder a eventos (cliques, teclas, movimentos)
+- Fazer requisições para servidores (AJAX, Fetch API)
+- Controlar animações e lógica de aplicações inteiras
+
+## Seu primeiro código: variáveis e console
+
+Antes de sair escrevendo scripts complexos, entenda como guardar dados e ver o que está acontecendo. Use o `console.log()` para debugar. Sempre.
+
+```javascript
+// Declarando variáveis
+let nome = 'João';
+const idade = 28;
+var cidade = 'São Paulo'; // evite usar var hoje em dia
+
+console.log('Nome:', nome);
+console.log('Idade:', idade);
+console.log('Cidade:', cidade);
+```
+
+Abra o console do navegador (F12 > Console) e cole esse código. Você vê os valores impressos. Simples e útil.
+
+## Trabalhando com funções
+
+Funções são blocos de código que você pode reutilizar. Em JavaScript, elas são valores como qualquer outro. Você pode atribuir a variáveis, passar como parâmetro e retornar de outras funções.
+
+```javascript
+// Função tradicional
+function saudacao(nome) {
+  return 'Olá, ' + nome + '!';
+}
+
+// Arrow function (moderna e mais sucinta)
+const saudacaoArrow = (nome) => `Olá, ${nome}!`;
+
+console.log(saudacao('Maria'));        // Olá, Maria!
+console.log(saudacaoArrow('Carlos'));  // Olá, Carlos!
+```
+
+Perceba a diferença: a arrow function usa template strings (crases) para interpolar variáveis. Isso é mais limpo e moderno.
+
+## Manipulando o DOM: interação real
+
+Agora vamos fazer algo que realmente afeta a página. O DOM (Document Object Model) é a representação da página em forma de objetos JavaScript. Você pode alterar texto, cores, estilos, e até criar novos elementos.
+
+HTML de exemplo:
+
+```html
+<!DOCTYPE html>
+<html>
+<head><title>Exemplo</title></head>
+<body>
+  <h1 id="titulo">Título original</h1>
+  <button id="botao">Clique aqui</button>
+  <script src="script.js"></script>
+</body>
+</html>
+```
+
+JavaScript no `script.js`:
+
+```javascript
+// Seleciona elementos
+const titulo = document.getElementById('titulo');
+const botao = document.getElementById('botao');
+
+// Adiciona um evento de clique
+botao.addEventListener('click', function() {
+  titulo.textContent = 'Você clicou no botão!';
+  titulo.style.color = 'red';
+});
+```
+
+Quando o usuário clicar no botão, o título muda. Isso é interação real. Você acabou de fazer seu primeiro script funcional.
+
+## Por onde continuar?
+
+Você já tem o básico: variáveis, funções, DOM e eventos. Isso é o suficiente para começar a construir coisas simples. O próximo passo é entender:
+
+- Arrays e objetos (estruturas de dados)
+- Loops e condicionais
+- Fetch API (requisições para servidores)
+- Módulos (organizar código)
+
+Mas não caia na armadilha de querer aprender tudo de uma vez. Pegue um projetinho pequeno: um contador de cliques, um gerador de cores aleatórias, uma lista de tarefas. Pratique com código real.
+
+Lembre-se: JavaScript é uma ferramenta. Quanto mais você usar, mais natural fica. Se quiser um roteiro estruturado para aprender na prática, dá uma olhada no MeuPasso (meupasso.com.br). Lá você encontra uma trilha organizada para iniciantes, com exercícios e projetos guiados.
+
+Agora abre o console do navegador e testa o código que escrevemos. É a única maneira de aprender de verdade.
