@@ -6,7 +6,7 @@ async function atualizarStreak(userId: string, supabase: ReturnType<typeof creat
   const ontem = new Date(Date.now() - 86400000).toISOString().split("T")[0];
 
   const { data: user } = await supabase
-    .from("users")
+    .from("perfis")
     .select("streak_atual, streak_maximo, ultimo_estudo")
     .eq("id", userId)
     .single();
@@ -30,7 +30,7 @@ async function atualizarStreak(userId: string, supabase: ReturnType<typeof creat
   const novoMaximo = Math.max(novoStreak, user.streak_maximo || 0);
 
   await supabase
-    .from("users")
+    .from("perfis")
     .update({
       streak_atual: novoStreak,
       streak_maximo: novoMaximo,
@@ -110,7 +110,7 @@ export async function GET(req: NextRequest) {
   // Se tipo=streak, retorna dados de streak do usuário
   if (tipo === "streak") {
     const { data: streakData } = await supabase
-      .from("users")
+      .from("perfis")
       .select("streak_atual, streak_maximo, ultimo_estudo")
       .eq("id", user.id)
       .single();
