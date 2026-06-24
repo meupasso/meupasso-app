@@ -609,8 +609,8 @@ function SecaoPlano({ plano }: { plano: any }) {
                     <div style={{ flex: 1 }}>
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                         <span style={{ fontWeight: 500, color: "var(--text-primary)", fontSize: 13 }}>
-                          {item.tipo === "externo" ? (
-                            <a href={item.url_externa || "#"} target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)", textDecoration: "underline" }}>
+                          {item.tipo === "externo" && item.url_externa && item.url_externa !== "#" && !item.url_externa.includes("meupasso.com.br") ? (
+                            <a href={item.url_externa} target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)", textDecoration: "underline" }}>
                               {item.titulo}
                             </a>
                           ) : item.slug ? (

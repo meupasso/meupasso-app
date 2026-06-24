@@ -366,7 +366,7 @@ export default function ExemploPage() {
                         <div style={{ flex: 1 }}>
                           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                             <span style={{ fontWeight: 500, color: "var(--text-primary)", fontSize: 13 }}>
-                              {item.tipo === "externo" ? (
+                              {item.tipo === "externo" && item.url && item.url !== "#" && !item.url.includes("meupasso.com.br") ? (
                                 <a href={item.url} target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)", textDecoration: "underline" }}>{item.titulo}</a>
                               ) : (
                                 <span>{item.titulo}</span>
@@ -555,7 +555,7 @@ const planoExemplo = [
     foco: "LinkedIn e posicionamento profissional",
     porque: "Seu LinkedIn atual está te atrapalhando. Headline genérica = invisível para recrutadores.",
     items: [
-      { tipo: "externo", titulo: "Guia de LinkedIn para devs iniciantes", tempo: "1h", url: "#", motivo: "Entender o que recrutadores buscam no perfil" },
+      { tipo: "externo", titulo: "Guia de LinkedIn para devs iniciantes", tempo: "1h", motivo: "Entender o que recrutadores buscam no perfil" },
       { tipo: "modulo", titulo: "Atualizar headline, sobre e experiências", tempo: "1h", motivo: "Seguir a estrutura do LinkedIn reescrito na análise" },
       { tipo: "modulo", titulo: "Produzir conteúdo técnico básico", tempo: "2h", motivo: "Compartilhar aprendizado aumenta visibilidade com recrutadores" },
     ],
@@ -587,7 +587,7 @@ const planoExemplo = [
     items: [
       { tipo: "exercicio", titulo: "Algoritmos e estrutura de dados", tempo: "3h", motivo: "Revisar os tópicos que mais caem em entrevistas" },
       { tipo: "modulo", titulo: "Desafios de código simulados", tempo: "2h", motivo: "Praticar com tempo limitado igual ao processo seletivo" },
-      { tipo: "externo", titulo: "Perguntas comuns de entrevistas Java Júnior", tempo: "2h", url: "#", motivo: "Se preparar para as perguntas comportamentais e técnicas" },
+      { tipo: "externo", titulo: "Perguntas comuns de entrevistas Java Júnior", tempo: "2h", motivo: "Se preparar para as perguntas comportamentais e técnicas" },
     ],
   },
   {
@@ -597,7 +597,7 @@ const planoExemplo = [
     items: [
       { tipo: "modulo", titulo: "Revisão geral do portfólio", tempo: "2h", motivo: "Garantir que tudo está funcionando e bem documentado" },
       { tipo: "modulo", titulo: "Cadastro em plataformas de vagas", tempo: "1h", motivo: "Ativar perfil no LinkedIn, Gupy, Programathor e GeekHunter" },
-      { tipo: "externo", titulo: "Aplicar para 10 vagas por semana", tempo: "3h", url: "#", motivo: "Número consistente de aplicações aumenta exponencialmente as chances" },
+      { tipo: "externo", titulo: "Aplicar para 10 vagas por semana", tempo: "3h", motivo: "Número consistente de aplicações aumenta exponencialmente as chances" },
     ],
   },
 ];
