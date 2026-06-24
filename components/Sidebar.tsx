@@ -153,6 +153,7 @@ export default function Sidebar() {
   const [user, setUser] = useState<any>(null);
   const [userName, setUserName] = useState<string | null>(null);
   const [streakAtual, setStreakAtual] = useState(0);
+  const [isAdmin, setIsAdmin] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
   const { theme, toggle } = useTheme();
@@ -184,6 +185,7 @@ export default function Sidebar() {
         setUser(session.user);
         const nome = session.user.user_metadata?.nome || session.user.user_metadata?.full_name || session.user.email?.split("@")[0] || "";
         setUserName(nome);
+        if (session.user.email === "caiomvital@gmail.com") setIsAdmin(true);
         carregarStreak();
         carregarNomePerfil(session.user.id);
       }
@@ -195,12 +197,14 @@ export default function Sidebar() {
         setUser(session.user);
         const nome = session.user.user_metadata?.nome || session.user.user_metadata?.full_name || session.user.email?.split("@")[0] || "";
         setUserName(nome);
+        if (session.user.email === "caiomvital@gmail.com") setIsAdmin(true);
         carregarStreak();
         carregarNomePerfil(session.user.id);
       } else {
         setUser(null);
         setUserName(null);
         setStreakAtual(0);
+        setIsAdmin(false);
       }
     });
 
@@ -365,6 +369,36 @@ export default function Sidebar() {
               </Link>
             );
           })}
+          {isAdmin && (
+            <Link
+              href="/admin"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.75rem",
+                padding: "0.625rem 0.75rem",
+                borderRadius: "0.375rem",
+                color: pathname.startsWith("/admin") ? "var(--accent)" : "var(--text-secondary)",
+                background: pathname.startsWith("/admin") ? "var(--bg-card)" : "transparent",
+                fontSize: "0.9375rem",
+                fontWeight: pathname.startsWith("/admin") ? 600 : 400,
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textDecoration: "none",
+                transition: "background 0.15s",
+                marginTop: "0.25rem",
+              }}
+              onMouseEnter={(e) => {
+                if (!pathname.startsWith("/admin")) e.currentTarget.style.background = "var(--bg-card)";
+              }}
+              onMouseLeave={(e) => {
+                if (!pathname.startsWith("/admin")) e.currentTarget.style.background = "transparent";
+              }}
+            >
+              <span style={{ fontSize: "1.1rem" }}>⚙️</span>
+              {!collapsed && <span>Admin</span>}
+            </Link>
+          )}
         </nav>
 
         {/* Auth area */}

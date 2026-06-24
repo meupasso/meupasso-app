@@ -471,42 +471,188 @@ function SecaoProjetos() {
 function SecaoVagas() {
   const [vagas, setVagas] = useState<any[]>([]);
   const [carregando, setCarregando] = useState(true);
+  const [editando, setEditando] = useState<any | null>(null);
+  const [criando, setCriando] = useState(false);
+  const [busca, setBusca] = useState("");
 
-  useEffect(() => {
-    supabase.from("vagas").select("*").order("created_at", { ascending: false }).limit(20).then(({ data }) => {
-      if (data) setVagas(data);
-      setCarregando(false);
-    });
-  }, []);
+  function carregar() {
+    setCarregando(true);
+    const params = new URLSearchParams();
+    if (busca) params.set("busca", busca);
+    fetch(`/api/admin/vagas?${params}`)
+      .then(r => r.json()).then(d => { setVagas(d); setCarregando(false); })
+      .catch(() => setCarregando(false));
+  }
 
-  if (carregando) return <p style={{ color: "var(--text-secondary)" }}>Carregando...</p>;
+  useEffect(() => { carregar(); }, [busca]);
+
+  async function deletar(id: string) {
+    if (!confirm("Deletar esta vaga?")) return;
+    await fetch(`/api/admin/vagas?id=${id}`, { method: "DELETE" });
+    carregar();
+  }
 
   return (
     <div>
-      <h2 style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--text-primary)", marginBottom: "1.5rem" }}>💼 Vagas ({vagas.length})</h2>
-      <div style={{ overflowX: "auto", background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "0.75rem" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.8125rem" }}>
-          <thead>
-            <tr style={{ color: "var(--text-secondary)", borderBottom: "1px solid var(--border)" }}>
-              <th style={{ textAlign: "left", padding: "0.625rem 0.75rem", fontWeight: 600 }}>Título</th>
-              <th style={{ textAlign: "left", padding: "0.625rem 0.75rem", fontWeight: 600 }}>Empresa</th>
-              <th style={{ textAlign: "left", padding: "0.625rem 0.75rem", fontWeight: 600 }}>Tipo</th>
-              <th style={{ textAlign: "left", padding: "0.625rem 0.75rem", fontWeight: 600 }}>Ativa</th>
-              <th style={{ textAlign: "left", padding: "0.625rem 0.75rem", fontWeight: 600 }}>Criada</th>
-            </tr>
-          </thead>
-          <tbody>
-            {vagas.map((v: any) => (
-              <tr key={v.id} style={{ borderBottom: "1px solid var(--border)", color: "var(--text-primary)" }}>
-                <td style={{ padding: "0.5rem 0.75rem", fontWeight: 500 }}>{v.titulo}</td>
-                <td style={{ padding: "0.5rem 0.75rem", color: "var(--text-secondary)" }}>{v.empresa || "-"}</td>
-                <td style={{ padding: "0.5rem 0.75rem" }}>{v.tipo || "-"}</td>
-                <td style={{ padding: "0.5rem 0.75rem" }}>{v.ativa ? "✅" : "❌"}</td>
-                <td style={{ padding: "0.5rem 0.75rem", color: "var(--text-secondary)" }}>{formatarData(v.created_at)}</td>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.5rem" }}>
+        <div>
+          <h2 style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--text-primary)", marginBottom: "0.25rem" }}>💼 Vagas</h2>
+          <p style={{ color: "var(--text-secondary)", fontSize: "0.875rem" }}>{vagas.length} vagas.</p>
+        </div>
+        <button onClick={() => { setCriando(true); setEditando(null); }}
+          style={{ padding: "0.5rem 1rem", background: "var(--accent)", color: "#fff", border: "none", borderRadius: "0.375rem", fontWeight: 600, fontSize: "0.875rem", cursor: "pointer" }}>
+          + Nova vaga
+        </button>
+      </div>
+
+      <input value={busca} onChange={e => setBusca(e.target.value)} placeholder="Buscar por título..."
+        style={{ width: "100%", padding: "0.5rem 0.75rem", marginBottom: "1rem", background: "var(--bg-card)", color: "var(--text-primary)", border: "1px solid var(--border)", borderRadius: "0.375rem", fontSize: "0.8125rem", outline: "none" }} />
+
+      {carregando ? <p style={{ color: "var(--text-secondary)" }}>Carregando...</p> : (
+        <div style={{ overflowX: "auto", background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "0.75rem" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.8125rem" }}>
+            <thead>
+              <tr style={{ color: "var(--text-secondary)", borderBottom: "1px solid var(--border)" }}>
+                <th style={{ textAlign: "left", padding: "0.625rem 0.75rem", fontWeight: 600 }}>Título</th>
+                <th style={{ textAlign: "left", padding: "0.625rem 0.75rem", fontWeight: 600 }}>Empresa</th>
+                <th style={{ textAlign: "left", padding: "0.625rem 0.75rem", fontWeight: 600 }}>Tipo</th>
+                <th style={{ textAlign: "left", padding: "0.625rem 0.75rem", fontWeight: 600 }}>Remoto</th>
+                <th style={{ textAlign: "left", padding: "0.625rem 0.75rem", fontWeight: 600 }}>Ativa</th>
+                <th style={{ textAlign: "right", padding: "0.625rem 0.75rem", fontWeight: 600 }}>Ações</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {vagas.map((v: any) => (
+                <tr key={v.id} style={{ borderBottom: "1px solid var(--border)", color: "var(--text-primary)" }}>
+                  <td style={{ padding: "0.5rem 0.75rem", fontWeight: 500 }}>{v.titulo}</td>
+                  <td style={{ padding: "0.5rem 0.75rem", color: "var(--text-secondary)" }}>{v.empresa || "-"}</td>
+                  <td style={{ padding: "0.5rem 0.75rem" }}>{v.tipo || "-"}</td>
+                  <td style={{ padding: "0.5rem 0.75rem" }}>{v.remoto ? "✅" : "❌"}</td>
+                  <td style={{ padding: "0.5rem 0.75rem" }}>{v.ativa ? "✅" : "❌"}</td>
+                  <td style={{ padding: "0.5rem 0.75rem", textAlign: "right" }}>
+                    <button onClick={() => { setEditando(v); setCriando(false); }}
+                      style={{ background: "none", border: "none", color: "var(--accent)", cursor: "pointer", fontSize: "0.8125rem", marginRight: "0.5rem" }}>
+                      Editar
+                    </button>
+                    <button onClick={() => deletar(v.id)}
+                      style={{ background: "none", border: "none", color: "#ef4444", cursor: "pointer", fontSize: "0.8125rem" }}>
+                      Deletar
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {(criando || editando) && <FormVaga vaga={editando} onClose={() => { setCriando(false); setEditando(null); }} onSaved={() => { setCriando(false); setEditando(null); carregar(); }} />}
+    </div>
+  );
+}
+
+function FormVaga({ vaga, onClose, onSaved }: { vaga: any; onClose: () => void; onSaved: () => void }) {
+  const [form, setForm] = useState({
+    titulo: vaga?.titulo || "",
+    empresa: vaga?.empresa || "",
+    cidade: vaga?.cidade || "",
+    remoto: vaga?.remoto ?? true,
+    tipo: vaga?.tipo || "",
+    tecnologias: vaga?.tecnologias?.join(", ") || "",
+    descricao: vaga?.descricao || "",
+    url: vaga?.url || "",
+    ativa: vaga?.ativa ?? true,
+  });
+  const [salvando, setSalvando] = useState(false);
+
+  async function salvar(e: React.FormEvent) {
+    e.preventDefault();
+    setSalvando(true);
+    const body = {
+      ...form,
+      tecnologias: form.tecnologias.split(",").map((t: string) => t.trim()).filter(Boolean),
+    };
+    try {
+      if (vaga) {
+        await fetch("/api/admin/vagas", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...body, id: vaga.id }) });
+      } else {
+        await fetch("/api/admin/vagas", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+      }
+      onSaved();
+    } catch {}
+    setSalvando(false);
+  }
+
+  return (
+    <div style={{ position: "fixed", inset: 0, zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.6)", padding: "1rem" }}
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+      <div style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "0.75rem", padding: "2rem", width: "100%", maxWidth: "520px", maxHeight: "90vh", overflow: "auto" }}>
+        <h3 style={{ fontSize: "1.125rem", fontWeight: 700, color: "var(--text-primary)", marginBottom: "1.25rem" }}>
+          {vaga ? "Editar vaga" : "Nova vaga"}
+        </h3>
+        <form onSubmit={salvar} style={{ display: "flex", flexDirection: "column", gap: "0.875rem" }}>
+          <div>
+            <label style={{ fontSize: "0.7rem", fontWeight: 600, color: "var(--text-secondary)", display: "block", marginBottom: "0.25rem" }}>Título *</label>
+            <input value={form.titulo} onChange={e => setForm({ ...form, titulo: e.target.value })} required placeholder="Desenvolvedor Python Júnior"
+              style={{ width: "100%", padding: "0.5rem 0.625rem", fontSize: "0.8125rem", background: "var(--bg-secondary)", color: "var(--text-primary)", border: "1px solid var(--border)", borderRadius: "0.375rem", outline: "none" }} />
+          </div>
+          <div style={{ display: "flex", gap: "0.75rem" }}>
+            <div style={{ flex: 1 }}>
+              <label style={{ fontSize: "0.7rem", fontWeight: 600, color: "var(--text-secondary)", display: "block", marginBottom: "0.25rem" }}>Empresa</label>
+              <input value={form.empresa} onChange={e => setForm({ ...form, empresa: e.target.value })} placeholder="Nome da empresa"
+                style={{ width: "100%", padding: "0.5rem 0.625rem", fontSize: "0.8125rem", background: "var(--bg-secondary)", color: "var(--text-primary)", border: "1px solid var(--border)", borderRadius: "0.375rem", outline: "none" }} />
+            </div>
+            <div style={{ flex: 1 }}>
+              <label style={{ fontSize: "0.7rem", fontWeight: 600, color: "var(--text-secondary)", display: "block", marginBottom: "0.25rem" }}>Cidade</label>
+              <input value={form.cidade} onChange={e => setForm({ ...form, cidade: e.target.value })} placeholder="São Paulo, SP"
+                style={{ width: "100%", padding: "0.5rem 0.625rem", fontSize: "0.8125rem", background: "var(--bg-secondary)", color: "var(--text-primary)", border: "1px solid var(--border)", borderRadius: "0.375rem", outline: "none" }} />
+            </div>
+          </div>
+          <div style={{ display: "flex", gap: "0.75rem" }}>
+            <div style={{ flex: 1 }}>
+              <label style={{ fontSize: "0.7rem", fontWeight: 600, color: "var(--text-secondary)", display: "block", marginBottom: "0.25rem" }}>Tipo</label>
+              <input value={form.tipo} onChange={e => setForm({ ...form, tipo: e.target.value })} placeholder="CLT, PJ, Estágio"
+                style={{ width: "100%", padding: "0.5rem 0.625rem", fontSize: "0.8125rem", background: "var(--bg-secondary)", color: "var(--text-primary)", border: "1px solid var(--border)", borderRadius: "0.375rem", outline: "none" }} />
+            </div>
+            <div style={{ flex: 1 }}>
+              <label style={{ fontSize: "0.7rem", fontWeight: 600, color: "var(--text-secondary)", display: "block", marginBottom: "0.25rem" }}>URL da vaga *</label>
+              <input value={form.url} onChange={e => setForm({ ...form, url: e.target.value })} required placeholder="https://..."
+                style={{ width: "100%", padding: "0.5rem 0.625rem", fontSize: "0.8125rem", background: "var(--bg-secondary)", color: "var(--text-primary)", border: "1px solid var(--border)", borderRadius: "0.375rem", outline: "none" }} />
+            </div>
+          </div>
+          <div>
+            <label style={{ fontSize: "0.7rem", fontWeight: 600, color: "var(--text-secondary)", display: "block", marginBottom: "0.25rem" }}>Tecnologias (separadas por vírgula)</label>
+            <input value={form.tecnologias} onChange={e => setForm({ ...form, tecnologias: e.target.value })} placeholder="Python, Django, PostgreSQL"
+              style={{ width: "100%", padding: "0.5rem 0.625rem", fontSize: "0.8125rem", background: "var(--bg-secondary)", color: "var(--text-primary)", border: "1px solid var(--border)", borderRadius: "0.375rem", outline: "none" }} />
+          </div>
+          <div>
+            <label style={{ fontSize: "0.7rem", fontWeight: 600, color: "var(--text-secondary)", display: "block", marginBottom: "0.25rem" }}>Descrição</label>
+            <textarea value={form.descricao} onChange={e => setForm({ ...form, descricao: e.target.value })} rows={4} placeholder="Descrição da vaga"
+              style={{ width: "100%", padding: "0.5rem 0.625rem", fontSize: "0.8125rem", background: "var(--bg-secondary)", color: "var(--text-primary)", border: "1px solid var(--border)", borderRadius: "0.375rem", outline: "none", resize: "vertical", fontFamily: "inherit" }} />
+          </div>
+          <div style={{ display: "flex", gap: "1.5rem" }}>
+            <label style={{ display: "flex", alignItems: "center", gap: "0.375rem", fontSize: "0.8125rem", color: "var(--text-primary)", cursor: "pointer" }}>
+              <input type="checkbox" checked={form.remoto} onChange={e => setForm({ ...form, remoto: e.target.checked })}
+                style={{ accentColor: "var(--accent)" }} />
+              Remoto
+            </label>
+            <label style={{ display: "flex", alignItems: "center", gap: "0.375rem", fontSize: "0.8125rem", color: "var(--text-primary)", cursor: "pointer" }}>
+              <input type="checkbox" checked={form.ativa} onChange={e => setForm({ ...form, ativa: e.target.checked })}
+                style={{ accentColor: "var(--accent)" }} />
+              Ativa
+            </label>
+          </div>
+          <div style={{ display: "flex", gap: "0.75rem", justifyContent: "flex-end", marginTop: "0.5rem" }}>
+            <button type="button" onClick={onClose}
+              style={{ padding: "0.5rem 1.25rem", fontSize: "0.8125rem", fontWeight: 600, background: "transparent", color: "var(--text-secondary)", border: "1px solid var(--border)", borderRadius: "0.375rem", cursor: "pointer" }}>
+              Cancelar
+            </button>
+            <button type="submit" disabled={salvando}
+              style={{ padding: "0.5rem 1.25rem", fontSize: "0.8125rem", fontWeight: 600, background: "var(--accent)", color: "#fff", border: "none", borderRadius: "0.375rem", cursor: salvando ? "not-allowed" : "pointer", opacity: salvando ? 0.6 : 1 }}>
+              {salvando ? "Salvando..." : vaga ? "Salvar alterações" : "Criar vaga"}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
