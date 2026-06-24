@@ -78,17 +78,25 @@ export default async function ProjetoPage({ params }: { params: { linguagem: str
   const repo = CODESPACES_REPOS[chave];
   const codespaceUrl = repo ? `https://codespaces.new/${repo}` : null;
 
-  // Verificar se usuário é Pro
+  // Verificar se usuário é Pro e buscar GitHub
   let isPro = false;
+  let githubUsername: string | null = null;
   try {
     const { data: { user } } = await supabase.auth.getUser();
     if (user) {
       const { data: perfil } = await supabase
         .from("perfis")
-        .select("plano")
+        .select("plano, github_url")
         .eq("id", user.id)
         .single();
       isPro = perfil?.plano?.toLowerCase() === "pro";
+      if (perfil?.github_url) {
+        githubUsername = perfil.github_url
+          .replace("https://github.com/", "")
+          .replace("http://github.com/", "")
+          .split("/")[0]
+          ?.trim();
+      }
     }
   } catch {}
 
@@ -204,8 +212,7 @@ export default async function ProjetoPage({ params }: { params: { linguagem: str
         </div>
       )}
 
-      {/* GitHub Repo */}
-      <GitHubRepo projetoId={projeto.id} linguagem={projeto.linguagem} />
+      <GitHubRepo projetoId={projeto.id} linguagem={projeto.linguagem} githubUsername={githubUsername} />
 
       {/* Separador */}
       <hr style={{ border: "none", borderTop: "1px solid var(--border)", marginBottom: "2rem" }} />
