@@ -796,12 +796,17 @@ function SecaoUsuarios() {
                   <td style={{ padding: "0.5rem 0.75rem" }}>{u.streak_atual || 0} 🔥</td>
                   <td style={{ padding: "0.5rem 0.75rem", color: "var(--text-secondary)" }}>{formatarData(u.created_at)}</td>
                   <td style={{ padding: "0.5rem 0.75rem", textAlign: "center", whiteSpace: "nowrap" }}>
-                    {proValido ? (
+                    {proValido && u.pro_expiracao ? (
+                      // Pro temporário (concedido pelo admin) → pode remover
                       <button onClick={() => removerPro(u.id)}
                         style={{ background: "none", border: "none", color: "#ef4444", cursor: "pointer", fontSize: "0.75rem" }}>
                         Remover Pro
                       </button>
+                    ) : proValido && !u.pro_expiracao ? (
+                      // Pro permanente (pagante) → sem ação
+                      <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)" }}>Pagante</span>
                     ) : (
+                      // Gratis → botões para tornar Pro
                       <div style={{ display: "flex", gap: "0.25rem", alignItems: "center", justifyContent: "center" }}>
                         {[7, 15, 30].map(d => (
                           <button key={d} onClick={() => tornarPro(u.id, d)} disabled={promovendo === u.id}
