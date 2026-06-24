@@ -22,6 +22,7 @@ export default function NotaPage() {
   const slugAtual = slugArray.join("/");
 
   const [conteudo, setConteudo] = useState("");
+  const [titulo, setTitulo] = useState("");
   const [status, setStatus] = useState<Status>("pronto");
   const [carregando, setCarregando] = useState(true);
   const [notaId, setNotaId] = useState<string | null>(null);
@@ -30,6 +31,7 @@ export default function NotaPage() {
   const [fontSize, setFontSize] = useState(1);
   const [modoPreview, setModoPreview] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const timerTituloRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Carregar/criar nota + buscar filhos
   useEffect(() => {
@@ -37,13 +39,14 @@ export default function NotaPage() {
       // Buscar nota atual
       const { data: existente } = await supabase
         .from("notas")
-        .select("id, conteudo, usuario_id")
+        .select("id, conteudo, titulo, usuario_id")
         .eq("slug", slugAtual)
         .single();
 
       if (existente) {
         setNotaId(existente.id);
         setConteudo(existente.conteudo || "");
+        setTitulo(existente.titulo || "");
 
         // Se a nota não tem usuario_id, associar ao usuário atual
         if (!existente.usuario_id) {
@@ -110,6 +113,17 @@ export default function NotaPage() {
     if (timerRef.current) clearTimeout(timerRef.current);
     setStatus("salvando");
     timerRef.current = setTimeout(() => salvar(valor), DEBOUNCE_MS);
+  }
+
+  async function salvarTitulo(valor: string) {
+    if (!notaId) return;
+    await supabase.from("notas").update({ titulo: valor || null }).eq("id", notaId);
+  }
+
+  function onChangeTitulo(valor: string) {
+    setTitulo(valor);
+    if (timerTituloRef.current) clearTimeout(timerTituloRef.current);
+    timerTituloRef.current = setTimeout(() => salvarTitulo(valor), 800);
   }
 
   // Criar subpágina
@@ -219,6 +233,20 @@ export default function NotaPage() {
           })}
 
           <span style={{ flex: 1 }} />
+
+          {/* Título opcional */}
+          <input
+            value={titulo}
+            onChange={(e) => onChangeTitulo(e.target.value)}
+            placeholder="Adicionar título (opcional)"
+            style={{
+              padding: "0.25rem 0.5rem", fontSize: "0.75rem", minWidth: "160px", maxWidth: "300px",
+              background: "var(--code-bg)", color: "var(--text-primary)",
+              border: "1px solid transparent", borderRadius: "0.25rem", outline: "none",
+            }}
+            onFocus={(e) => e.currentTarget.style.borderColor = "var(--border)"}
+            onBlur={(e) => e.currentTarget.style.borderColor = "transparent"}
+          />
 
           {/* Controles de fonte */}
           <span style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>

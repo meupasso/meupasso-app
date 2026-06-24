@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { createClient } from "@/lib/supabase/server";
 
 type Props = {
   params: { slug: string[] };
@@ -9,14 +10,26 @@ const baseUrl = "https://www.meupasso.com.br";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const slugCompleto = params.slug.join("/");
-  const titulo = params.slug
-    .map((s) => s.replace(/-/g, " "))
-    .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
-    .join(" / ");
+
+  // Buscar título personalizado do banco
+  const supabase = createClient();
+  const { data: nota } = await supabase
+    .from("notas")
+    .select("titulo")
+    .eq("slug", slugCompleto)
+    .single();
+
+  const tituloCustom = nota?.titulo?.trim();
+  const titulo = tituloCustom
+    ? tituloCustom
+    : params.slug
+        .map((s) => s.replace(/-/g, " "))
+        .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+        .join(" / ");
 
   return {
     title: `${titulo} — Notas | MeuPasso`,
-    description: `Minhas anotações sobre ${titulo}. Criado no MeuPasso — plataforma de programação para iniciantes.`,
+    description: `Anotações sobre ${titulo} — criado no MeuPasso`,
     openGraph: {
       title: `📝 ${titulo}`,
       description: `Anotações sobre ${titulo} — criado no MeuPasso`,
