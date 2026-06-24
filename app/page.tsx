@@ -127,7 +127,7 @@ export default async function Home() {
           {[
             { icone: "🐍", nome: "Python", desc: "A linguagem mais fácil para começar. Ideal para automação, dados e web.", ok: true },
             { icone: "☕", nome: "Java", desc: "A linguagem das grandes empresas brasileiras. Bancos, fintechs e sistemas corporativos.", ok: true },
-            { icone: "🟨", nome: "JavaScript", desc: "A linguagem da web. Front-end, back-end e mobile.", ok: false },
+            { icone: "🟨", nome: "JavaScript", desc: "A linguagem da web. Front-end, back-end e mobile.", ok: true },
           ].map((l) => (
             <div key={l.nome} style={{ border: "1px solid var(--border)", borderRadius: "0.75rem", padding: "1.5rem", background: "var(--bg-card)", opacity: l.ok ? 1 : 0.5 }}>
               <div style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>{l.icone}</div>
