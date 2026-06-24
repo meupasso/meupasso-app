@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { createServiceClient } from "@/lib/supabase/service";
 
 export async function GET() {
   const supabase = createClient();
@@ -8,32 +9,39 @@ export async function GET() {
     return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
   }
 
+  const svc = createServiceClient();
+  const hoje = new Date().toISOString().split("T")[0];
+
   const [
     { count: totalUsuarios },
-    { count: assinantesPro },
     { count: exerciciosConcluidos },
     { count: totalExercicios },
     { count: totalProjetos },
     { count: conversasTutor },
     { count: vagasAtivas },
   ] = await Promise.all([
-    supabase.from("perfis").select("*", { count: "exact", head: true }),
-    supabase.from("perfis").select("*", { count: "exact", head: true }).eq("plano", "pro"),
-    supabase.from("progresso").select("*", { count: "exact", head: true }).eq("tipo", "exercicio").eq("status", "concluido"),
-    supabase.from("exercicios").select("*", { count: "exact", head: true }),
-    supabase.from("projetos").select("*", { count: "exact", head: true }),
-    supabase.from("conversas").select("*", { count: "exact", head: true }),
-    supabase.from("vagas").select("*", { count: "exact", head: true }).eq("ativa", true),
+    svc.from("perfis").select("*", { count: "exact", head: true }),
+    svc.from("progresso").select("*", { count: "exact", head: true }).eq("tipo", "exercicio").eq("status", "concluido"),
+    svc.from("exercicios").select("*", { count: "exact", head: true }),
+    svc.from("projetos").select("*", { count: "exact", head: true }),
+    svc.from("conversas").select("*", { count: "exact", head: true }),
+    svc.from("vagas").select("*", { count: "exact", head: true }).eq("ativa", true),
   ]);
 
-  const { data: ultimosCadastros } = await supabase
+  // Contar assinantes Pro considerando expiração
+  const { data: todosPerfis } = await svc.from("perfis").select("plano, pro_expiracao");
+  const assinantesPro = (todosPerfis || []).filter((p: any) =>
+    p.plano?.toLowerCase() === "pro" && (!p.pro_expiracao || p.pro_expiracao >= hoje)
+  ).length;
+
+  const { data: ultimosCadastros } = await svc
     .from("perfis")
-    .select("id, nome, email, plano, created_at, streak_atual")
+    .select("id, nome, email, plano, pro_expiracao, created_at, streak_atual")
     .order("created_at", { ascending: false })
     .limit(10);
 
   // Totais por linguagem
-  const { data: exPorLinguagem } = await supabase
+  const { data: exPorLinguagem } = await svc
     .from("exercicios")
     .select("linguagem");
 
@@ -45,7 +53,7 @@ export async function GET() {
   }
 
   // Progresso por linguagem
-  const { data: progPorLinguagem } = await supabase
+  const { data: progPorLinguagem } = await svc
     .from("progresso")
     .select("linguagem")
     .eq("tipo", "exercicio")

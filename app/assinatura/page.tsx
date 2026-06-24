@@ -28,10 +28,10 @@ export default function AssinaturaPage() {
       if (u) {
         const { data: perfil } = await supabase
           .from("perfis")
-          .select("plano")
+          .select("plano, pro_expiracao")
           .eq("id", u.id)
           .single();
-        setIsPro(perfil?.plano?.toLowerCase() === "pro");
+        setIsPro(perfil?.plano?.toLowerCase() === "pro" && (!perfil?.pro_expiracao || new Date(perfil.pro_expiracao) >= new Date(new Date().toDateString())));
       }
       setCarregando(false);
     }

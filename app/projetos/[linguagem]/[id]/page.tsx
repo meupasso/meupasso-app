@@ -86,10 +86,10 @@ export default async function ProjetoPage({ params }: { params: { linguagem: str
     if (user) {
       const { data: perfil } = await supabase
         .from("perfis")
-        .select("plano, github_url")
+        .select("plano, pro_expiracao, github_url")
         .eq("id", user.id)
         .single();
-      isPro = perfil?.plano?.toLowerCase() === "pro";
+      isPro = perfil?.plano?.toLowerCase() === "pro" && (!perfil?.pro_expiracao || new Date(perfil.pro_expiracao + "T23:59:59") >= new Date());
       if (perfil?.github_url) {
         githubUsername = perfil.github_url
           .replace("https://github.com/", "")

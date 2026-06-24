@@ -13,11 +13,11 @@ export async function POST(req: NextRequest) {
   // Verificar plano e limite mensal
   const { data: perfil } = await supabase
     .from("perfis")
-    .select("plano")
+    .select("plano, pro_expiracao")
     .eq("id", user.id)
     .single()
 
-  const isPro = perfil?.plano?.toLowerCase() === "pro"
+  const isPro = perfil?.plano?.toLowerCase() === "pro" && (!perfil?.pro_expiracao || new Date(perfil.pro_expiracao) >= new Date(new Date().toDateString()))
 
   if (!isPro) {
     const inicioMes = new Date()

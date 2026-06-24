@@ -27,11 +27,12 @@ export async function POST(req: NextRequest) {
     const userId = authHeader.slice(7);
     const { data: perfil } = await supabase
       .from("perfis")
-      .select("plano")
+      .select("plano, pro_expiracao")
       .eq("id", userId)
       .single();
 
-    if (!perfil || perfil.plano?.toLowerCase() !== "pro") {
+    const isPro = perfil?.plano?.toLowerCase() === "pro" && (!perfil?.pro_expiracao || new Date(perfil.pro_expiracao) >= new Date(new Date().toDateString()));
+    if (!perfil || !isPro) {
       return NextResponse.json({ erro: "Recurso exclusivo para assinantes Pro." }, { status: 403 });
     }
 

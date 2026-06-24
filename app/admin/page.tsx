@@ -709,19 +709,57 @@ function SecaoBlog() {
 function SecaoUsuarios() {
   const [usuarios, setUsuarios] = useState<any[]>([]);
   const [carregando, setCarregando] = useState(true);
+  const [promovendo, setPromovendo] = useState<string | null>(null);
 
-  useEffect(() => {
-    supabase.from("perfis").select("*").order("created_at", { ascending: false }).limit(50).then(({ data }) => {
-      if (data) setUsuarios(data);
-      setCarregando(false);
+  function carregar() {
+    setCarregando(true);
+    fetch("/api/admin/usuarios")
+      .then(r => r.json()).then(d => { setUsuarios(d || []); setCarregando(false); })
+      .catch(() => setCarregando(false));
+  }
+
+  useEffect(() => { carregar(); }, []);
+
+  async function tornarPro(userId: string, dias: number) {
+    setPromovendo(userId);
+    await fetch("/api/admin/usuarios", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: userId, tornar_pro_por_dias: dias }),
     });
-  }, []);
+    setPromovendo(null);
+    carregar();
+  }
+
+  async function removerPro(userId: string) {
+    if (!confirm("Remover acesso Pro deste usuário?")) return;
+    await fetch("/api/admin/usuarios", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: userId, remover_pro: true }),
+    });
+    carregar();
+  }
+
+  function isProValido(u: any): boolean {
+    if (u.plano !== "pro") return false;
+    if (!u.pro_expiracao) return true; // pro permanente (veio do pagamento)
+    return new Date(u.pro_expiracao) >= new Date(new Date().toDateString());
+  }
 
   if (carregando) return <p style={{ color: "var(--text-secondary)" }}>Carregando...</p>;
 
+  const proCount = usuarios.filter(isProValido).length;
+
   return (
     <div>
-      <h2 style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--text-primary)", marginBottom: "1.5rem" }}>👥 Usuários ({usuarios.length} mostrados)</h2>
+      <h2 style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--text-primary)", marginBottom: "0.25rem" }}>👥 Usuários</h2>
+      <p style={{ color: "var(--text-secondary)", fontSize: "0.875rem", marginBottom: "1.5rem" }}>
+        {usuarios.length} cadastrados · {proCount} Pro
+        {usuarios.filter(u => u.pro_expiracao && new Date(u.pro_expiracao) < new Date(new Date().toDateString())).length > 0 &&
+          ` · ${usuarios.filter(u => u.pro_expiracao && new Date(u.pro_expiracao) < new Date(new Date().toDateString())).length} expirados`}
+      </p>
+
       <div style={{ overflowX: "auto", background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "0.75rem" }}>
         <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.8125rem" }}>
           <thead>
@@ -729,26 +767,59 @@ function SecaoUsuarios() {
               <th style={{ textAlign: "left", padding: "0.625rem 0.75rem", fontWeight: 600 }}>Nome</th>
               <th style={{ textAlign: "left", padding: "0.625rem 0.75rem", fontWeight: 600 }}>Email</th>
               <th style={{ textAlign: "left", padding: "0.625rem 0.75rem", fontWeight: 600 }}>Plano</th>
+              <th style={{ textAlign: "left", padding: "0.625rem 0.75rem", fontWeight: 600 }}>Expira em</th>
               <th style={{ textAlign: "left", padding: "0.625rem 0.75rem", fontWeight: 600 }}>Sessões</th>
               <th style={{ textAlign: "left", padding: "0.625rem 0.75rem", fontWeight: 600 }}>Streak</th>
               <th style={{ textAlign: "left", padding: "0.625rem 0.75rem", fontWeight: 600 }}>Criado</th>
+              <th style={{ textAlign: "center", padding: "0.625rem 0.75rem", fontWeight: 600 }}>Ações</th>
             </tr>
           </thead>
           <tbody>
-            {usuarios.map((u: any) => (
-              <tr key={u.id} style={{ borderBottom: "1px solid var(--border)", color: "var(--text-primary)" }}>
-                <td style={{ padding: "0.5rem 0.75rem", fontWeight: 500 }}>{u.nome || "-"}</td>
-                <td style={{ padding: "0.5rem 0.75rem", color: "var(--text-secondary)" }}>{u.email}</td>
-                <td style={{ padding: "0.5rem 0.75rem" }}>
-                  <span style={{ fontSize: "0.7rem", fontWeight: 600, padding: "0.125rem 0.375rem", borderRadius: "0.25rem", background: u.plano === "pro" ? "#166534" : "#374151", color: u.plano === "pro" ? "#dcfce7" : "#9ca3af" }}>
-                    {u.plano}
-                  </span>
-                </td>
-                <td style={{ padding: "0.5rem 0.75rem" }}>{u.sessoes_usadas}/3</td>
-                <td style={{ padding: "0.5rem 0.75rem" }}>{u.streak_atual || 0} 🔥</td>
-                <td style={{ padding: "0.5rem 0.75rem", color: "var(--text-secondary)" }}>{formatarData(u.created_at)}</td>
-              </tr>
-            ))}
+            {usuarios.map((u: any) => {
+              const proValido = isProValido(u);
+              const expirado = u.pro_expiracao && new Date(u.pro_expiracao) < new Date(new Date().toDateString());
+              return (
+                <tr key={u.id} style={{ borderBottom: "1px solid var(--border)", color: "var(--text-primary)", opacity: expirado ? 0.5 : 1 }}>
+                  <td style={{ padding: "0.5rem 0.75rem", fontWeight: 500 }}>{u.nome || "-"}</td>
+                  <td style={{ padding: "0.5rem 0.75rem", color: "var(--text-secondary)" }}>{u.email}</td>
+                  <td style={{ padding: "0.5rem 0.75rem" }}>
+                    <span style={{ fontSize: "0.7rem", fontWeight: 600, padding: "0.125rem 0.375rem", borderRadius: "0.25rem",
+                      background: !proValido ? "#374151" : expirado ? "#7f1d1d" : "#166534",
+                      color: !proValido ? "#9ca3af" : expirado ? "#fecaca" : "#dcfce7" }}>
+                      {!proValido ? "gratis" : expirado ? "expirado" : "pro"}
+                    </span>
+                  </td>
+                  <td style={{ padding: "0.5rem 0.75rem", fontSize: "0.75rem", color: "var(--text-secondary)" }}>
+                    {u.pro_expiracao ? new Date(u.pro_expiracao).toLocaleDateString("pt-BR") : proValido ? "─" : "─"}
+                  </td>
+                  <td style={{ padding: "0.5rem 0.75rem" }}>{u.sessoes_usadas}/3</td>
+                  <td style={{ padding: "0.5rem 0.75rem" }}>{u.streak_atual || 0} 🔥</td>
+                  <td style={{ padding: "0.5rem 0.75rem", color: "var(--text-secondary)" }}>{formatarData(u.created_at)}</td>
+                  <td style={{ padding: "0.5rem 0.75rem", textAlign: "center", whiteSpace: "nowrap" }}>
+                    {proValido ? (
+                      <button onClick={() => removerPro(u.id)}
+                        style={{ background: "none", border: "none", color: "#ef4444", cursor: "pointer", fontSize: "0.75rem" }}>
+                        Remover Pro
+                      </button>
+                    ) : (
+                      <div style={{ display: "flex", gap: "0.25rem", alignItems: "center", justifyContent: "center" }}>
+                        {[7, 15, 30].map(d => (
+                          <button key={d} onClick={() => tornarPro(u.id, d)} disabled={promovendo === u.id}
+                            style={{
+                              padding: "0.25rem 0.5rem", fontSize: "0.65rem", fontWeight: 600,
+                              background: "var(--accent)", color: "#fff",
+                              border: "none", borderRadius: "0.25rem", cursor: promovendo === u.id ? "not-allowed" : "pointer",
+                              opacity: promovendo === u.id ? 0.5 : 1,
+                            }}>
+                            {d}d
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
