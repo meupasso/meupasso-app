@@ -28,6 +28,25 @@ export async function GET(request: NextRequest) {
     );
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
+      // Popular nome no perfil se estiver vazio
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data: perfil } = await supabase
+          .from("perfis")
+          .select("nome")
+          .eq("id", user.id)
+          .single();
+
+        const nomeMetadata = user.user_metadata?.nome || user.user_metadata?.full_name || "";
+        const nomeEmail = user.email?.split("@")[0] || "";
+
+        if (perfil && !perfil.nome && (nomeMetadata || nomeEmail)) {
+          await supabase
+            .from("perfis")
+            .update({ nome: nomeMetadata || nomeEmail })
+            .eq("id", user.id);
+        }
+      }
       return NextResponse.redirect(`${origin}${next}`);
     }
   }

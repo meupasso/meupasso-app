@@ -185,6 +185,7 @@ export default function Sidebar() {
         const nome = session.user.user_metadata?.nome || session.user.user_metadata?.full_name || session.user.email?.split("@")[0] || "";
         setUserName(nome);
         carregarStreak();
+        carregarNomePerfil(session.user.id);
       }
     }
     loadUser();
@@ -195,6 +196,7 @@ export default function Sidebar() {
         const nome = session.user.user_metadata?.nome || session.user.user_metadata?.full_name || session.user.email?.split("@")[0] || "";
         setUserName(nome);
         carregarStreak();
+        carregarNomePerfil(session.user.id);
       } else {
         setUser(null);
         setUserName(null);
@@ -210,6 +212,17 @@ export default function Sidebar() {
       const res = await fetch("/api/progresso?tipo=streak");
       const data = await res.json();
       if (data.streak_atual > 0) setStreakAtual(data.streak_atual);
+    } catch {}
+  }
+
+  async function carregarNomePerfil(userId: string) {
+    try {
+      const { data } = await supabase
+        .from("perfis")
+        .select("nome")
+        .eq("id", userId)
+        .single();
+      if (data?.nome) setUserName(data.nome);
     } catch {}
   }
 

@@ -22,6 +22,27 @@ const CONTAGENS_JAVASCRIPT: Record<string, number> = {
   Funções: 30, Objetos: 30, POO: 30, "Módulos e Erros": 30,
 };
 
+const CORES_AVATAR = ["#3b82f6", "#8b5cf6", "#ec4899", "#f59e0b", "#10b981", "#06b6d4", "#ef4444", "#84cc16"];
+
+function hexToRgba(hex: string, alpha: number) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
+function corDoNome(nome: string): string {
+  let hash = 0;
+  for (let i = 0; i < nome.length; i++) hash = nome.charCodeAt(i) + ((hash << 5) - hash);
+  return CORES_AVATAR[Math.abs(hash) % CORES_AVATAR.length];
+}
+
+function iniciais(nome: string): string {
+  const partes = nome.trim().split(/\s+/);
+  if (partes.length >= 2) return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
+  return nome.trim().slice(0, 2).toUpperCase() || "?";
+}
+
 function BarraProgresso({ atual, total }: { atual: number; total: number }) {
   const pct = total > 0 ? Math.round((atual / total) * 100) : 0;
   return (
@@ -46,6 +67,12 @@ export default function PerfilPage() {
   const [streakAtual, setStreakAtual] = useState(0);
   const [streakMaximo, setStreakMaximo] = useState(0);
 
+  // Perfil
+  const [perfil, setPerfil] = useState<{ nome: string; email: string; avatar_url: string | null; bio: string; github_url: string; linkedin_url: string; plano: string } | null>(null);
+  const [editando, setEditando] = useState(false);
+  const [editForm, setEditForm] = useState({ nome: "", bio: "", github_url: "", linkedin_url: "" });
+  const [salvandoPerfil, setSalvandoPerfil] = useState(false);
+
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
       if (!user) {
@@ -59,21 +86,32 @@ export default function PerfilPage() {
 
   async function carregarDados() {
     try {
-      const [progRes, etapasRes, streakRes] = await Promise.all([
+      const [progRes, etapasRes, streakRes, perfilRes] = await Promise.all([
         fetch("/api/progresso"),
         fetch("/api/progresso?tipo=etapa_projeto"),
         fetch("/api/progresso?tipo=streak"),
+        fetch("/api/perfil"),
       ]);
 
       const streakData = await streakRes.json();
       if (streakData.streak_atual > 0) setStreakAtual(streakData.streak_atual);
       if (streakData.streak_maximo > 0) setStreakMaximo(streakData.streak_maximo);
 
+      const perfilData = await perfilRes.json();
+      if (perfilData && !perfilData.error) {
+        setPerfil(perfilData);
+        setEditForm({
+          nome: perfilData.nome || "",
+          bio: perfilData.bio || "",
+          github_url: perfilData.github_url || "",
+          linkedin_url: perfilData.linkedin_url || "",
+        });
+      }
+
       const prog = await progRes.json();
       const etapas = await etapasRes.json();
       setProgresso(prog.progresso || []);
 
-      // Buscar projetos com etapas e progresso
       const { data: projetos } = await supabase
         .from("projetos")
         .select("id, titulo, linguagem");
@@ -97,6 +135,22 @@ export default function PerfilPage() {
       }
     } catch {}
     setCarregando(false);
+  }
+
+  async function salvarPerfil() {
+    setSalvandoPerfil(true);
+    try {
+      const res = await fetch("/api/perfil", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(editForm),
+      });
+      if (res.ok) {
+        setPerfil((prev) => prev ? { ...prev, ...editForm } : prev);
+        setEditando(false);
+      }
+    } catch {}
+    setSalvandoPerfil(false);
   }
 
   function contarModuloPython(modulo: string): number {
@@ -129,6 +183,9 @@ export default function PerfilPage() {
   const totalJS = Object.values(CONTAGENS_JAVASCRIPT).reduce((a, b) => a + b, 0);
   const concluidosJS = progresso.filter((p: any) => p.linguagem === "JavaScript").length;
 
+  const displayName = perfil?.nome || user?.email?.split("@")[0] || "";
+  const corAvatar = corDoNome(displayName);
+
   if (carregando) {
     return (
       <main style={{ padding: "2rem", maxWidth: "700px", margin: "0 auto" }}>
@@ -141,12 +198,192 @@ export default function PerfilPage() {
 
   return (
     <main style={{ padding: "2rem", maxWidth: "700px", margin: "0 auto" }}>
-      <h1 style={{ fontSize: "1.75rem", fontWeight: 700, color: "var(--text-primary)", marginBottom: "0.25rem" }}>
-        📊 Meu Progresso
+      <h1 style={{ fontSize: "1.75rem", fontWeight: 700, color: "var(--text-primary)", marginBottom: "1.5rem" }}>
+        📊 Meu Perfil
       </h1>
-      <p style={{ color: "var(--text-secondary)", fontSize: "0.9375rem", marginBottom: "2rem" }}>
-        Acompanhe seu desempenho nos exercícios e projetos.
-      </p>
+
+      {/* Card de Perfil */}
+      <div style={{
+        background: "var(--bg-card)", border: "1px solid var(--border)",
+        borderRadius: "0.75rem", padding: "1.5rem", marginBottom: "2rem",
+        display: "flex", gap: "1.25rem", alignItems: "flex-start", flexWrap: "wrap",
+      }}>
+        {/* Avatar */}
+        {perfil?.avatar_url ? (
+          <img src={perfil.avatar_url} alt=""
+            style={{ width: "80px", height: "80px", borderRadius: "50%", objectFit: "cover", flexShrink: 0 }}
+          />
+        ) : (
+          <div style={{
+            width: "80px", height: "80px", borderRadius: "50%",
+            background: corAvatar, color: "#fff",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            fontSize: "1.75rem", fontWeight: 700, flexShrink: 0,
+          }}>
+            {iniciais(displayName)}
+          </div>
+        )}
+
+        {/* Informações */}
+        <div style={{ flex: 1, minWidth: "200px" }}>
+          <h2 style={{ fontSize: "1.25rem", fontWeight: 700, color: "var(--text-primary)", marginBottom: "0.125rem" }}>
+            {displayName}
+          </h2>
+          <p style={{ fontSize: "0.8125rem", color: "var(--text-secondary)", marginBottom: "0.5rem" }}>
+            {perfil?.email || user?.email}
+          </p>
+          {perfil?.bio && (
+            <p style={{ fontSize: "0.875rem", color: "var(--text-secondary)", lineHeight: 1.5, marginBottom: "0.5rem" }}>
+              {perfil.bio}
+            </p>
+          )}
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem", fontSize: "0.8125rem" }}>
+            {perfil?.github_url && (
+              <span>
+                <span style={{ color: "var(--text-secondary)" }}>GitHub: </span>
+                <a href={perfil.github_url.startsWith("http") ? perfil.github_url : `https://${perfil.github_url}`}
+                  target="_blank" rel="noopener noreferrer"
+                  style={{ color: "var(--accent)", textDecoration: "none" }}>
+                  {perfil.github_url.replace(/^https?:\/\//, "")}
+                </a>
+              </span>
+            )}
+            {perfil?.linkedin_url && (
+              <span>
+                <span style={{ color: "var(--text-secondary)" }}>LinkedIn: </span>
+                <a href={perfil.linkedin_url.startsWith("http") ? perfil.linkedin_url : `https://${perfil.linkedin_url}`}
+                  target="_blank" rel="noopener noreferrer"
+                  style={{ color: "var(--accent)", textDecoration: "none" }}>
+                  {perfil.linkedin_url.replace(/^https?:\/\//, "")}
+                </a>
+              </span>
+            )}
+          </div>
+
+          {/* Botão editar */}
+          <div style={{ marginTop: "0.75rem" }}>
+            <button onClick={() => setEditando(true)}
+              style={{
+                padding: "0.375rem 1rem", fontSize: "0.8125rem", fontWeight: 600,
+                background: "transparent", color: "var(--accent)",
+                border: "1px solid var(--accent)", borderRadius: "0.375rem",
+                cursor: "pointer",
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = hexToRgba("#3b82f6", 0.1); }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
+            >
+              Editar perfil
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Modal de edição */}
+      {editando && (
+        <div style={{
+          position: "fixed", inset: 0, zIndex: 100,
+          display: "flex", alignItems: "center", justifyContent: "center",
+          background: "rgba(0,0,0,0.6)", padding: "1rem",
+        }}
+          onClick={(e) => { if (e.target === e.currentTarget) setEditando(false); }}
+        >
+          <div style={{
+            background: "var(--bg-card)", border: "1px solid var(--border)",
+            borderRadius: "0.75rem", padding: "2rem", width: "100%", maxWidth: "440px",
+          }}>
+            <h2 style={{ fontSize: "1.25rem", fontWeight: 700, color: "var(--text-primary)", marginBottom: "1.25rem" }}>
+              Editar perfil
+            </h2>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+              {/* Nome */}
+              <div>
+                <label style={{ fontSize: "0.75rem", fontWeight: 600, color: "var(--text-secondary)", display: "block", marginBottom: "0.25rem" }}>
+                  Nome
+                </label>
+                <input value={editForm.nome} onChange={(e) => setEditForm({ ...editForm, nome: e.target.value })}
+                  placeholder="Seu nome"
+                  style={{
+                    width: "100%", padding: "0.5rem 0.75rem", fontSize: "0.875rem",
+                    background: "var(--bg-secondary)", color: "var(--text-primary)",
+                    border: "1px solid var(--border)", borderRadius: "0.375rem", outline: "none",
+                  }}
+                />
+              </div>
+
+              {/* Bio */}
+              <div>
+                <label style={{ fontSize: "0.75rem", fontWeight: 600, color: "var(--text-secondary)", display: "block", marginBottom: "0.25rem" }}>
+                  Bio
+                </label>
+                <textarea value={editForm.bio} onChange={(e) => e.target.value.length <= 160 && setEditForm({ ...editForm, bio: e.target.value })}
+                  placeholder="Fale um pouco sobre você (máx. 160 caracteres)"
+                  rows={3}
+                  style={{
+                    width: "100%", padding: "0.5rem 0.75rem", fontSize: "0.875rem", resize: "vertical",
+                    background: "var(--bg-secondary)", color: "var(--text-primary)",
+                    border: "1px solid var(--border)", borderRadius: "0.375rem", outline: "none", fontFamily: "inherit",
+                  }}
+                />
+                <span style={{ fontSize: "0.7rem", color: editForm.bio.length >= 160 ? "#ef4444" : "var(--text-secondary)", float: "right" }}>
+                  {editForm.bio.length}/160
+                </span>
+              </div>
+
+              {/* GitHub */}
+              <div>
+                <label style={{ fontSize: "0.75rem", fontWeight: 600, color: "var(--text-secondary)", display: "block", marginBottom: "0.25rem" }}>
+                  GitHub
+                </label>
+                <input value={editForm.github_url} onChange={(e) => setEditForm({ ...editForm, github_url: e.target.value })}
+                  placeholder="github.com/usuario"
+                  style={{
+                    width: "100%", padding: "0.5rem 0.75rem", fontSize: "0.875rem",
+                    background: "var(--bg-secondary)", color: "var(--text-primary)",
+                    border: "1px solid var(--border)", borderRadius: "0.375rem", outline: "none",
+                  }}
+                />
+              </div>
+
+              {/* LinkedIn */}
+              <div>
+                <label style={{ fontSize: "0.75rem", fontWeight: 600, color: "var(--text-secondary)", display: "block", marginBottom: "0.25rem" }}>
+                  LinkedIn
+                </label>
+                <input value={editForm.linkedin_url} onChange={(e) => setEditForm({ ...editForm, linkedin_url: e.target.value })}
+                  placeholder="linkedin.com/in/usuario"
+                  style={{
+                    width: "100%", padding: "0.5rem 0.75rem", fontSize: "0.875rem",
+                    background: "var(--bg-secondary)", color: "var(--text-primary)",
+                    border: "1px solid var(--border)", borderRadius: "0.375rem", outline: "none",
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Botões */}
+            <div style={{ display: "flex", gap: "0.75rem", justifyContent: "flex-end", marginTop: "1.5rem" }}>
+              <button onClick={() => setEditando(false)}
+                style={{
+                  padding: "0.5rem 1.25rem", fontSize: "0.875rem", fontWeight: 600,
+                  background: "transparent", color: "var(--text-secondary)",
+                  border: "1px solid var(--border)", borderRadius: "0.375rem", cursor: "pointer",
+                }}>
+                Cancelar
+              </button>
+              <button onClick={salvarPerfil} disabled={salvandoPerfil}
+                style={{
+                  padding: "0.5rem 1.25rem", fontSize: "0.875rem", fontWeight: 600,
+                  background: "var(--accent)", color: "#fff",
+                  border: "none", borderRadius: "0.375rem", cursor: salvandoPerfil ? "not-allowed" : "pointer",
+                  opacity: salvandoPerfil ? 0.6 : 1,
+                }}>
+                {salvandoPerfil ? "Salvando..." : "Salvar"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Streak cards */}
       <div style={{ display: "flex", gap: "1rem", marginBottom: "2rem", flexWrap: "wrap" }}>
