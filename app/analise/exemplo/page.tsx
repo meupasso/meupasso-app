@@ -480,6 +480,22 @@ function copiarTexto(texto: string, label: string) {
 
 /* ---------- dados mockados ---------- */
 
+const linkedinExemplo = `HEADLINE
+Desenvolvedor Java | Spring Boot | PostgreSQL | Buscando primeira oportunidade em TI
+
+SOBRE
+Sou desenvolvedor Java em formação, apaixonado por tecnologia e em busca da minha primeira oportunidade oficial na área.
+
+Durante meu estágio em desenvolvimento, atuei na manutenção de sistemas internos e corrigi dezenas de bugs em aplicações Java legadas — experiência que me ensinou na prática como funciona o dia a dia de um time de desenvolvimento.
+
+Atualmente estou focado em aprofundar meus conhecimentos em Spring Boot e construção de APIs REST, desenvolver projetos completos com banco de dados PostgreSQL e criar um portfólio sólido no GitHub que mostre minha evolução técnica.
+
+EXPERIÊNCIA
+Estágio em Desenvolvimento | Empresa Tech | jan/2024 - jun/2024
+  Durante meu estágio, atuei na manutenção de sistemas internos e corrigi dezenas de bugs em aplicações Java legadas.
+
+Competências: Java, Spring Boot, PostgreSQL, MySQL, REST APIs, Git, Estrutura de Dados, POO, SQL, JPA/Hibernate`;
+
 const curriculoExemplo = `RESUMO PROFISSIONAL
 Desenvolvedor Java em formação com conhecimento em programação orientada a objetos, estrutura de dados e desenvolvimento de aplicações console. Busco oportunidade como Desenvolvedor Java Júnior para aplicar meus conhecimentos em Spring Boot, bancos relacionais e construção de APIs REST em projetos reais.
 
