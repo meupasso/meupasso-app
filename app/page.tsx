@@ -178,9 +178,9 @@ export default async function Home() {
             </Link>
           </div>
           <div style={{ marginTop: "0.75rem" }}>
-            <span style={{ fontSize: "0.8125rem", color: "var(--text-secondary)", opacity: 0.7 }}>
-              Ver exemplo de relatório
-            </span>
+            <Link href="/analise/exemplo" style={{ fontSize: "0.8125rem", color: "var(--text-secondary)", opacity: 0.7, textDecoration: "underline" }}>
+              Ver exemplo de relatório →
+            </Link>
           </div>
         </div>
       </section>
