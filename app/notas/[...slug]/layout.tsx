@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .join(" / ");
 
   return {
-    title: `${titulo} — Notas | MeuPasso`,
+    title: `${titulo} — Notas`,
     description: `Minhas anotações sobre ${titulo}. Criado no MeuPasso — plataforma de programação para iniciantes.`,
     openGraph: {
       title: `📝 ${titulo}`,

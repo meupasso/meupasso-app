@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Notas | MeuPasso",
+  title: "Notas",
   description:
     "Crie e organize suas anotações de programação — hierarquia infinita, markdown e salvamento automático.",
   openGraph: {
-    title: "📝 Notas — MeuPasso",
+    title: "📝 Notas",
     description: "Crie e organize suas anotações de programação",
     url: "https://www.meupasso.com.br/notas",
     siteName: "MeuPasso",
