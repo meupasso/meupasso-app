@@ -135,6 +135,56 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* Análise de Empregabilidade */}
+      <section style={{ ...secaoStyle, background: "rgba(86,156,214,0.04)", borderRadius: "2rem", marginTop: "3rem", marginBottom: "1rem", paddingBottom: "4rem", border: "1px solid rgba(86,156,214,0.08)" }}>
+        <div style={{ textAlign: "center" as const }}>
+          <span style={{ display: "inline-block", fontSize: "0.65rem", fontWeight: 700, padding: "0.25rem 0.75rem", borderRadius: "9999px", background: "linear-gradient(135deg, #f97316, #ef4444)", color: "#fff", marginBottom: "1rem", letterSpacing: "0.05em", textTransform: "uppercase" as const }}>
+            🆕 Novo
+          </span>
+        </div>
+        <h2 style={{ ...tituloSecao, fontSize: "2.2rem", maxWidth: "650px", margin: "0 auto 0.75rem" }}>
+          Descubra o que falta para você conseguir seu primeiro emprego em TI
+        </h2>
+        <p style={{ ...subtituloSecao, maxWidth: "550px", marginLeft: "auto", marginRight: "auto" }}>
+          Enviamos seu currículo, LinkedIn e GitHub para uma IA que cruza tudo e te diz exatamente o que está travando sua contratação.
+        </p>
+
+        <div style={{ display: "grid", gap: "1rem", gridTemplateColumns: "1fr 1fr", maxWidth: "680px", margin: "0 auto 2rem" }}>
+          {[
+            { icon: "🔍", text: "Diagnóstico cruzado: currículo + LinkedIn + GitHub" },
+            { icon: "🎯", text: "O que falta para a vaga que você quer" },
+            { icon: "✍️", text: "Currículo e LinkedIn reescritos, prontos para copiar" },
+            { icon: "👀", text: "Como um recrutador real vê seu perfil" },
+            { icon: "📚", text: "Plano de estudos semana a semana" },
+            { icon: "💰", text: "Pagamento único — resultado em minutos" },
+          ].map((item, i) => (
+            <div key={i} style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.75rem 1rem", borderRadius: "0.5rem", background: "var(--bg-card)", border: "1px solid var(--border)" }}>
+              <span style={{ fontSize: "1.25rem", flexShrink: 0 }}>{item.icon}</span>
+              <span style={{ fontSize: "0.8125rem", color: "var(--text-primary)", lineHeight: 1.4 }}>{item.text}</span>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ textAlign: "center" as const }}>
+          <div style={{ display: "inline-block", background: "linear-gradient(135deg, rgba(86,156,214,0.1), rgba(59,130,246,0.1))", border: "1px solid rgba(86,156,214,0.2)", borderRadius: "1rem", padding: "1.25rem 2rem", marginBottom: "1.5rem" }}>
+            <div style={{ fontSize: "0.75rem", fontWeight: 600, color: "var(--text-secondary)", textTransform: "uppercase" as const, letterSpacing: "0.05em", marginBottom: "0.25rem" }}>Preço único</div>
+            <div style={{ fontSize: "2.2rem", fontWeight: 800, color: "var(--accent)", lineHeight: 1 }}>
+              R$ 19,90
+            </div>
+          </div>
+          <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
+            <Link href="/analise" className="btn-primary" style={{ display: "inline-block", padding: "0.875rem 2rem", borderRadius: "0.5rem", fontWeight: 600, fontSize: "1.0625rem", textDecoration: "none", background: "var(--accent)", color: "#fff" }}>
+              Analisar meu perfil agora →
+            </Link>
+          </div>
+          <div style={{ marginTop: "0.75rem" }}>
+            <span style={{ fontSize: "0.8125rem", color: "var(--text-secondary)", opacity: 0.7 }}>
+              Ver exemplo de relatório
+            </span>
+          </div>
+        </div>
+      </section>
+
       {/* Linguagens */}
       <section style={secaoStyle}>
         <h2 style={tituloSecao}>Python, Java e JavaScript</h2>
