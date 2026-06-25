@@ -7,39 +7,46 @@ import { tmpdir } from "os";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
+/** Caminho do script de extração (raiz do projeto) */
+const SCRIPT_PATH = join(process.cwd(), "lib", "extract-pdf-text.mjs");
+
 /**
- * Extrai texto de um buffer de PDF usando um processo filho
- * (child_process.fork) que roda pdf-parse fora do webpack.
+ * Extrai texto de PDF via child_process.fork().
+ * O processo filho carrega pdf-parse fora do webpack.
  */
-function extractTextViaChildProcess(buffer: Buffer): Promise<string> {
+function extractTextViaFork(buffer: Buffer): Promise<string> {
   return new Promise((resolve, reject) => {
-    // Salva o buffer em um arquivo temporário
-    const tmpPath = join(tmpdir(), `pdf_${Date.now()}_${Math.random().toString(36).slice(2)}.pdf`);
+    const tmpPath = join(
+      tmpdir(),
+      `pdf_${Date.now()}_${Math.random().toString(36).slice(2)}.pdf`
+    );
     writeFileSync(tmpPath, buffer);
 
-    const scriptPath = join(process.cwd(), "lib", "extract-pdf-text.mjs");
-    const child = fork(scriptPath, [tmpPath], {
+    const child = fork(SCRIPT_PATH, [tmpPath], {
       stdio: ["pipe", "pipe", "pipe", "ipc"],
-      execArgv: [], // sem flags especiais
+      execArgv: [],
+      silent: true,
     });
 
     let stdout = "";
+    let stderr = "";
 
     child.stdout?.on("data", (data: Buffer) => {
       stdout += data.toString();
     });
-
+    child.stderr?.on("data", (data: Buffer) => {
+      stderr += data.toString();
+    });
     child.on("error", (err) => {
       try { unlinkSync(tmpPath); } catch {}
       reject(err);
     });
-
     child.on("exit", (code) => {
       try { unlinkSync(tmpPath); } catch {}
       if (code === 0 && stdout.trim()) {
         resolve(stdout.trim());
       } else {
-        reject(new Error("Falha ao extrair texto do PDF"));
+        reject(new Error(stderr || "Falha ao extrair texto do PDF"));
       }
     });
   });
@@ -63,12 +70,12 @@ export async function POST(req: NextRequest) {
 
     if (curriculoFile && curriculoFile.name.toLowerCase().endsWith(".pdf")) {
       const buffer = Buffer.from(await curriculoFile.arrayBuffer());
-      curriculoTexto = await extractTextViaChildProcess(buffer);
+      curriculoTexto = await extractTextViaFork(buffer);
     }
 
     if (linkedinFile && linkedinFile.name.toLowerCase().endsWith(".pdf")) {
       const buffer = Buffer.from(await linkedinFile.arrayBuffer());
-      linkedinTexto = await extractTextViaChildProcess(buffer);
+      linkedinTexto = await extractTextViaFork(buffer);
     }
 
     return NextResponse.json({
