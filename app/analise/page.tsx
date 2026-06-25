@@ -142,22 +142,36 @@ export default function AnalisePage() {
     };
   }, []);
 
-  /* --- extrair texto de PDF no client-side --- */
-  async function extractPdfText(file: File): Promise<string> {
-    const pdfjs = await import("pdfjs-dist/build/pdf.mjs");
-    // No browser o worker funciona nativamente
-    const buffer = await file.arrayBuffer();
-    const pdf = await pdfjs.getDocument({ data: buffer }).promise;
-    const texts: string[] = [];
-    for (let i = 1; i <= pdf.numPages; i++) {
-      const page = await pdf.getPage(i);
-      const content = await page.getTextContent();
-      const pageText = content.items.map((item: any) => item.str).join(" ");
-      texts.push(pageText);
-      page.cleanup();
+  /* --- extrair texto de PDF ou DOCX no client-side --- */
+  async function extractFileText(file: File): Promise<string> {
+    const name = file.name.toLowerCase();
+
+    // DOCX: usar mammoth no browser
+    if (name.endsWith(".docx")) {
+      const mammoth = await import("mammoth");
+      const buffer = await file.arrayBuffer();
+      const result = await mammoth.extractRawText({ arrayBuffer: buffer });
+      return result.value || "";
     }
-    pdf.destroy();
-    return texts.join("\n");
+
+    // PDF: usar pdfjs-dist
+    if (name.endsWith(".pdf")) {
+      const pdfjs = await import("pdfjs-dist/build/pdf.mjs");
+      const buffer = await file.arrayBuffer();
+      const pdf = await pdfjs.getDocument({ data: buffer }).promise;
+      const texts: string[] = [];
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const content = await page.getTextContent();
+        const pageText = content.items.map((item: any) => item.str).join(" ");
+        texts.push(pageText);
+        page.cleanup();
+      }
+      pdf.destroy();
+      return texts.join("\n");
+    }
+
+    throw new Error("Formato de arquivo não suportado. Use PDF ou DOCX.");
   }
 
   /* --- submit --- */
@@ -170,10 +184,10 @@ export default function AnalisePage() {
     setEtapa("loading");
 
     try {
-      // 1. Extrair texto dos PDFs no próprio navegador
+      // 1. Extrair texto dos arquivos no próprio navegador
       const [curriculo_texto, linkedin_texto] = await Promise.all([
-        extractPdfText(curriculoFile),
-        extractPdfText(linkedinFile),
+        extractFileText(curriculoFile),
+        extractFileText(linkedinFile),
       ]);
       setStepStatuses(["done", "done", "current", "pending", "pending", "pending"]);
 
@@ -288,7 +302,7 @@ export default function AnalisePage() {
             </div>
 
             <div style={styles.card}>
-              <label style={styles.label}>Currículo (PDF)</label>
+              <label style={styles.label}>Currículo (PDF ou DOCX)</label>
               <div
                 style={{
                   ...styles.dropzone,
@@ -298,7 +312,7 @@ export default function AnalisePage() {
                 onDrop={(e) => {
                   e.preventDefault();
                   const file = e.dataTransfer.files[0];
-                  if (file && file.type === "application/pdf") setCurriculoFile(file);
+                  if (file && (file.type === "application/pdf" || file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || file.name.toLowerCase().endsWith(".docx"))) setCurriculoFile(file);
                 }}
               >
                 {curriculoFile ? (
@@ -316,10 +330,10 @@ export default function AnalisePage() {
                 ) : (
                   <label style={styles.dropzoneLabel}>
                     <span style={{ fontSize: "2rem", marginBottom: 8 }}>📄</span>
-                    <span>Arraste o PDF aqui ou <span style={{ color: "var(--accent)", textDecoration: "underline", cursor: "pointer" }}>clique para selecionar</span></span>
+                    <span>Arraste o PDF ou DOCX aqui ou <span style={{ color: "var(--accent)", textDecoration: "underline", cursor: "pointer" }}>clique para selecionar</span></span>
                     <input
                       type="file"
-                      accept=".pdf,application/pdf"
+                      accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                       style={{ display: "none" }}
                       onChange={(e) => {
                         const file = e.target.files?.[0];
