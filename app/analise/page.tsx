@@ -157,6 +157,8 @@ export default function AnalisePage() {
     // PDF: usar pdfjs-dist
     if (name.endsWith(".pdf")) {
       const pdfjs = await import("pdfjs-dist/build/pdf.mjs");
+      // Worker servido estaticamente do próprio domínio
+      pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
       const buffer = await file.arrayBuffer();
       const pdf = await pdfjs.getDocument({ data: buffer }).promise;
       const texts: string[] = [];
