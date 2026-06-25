@@ -1,55 +1,42 @@
 import { NextRequest, NextResponse } from "next/server";
-import { fork } from "child_process";
-import { writeFileSync, unlinkSync } from "fs";
-import { join } from "path";
-import { tmpdir } from "os";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-/** Caminho do script de extração (raiz do projeto) */
-const SCRIPT_PATH = join(process.cwd(), "lib", "extract-pdf-text.mjs");
-
 /**
- * Extrai texto de PDF via child_process.fork().
- * O processo filho carrega pdf-parse fora do webpack.
+ * POST /api/analise/upload
+ *
+ * Extrai texto de PDFs usando pdf-parse v2.4.5 (pdfjs-dist 5.x).
+ * Observação: a extração principal ocorre no client-side (browser)
+ * para evitar limitações de worker no serverless.
+ * Esta rota é um fallback para testes e integração.
+ *
+ * Campos esperados no FormData:
+ *   - curriculo: File (PDF)
+ *   - linkedin: File (PDF)
+ *
+ * Retorna:
+ *   { curriculo_texto: string, linkedin_texto: string }
  */
-function extractTextViaFork(buffer: Buffer): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const tmpPath = join(
-      tmpdir(),
-      `pdf_${Date.now()}_${Math.random().toString(36).slice(2)}.pdf`
-    );
-    writeFileSync(tmpPath, buffer);
 
-    const child = fork(SCRIPT_PATH, [tmpPath], {
-      stdio: ["pipe", "pipe", "pipe", "ipc"],
-      execArgv: [],
-      silent: true,
-    });
+// Polyfill para Node.js 24+ (pdfjs chama Object.defineProperty em primitivos)
+const _origDP = Object.defineProperty;
+Object.defineProperty = function (
+  obj: any,
+  prop: PropertyKey,
+  desc: PropertyDescriptor
+) {
+  if (obj == null || (typeof obj !== "object" && typeof obj !== "function"))
+    return obj;
+  return _origDP.call(Object, obj, prop, desc);
+} as typeof Object.defineProperty;
 
-    let stdout = "";
-    let stderr = "";
-
-    child.stdout?.on("data", (data: Buffer) => {
-      stdout += data.toString();
-    });
-    child.stderr?.on("data", (data: Buffer) => {
-      stderr += data.toString();
-    });
-    child.on("error", (err) => {
-      try { unlinkSync(tmpPath); } catch {}
-      reject(err);
-    });
-    child.on("exit", (code) => {
-      try { unlinkSync(tmpPath); } catch {}
-      if (code === 0 && stdout.trim()) {
-        resolve(stdout.trim());
-      } else {
-        reject(new Error(stderr || "Falha ao extrair texto do PDF"));
-      }
-    });
-  });
+async function extractText(buffer: Buffer): Promise<string> {
+  const mod: any = await import("pdf-parse");
+  const parse = new mod.PDFParse({ data: buffer, verbosity: 0 });
+  await parse.load();
+  const result = await parse.getText();
+  return result.text || "";
 }
 
 export async function POST(req: NextRequest) {
@@ -70,12 +57,12 @@ export async function POST(req: NextRequest) {
 
     if (curriculoFile && curriculoFile.name.toLowerCase().endsWith(".pdf")) {
       const buffer = Buffer.from(await curriculoFile.arrayBuffer());
-      curriculoTexto = await extractTextViaFork(buffer);
+      curriculoTexto = await extractText(buffer);
     }
 
     if (linkedinFile && linkedinFile.name.toLowerCase().endsWith(".pdf")) {
       const buffer = Buffer.from(await linkedinFile.arrayBuffer());
-      linkedinTexto = await extractTextViaFork(buffer);
+      linkedinTexto = await extractText(buffer);
     }
 
     return NextResponse.json({
@@ -85,7 +72,10 @@ export async function POST(req: NextRequest) {
   } catch (error: any) {
     console.error("Erro ao processar PDFs:", error?.message || error);
     return NextResponse.json(
-      { error: "Erro ao processar os arquivos PDF." },
+      {
+        error:
+          "Erro ao processar os arquivos PDF no servidor. Tente usar a extração pelo navegador.",
+      },
       { status: 500 }
     );
   }

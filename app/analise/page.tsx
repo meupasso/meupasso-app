@@ -142,6 +142,24 @@ export default function AnalisePage() {
     };
   }, []);
 
+  /* --- extrair texto de PDF no client-side --- */
+  async function extractPdfText(file: File): Promise<string> {
+    const pdfjs = await import("pdfjs-dist/build/pdf.mjs");
+    // No browser o worker funciona nativamente
+    const buffer = await file.arrayBuffer();
+    const pdf = await pdfjs.getDocument({ data: buffer }).promise;
+    const texts: string[] = [];
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+      const pageText = content.items.map((item: any) => item.str).join(" ");
+      texts.push(pageText);
+      page.cleanup();
+    }
+    pdf.destroy();
+    return texts.join("\n");
+  }
+
   /* --- submit --- */
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -152,22 +170,11 @@ export default function AnalisePage() {
     setEtapa("loading");
 
     try {
-      // 1. Upload PDFs → extrair texto
-      const uploadForm = new FormData();
-      uploadForm.append("curriculo", curriculoFile);
-      uploadForm.append("linkedin", linkedinFile);
-
-      const uploadRes = await fetch("/api/analise/upload", {
-        method: "POST",
-        body: uploadForm,
-      });
-
-      if (!uploadRes.ok) {
-        const err = await uploadRes.json();
-        throw new Error(err.error || "Erro ao processar PDFs");
-      }
-
-      const { curriculo_texto, linkedin_texto } = await uploadRes.json();
+      // 1. Extrair texto dos PDFs no próprio navegador
+      const [curriculo_texto, linkedin_texto] = await Promise.all([
+        extractPdfText(curriculoFile),
+        extractPdfText(linkedinFile),
+      ]);
       setStepStatuses(["done", "done", "current", "pending", "pending", "pending"]);
 
       // 2. Coletar dados + GitHub
