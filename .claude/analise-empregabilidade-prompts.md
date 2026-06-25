@@ -164,6 +164,12 @@ e o que está completamente ausente.
 Seja específico — cite exemplos reais encontrados nos dados.
 Evite generalidades como "o candidato precisa melhorar sua comunicação".
 
+Ao analisar formação acadêmica, verifique se as datas de
+experiência profissional são compatíveis com o período de
+formação declarado. Se um estágio ocorreu antes da conclusão
+do curso, isso é normal. Se as datas se sobrepõem de forma
+inconsistente, sinalize como inconsistência.
+
 Objetivo de vaga: {{objetivo_vaga}}
 
 Currículo:
@@ -221,21 +227,50 @@ Retorne APENAS o JSON, sem explicações, sem markdown, sem backticks.
 ```
 Você é um especialista em empregabilidade tech no Brasil.
 
-Com base na análise cruzada abaixo, identifique exatamente o que falta
-para essa pessoa conseguir uma vaga como {{objetivo_vaga}}.
+Com base na análise cruzada abaixo, avalie o candidato em 
+cinco dimensões e identifique o que falta para a vaga desejada.
 
-Para cada item que falta, explique em linguagem simples por que isso importa
-para o cargo desejado. Nada de jargão de RH.
-Fale como um mentor que conhece o mercado brasileiro, não como um relatório corporativo.
+Fale como um mentor direto, sem jargão de RH.
 
-Análise cruzada:
-{{json_cruzamento}}
+Objetivo de vaga: {{objetivo_vaga}}
+Análise cruzada: {{json_cruzamento}}
 
 Retorne APENAS o JSON, sem explicações, sem markdown, sem backticks.
 
 {
-  "score_empregabilidade": 0,
-  "score_justificativa": "",
+  "scores": {
+    "perfil_profissional": {
+      "valor": 0,
+      "criterios": [
+        { "item": "", "aprovado": true, "observacao": "" }
+      ]
+    },
+    "portfolio_tecnico": {
+      "valor": 0,
+      "criterios": [
+        { "item": "", "aprovado": true, "observacao": "" }
+      ]
+    },
+    "presenca_online": {
+      "valor": 0,
+      "criterios": [
+        { "item": "", "aprovado": true, "observacao": "" }
+      ]
+    },
+    "consistencia": {
+      "valor": 0,
+      "criterios": [
+        { "item": "", "aprovado": true, "observacao": "" }
+      ]
+    },
+    "preparacao_para_vaga": {
+      "valor": 0,
+      "label": "Preparação para {{objetivo_vaga}}",
+      "criterios": [
+        { "item": "", "aprovado": true, "observacao": "" }
+      ]
+    }
+  },
   "o_que_falta": [
     {
       "categoria": "tecnico|portfolio|posicionamento|comportamental",
@@ -253,8 +288,7 @@ Retorne APENAS o JSON, sem explicações, sem markdown, sem backticks.
     }
   ],
   "tempo_estimado_preparo": "",
-  "veredicto": "pronto|quase_la|precisa_evoluir|recomecar",
-  "percentual_oportunidades_perdidas": 0
+  "veredicto": "pronto|quase_la|precisa_evoluir|recomecar"
 }
 ```
 
@@ -490,8 +524,8 @@ Tom: direto, humano, encorajador — mas sem mentir ou suavizar problemas reais.
 Fale como um mentor que se importa, não como um sistema automatizado.
 Use linguagem próxima, sem jargão corporativo.
 
-Score: {{json_o_que_falta.score_empregabilidade}}
-Veredicto: {{json_o_que_falta.veredicto}}
+Scores (cinco dimensões): {{scores_json}}
+Veredicto: {{veredicto}}
 O que falta: {{json_o_que_falta}}
 Cruzamento: {{json_cruzamento}}
 Visão do recrutador: {{json_recrutador}}
@@ -505,10 +539,22 @@ Retorne APENAS o JSON, sem explicações, sem markdown, sem backticks.
 {
   "titulo": "",
   "subtitulo": "",
-  "score": 0,
+  "scores": {
+    "perfil_profissional": { "valor": 0, "criterios": [] },
+    "portfolio_tecnico": { "valor": 0, "criterios": [] },
+    "presenca_online": { "valor": 0, "criterios": [] },
+    "consistencia": { "valor": 0, "criterios": [] },
+    "preparacao_para_vaga": { "valor": 0, "criterios": [], "label": "" }
+  },
   "veredicto_texto": "",
-  "percentual_oportunidades_perdidas": 0,
   "secoes": [
+    {
+      "id": "scores-geral",
+      "titulo": "Sua pontuação geral",
+      "tipo": "scores",
+      "desbloqueada": true,
+      "items": []
+    },
     {
       "id": "",
       "titulo": "",

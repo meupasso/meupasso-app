@@ -259,6 +259,8 @@ Analise as três fontes abaixo. Identifique o que bate, o que contradiz e o que 
 Seja específico — cite exemplos reais encontrados nos dados.
 Evite generalidades como "o candidato precisa melhorar sua comunicação".
 
+Ao analisar formação acadêmica, verifique se as datas de experiência profissional são compatíveis com o período de formação declarado. Se um estágio ocorreu antes da conclusão do curso, isso é normal. Se as datas se sobrepõem de forma inconsistente, sinalize como inconsistência.
+
 Objetivo de vaga: {{objetivo_vaga}}
 
 Currículo:
@@ -290,19 +292,49 @@ Retorne APENAS o JSON, sem explicações, sem markdown, sem backticks.
 
 const PROMPT_5 = `Você é um especialista em empregabilidade tech no Brasil.
 
-Com base na análise cruzada abaixo, identifique exatamente o que falta para essa pessoa conseguir uma vaga como {{objetivo_vaga}}.
+Com base na análise cruzada abaixo, avalie o candidato em cinco dimensões e identifique o que falta para a vaga desejada.
 
-Para cada item que falta, explique em linguagem simples por que isso importa para o cargo desejado. Nada de jargão de RH.
-Fale como um mentor que conhece o mercado brasileiro, não como um relatório corporativo.
+Fale como um mentor direto, sem jargão de RH.
 
-Análise cruzada:
-{{json_cruzamento}}
+Objetivo de vaga: {{objetivo_vaga}}
+Análise cruzada: {{json_cruzamento}}
 
 Retorne APENAS o JSON, sem explicações, sem markdown, sem backticks.
 
 {
-  "score_empregabilidade": 0,
-  "score_justificativa": "",
+  "scores": {
+    "perfil_profissional": {
+      "valor": 0,
+      "criterios": [
+        { "item": "", "aprovado": true, "observacao": "" }
+      ]
+    },
+    "portfolio_tecnico": {
+      "valor": 0,
+      "criterios": [
+        { "item": "", "aprovado": true, "observacao": "" }
+      ]
+    },
+    "presenca_online": {
+      "valor": 0,
+      "criterios": [
+        { "item": "", "aprovado": true, "observacao": "" }
+      ]
+    },
+    "consistencia": {
+      "valor": 0,
+      "criterios": [
+        { "item": "", "aprovado": true, "observacao": "" }
+      ]
+    },
+    "preparacao_para_vaga": {
+      "valor": 0,
+      "label": "Preparação para {{objetivo_vaga}}",
+      "criterios": [
+        { "item": "", "aprovado": true, "observacao": "" }
+      ]
+    }
+  },
   "o_que_falta": [
     {
       "categoria": "tecnico|portfolio|posicionamento|comportamental",
@@ -317,8 +349,7 @@ Retorne APENAS o JSON, sem explicações, sem markdown, sem backticks.
     { "item": "", "diferencial": "" }
   ],
   "tempo_estimado_preparo": "",
-  "veredicto": "pronto|quase_la|precisa_evoluir|recomecar",
-  "percentual_oportunidades_perdidas": 0
+  "veredicto": "pronto|quase_la|precisa_evoluir|recomecar"
 }`;
 
 const PROMPT_6 = `Você é um especialista em posicionamento profissional para desenvolvedores no mercado brasileiro.
@@ -480,7 +511,7 @@ Tom: direto, humano, encorajador — mas sem mentir ou suavizar problemas reais.
 Fale como um mentor que se importa, não como um sistema automatizado.
 Use linguagem próxima, sem jargão corporativo.
 
-Score: {{score_empregabilidade}}
+Scores (cinco dimensões): {{scores_json}}
 Veredicto: {{veredicto}}
 O que falta: {{json_o_que_falta}}
 Cruzamento: {{json_cruzamento}}
@@ -495,10 +526,22 @@ Retorne APENAS o JSON, sem explicações, sem markdown, sem backticks.
 {
   "titulo": "",
   "subtitulo": "",
-  "score": 0,
+  "scores": {
+    "perfil_profissional": { "valor": 0, "criterios": [] },
+    "portfolio_tecnico": { "valor": 0, "criterios": [] },
+    "presenca_online": { "valor": 0, "criterios": [] },
+    "consistencia": { "valor": 0, "criterios": [] },
+    "preparacao_para_vaga": { "valor": 0, "criterios": [], "label": "" }
+  },
   "veredicto_texto": "",
-  "percentual_oportunidades_perdidas": 0,
   "secoes": [
+    {
+      "id": "scores-geral",
+      "titulo": "Sua pontuação geral",
+      "tipo": "scores",
+      "desbloqueada": true,
+      "items": []
+    },
     {
       "id": "",
       "titulo": "",
@@ -746,8 +789,8 @@ export async function POST(req: NextRequest) {
     }
 
     const jsonOFaltaStr = JSON.stringify(jsonOFalta, null, 2);
-    const scoreEmpregabilidade =
-      jsonOFalta.score_empregabilidade ?? 0;
+    const scores =
+      jsonOFalta.scores ?? {};
     const veredicto = jsonOFalta.veredicto ?? "precisa_evoluir";
 
     // --- PASSO 6: Reescrever currículo e LinkedIn ---
@@ -832,7 +875,7 @@ export async function POST(req: NextRequest) {
     let jsonRelatorio: any = analise.json_relatorio_final;
     if (!jsonRelatorio) {
       const r10 = await callAndParse(
-        PROMPT_10.replace("{{score_empregabilidade}}", String(scoreEmpregabilidade))
+        PROMPT_10.replace("{{scores_json}}", JSON.stringify(scores, null, 2))
           .replace("{{veredicto}}", veredicto)
           .replace("{{json_o_que_falta}}", jsonOFaltaStr)
           .replace("{{json_cruzamento}}", jsonCruzamentoStr)

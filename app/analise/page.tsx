@@ -454,14 +454,17 @@ export default function AnalisePage() {
             <div style={styles.scoreSection}>
               <div style={styles.scoreCircle}>
                 <span style={styles.scoreNumber}>
-                  {analiseData.json_o_que_falta?.score_empregabilidade ?? "?"}
+                  {calcScoreMedio(analiseData.json_o_que_falta?.scores) ?? "?"}
                 </span>
                 <span style={styles.scoreLabel}>/100</span>
               </div>
               <div style={{ flex: 1 }}>
                 <h2 style={styles.veredictoLabel}>Veredito</h2>
                 <p style={styles.veredictoText}>
-                  {analiseData.json_o_que_falta?.score_justificativa || "Analisando seu perfil..."}
+                  {analiseData.json_o_que_falta?.veredicto === "pronto" ? "Seu perfil está pronto para aplicar. Confira o relatório completo para os detalhes." :
+                   analiseData.json_o_que_falta?.veredicto === "quase_la" ? "Você está perto! Com alguns ajustes, seu perfil fica pronto para as vagas." :
+                   analiseData.json_o_que_falta?.veredicto === "recomecar" ? "Seu perfil precisa de uma reestruturação. O relatório mostra exatamente por onde começar." :
+                   "Identificamos pontos importantes para evoluir. Veja abaixo os principais."}
                 </p>
                 <div style={styles.veredictoBadge}>
                   {formatVeredicto(analiseData.json_o_que_falta?.veredicto)}
@@ -669,6 +672,13 @@ export default function AnalisePage() {
 }
 
 /* ---------- helpers ---------- */
+
+function calcScoreMedio(scores?: Record<string, {valor: number}>): number {
+  if (!scores) return 0;
+  const vals = Object.values(scores).filter(s => typeof s.valor === "number");
+  if (vals.length === 0) return 0;
+  return Math.round(vals.reduce((a, s) => a + s.valor, 0) / vals.length);
+}
 
 function formatVeredicto(veredicto?: string) {
   if (!veredicto) return null;

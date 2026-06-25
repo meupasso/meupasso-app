@@ -32,17 +32,29 @@ interface Secao {
     | "curriculo"
     | "linkedin"
     | "plano"
-    | "vagas";
+    | "vagas"
+    | "scores";
   desbloqueada: boolean;
   items: SecaoItem[];
+}
+
+interface ScoreDimensao {
+  valor: number;
+  criterios: { item: string; aprovado: boolean; observacao: string }[];
+  label?: string;
 }
 
 interface RelatorioFinal {
   titulo: string;
   subtitulo: string;
-  score: number;
+  scores: {
+    perfil_profissional: ScoreDimensao;
+    portfolio_tecnico: ScoreDimensao;
+    presenca_online: ScoreDimensao;
+    consistencia: ScoreDimensao;
+    preparacao_para_vaga: ScoreDimensao;
+  };
   veredicto_texto: string;
-  percentual_oportunidades_perdidas: number;
   secoes: Secao[];
   proximos_passos: string[];
   mensagem_final: string;
@@ -61,6 +73,12 @@ function prioridadeColor(p: string) {
     default:
       return { bg: "rgba(100,100,100,0.18)", color: "#9d9d9d", label: "⚪ Baixa" };
   }
+}
+
+function calcScoreMedio(scores?: Record<string, {valor: number}>): number {
+  if (!scores) return 0;
+  const vals = Object.values(scores).filter((s): s is {valor: number} => typeof s.valor === "number");
+  return vals.length ? Math.round(vals.reduce((a, s) => a + s.valor, 0) / vals.length) : 0;
 }
 
 function copyText(text: string, label: string) {
@@ -320,6 +338,70 @@ function SecaoRecrutador({ items }: { items: SecaoItem[] }) {
           )}
         </>
       )}
+    </div>
+  );
+}
+
+/* ====================================================================
+   Componente de Scores (5 cards de dimensão)
+   ==================================================================== */
+
+const DIMENSOES_LABELS: Record<string, { label: string; icon: string; desc: string }> = {
+  perfil_profissional: { label: "Perfil Profissional", icon: "👤", desc: "Curriculo, formacao e experiencias" },
+  portfolio_tecnico: { label: "Portfolio Tecnico", icon: "💻", desc: "Projetos, GitHub e codigo" },
+  presenca_online: { label: "Presenca Online", icon: "🌐", desc: "LinkedIn e posicionamento digital" },
+  consistencia: { label: "Consistencia", icon: "🎯", desc: "Alinhamento entre as fontes de informacao" },
+  preparacao_para_vaga: { label: "Preparacao para a Vaga", icon: "🚀", desc: "Compatibilidade com o cargo desejado" },
+};
+
+function SecaoScores({ scores, objetivoVaga }: { scores: any; objetivoVaga?: string }) {
+  if (!scores) return null;
+  const dims = Object.entries(scores) as [string, any][];
+
+  return (
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 16 }}>
+      {dims.map(([key, dim]) => {
+        const info = DIMENSOES_LABELS[key];
+        const isPreparacao = key === "preparacao_para_vaga";
+        const displayLabel = key === "preparacao_para_vaga"
+          ? (dim.label || info?.label || "Preparacao para a Vaga")
+          : (info?.label || key);
+
+        return (
+          <div key={key} style={{
+            padding: "1.25rem",
+            borderRadius: 12,
+            background: isPreparacao ? "linear-gradient(135deg, rgba(86,156,214,0.12), rgba(59,130,246,0.08))" : "var(--bg-secondary)",
+            border: isPreparacao ? "2px solid rgba(86,156,214,0.3)" : "1px solid var(--border)",
+            display: "flex",
+            flexDirection: "column",
+            gap: 10,
+          }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+              <div>
+                <span style={{ fontSize: 20, marginRight: 6 }}>{info?.icon || "📊"}</span>
+                <span style={{ fontWeight: 600, color: "var(--text-primary)", fontSize: 13 }}>{displayLabel}</span>
+              </div>
+              <div style={{ textAlign: "right" as const }}>
+                <span style={{ fontSize: 24, fontWeight: 700, color: dim.valor >= 70 ? "#4ade80" : dim.valor >= 40 ? "#eab308" : "#f87171", lineHeight: 1 }}>{dim.valor}</span>
+                <span style={{ fontSize: 12, color: "var(--text-secondary)" }}>/100</span>
+              </div>
+            </div>
+            {dim.criterios?.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 4, marginTop: 4 }}>
+                {dim.criterios.map((c: any, i: number) => (
+                  <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 6, fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.4 }}>
+                    <span style={{ flexShrink: 0, marginTop: 1, fontSize: 13 }}>
+                      {c.aprovado ? <span style={{ color: "#4ade80" }}>✓</span> : <span style={{ color: "#f87171" }}>✗</span>}
+                    </span>
+                    <span>{c.item}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -896,6 +978,18 @@ function renderSecao(secao: Secao, analise: any) {
         </div>
       );
 
+    case "scores":
+      const scores = analise?.json_relatorio_final?.scores || analise?.json_o_que_falta?.scores;
+      return (
+        <div key={secao.id} style={{ ...secaoStyle, borderColor: "rgba(86,156,214,0.3)" }}>
+          <h3 style={secaoTitle}>
+            <span style={{ marginRight: 8 }}>📊</span>
+            {secao.titulo}
+          </h3>
+          <SecaoScores scores={scores} objetivoVaga={analise?.objetivo_vaga} />
+        </div>
+      );
+
     default:
       return (
         <div key={secao.id} style={secaoStyle}>
@@ -1075,7 +1169,7 @@ export default function RelatorioPage() {
 
               <div style={scoreRowStyle}>
                 <div style={scoreCircleStyle}>
-                  <span style={{ fontSize: 34, fontWeight: 700, color: "#fff", lineHeight: 1 }}>{r.score}</span>
+                  <span style={{ fontSize: 34, fontWeight: 700, color: "#fff", lineHeight: 1 }}>{calcScoreMedio(r.scores)}</span>
                   <span style={{ fontSize: 12, color: "rgba(255,255,255,0.7)" }}>/100</span>
                 </div>
                 <div style={{ flex: 1 }}>
@@ -1084,12 +1178,6 @@ export default function RelatorioPage() {
                   </p>
                 </div>
               </div>
-
-              {r.percentual_oportunidades_perdidas > 0 && (
-                <div style={opsPerdidasStyle}>
-                  <strong>{r.percentual_oportunidades_perdidas}%</strong> das oportunidades podem estar passando despercebidas com seu perfil atual
-                </div>
-              )}
 
               {/* Mini índice */}
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 16 }}>
@@ -1116,6 +1204,7 @@ export default function RelatorioPage() {
                     {s.tipo === "linkedin" && "💼 "}
                     {s.tipo === "plano" && "📚 "}
                     {s.tipo === "vagas" && "🏢 "}
+                    {s.tipo === "scores" && "📊 "}
                     {s.titulo}
                   </a>
                 ))}
