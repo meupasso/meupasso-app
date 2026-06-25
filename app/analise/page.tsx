@@ -469,58 +469,34 @@ export default function AnalisePage() {
               </div>
             </div>
 
-            {/* O que falta */}
-            {analiseData.json_o_que_falta?.o_que_falta && (
-              <div style={styles.card}>
-                <h3 style={styles.cardTitle}>🎯 O que falta para a vaga</h3>
-                <div style={styles.faltaList}>
-                  {analiseData.json_o_que_falta.o_que_falta.map((item: any, i: number) => (
-                    <div key={i} style={styles.faltaItem}>
-                      <div style={styles.faltaHeader}>
-                        <span
-                          style={{
-                            ...styles.prioridadeBadge,
-                            background:
-                              item.prioridade === "alta"
-                                ? "rgba(239,68,68,0.2)"
-                                : item.prioridade === "media"
-                                ? "rgba(234,179,8,0.2)"
-                                : "rgba(100,100,100,0.2)",
-                            color:
-                              item.prioridade === "alta"
-                                ? "#f87171"
-                                : item.prioridade === "media"
-                                ? "#eab308"
-                                : "#9d9d9d",
-                          }}
-                        >
-                          {item.prioridade === "alta" ? "Alta" : item.prioridade === "media" ? "Média" : "Baixa"}
-                        </span>
-                        <span style={{ fontWeight: 500, color: "var(--text-primary)" }}>{item.item}</span>
+            {/* O que falta — só prioridade ALTA, máximo 4 */}
+            {(() => {
+              const itensAlta = analiseData.json_o_que_falta?.o_que_falta
+                ?.filter((i: any) => i.prioridade === "alta")
+                ?.slice(0, 4);
+              if (!itensAlta?.length) return null;
+              return (
+                <div style={styles.card}>
+                  <h3 style={styles.cardTitle}>🎯 O que está te travando para essa vaga</h3>
+                  <p style={{ color: "var(--text-secondary)", fontSize: 13, marginBottom: 12, lineHeight: 1.5 }}>
+                    Esses são os pontos mais críticos. Veja o relatório completo para a lista detalhada.
+                  </p>
+                  <div style={styles.faltaList}>
+                    {itensAlta.map((item: any, i: number) => (
+                      <div key={i} style={styles.faltaItem}>
+                        <div style={styles.faltaHeader}>
+                          <span style={{ ...styles.prioridadeBadge, background: "rgba(239,68,68,0.2)", color: "#f87171" }}>
+                            Alta
+                          </span>
+                          <span style={{ fontWeight: 500, color: "var(--text-primary)" }}>{item.item}</span>
+                        </div>
+                        <p style={styles.faltaDesc}>{item.por_que_importa || item.evidencia}</p>
                       </div>
-                      <p style={styles.faltaDesc}>{item.por_que_importa || item.evidencia}</p>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
-
-            {/* O que já tem */}
-            {analiseData.json_o_que_falta?.o_que_ja_tem?.length > 0 && (
-              <div style={styles.card}>
-                <h3 style={styles.cardTitle}>✅ O que você já tem de diferencial</h3>
-                <div style={styles.faltaList}>
-                  {analiseData.json_o_que_falta.o_que_ja_tem.map((item: any, i: number) => (
-                    <div key={i} style={{ ...styles.faltaItem, borderLeft: "3px solid #4ade80" }}>
-                      <p style={{ color: "var(--text-primary)", margin: 0 }}>
-                        <strong>{item.item}</strong>
-                        {item.diferencial && <> — <span style={{ color: "var(--text-secondary)" }}>{item.diferencial}</span></>}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+              );
+            })()}
 
             {/* Seções travadas */}
             <div style={styles.card}>
