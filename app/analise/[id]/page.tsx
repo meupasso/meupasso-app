@@ -1,9 +1,17 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, Suspense } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
+
+export default function RelatorioPageWrapper() {
+  return (
+    <Suspense fallback={<div style={pageStyle}><div style={centerBox}><p style={{ color: "var(--text-secondary)" }}>Carregando...</p></div></div>}>
+      <RelatorioPage />
+    </Suspense>
+  );
+}
 
 /* ====================================================================
    Tipos
@@ -1009,7 +1017,7 @@ function renderSecao(secao: Secao, analise: any) {
    Página principal
    ==================================================================== */
 
-export default function RelatorioPage() {
+function RelatorioPage() {
   const params = useParams();
   const searchParams = useSearchParams();
   const id = params?.id as string;
