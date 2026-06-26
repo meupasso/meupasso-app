@@ -380,6 +380,7 @@ Regras:
 - A headline do LinkedIn deve ser específica para o cargo desejado
 - O "Sobre" do LinkedIn deve ter entre 1.200 e 1.800 caracteres
 - Cada experiência deve ter no mínimo 2 bullets com impacto
+- O produto de análise se chama "Raio-X de Carreira", não "Análise de Empregabilidade". Use o nome correto ao mencionar projetos do candidato
 
 Currículo atual:
 {{json_curriculo}}
@@ -447,6 +448,8 @@ Regras importantes:
 - Se não houver conteúdo do MeuPasso para um item, indique recursos externos gratuitos
 - O plano deve ser realista: máximo 1 hora por dia
 - Comece sempre pelo que tem maior impacto na empregabilidade, não pelo mais fácil
+- Inclua no plano APENAS conteúdos diretamente relevantes para o objetivo de vaga declarado. Não adicione exercícios de outras linguagens para "manter o GitHub ativo" — isso dilui o foco e o usuário percebe como enchimento
+- Se não houver conteúdo suficiente no MeuPasso para preencher todas as semanas, reduza o número de semanas
 - Explique em linguagem simples por que cada item está naquela semana
 
 O que falta:

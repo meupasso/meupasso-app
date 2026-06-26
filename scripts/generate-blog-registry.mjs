@@ -32,7 +32,6 @@ const entries = files.map((file) => {
       if (KEY_MAP[key]) key = KEY_MAP[key];
       if (key === "tags") {
         try {
-          // Tags podem vir com aspas simples ['a','b'] ou duplas ["a","b"]
           data[key] = JSON.parse(val.replace(/'/g, '"'));
         } catch { data[key] = []; }
       } else {
@@ -42,19 +41,25 @@ const entries = files.map((file) => {
     });
     content = match[2] || "";
   }
+  // Validar título: se não existe frontmatter ou título vazio, pular o post
+  const titulo = data.titulo ? String(data.titulo).trim() : "";
+  if (!titulo) return null;
+
+  // Validar data: se ausente ou inválida, pular o post
+  const dataStr = data.data ? String(data.data).trim() : "";
+  const dataValida = dataStr ? !isNaN(new Date(dataStr + "T12:00:00").getTime()) : false;
+  if (!dataValida) return null;
+
   return {
     imagem: data.imagem || DEFAULT_IMAGE,
-    titulo: data.titulo || file,
+    titulo,
     slug: data.slug || file.replace(".mdx", ""),
-    descricao: data.descricao || "",
-    data: data.data || "",
+    descricao: data.descricao?.trim() || "",
+    data: dataStr,
     tags: Array.isArray(data.tags) ? data.tags : [],
     content,
   };
-}).sort((a, b) => {
-  // Mais recente primeiro; posts sem data vão pro fim
-  if (!a.data) return 1;
-  if (!b.data) return -1;
+}).filter(Boolean).sort((a, b) => {
   return b.data.localeCompare(a.data);
 });
 
