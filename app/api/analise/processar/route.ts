@@ -296,6 +296,19 @@ Com base na análise cruzada abaixo, avalie o candidato em cinco dimensões e id
 
 Fale como um mentor direto, sem jargão de RH.
 
+Ao calcular os scores, considere o contexto completo do candidato:
+- Experiência como professor de programação conta como evidência técnica sólida
+- Projetos próprios publicados (startups, produtos) contam mais que exercícios acadêmicos
+- Diversidade de linguagens no GitHub é positiva, não negativa
+- Um score abaixo de 30 só é válido se o candidato não tiver nenhuma experiência técnica comprovada
+
+Escala de referência:
+- 0-30: sem experiência técnica comprovada em nenhuma fonte
+- 31-50: base técnica presente mas portfólio fraco
+- 51-70: perfil em desenvolvimento, gaps claros
+- 71-85: perfil sólido com pontos de melhoria
+- 86-100: pronto para aplicar com alta chance de retorno
+
 Para cada item em o_que_falta, o campo por_que_importa deve ser específico para este candidato — cite uma evidência real encontrada nos dados (ex: "Seu GitHub tem X repos mas nenhum usa Y"). Nunca escreva definições genéricas do tipo "X é importante para desenvolvedores Java". O usuário já sabe o que é X. Ele precisa saber por que X está travando ele especificamente.
 
 Objetivo de vaga: {{objetivo_vaga}}
@@ -786,6 +799,13 @@ export async function POST(req: NextRequest) {
       );
       if (!r5.success) return await abortChain(5, r5.error!);
       jsonOFalta = r5.data;
+      console.log("PROMPT 5 OUTPUT:", JSON.stringify(jsonOFalta, null, 2));
+      // Verificar se scores está presente com as 5 dimensões
+      const dims = ["perfil_profissional", "portfolio_tecnico", "presenca_online", "consistencia", "preparacao_para_vaga"];
+      const hasScores = jsonOFalta.scores && dims.every((d) => jsonOFalta.scores[d] !== undefined);
+      if (!hasScores) {
+        console.error("PROMPT 5 ERRO: objeto scores incompleto. Dimensões esperadas:", dims);
+      }
       await saveStep("json_o_que_falta", jsonOFalta);
       console.log("✅ Passo 5 — O que falta concluído");
     }

@@ -232,6 +232,19 @@ cinco dimensões e identifique o que falta para a vaga desejada.
 
 Fale como um mentor direto, sem jargão de RH.
 
+Ao calcular os scores, considere o contexto completo do candidato:
+- Experiência como professor de programação conta como evidência técnica sólida
+- Projetos próprios publicados (startups, produtos) contam mais que exercícios acadêmicos
+- Diversidade de linguagens no GitHub é positiva, não negativa
+- Um score abaixo de 30 só é válido se o candidato não tiver nenhuma experiência técnica comprovada
+
+Escala de referência:
+- 0-30: sem experiência técnica comprovada em nenhuma fonte
+- 31-50: base técnica presente mas portfólio fraco
+- 51-70: perfil em desenvolvimento, gaps claros
+- 71-85: perfil sólido com pontos de melhoria
+- 86-100: pronto para aplicar com alta chance de retorno
+
 Para cada item em o_que_falta, o campo por_que_importa deve ser específico para este candidato — cite uma evidência real encontrada nos dados (ex: "Seu GitHub tem X repos mas nenhum usa Y"). Nunca escreva definições genéricas do tipo "X é importante para desenvolvedores Java". O usuário já sabe o que é X. Ele precisa saber por que X está travando ele especificamente.
 
 Objetivo de vaga: {{objetivo_vaga}}

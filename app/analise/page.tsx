@@ -609,6 +609,50 @@ export default function AnalisePage() {
               </div>
             </div>
 
+            {/* 5 cards de score (freemium — só números, sem critérios) */}
+            {analiseData.json_o_que_falta?.scores && (() => {
+              const dims = [
+                { key: "perfil_profissional", label: "Perfil Profissional", icon: "👤" },
+                { key: "portfolio_tecnico", label: "Portfólio Técnico", icon: "💻" },
+                { key: "presenca_online", label: "Presença Online", icon: "🌐" },
+                { key: "consistencia", label: "Consistência", icon: "🎯" },
+                { key: "preparacao_para_vaga", label: `Preparação para ${analiseData.objetivo_vaga || "a vaga"}`, icon: "🚀", destaque: true },
+              ];
+              const scores = analiseData.json_o_que_falta.scores;
+              return (
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 12, marginBottom: 20 }}>
+                  {dims.map((d) => {
+                    const dim = scores[d.key];
+                    if (!dim || dim.valor === undefined) return null;
+                    const isDestaque = d.destaque;
+                    return (
+                      <div key={d.key} style={{
+                        padding: "1rem",
+                        borderRadius: 10,
+                        background: isDestaque ? "linear-gradient(135deg, rgba(86,156,214,0.12), rgba(59,130,246,0.06))" : "var(--bg-card)",
+                        border: isDestaque ? "2px solid rgba(86,156,214,0.3)" : "1px solid var(--border)",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 6,
+                        ...(isDestaque ? { gridColumn: "1 / -1" } : {}),
+                      }}>
+                        <div style={{ fontSize: 13, fontWeight: 500, color: "var(--text-primary)", display: "flex", alignItems: "center", gap: 6 }}>
+                          <span>{d.icon}</span>
+                          <span style={{ fontSize: 12 }}>{d.label}</span>
+                        </div>
+                        <div style={{ display: "flex", alignItems: "baseline", gap: 4 }}>
+                          <span style={{ fontSize: 28, fontWeight: 700, color: dim.valor >= 70 ? "#4ade80" : dim.valor >= 40 ? "#eab308" : "#f87171", lineHeight: 1 }}>
+                            {dim.valor}
+                          </span>
+                          <span style={{ fontSize: 12, color: "var(--text-secondary)" }}>/100</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })()}
+
             {/* O que falta — só prioridade ALTA, máximo 4 */}
             {(() => {
               const itensAlta = analiseData.json_o_que_falta?.o_que_falta
