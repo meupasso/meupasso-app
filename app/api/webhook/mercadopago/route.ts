@@ -159,10 +159,10 @@ export async function POST(req: NextRequest) {
       }
 
       if (status === "approved") {
-        // Marcar como pago
+        // Marcar como pago (pagamento REAL via Mercado Pago)
         const { error } = await supabase
           .from("analises_empregabilidade")
-          .update({ pago: true })
+          .update({ pago: true, pago_em: new Date().toISOString() })
           .eq("id", analiseId);
 
         if (error) {

@@ -122,7 +122,7 @@ function Dashboard() {
   useEffect(() => {
     Promise.all([
       fetch("/api/admin/dashboard").then(r => r.json()),
-      supabase.from("analises_empregabilidade").select("id, pago, criado_em"),
+      supabase.from("analises_empregabilidade").select("id, pago, pago_em, criado_em"),
     ]).then(([d, { data: a }]) => {
       setDados(d);
       setAnalises(a || []);
@@ -133,12 +133,11 @@ function Dashboard() {
   if (carregando) return <p style={{ color: "var(--text-secondary)" }}>Carregando...</p>;
   if (!dados) return <p style={{ color: "#ef4444" }}>Erro ao carregar dados.</p>;
 
-  // Calcular receita do mês
+  // Calcular receita do mês (só pagamentos REAIS com pago_em preenchido)
   const hoje = new Date();
   const inicioMes = new Date(hoje.getFullYear(), hoje.getMonth(), 1).toISOString();
-  const analisesMes = (analises || []).filter((a: any) => a.criado_em >= inicioMes);
-  const pagasMes = analisesMes.filter((a: any) => a.pago).length;
-  const receitaRaioX = pagasMes * 19.90;
+  const pagasReais = (analises || []).filter((a: any) => a.pago_em && a.pago_em >= inicioMes);
+  const receitaRaioX = pagasReais.length * 19.90;
   const totalAnalises = analises?.length || 0;
   const totalPagas = analises?.filter((a: any) => a.pago).length || 0;
   const taxaConversao = totalAnalises > 0 ? ((totalPagas / totalAnalises) * 100).toFixed(1) : "0";
