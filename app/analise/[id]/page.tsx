@@ -1312,9 +1312,12 @@ function RelatorioPage() {
                   <span style={{ marginRight: 8 }}>👣</span>Próximos passos
                 </h3>
                 <ol style={{ margin: 0, paddingLeft: 20 }}>
-                  {r.proximos_passos.map((passo, i) => (
-                    <li key={i} style={{ color: "var(--text-primary)", fontSize: 14, marginBottom: 8, lineHeight: 1.6 }}>{passo}</li>
-                  ))}
+                  {r.proximos_passos.map((passo, i) => {
+                    const texto = typeof passo === "string" ? passo : (passo as any)?.descricao || JSON.stringify(passo);
+                    return (
+                      <li key={i} style={{ color: "var(--text-primary)", fontSize: 14, marginBottom: 8, lineHeight: 1.6 }}>{texto}</li>
+                    );
+                  })}
                 </ol>
               </div>
             )}
