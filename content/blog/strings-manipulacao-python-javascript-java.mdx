@@ -1,0 +1,185 @@
+---
+title: 'Manipulação de Strings: Python vs JavaScript vs Java (Comparação Direta)'
+date: '2026-06-26'
+tags: ['programação', 'strings', 'python', 'javascript', 'java', 'iniciantes']
+description: 'Aprenda a manipular strings em Python, JavaScript e Java com exemplos práticos. Domine concatenação, busca, substituição e muito mais.'
+---
+
+Manipular texto é uma das tarefas mais comuns em programação. Se você está aprendendo Python, JavaScript ou Java, precisa saber como cortar, juntar e procurar palavras dentro de strings. Vou mostrar exemplos reais e funcionais nas três linguagens, lado a lado.
+
+## Concatenação e Interpolação
+
+A forma mais básica de manipular strings é juntá-las. Cada linguagem tem sua sintaxe.
+
+```python
+# Python - concatenação simples e f-strings
+nome = "João"
+idade = 25
+mensagem1 = "Olá, " + nome + "! Você tem " + str(idade) + " anos."
+mensagem2 = f"Olá, {nome}! Você tem {idade} anos."
+print(mensagem2)
+# Saída: Olá, João! Você tem 25 anos.
+```
+
+```javascript
+// JavaScript - template literals (crases)
+let nome = "João";
+let idade = 25;
+let mensagem1 = "Olá, " + nome + "! Você tem " + idade + " anos.";
+let mensagem2 = `Olá, ${nome}! Você tem ${idade} anos.`;
+console.log(mensagem2);
+// Saída: Olá, João! Você tem 25 anos.
+```
+
+```java
+// Java - concatenação com + e String.format
+String nome = "João";
+int idade = 25;
+String mensagem1 = "Olá, " + nome + "! Você tem " + idade + " anos.";
+String mensagem2 = String.format("Olá, %s! Você tem %d anos.", nome, idade);
+System.out.println(mensagem2);
+// Saída: Olá, João! Você tem 25 anos.
+```
+
+Em Python e JavaScript, as f-strings e template literals são mais legíveis. Em Java, o `String.format` é seu melhor amigo para interpolação. Evite concatenação com `+` em loops grandes — é lento em todas as três.
+
+## Buscar Substrings e Caracteres
+
+Saber se uma palavra existe dentro de outra é essencial para validações.
+
+```python
+# Python - in e find
+texto = "O gato subiu no telhado"
+print("gato" in texto)       # True
+print(texto.find("gato"))    # 2 (posição onde começa)
+print(texto.index("gato"))   # 2 (idem, mas levanta erro se não achar)
+```
+
+```javascript
+// JavaScript - includes e indexOf
+let texto = "O gato subiu no telhado";
+console.log(texto.includes("gato"));  // true
+console.log(texto.indexOf("gato"));   // 2
+console.log(texto.search("gato"));    // 2 (aceita regex)
+```
+
+```java
+// Java - contains e indexOf
+String texto = "O gato subiu no telhado";
+System.out.println(texto.contains("gato"));  // true
+System.out.println(texto.indexOf("gato"));   // 2
+```
+
+Diferença importante: Python tem `find` (retorna -1 se não achar) e `index` (lança exceção). JavaScript e Java usam `indexOf` que retorna -1. Sempre verifique o retorno antes de usar a posição.
+
+## Extrair Partes da String
+
+Cortar texto é comum quando você precisa de partes específicas, como nomes de arquivos ou trechos de URLs.
+
+```python
+# Python - slicing
+url = "https://meupasso.com.br/blog/strings"
+protocolo = url[:8]       # "https://"
+dominio = url[8:25]      # "meupasso.com.br"
+caminho = url[25:]       # "/blog/strings"
+print(f"Domínio extraído: {dominio}")
+
+# Python - split
+partes = url.split("/")
+print(partes[-1])        # "strings"
+```
+
+```javascript
+// JavaScript - slice
+let url = "https://meupasso.com.br/blog/strings";
+let protocolo = url.slice(0, 8);    // "https://"
+let dominio = url.slice(8, 25);     // "meupasso.com.br"
+let caminho = url.slice(25);        // "/blog/strings"
+
+// JavaScript - split
+let partes = url.split("/");
+console.log(partes[partes.length - 1]);  // "strings"
+```
+
+```java
+// Java - substring
+String url = "https://meupasso.com.br/blog/strings";
+String protocolo = url.substring(0, 8);    // "https://"
+String dominio = url.substring(8, 25);    // "meupasso.com.br"
+String caminho = url.substring(25);       // "/blog/strings"
+
+// Java - split
+String[] partes = url.split("/");
+System.out.println(partes[partes.length - 1]);  // "strings"
+```
+
+O `slice` do JavaScript e o `substring` do Java funcionam de forma similar. O `split` é idêntico em todas: retorna um array de strings.
+
+## Substituir e Limpar Texto
+
+Trocar palavras e remover espaços extras são operações do dia a dia.
+
+```python
+# Python - replace e strip
+frase = "  Olá,   mundo!  "
+limpa = frase.strip()                    # "Olá,   mundo!"
+sem_espacos = " ".join(limpa.split())    # "Olá, mundo!" (remove espaços extras)
+trocada = limpa.replace("mundo", "Python")
+print(trocada)  # "Olá,   Python!"
+```
+
+```javascript
+// JavaScript - replace e trim
+let frase = "  Olá,   mundo!  ";
+let limpa = frase.trim();                    // "Olá,   mundo!"
+let sem_espacos = limpa.replace(/\s+/g, " "); // "Olá, mundo!"
+let trocada = limpa.replace("mundo", "JavaScript");
+console.log(trocada);  // "Olá,   JavaScript!"
+```
+
+```java
+// Java - replace e trim
+String frase = "  Olá,   mundo!  ";
+String limpa = frase.trim();                      // "Olá,   mundo!"
+String sem_espacos = limpa.replaceAll("\\s+", " "); // "Olá, mundo!"
+String trocada = limpa.replace("mundo", "Java");
+System.out.println(trocada);  // "Olá,   mundo!"
+```
+
+Para remover espaços extras, Python usa `split()` + `join()`, JavaScript usa regex, e Java usa `replaceAll` com regex. O `trim` só tira espaços nas bordas.
+
+## Case e Verificações
+
+Mudar maiúsculas/minúsculas e validar formato é útil para comparações.
+
+```python
+# Python - upper, lower, isalpha, startswith
+email = "Usuario@Exemplo.com"
+print(email.lower())                 # "usuario@exemplo.com"
+print(email.startswith("Usuario"))   # True
+print("abc123".isalpha())            # False (tem número)
+```
+
+```javascript
+// JavaScript - toUpperCase, toLowerCase, startsWith, test
+let email = "Usuario@Exemplo.com";
+console.log(email.toLowerCase());            // "usuario@exemplo.com"
+console.log(email.startsWith("Usuario"));    // true
+console.log(/^[a-zA-Z]+$/.test("abc123"));   // false
+```
+
+```java
+// Java - toLowerCase, startsWith, matches
+String email = "Usuario@Exemplo.com";
+System.out.println(email.toLowerCase());         // "usuario@exemplo.com"
+System.out.println(email.startsWith("Usuario")); // true
+System.out.println("abc123".matches("[a-zA-Z]+")); // false
+```
+
+Python e JavaScript têm `isalpha()` e `test()` para verificar se só tem letras. Java usa `matches()` com regex. Para comparar strings ignorando maiúsculas, use `equalsIgnoreCase()` em Java ou `.lower()` antes de comparar nas outras.
+
+## Conclusão
+
+Agora você já sabe manipular strings nas três linguagens mais populares. A base é a mesma: concatenação, busca, extração, substituição e limpeza. A diferença está na sintaxe e nos métodos específicos.
+
+Para praticar mais, recomendo o **[MeuPasso (meupasso.com.br)](https://meupasso.com.br)**, onde você encontra desafios interativos de programação. Lá você pode testar esses exemplos e
