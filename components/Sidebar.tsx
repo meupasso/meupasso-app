@@ -133,17 +133,23 @@ function MoonIcon() {
   );
 }
 
-const links = [
+const linksSempreVisiveis = [
   { href: "/", label: "Início", icon: HomeIcon },
   { href: "/exercicios", label: "Exercícios", icon: ListIcon },
   { href: "/projetos", label: "Projetos", icon: RocketIcon },
   { href: "/analise", label: "Raio-X", icon: ChartIcon },
-  { href: "/revisao", label: "Revisão", icon: ReviewIcon },
+];
+
+const linksRecolhiveis = [
   { href: "/trilhas", label: "Trilhas", icon: PathIcon },
+  { href: "/revisao", label: "Revisão", icon: ReviewIcon },
   { href: "/perfil", label: "Progresso", icon: ChartIcon },
   { href: "/notas", label: "Notas", icon: NoteIcon },
   { href: "/gerador", label: "Gerador", icon: DiceIcon },
   { href: "/guias", label: "Guias", icon: BookIcon },
+];
+
+const linksRodape = [
   { href: "/blog", label: "Blog", icon: BlogIcon },
   { href: "/vagas", label: "Vagas", icon: BriefcaseIcon },
 ];
@@ -155,6 +161,8 @@ export default function Sidebar() {
   const [userName, setUserName] = useState<string | null>(null);
   const [streakAtual, setStreakAtual] = useState(0);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isPro, setIsPro] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
   const { theme, toggle } = useTheme();
@@ -178,7 +186,21 @@ export default function Sidebar() {
     setMobileOpen(false);
   }, [pathname]);
 
-  // Auth state
+  // Estado expanded do localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem("sidebar_expanded");
+    if (saved === "true") setExpanded(true);
+  }, []);
+
+  function toggleExpanded() {
+    setExpanded((prev) => {
+      const next = !prev;
+      localStorage.setItem("sidebar_expanded", String(next));
+      return next;
+    });
+  }
+
+  // Auth state + carregar plano
   useEffect(() => {
     async function loadUser() {
       const { data: { session } } = await supabase.auth.getSession();
@@ -189,6 +211,14 @@ export default function Sidebar() {
         if (session.user.email === "caiomvital@gmail.com") setIsAdmin(true);
         carregarStreak();
         carregarNomePerfil(session.user.id);
+        // Verificar se é Pro
+        const { data: perfil } = await supabase
+          .from("perfis")
+          .select("plano, pro_expiracao")
+          .eq("id", session.user.id)
+          .single();
+        const proValido = perfil?.plano?.toLowerCase() === "pro" && (!perfil?.pro_expiracao || new Date(perfil.pro_expiracao) >= new Date(new Date().toDateString()));
+        setIsPro(!!proValido);
       }
     }
     loadUser();
@@ -336,8 +366,9 @@ export default function Sidebar() {
           </button>
         </div>
 
-        <nav style={{ flex: 1, padding: "0.75rem 0.5rem", display: "flex", flexDirection: "column", gap: "0.25rem" }}>
-          {links.map((link) => {
+        <nav style={{ flex: 1, padding: "0.75rem 0.5rem", display: "flex", flexDirection: "column", gap: "0.25rem", overflow: "hidden" }}>
+          {/* Itens sempre visíveis */}
+          {linksSempreVisiveis.map((link) => {
             const active = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
             return (
               <Link
@@ -358,18 +389,165 @@ export default function Sidebar() {
                   textDecoration: "none",
                   transition: "background 0.15s",
                 }}
-                onMouseEnter={(e) => {
-                  if (!active) e.currentTarget.style.background = "var(--bg-card)";
+                onMouseEnter={(e) => { if (!active) e.currentTarget.style.background = "var(--bg-card)"; }}
+                onMouseLeave={(e) => { if (!active) e.currentTarget.style.background = "transparent"; }}
+              >
+                <link.icon />
+                {!collapsed && (
+                  <span style={{ display: "flex", alignItems: "center", gap: "0.375rem" }}>
+                    {link.label}
+                    {link.href === "/analise" && !isPro && (
+                      <span style={{ fontSize: "0.6rem", fontWeight: 700, padding: "0.1rem 0.375rem", borderRadius: "0.25rem", background: "linear-gradient(135deg, #f97316, #ef4444)", color: "#fff", lineHeight: "1.2" }}>
+                        ✨ Novo
+                      </span>
+                    )}
+                  </span>
+                )}
+              </Link>
+            );
+          })}
+
+          {/* CTA Pro (apenas usuários free) */}
+          {user && !isPro && !collapsed && (
+            <div style={{
+              margin: "0.5rem 0 0.25rem",
+              padding: "0.625rem 0.75rem",
+              borderRadius: "0.5rem",
+              background: "linear-gradient(135deg, rgba(86,156,214,0.08), rgba(59,130,246,0.05))",
+              border: "1px solid rgba(86,156,214,0.15)",
+            }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.375rem" }}>
+                <span style={{ fontSize: "1rem" }}>🚀</span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: "0.8125rem", fontWeight: 600, color: "var(--text-primary)", lineHeight: 1.2 }}>Seja Pro</div>
+                  <div style={{ fontSize: "0.65rem", color: "var(--text-secondary)", lineHeight: 1.2 }}>Projetos + Tutor ilimitados</div>
+                </div>
+              </div>
+              <a
+                href="/assinatura"
+                style={{
+                  display: "block",
+                  textAlign: "center",
+                  padding: "0.375rem 0",
+                  fontSize: "0.7rem",
+                  fontWeight: 700,
+                  background: "var(--accent)",
+                  color: "#fff",
+                  borderRadius: "0.375rem",
+                  textDecoration: "none",
                 }}
-                onMouseLeave={(e) => {
-                  if (!active) e.currentTarget.style.background = "transparent";
+              >
+                Assinar — R$ 27,90/mês
+              </a>
+            </div>
+          )}
+
+          {/* Separador + Ver mais / Ver menos */}
+          {!collapsed && (
+            <button
+              onClick={toggleExpanded}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                width: "100%",
+                padding: "0.5rem 0.75rem",
+                borderRadius: "0.375rem",
+                background: "none",
+                border: "none",
+                color: "var(--text-secondary)",
+                fontSize: "0.8125rem",
+                fontWeight: 500,
+                cursor: "pointer",
+                textAlign: "left",
+                transition: "color 0.15s",
+                marginTop: "0.125rem",
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.color = "var(--text-primary)"}
+              onMouseLeave={(e) => e.currentTarget.style.color = "var(--text-secondary)"}
+            >
+              <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" style={{ transform: expanded ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }}>
+                <path d="M5 8l5 5 5-5" />
+              </svg>
+              {expanded ? "Ver menos" : "Ver mais"}
+            </button>
+          )}
+
+          {/* Itens recolhíveis */}
+          <div style={{
+            overflow: "hidden",
+            maxHeight: expanded ? "400px" : "0px",
+            opacity: expanded ? 1 : 0,
+            transition: "max-height 0.2s ease, opacity 0.2s ease",
+          }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
+              {linksRecolhiveis.map((link) => {
+                const active = pathname.startsWith(link.href);
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.75rem",
+                      padding: "0.625rem 0.75rem",
+                      borderRadius: "0.375rem",
+                      color: active ? "var(--accent)" : "var(--text-secondary)",
+                      background: active ? "var(--bg-card)" : "transparent",
+                      fontSize: "0.9375rem",
+                      fontWeight: active ? 600 : 400,
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textDecoration: "none",
+                      transition: "background 0.15s",
+                    }}
+                    onMouseEnter={(e) => { if (!active) e.currentTarget.style.background = "var(--bg-card)"; }}
+                    onMouseLeave={(e) => { if (!active) e.currentTarget.style.background = "transparent"; }}
+                  >
+                    <link.icon />
+                    {!collapsed && <span>{link.label}</span>}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Separador */}
+          <div style={{ flex: 1 }} />
+
+          {/* Blog e Vagas (sempre no final) */}
+          {linksRodape.map((link) => {
+            const active = pathname.startsWith(link.href);
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.75rem",
+                  padding: "0.625rem 0.75rem",
+                  borderRadius: "0.375rem",
+                  color: active ? "var(--accent)" : "var(--text-secondary)",
+                  background: active ? "var(--bg-card)" : "transparent",
+                  fontSize: "0.9375rem",
+                  fontWeight: active ? 600 : 400,
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textDecoration: "none",
+                  transition: "background 0.15s",
                 }}
+                onMouseEnter={(e) => { if (!active) e.currentTarget.style.background = "var(--bg-card)"; }}
+                onMouseLeave={(e) => { if (!active) e.currentTarget.style.background = "transparent"; }}
               >
                 <link.icon />
                 {!collapsed && <span>{link.label}</span>}
               </Link>
             );
           })}
+
+          {/* Admin */}
           {isAdmin && (
             <Link
               href="/admin"
@@ -387,21 +565,15 @@ export default function Sidebar() {
                 overflow: "hidden",
                 textDecoration: "none",
                 transition: "background 0.15s",
-                marginTop: "0.25rem",
               }}
-              onMouseEnter={(e) => {
-                if (!pathname.startsWith("/admin")) e.currentTarget.style.background = "var(--bg-card)";
-              }}
-              onMouseLeave={(e) => {
-                if (!pathname.startsWith("/admin")) e.currentTarget.style.background = "transparent";
-              }}
+              onMouseEnter={(e) => { if (!pathname.startsWith("/admin")) e.currentTarget.style.background = "var(--bg-card)"; }}
+              onMouseLeave={(e) => { if (!pathname.startsWith("/admin")) e.currentTarget.style.background = "transparent"; }}
             >
               <span style={{ fontSize: "1.1rem" }}>⚙️</span>
               {!collapsed && <span>Admin</span>}
             </Link>
           )}
         </nav>
-
         {/* Auth area */}
         <div
           style={{
