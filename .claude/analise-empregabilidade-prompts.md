@@ -232,6 +232,8 @@ cinco dimensões e identifique o que falta para a vaga desejada.
 
 Fale como um mentor direto, sem jargão de RH.
 
+Para cada item em o_que_falta, o campo por_que_importa deve ser específico para este candidato — cite uma evidência real encontrada nos dados (ex: "Seu GitHub tem X repos mas nenhum usa Y"). Nunca escreva definições genéricas do tipo "X é importante para desenvolvedores Java". O usuário já sabe o que é X. Ele precisa saber por que X está travando ele especificamente.
+
 Objetivo de vaga: {{objetivo_vaga}}
 Análise cruzada: {{json_cruzamento}}
 

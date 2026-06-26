@@ -28,9 +28,13 @@ export async function GET() {
     svc.from("vagas").select("*", { count: "exact", head: true }).eq("ativa", true),
   ]);
 
-  // Contar assinantes Pro considerando expiração
+  // Contar assinantes Pro pagantes (sem pro_expiracao = veio do Mercado Pago)
+  // Pro concedido pelo admin SEMPRE tem pro_expiracao
   const { data: todosPerfis } = await svc.from("perfis").select("plano, pro_expiracao");
-  const assinantesPro = (todosPerfis || []).filter((p: any) =>
+  const assinantesProPagantes = (todosPerfis || []).filter((p: any) =>
+    p.plano?.toLowerCase() === "pro" && !p.pro_expiracao
+  ).length;
+  const assinantesProTotais = (todosPerfis || []).filter((p: any) =>
     p.plano?.toLowerCase() === "pro" && (!p.pro_expiracao || p.pro_expiracao >= hoje)
   ).length;
 
@@ -68,7 +72,8 @@ export async function GET() {
 
   return NextResponse.json({
     totalUsuarios: totalUsuarios || 0,
-    assinantesPro: assinantesPro || 0,
+    assinantesPro: assinantesProPagantes || 0,
+    assinantesProTotal: assinantesProTotais || 0,
     exerciciosConcluidos: exerciciosConcluidos || 0,
     totalExercicios: totalExercicios || 0,
     totalProjetos: totalProjetos || 0,

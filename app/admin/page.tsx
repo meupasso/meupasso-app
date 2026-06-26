@@ -139,15 +139,18 @@ function Dashboard() {
   const analisesMes = (analises || []).filter((a: any) => a.criado_em >= inicioMes);
   const pagasMes = analisesMes.filter((a: any) => a.pago).length;
   const receitaRaioX = pagasMes * 19.90;
-  const receitaPro = (dados.assinantesPro || 0) * 27.90;
-  const receitaTotal = receitaRaioX + receitaPro;
   const totalAnalises = analises?.length || 0;
   const totalPagas = analises?.filter((a: any) => a.pago).length || 0;
   const taxaConversao = totalAnalises > 0 ? ((totalPagas / totalAnalises) * 100).toFixed(1) : "0";
 
+  const proPagantes = dados.assinantesPro || 0;
+  const proTotal = dados.assinantesProTotal || 0;
+  const receitaPro = proPagantes * 27.90;
+  const receitaTotal = receitaRaioX + receitaPro;
+
   const cards = [
     { icon: "👥", label: "Usuários", value: dados.totalUsuarios },
-    { icon: "⭐", label: "Assinantes Pro", value: dados.assinantesPro },
+    { icon: "⭐", label: "Assinantes Pro", value: proPagantes, hint: proTotal > proPagantes ? `(+${proTotal - proPagantes} admin)` : "" },
     { icon: "💰", label: "Receita do mês", value: `R$ ${receitaTotal.toFixed(0)}` },
     { icon: "📈", label: "MRR", value: `R$ ${receitaPro.toFixed(0)}` },
     { icon: "✅", label: "Exerc. Concluídos", value: dados.exerciciosConcluidos },
@@ -166,6 +169,7 @@ function Dashboard() {
             <div style={{ fontSize: "2rem", marginBottom: "0.25rem" }}>{c.icon}</div>
             <div style={{ fontSize: "1.75rem", fontWeight: 700, color: "var(--text-primary)" }}>{c.value}</div>
             <div style={{ fontSize: "0.75rem", color: "var(--text-secondary)" }}>{c.label}</div>
+            {c.hint && <div style={{ fontSize: "0.6rem", color: "var(--accent)", marginTop: "0.125rem" }}>{c.hint}</div>}
           </div>
         ))}
       </div>
@@ -1049,13 +1053,21 @@ function SecaoUsuarios() {
 
   useEffect(() => { carregar(); }, []);
 
-  async function impersonar(email: string) {
+  async function impersonar(userId: string) {
     setImpersonando(true);
     try {
-      // Magic link com redirect
-      const { error } = await supabase.auth.signInWithOtp({ email, options: { shouldCreateUser: false } });
-      if (error) alert("Erro: " + error.message);
-      else alert(`Link de acesso enviado para ${email}. Verifique o email.`);
+      const res = await fetch("/api/admin/impersonar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_id: userId }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        alert("Erro: " + (data.error || "Falha ao impersonar"));
+      } else {
+        // Abre o link em nova aba — ao clicar, o admin fica logado como o usuário
+        window.open(data.link, "_blank");
+      }
     } catch { alert("Erro ao impersonar."); }
     setImpersonando(false);
   }
@@ -1160,7 +1172,7 @@ function SecaoUsuarios() {
                           ))}
                         </div>
                       )}
-                      <button onClick={() => impersonar(u.email)} disabled={impersonando}
+                      <button onClick={() => impersonar(u.id)} disabled={impersonando}
                         style={{ padding: "0.2rem 0.4rem", fontSize: "0.65rem", background: "transparent", color: "var(--accent)", border: "1px solid var(--accent)", borderRadius: "0.25rem", cursor: impersonando ? "not-allowed" : "pointer", opacity: impersonando ? 0.5 : 1, marginLeft: "0.25rem" }}>
                         🔍
                       </button>
