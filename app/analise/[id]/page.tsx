@@ -1019,6 +1019,7 @@ export default function RelatorioPage() {
   const [pagamentoOk, setPagamentoOk] = useState(statusParam === "success");
   const [erro, setErro] = useState("");
   const [mostrarSecao, setMostrarSecao] = useState<Record<string, boolean>>({});
+  const [pollTimeout, setPollTimeout] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -1048,7 +1049,9 @@ export default function RelatorioPage() {
       setAnalise(data);
 
       if (statusParam === "success" && !data.pago) {
+        // Polling por até 30s (10 tentativas a cada 3s)
         let tentativas = 0;
+        const maxTentativas = 10;
         const pollPago = setInterval(async () => {
           tentativas++;
           const { data: updated } = await supabase
@@ -1065,8 +1068,9 @@ export default function RelatorioPage() {
             }
             clearInterval(pollPago);
             setLoading(false);
-          } else if (tentativas >= 5) {
+          } else if (tentativas >= maxTentativas) {
             clearInterval(pollPago);
+            setPollTimeout(true);
             setLoading(false);
           }
         }, 3000);
@@ -1131,15 +1135,43 @@ export default function RelatorioPage() {
     return (
       <div style={pageStyle}>
         <div style={centerBox}>
-          <span style={{ fontSize: 48, marginBottom: 16 }}>🔒</span>
-          <h2 style={{ color: "var(--text-primary)", margin: "0 0 8px" }}>Relatório bloqueado</h2>
-          <p style={{ color: "var(--text-secondary)", marginBottom: 8 }}>
-            {statusParam === "success" ? "Seu pagamento está sendo processado." : "Você ainda não desbloqueou o relatório completo."}
-          </p>
-          {statusParam === "success" ? (
-            <button onClick={() => window.location.reload()} style={primaryBtn}>Tentar novamente</button>
+          {statusParam === "failure" ? (
+            <>
+              <span style={{ fontSize: 48, marginBottom: 16 }}>❌</span>
+              <h2 style={{ color: "#f87171", margin: "0 0 8px" }}>Pagamento não concluído</h2>
+              <p style={{ color: "var(--text-secondary)", marginBottom: 24, maxWidth: 400, lineHeight: 1.5 }}>
+                O pagamento não foi concluído. Você pode tentar novamente quando quiser — seus dados estão salvos.
+              </p>
+              <Link href="/analise" style={primaryBtn}>Tentar novamente</Link>
+            </>
+          ) : pollTimeout ? (
+            <>
+              <span style={{ fontSize: 48, marginBottom: 16 }}>⏳</span>
+              <h2 style={{ color: "var(--text-primary)", margin: "0 0 8px" }}>Aguardando confirmação do pagamento</h2>
+              <p style={{ color: "var(--text-secondary)", marginBottom: 24, maxWidth: 400, lineHeight: 1.5 }}>
+                A confirmação pode levar alguns instantes. Se o problema persistir, entre em contato conosco.
+              </p>
+              <button onClick={() => window.location.reload()} style={primaryBtn}>Verificar novamente</button>
+            </>
+          ) : statusParam === "success" ? (
+            <>
+              <div style={{ ...successBannerStyle, marginBottom: 24 }}>
+                <span style={{ fontSize: 24 }}>🎉</span>
+                <span style={{ fontWeight: 600 }}>Pagamento confirmado!</span>
+                <span style={{ fontSize: 14, opacity: 0.85 }}>Carregando seu relatório...</span>
+              </div>
+              <div style={{ color: "var(--accent)", fontSize: 32 }} className="spin">●</div>
+              <p style={{ color: "var(--text-secondary)", marginTop: 16 }}>Aguardando confirmação...</p>
+            </>
           ) : (
-            <Link href="/analise" style={primaryBtn}>Voltar</Link>
+            <>
+              <span style={{ fontSize: 48, marginBottom: 16 }}>🔒</span>
+              <h2 style={{ color: "var(--text-primary)", margin: "0 0 8px" }}>Relatório bloqueado</h2>
+              <p style={{ color: "var(--text-secondary)", marginBottom: 24 }}>
+                Faça o pagamento de R$ 19,90 para desbloquear o relatório completo.
+              </p>
+              <Link href="/analise" style={primaryBtn}>Voltar</Link>
+            </>
           )}
         </div>
       </div>

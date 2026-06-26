@@ -137,6 +137,7 @@ const links = [
   { href: "/", label: "Início", icon: HomeIcon },
   { href: "/exercicios", label: "Exercícios", icon: ListIcon },
   { href: "/projetos", label: "Projetos", icon: RocketIcon },
+  { href: "/analise", label: "Análise", icon: ChartIcon },
   { href: "/revisao", label: "Revisão", icon: ReviewIcon },
   { href: "/trilhas", label: "Trilhas", icon: PathIcon },
   { href: "/perfil", label: "Progresso", icon: ChartIcon },

@@ -57,19 +57,16 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         items: [
           {
-            title: "Análise de Empregabilidade MeuPasso",
-            description: "Relatório completo com reescrita de currículo, LinkedIn, plano de estudos e vagas compatíveis.",
+            title: "Análise de Empregabilidade — MeuPasso",
+            description: "Relatório completo com diagnóstico, reescrita de currículo e LinkedIn, visão do recrutador, plano de estudos e vagas compatíveis.",
             quantity: 1,
             unit_price: 19.9,
             currency_id: "BRL",
           },
         ],
-        payer: {
-          email: undefined, // will be collected by MP
-        },
         back_urls: {
           success: `${baseUrl}/analise/${id}?status=success`,
-          failure: `${baseUrl}/analise?status=failure`,
+          failure: `${baseUrl}/analise/${id}?status=failure`,
           pending: `${baseUrl}/analise/${id}?status=pending`,
         },
         auto_return: "approved",
