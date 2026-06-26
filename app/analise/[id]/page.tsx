@@ -1038,14 +1038,25 @@ export default function RelatorioPage() {
       }
       setAutenticado(true);
 
-      const { data, error } = await supabase
+      let { data, error } = await supabase
         .from("analises_empregabilidade")
         .select("*")
         .eq("id", id)
         .eq("user_id", user.id)
         .single();
 
+      // Admin bypass: se não encontrou e é admin, busca via service role
       if (error || !data) {
+        if (user.email === "caiomvital@gmail.com") {
+          try {
+            const res = await fetch("/api/admin/analises");
+            const todas = await res.json();
+            data = (todas || []).find((a: any) => a.id === id) || null;
+          } catch {}
+        }
+      }
+
+      if (!data) {
         setErro("Análise não encontrada");
         setLoading(false);
         return;
