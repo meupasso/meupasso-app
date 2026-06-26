@@ -710,14 +710,13 @@ function SecaoAnalises() {
 
   function carregar() {
     setCarregando(true);
-    const svc = createClient();
-    svc.from("analises_empregabilidade")
-      .select("*, users:user_id(email, nome)")
-      .order("criado_em", { ascending: false })
-      .then(({ data }: any) => {
+    fetch("/api/admin/analises")
+      .then(r => r.json())
+      .then((data) => {
         if (data) setAnalises(data);
         setCarregando(false);
-      });
+      })
+      .catch(() => setCarregando(false));
   }
 
   useEffect(() => { carregar(); }, []);
@@ -753,9 +752,13 @@ function SecaoAnalises() {
   async function liberarAcesso(id: string) {
     setLiberando(id);
     try {
-      const db = createClient();
-      const { error } = await db.from("analises_empregabilidade").update({ pago: true }).eq("id", id);
-      if (error) alert("Erro: " + error.message);
+      const res = await fetch("/api/admin/analises", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, pago: true }),
+      });
+      const data = await res.json();
+      if (!res.ok) alert("Erro: " + (data.error || "Falha"));
       else carregar();
     } catch { alert("Erro ao liberar acesso."); }
     setLiberando(null);
