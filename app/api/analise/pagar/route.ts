@@ -3,7 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 
 /**
  * Cria uma preferência de pagamento no Mercado Pago Checkout Pro
- * para a Análise de Empregabilidade (R$ 19,90 avulso).
+ * para o Raio-X de Carreira (R$ 19,90 avulso).
  *
  * POST /api/analise/pagar
  * Body: { id: "uuid-da-analise" }
@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         items: [
           {
-            title: "Análise de Empregabilidade — MeuPasso",
+            title: "Raio-X de Carreira — MeuPasso",
             description: "Relatório completo com diagnóstico, reescrita de currículo e LinkedIn, visão do recrutador, plano de estudos e vagas compatíveis.",
             quantity: 1,
             unit_price: 19.9,

@@ -135,7 +135,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Análise de Empregabilidade */}
+      {/* Raio-X de Carreira */}
       <section style={{ ...secaoStyle, background: "rgba(86,156,214,0.04)", borderRadius: "2rem", marginTop: "3rem", marginBottom: "1rem", paddingBottom: "4rem", border: "1px solid rgba(86,156,214,0.08)" }}>
         <div style={{ textAlign: "center" as const }}>
           <span style={{ display: "inline-block", fontSize: "0.65rem", fontWeight: 700, padding: "0.25rem 0.75rem", borderRadius: "9999px", background: "linear-gradient(135deg, #f97316, #ef4444)", color: "#fff", marginBottom: "1rem", letterSpacing: "0.05em", textTransform: "uppercase" as const }}>
@@ -174,7 +174,7 @@ export default async function Home() {
           </div>
           <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
             <Link href="/analise" className="btn-primary" style={{ display: "inline-block", padding: "0.875rem 2rem", borderRadius: "0.5rem", fontWeight: 600, fontSize: "1.0625rem", textDecoration: "none", background: "var(--accent)", color: "#fff" }}>
-              Analisar meu perfil agora →
+              Fazer meu Raio-X agora →
             </Link>
           </div>
           <div style={{ marginTop: "0.75rem" }}>

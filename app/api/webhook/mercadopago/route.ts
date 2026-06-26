@@ -126,7 +126,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    /* --- Pagamento único — Análise de Empregabilidade (payment) --- */
+    /* --- Pagamento único — Raio-X de Carreira (payment) --- */
     if (body.type === "payment" || body.action === "payment.created" || body.action === "payment.updated") {
       const paymentId = body.data?.id;
 
@@ -168,7 +168,7 @@ export async function POST(req: NextRequest) {
         if (error) {
           console.error("Erro ao marcar análise como paga:", error);
         } else {
-          console.log(`✅ Análise ${analiseId} paga — R$ 19,90 aprovado`);
+          console.log(`✅ Raio-X ${analiseId} pago — R$ 19,90 aprovado`);
         }
 
         // Disparar email de notificação

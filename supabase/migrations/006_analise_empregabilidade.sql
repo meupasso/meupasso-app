@@ -1,5 +1,5 @@
 -- Create analises_empregabilidade table
--- Produto standalone de Análise de Empregabilidade, cobrado avulso (R$ 19,90)
+-- Produto standalone de Raio-X de Carreira, cobrado avulso (R$ 19,90)
 CREATE TABLE IF NOT EXISTS analises_empregabilidade (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,

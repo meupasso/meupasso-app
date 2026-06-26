@@ -1,4 +1,4 @@
-# Cadeia de Prompts — Análise de Empregabilidade MeuPasso
+# Cadeia de Prompts — Raio-X de Carreira MeuPasso
 
 ## Visão Geral
 

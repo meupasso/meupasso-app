@@ -305,9 +305,9 @@ export default function AnalisePage() {
       <div style={styles.container}>
         {/* Logo/título */}
         <div style={styles.header}>
-          <h1 style={styles.h1}>Análise de Empregabilidade</h1>
+          <h1 style={styles.h1}>Raio-X de Carreira</h1>
           <p style={styles.subtitle}>
-            Descubra exatamente o que falta para conseguir aquela vaga dos sonhos
+            Descubra exatamente por que você ainda não está sendo chamado para entrevistas.
           </p>
         </div>
 
@@ -682,7 +682,7 @@ export default function AnalisePage() {
                   cursor: pagando ? "not-allowed" : "pointer",
                 }}
               >
-                {pagando ? "Abrindo Mercado Pago..." : `Pagar R$ 19,90`}
+                {pagando ? "Abrindo Mercado Pago..." : `Desbloquear meu Raio-X completo — R$ 19,90`}
               </button>
               <p style={{ color: "var(--text-secondary)", fontSize: 12, textAlign: "center", marginTop: 12 }}>
                 Pagamento único via Mercado Pago. Acesso imediato após confirmação.
@@ -748,7 +748,7 @@ export default function AnalisePage() {
                 cursor: pagando ? "not-allowed" : "pointer",
               }}
             >
-              {pagando ? "Abrindo..." : `Quero meu relatório completo — R$ 19,90`}
+              {pagando ? "Abrindo..." : `Desbloquear meu Raio-X completo — R$ 19,90`}
             </button>
           </div>
         </div>

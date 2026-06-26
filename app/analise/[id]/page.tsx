@@ -1287,7 +1287,7 @@ export default function RelatorioPage() {
             <span style={{ fontSize: 48, marginBottom: 16 }}>📄</span>
             <h2 style={{ color: "var(--text-primary)", margin: "0 0 8px" }}>Relatório não disponível</h2>
             <p style={{ color: "var(--text-secondary)", marginBottom: 24 }}>O relatório final ainda não foi gerado para esta análise.</p>
-            <Link href="/analise" style={primaryBtn}>Fazer nova análise</Link>
+            <Link href="/analise" style={primaryBtn}>Fazer novo Raio-X</Link>
           </div>
         )}
       </div>

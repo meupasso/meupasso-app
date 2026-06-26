@@ -33,7 +33,7 @@ export default function ExemploPage() {
       <div style={containerStyle}>
         {/* Breadcrumb */}
         <Link href="/analise" style={breadcrumbStyle}>
-          ← Voltar para Análise de Empregabilidade
+          ← Voltar para Raio-X de Carreira
         </Link>
 
         <div style={avisoStyle}>

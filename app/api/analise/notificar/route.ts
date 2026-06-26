@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
     await resend.emails.send({
       from: "MeuPasso <contato@meupasso.com.br>",
       to: email,
-      subject: "Seu relatório de empregabilidade está pronto",
+      subject: "Seu Raio-X de Carreira está pronto",
       html: `
         <!DOCTYPE html>
         <html>
@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
                     <td align="center">
                       <h1 style="color: #569cd6; font-size: 24px; margin: 0 0 8px;">Olá, ${nome || "dev"}!</h1>
                       <p style="color: #d4d4d4; font-size: 16px; line-height: 1.6; margin: 0 0 24px;">
-                        Seu <strong style="color: #fff;">Relatório de Empregabilidade</strong> já está disponível!
+                        Seu <strong style="color: #fff;">Raio-X de Carreira</strong> já está disponível!
                       </p>
                     </td>
                   </tr>
@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
       `,
     });
 
-    console.log(`📧 Email enviado para ${email} — análise ${analise_id}`);
+    console.log(`📧 Email enviado para ${email} — raio-x ${analise_id}`);
     return NextResponse.json({ ok: true });
   } catch (error) {
     console.error("Erro ao enviar email:", error);

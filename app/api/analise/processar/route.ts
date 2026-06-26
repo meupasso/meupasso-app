@@ -8,7 +8,7 @@ export const maxDuration = 300; // 5 min timeout for the 10-prompt chain
 const DEEPSEEK_URL = "https://api.deepseek.com/chat/completions";
 const MAX_RETRIES = 1;
 const SYSTEM_CONTEXT =
-  "Você é um assistente especializado em análise de empregabilidade para desenvolvedores no Brasil. Responda sempre em português brasileiro. Retorne APENAS JSON válido, sem markdown, sem explicações, sem backticks.";
+  "Você é um assistente especializado em raio-x de carreira para desenvolvedores no Brasil. Responda sempre em português brasileiro. Retorne APENAS JSON válido, sem markdown, sem explicações, sem backticks.";
 
 /* ---------- types ---------- */
 
@@ -566,7 +566,7 @@ Retorne APENAS o JSON, sem explicações, sem markdown, sem backticks.
 /**
  * POST /api/analise/processar
  *
- * Executa a cadeia completa de 10 prompts da Análise de Empregabilidade.
+ * Executa a cadeia completa de 10 prompts do Raio-X de Carreira.
  *
  * Body: { id: "uuid-da-analise" }
  *
@@ -895,7 +895,7 @@ export async function POST(req: NextRequest) {
 
     /* --- finalizar --- */
     await setStatus("concluido");
-    console.log("🎉 Análise de empregabilidade concluída:", analiseId);
+    console.log("🎉 Raio-X de Carreira concluído:", analiseId);
 
     return NextResponse.json({
       id: analiseId,
