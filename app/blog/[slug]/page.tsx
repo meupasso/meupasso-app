@@ -19,7 +19,7 @@ function formatarData(data: string): string {
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const post = getPost(params.slug);
+  const post = await getPost(params.slug);
   if (!post) return {};
   return {
     title: `${post.titulo} | MeuPasso Blog`,
@@ -33,10 +33,11 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 export default async function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = getPost(params.slug);
+  const post = await getPost(params.slug);
   if (!post) notFound();
 
-  const outros = getPosts().filter((p) => p.slug !== params.slug).slice(0, 2);
+  const todosPosts = await getPosts();
+  const outros = todosPosts.filter((p) => p.slug !== params.slug).slice(0, 2);
 
   return (
     <main style={{ maxWidth: "720px", margin: "0 auto" }}>

@@ -21,8 +21,8 @@ function formatarData(data: string): string {
   }
 }
 
-export default function BlogPage() {
-  const posts = getPosts();
+export default async function BlogPage() {
+  const posts = await getPosts();
 
   return (
     <main style={{ padding: "2rem", maxWidth: "900px", margin: "0 auto" }}>
