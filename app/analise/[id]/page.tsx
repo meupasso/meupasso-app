@@ -1,15 +1,44 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback, Suspense } from "react";
+import { useState, useEffect, useRef, useCallback, Suspense, Component } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
 
+class ErrorBoundary extends Component<{ children: React.ReactNode }, { error: string | null }> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props);
+    this.state = { error: null };
+  }
+  static getDerivedStateFromError(error: Error) {
+    return { error: error.message };
+  }
+  componentDidCatch(error: Error) {
+    console.error("ERRO NA PAGINA:", error.message, error.stack);
+  }
+  render() {
+    if (this.state.error) {
+      return (
+        <div style={{ minHeight: "100vh", background: "var(--bg-primary)", padding: "2rem 1rem", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ textAlign: "center", maxWidth: 400 }}>
+            <span style={{ fontSize: 48 }}>⚠️</span>
+            <h2 style={{ color: "var(--text-primary)", margin: "16px 0 8px" }}>Erro ao carregar</h2>
+            <p style={{ color: "var(--text-secondary)", fontSize: 13, wordBreak: "break-word" }}>{this.state.error}</p>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 export default function RelatorioPageWrapper() {
   return (
-    <Suspense fallback={<div style={pageStyle}><div style={centerBox}><p style={{ color: "var(--text-secondary)" }}>Carregando...</p></div></div>}>
-      <RelatorioPage />
-    </Suspense>
+    <ErrorBoundary>
+      <Suspense fallback={<div style={{ minHeight: "100vh", background: "var(--bg-primary)", padding: "2rem 1rem", display: "flex", alignItems: "center", justifyContent: "center" }}><p style={{ color: "var(--text-secondary)" }}>Carregando...</p></div>}>
+        <RelatorioPage />
+      </Suspense>
+    </ErrorBoundary>
   );
 }
 
