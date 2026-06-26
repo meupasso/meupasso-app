@@ -73,6 +73,10 @@ export default function AnalisePage() {
   const [pagando, setPagando] = useState(false);
   const [popupInativo, setPopupInativo] = useState(false);
   const [pagamentoOk, setPagamentoOk] = useState(false);
+  const [mostrarSeletorRepos, setMostrarSeletorRepos] = useState(false);
+  const [reposDisponiveis, setReposDisponiveis] = useState<any[]>([]);
+  const [reposSelecionados, setReposSelecionados] = useState<string[]>([]);
+  const [carregandoRepos, setCarregandoRepos] = useState(false);
   const pollRef = useRef<NodeJS.Timeout | null>(null);
   const inatividadeRef = useRef<NodeJS.Timeout | null>(null);
   const inatividadeTimerRef = useRef<number>(0);
@@ -142,6 +146,30 @@ export default function AnalisePage() {
     };
   }, []);
 
+  /* --- carregar repositórios do GitHub --- */
+  async function handleCarregarRepos() {
+    if (!github.trim()) return;
+    setCarregandoRepos(true);
+    setMostrarSeletorRepos(true);
+    try {
+      const res = await fetch(`/api/analise/repos?username=${encodeURIComponent(github.trim())}`);
+      const data = await res.json();
+      setReposDisponiveis(data.repos || []);
+    } catch {
+      setReposDisponiveis([]);
+    } finally {
+      setCarregandoRepos(false);
+    }
+  }
+
+  function toggleRepo(nome: string) {
+    setReposSelecionados((prev) => {
+      if (prev.includes(nome)) return prev.filter((r) => r !== nome);
+      if (prev.length >= 5) return prev; // limite
+      return [...prev, nome];
+    });
+  }
+
   /* --- extrair texto de PDF ou DOCX no client-side --- */
   async function extractFileText(file: File): Promise<string> {
     const name = file.name.toLowerCase();
@@ -194,15 +222,20 @@ export default function AnalisePage() {
       setStepStatuses(["done", "done", "current", "pending", "pending", "pending"]);
 
       // 2. Coletar dados + GitHub
+      const bodyColetar: Record<string, any> = {
+        objetivo_vaga: vaga,
+        github_username: github.trim() || undefined,
+        curriculo_texto,
+        linkedin_texto,
+      };
+      if (reposSelecionados.length > 0) {
+        bodyColetar.repos_selecionados = reposSelecionados;
+      }
+
       const coletarRes = await fetch("/api/analise/coletar", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          objetivo_vaga: vaga,
-          github_username: github.trim() || undefined,
-          curriculo_texto,
-          linkedin_texto,
-        }),
+        body: JSON.stringify(bodyColetar),
       });
 
       if (!coletarRes.ok) {
@@ -298,9 +331,113 @@ export default function AnalisePage() {
                 style={styles.input}
                 placeholder="Ex: caiomvital"
                 value={github}
-                onChange={(e) => setGithub(e.target.value)}
+                onChange={(e) => {
+                  setGithub(e.target.value);
+                  setMostrarSeletorRepos(false);
+                  setReposSelecionados([]);
+                }}
                 disabled={enviando}
               />
+              <div style={{ marginTop: 10, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                {github.trim() ? (
+                  <button
+                    type="button"
+                    onClick={handleCarregarRepos}
+                    style={{
+                      background: "transparent",
+                      border: "1px solid var(--border)",
+                      color: "var(--accent)",
+                      borderRadius: 6,
+                      padding: "6px 14px",
+                      fontSize: 13,
+                      fontWeight: 500,
+                      cursor: "pointer",
+                    }}
+                  >
+                    {mostrarSeletorRepos ? "Recarregar repositórios" : "Selecionar repositórios"}
+                  </button>
+                ) : (
+                  <span style={{ fontSize: 12, color: "var(--text-secondary)", fontStyle: "italic" }}>
+                    Preencha o usuário do GitHub primeiro
+                  </span>
+                )}
+                {reposSelecionados.length > 0 && (
+                  <span style={{ fontSize: 12, color: "var(--accent)" }}>
+                    {reposSelecionados.length} repo(s) selecionado(s)
+                  </span>
+                )}
+              </div>
+
+              {/* Seletor de repositórios */}
+              {mostrarSeletorRepos && (
+                <div style={{ marginTop: 12, borderTop: "1px solid var(--border)", paddingTop: 12 }}>
+                  {carregandoRepos ? (
+                    <div style={{ textAlign: "center", padding: "1rem", color: "var(--text-secondary)", fontSize: 13 }}>
+                      Carregando repositórios...
+                    </div>
+                  ) : reposDisponiveis.length === 0 ? (
+                    <div style={{ textAlign: "center", padding: "1rem", color: "var(--text-secondary)", fontSize: 13 }}>
+                      Nenhum repositório público encontrado para este usuário.
+                    </div>
+                  ) : (
+                    <div style={{ display: "flex", flexDirection: "column", gap: 6, maxHeight: 300, overflowY: "auto" }}>
+                      <div style={{ fontSize: 12, color: "var(--text-secondary)", marginBottom: 4, display: "flex", justifyContent: "space-between" }}>
+                        <span>Selecione até 5 repositórios para analisar:</span>
+                        <span style={{ color: reposSelecionados.length >= 5 ? "#f87171" : "var(--text-secondary)" }}>
+                          {reposSelecionados.length}/5
+                        </span>
+                      </div>
+                      {reposDisponiveis.map((repo: any) => {
+                        const selecionado = reposSelecionados.includes(repo.nome);
+                        const limiteAtingido = reposSelecionados.length >= 5 && !selecionado;
+                        return (
+                          <label
+                            key={repo.nome}
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 10,
+                              padding: "8px 10px",
+                              borderRadius: 6,
+                              background: selecionado ? "rgba(86,156,214,0.1)" : "transparent",
+                              border: "1px solid",
+                              borderColor: selecionado ? "rgba(86,156,214,0.3)" : "var(--border)",
+                              cursor: limiteAtingido ? "not-allowed" : "pointer",
+                              opacity: limiteAtingido ? 0.5 : 1,
+                              transition: "all 0.15s",
+                            }}
+                          >
+                            <input
+                              type="checkbox"
+                              checked={selecionado}
+                              disabled={limiteAtingido}
+                              onChange={() => toggleRepo(repo.nome)}
+                              style={{ accentColor: "var(--accent)" }}
+                            />
+                            <div style={{ flex: 1, minWidth: 0 }}>
+                              <div style={{ fontSize: 13, fontWeight: 500, color: "var(--text-primary)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                                {repo.nome}
+                              </div>
+                              <div style={{ display: "flex", gap: 8, fontSize: 11, color: "var(--text-secondary)", marginTop: 2 }}>
+                                {repo.linguagem && <span>🔤 {repo.linguagem}</span>}
+                                {repo.ultimo_commit && (
+                                  <span>📅 {new Date(repo.ultimo_commit).toLocaleDateString("pt-BR")}</span>
+                                )}
+                                {repo.stars > 0 && <span>⭐ {repo.stars}</span>}
+                              </div>
+                            </div>
+                            {limiteAtingido && !selecionado && (
+                              <span style={{ fontSize: 10, color: "var(--text-secondary)", whiteSpace: "nowrap" }}>
+                                Limite 5
+                              </span>
+                            )}
+                          </label>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
 
             <div style={styles.card}>

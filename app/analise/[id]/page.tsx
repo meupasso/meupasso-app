@@ -354,7 +354,7 @@ const DIMENSOES_LABELS: Record<string, { label: string; icon: string; desc: stri
   preparacao_para_vaga: { label: "Preparacao para a Vaga", icon: "🚀", desc: "Compatibilidade com o cargo desejado" },
 };
 
-function SecaoScores({ scores, objetivoVaga }: { scores: any; objetivoVaga?: string }) {
+function SecaoScores({ scores, objetivoVaga, reposAnalisados }: { scores: any; objetivoVaga?: string; reposAnalisados?: string[] }) {
   if (!scores) return null;
   const dims = Object.entries(scores) as [string, any][];
 
@@ -397,6 +397,11 @@ function SecaoScores({ scores, objetivoVaga }: { scores: any; objetivoVaga?: str
                     <span>{c.item}</span>
                   </div>
                 ))}
+              </div>
+            )}
+            {key === "portfolio_tecnico" && reposAnalisados && reposAnalisados.length > 0 && (
+              <div style={{ marginTop: 6, fontSize: 11, color: "var(--text-secondary)", lineHeight: 1.4, padding: "6px 8px", borderRadius: 6, background: "rgba(0,0,0,0.1)" }}>
+                📂 Repositórios analisados: {reposAnalisados.join(", ")}
               </div>
             )}
           </div>
@@ -986,7 +991,7 @@ function renderSecao(secao: Secao, analise: any) {
             <span style={{ marginRight: 8 }}>📊</span>
             {secao.titulo}
           </h3>
-          <SecaoScores scores={scores} objetivoVaga={analise?.objetivo_vaga} />
+          <SecaoScores scores={scores} objetivoVaga={analise?.objetivo_vaga} reposAnalisados={analise?.repos_selecionados} />
         </div>
       );
 
