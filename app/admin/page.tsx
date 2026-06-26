@@ -694,6 +694,7 @@ function SecaoAnalises() {
   const [filtroPago, setFiltroPago] = useState("");
   const [analiseModal, setAnaliseModal] = useState<any | null>(null);
   const [abaJSON, setAbaJSON] = useState("json_curriculo");
+  const [liberando, setLiberando] = useState<string | null>(null);
 
   const JSON_KEYS = [
    { key: "json_curriculo", label: "Currículo" },
@@ -747,6 +748,17 @@ function SecaoAnalises() {
       if (res.ok) { alert("Reprocessamento iniciado!"); carregar(); }
       else { alert("Erro ao reprocessar."); }
     } catch { alert("Erro de rede."); }
+  }
+
+  async function liberarAcesso(id: string) {
+    setLiberando(id);
+    try {
+      const db = createClient();
+      const { error } = await db.from("analises_empregabilidade").update({ pago: true }).eq("id", id);
+      if (error) alert("Erro: " + error.message);
+      else carregar();
+    } catch { alert("Erro ao liberar acesso."); }
+    setLiberando(null);
   }
 
   if (carregando) return <p style={{ color: "var(--text-secondary)" }}>Carregando...</p>;
@@ -855,6 +867,12 @@ function SecaoAnalises() {
                       <button onClick={() => reprocessar(a.id)}
                         style={{ background: "none", border: "none", color: "#fbbf24", cursor: "pointer", fontSize: "0.75rem" }}>
                         ↻
+                      </button>
+                    )}
+                    {!a.pago && (
+                      <button onClick={() => liberarAcesso(a.id)} disabled={liberando === a.id}
+                        style={{ background: "none", border: "none", color: "#4ade80", cursor: "pointer", fontSize: "0.7rem", textDecoration: "underline", opacity: liberando === a.id ? 0.5 : 1 }}>
+                        🔓
                       </button>
                     )}
                   </div>
