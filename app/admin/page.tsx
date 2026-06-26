@@ -932,6 +932,7 @@ function SecaoBlog() {
   const [posts, setPosts] = useState<any[]>([]);
   const [carregando, setCarregando] = useState(true);
   const [aprovando, setAprovando] = useState<string | null>(null);
+  const [criandoPost, setCriandoPost] = useState(false);
 
   function carregar() {
     setCarregando(true);
@@ -957,7 +958,13 @@ function SecaoBlog() {
 
   return (
     <div>
-      <h2 style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--text-primary)", marginBottom: "1.5rem" }}>📰 Blog</h2>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.5rem" }}>
+        <h2 style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--text-primary)", margin: 0 }}>📰 Blog</h2>
+        <button onClick={() => setCriandoPost(true)}
+          style={{ padding: "0.5rem 1rem", background: "var(--accent)", color: "#fff", border: "none", borderRadius: "0.375rem", fontWeight: 600, fontSize: "0.875rem", cursor: "pointer" }}>
+          + Criar post
+        </button>
+      </div>
 
       {/* Pendentes */}
       {pendentes.length > 0 && (
@@ -1030,6 +1037,127 @@ function SecaoBlog() {
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* Modal Criar Post */}
+      {criandoPost && <FormBlogPost onClose={() => setCriandoPost(false)} onSaved={() => { setCriandoPost(false); carregar(); }} />}
+    </div>
+  );
+}
+
+// ─── FORMULÁRIO CRIAR POST ─────────────────────────
+function FormBlogPost({ onClose, onSaved }: { onClose: () => void; onSaved: () => void }) {
+  const [form, setForm] = useState({
+    titulo: "",
+    slug: "",
+    tema: "",
+    descricao: "",
+    tags: "",
+    imagem_url: "",
+    conteudo: "",
+  });
+  const [salvando, setSalvando] = useState(false);
+
+  function gerarSlug(titulo: string) {
+    return titulo.toLowerCase()
+      .replace(/[àáâãäå]/g, "a").replace(/[èéêë]/g, "e").replace(/[ìíîï]/g, "i")
+      .replace(/[òóôõö]/g, "o").replace(/[ùúûü]/g, "u").replace(/ç/g, "c")
+      .replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  }
+
+  async function salvar(e: React.FormEvent) {
+    e.preventDefault();
+    if (!form.titulo.trim() || !form.conteudo.trim()) return;
+    setSalvando(true);
+
+    const tags = form.tags.split(",").map(t => t.trim()).filter(Boolean);
+    const slug = form.slug.trim() || gerarSlug(form.titulo);
+    const tema = form.tema.trim() || form.titulo.trim().slice(0, 60);
+
+    const frontmatter = `---
+titulo: "${form.titulo.trim()}"
+slug: "${slug}"
+descricao: "${form.descricao.trim()}"
+data: "${new Date().toISOString().split("T")[0]}"
+tags: ${JSON.stringify(tags)}
+${form.imagem_url ? `imagem_url: "${form.imagem_url.trim()}"` : ""}
+---\n\n`;
+
+    const conteudo_mdx = frontmatter + form.conteudo.trim();
+
+    try {
+      const { error } = await supabase.from("blog_historico").insert({
+        tema,
+        titulo: form.titulo.trim(),
+        slug,
+        status: "publicado",
+        imagem_url: form.imagem_url.trim() || null,
+        conteudo_mdx,
+      });
+
+      if (error) { alert("Erro: " + error.message); return; }
+      onSaved();
+    } catch { alert("Erro ao salvar."); }
+    setSalvando(false);
+  }
+
+  return (
+    <div style={{ position: "fixed", inset: 0, zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.6)", padding: "1rem" }}
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+      <div style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "0.75rem", padding: "2rem", width: "100%", maxWidth: "640px", maxHeight: "90vh", overflow: "auto" }}>
+        <h3 style={{ fontSize: "1.125rem", fontWeight: 700, color: "var(--text-primary)", marginBottom: "1.25rem" }}>✍️ Criar post</h3>
+        <form onSubmit={salvar} style={{ display: "flex", flexDirection: "column", gap: "0.875rem" }}>
+          <div>
+            <label style={{ fontSize: "0.7rem", fontWeight: 600, color: "var(--text-secondary)", display: "block", marginBottom: "0.25rem" }}>Título *</label>
+            <input value={form.titulo} onChange={e => setForm({ ...form, titulo: e.target.value })} required
+              style={{ width: "100%", padding: "0.5rem 0.625rem", fontSize: "0.8125rem", background: "var(--bg-secondary)", color: "var(--text-primary)", border: "1px solid var(--border)", borderRadius: "0.375rem", outline: "none" }} />
+          </div>
+          <div style={{ display: "flex", gap: "0.75rem" }}>
+            <div style={{ flex: 1 }}>
+              <label style={{ fontSize: "0.7rem", fontWeight: 600, color: "var(--text-secondary)", display: "block", marginBottom: "0.25rem" }}>Slug</label>
+              <input value={form.slug} onChange={e => setForm({ ...form, slug: e.target.value })} placeholder={gerarSlug(form.titulo) || "deixar em branco para auto"}
+                style={{ width: "100%", padding: "0.5rem 0.625rem", fontSize: "0.8125rem", background: "var(--bg-secondary)", color: "var(--text-primary)", border: "1px solid var(--border)", borderRadius: "0.375rem", outline: "none", fontFamily: "monospace" }} />
+            </div>
+            <div style={{ flex: 1 }}>
+              <label style={{ fontSize: "0.7rem", fontWeight: 600, color: "var(--text-secondary)", display: "block", marginBottom: "0.25rem" }}>Tema (opcional)</label>
+              <input value={form.tema} onChange={e => setForm({ ...form, tema: e.target.value })}
+                style={{ width: "100%", padding: "0.5rem 0.625rem", fontSize: "0.8125rem", background: "var(--bg-secondary)", color: "var(--text-primary)", border: "1px solid var(--border)", borderRadius: "0.375rem", outline: "none" }} />
+            </div>
+          </div>
+          <div>
+            <label style={{ fontSize: "0.7rem", fontWeight: 600, color: "var(--text-secondary)", display: "block", marginBottom: "0.25rem" }}>Descrição</label>
+            <input value={form.descricao} onChange={e => setForm({ ...form, descricao: e.target.value })}
+              style={{ width: "100%", padding: "0.5rem 0.625rem", fontSize: "0.8125rem", background: "var(--bg-secondary)", color: "var(--text-primary)", border: "1px solid var(--border)", borderRadius: "0.375rem", outline: "none" }} />
+          </div>
+          <div style={{ display: "flex", gap: "0.75rem" }}>
+            <div style={{ flex: 1 }}>
+              <label style={{ fontSize: "0.7rem", fontWeight: 600, color: "var(--text-secondary)", display: "block", marginBottom: "0.25rem" }}>Tags (vírgula)</label>
+              <input value={form.tags} onChange={e => setForm({ ...form, tags: e.target.value })} placeholder="python, iniciantes"
+                style={{ width: "100%", padding: "0.5rem 0.625rem", fontSize: "0.8125rem", background: "var(--bg-secondary)", color: "var(--text-primary)", border: "1px solid var(--border)", borderRadius: "0.375rem", outline: "none" }} />
+            </div>
+            <div style={{ flex: 1 }}>
+              <label style={{ fontSize: "0.7rem", fontWeight: 600, color: "var(--text-secondary)", display: "block", marginBottom: "0.25rem" }}>URL da imagem</label>
+              <input value={form.imagem_url} onChange={e => setForm({ ...form, imagem_url: e.target.value })} placeholder="https://... opcional"
+                style={{ width: "100%", padding: "0.5rem 0.625rem", fontSize: "0.8125rem", background: "var(--bg-secondary)", color: "var(--text-primary)", border: "1px solid var(--border)", borderRadius: "0.375rem", outline: "none" }} />
+            </div>
+          </div>
+          <div>
+            <label style={{ fontSize: "0.7rem", fontWeight: 600, color: "var(--text-secondary)", display: "block", marginBottom: "0.25rem" }}>Conteúdo (markdown/MDX) *</label>
+            <textarea value={form.conteudo} onChange={e => setForm({ ...form, conteudo: e.target.value })} required rows={12}
+              placeholder="Conteúdo do post em markdown..."
+              style={{ width: "100%", padding: "0.5rem 0.625rem", fontSize: "0.8125rem", background: "var(--bg-secondary)", color: "var(--text-primary)", border: "1px solid var(--border)", borderRadius: "0.375rem", outline: "none", resize: "vertical", fontFamily: "inherit" }} />
+          </div>
+          <div style={{ display: "flex", gap: "0.75rem", justifyContent: "flex-end", marginTop: "0.5rem" }}>
+            <button type="button" onClick={onClose}
+              style={{ padding: "0.5rem 1.25rem", fontSize: "0.8125rem", fontWeight: 600, background: "transparent", color: "var(--text-secondary)", border: "1px solid var(--border)", borderRadius: "0.375rem", cursor: "pointer" }}>
+              Cancelar
+            </button>
+            <button type="submit" disabled={salvando}
+              style={{ padding: "0.5rem 1.25rem", fontSize: "0.8125rem", fontWeight: 600, background: "var(--accent)", color: "#fff", border: "none", borderRadius: "0.375rem", cursor: salvando ? "not-allowed" : "pointer", opacity: salvando ? 0.6 : 1 }}>
+              {salvando ? "Salvando..." : "Publicar"}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
