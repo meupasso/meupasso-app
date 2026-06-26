@@ -61,7 +61,8 @@ export default function AnalisePage() {
 
   /* --- state --- */
   const [etapa, setEtapa] = useState<"form" | "loading" | "preview" | "erro">("form");
-  const [vaga, setVaga] = useState("");
+
+
   const [github, setGithub] = useState("");
   const [curriculoFile, setCurriculoFile] = useState<File | null>(null);
   const [linkedinFile, setLinkedinFile] = useState<File | null>(null);
@@ -73,6 +74,8 @@ export default function AnalisePage() {
   const [pagando, setPagando] = useState(false);
   const [popupInativo, setPopupInativo] = useState(false);
   const [pagamentoOk, setPagamentoOk] = useState(false);
+  const [vagaSelect, setVagaSelect] = useState("");
+  const [vagaOutro, setVagaOutro] = useState("");
   const [mostrarSeletorRepos, setMostrarSeletorRepos] = useState(false);
   const [reposDisponiveis, setReposDisponiveis] = useState<any[]>([]);
   const [reposSelecionados, setReposSelecionados] = useState<string[]>([]);
@@ -208,7 +211,8 @@ export default function AnalisePage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!curriculoFile || !linkedinFile) return;
-    if (!vaga.trim()) return;
+    const vagaTexto = vagaSelect === "Outro" ? vagaOutro : vagaSelect;
+    if (!vagaTexto.trim()) return;
 
     setEnviando(true);
     setEtapa("loading");
@@ -223,7 +227,7 @@ export default function AnalisePage() {
 
       // 2. Coletar dados + GitHub
       const bodyColetar: Record<string, any> = {
-        objetivo_vaga: vaga,
+        objetivo_vaga: vagaTexto,
         github_username: github.trim() || undefined,
         curriculo_texto,
         linkedin_texto,
@@ -293,10 +297,13 @@ export default function AnalisePage() {
     setErroMsg("");
     setAnaliseData(null);
     setAnaliseId(null);
+    setVagaSelect("");
+    setVagaOutro("");
   }
 
   /* --- form validation --- */
-  const formOk = vaga.trim().length > 0 && curriculoFile !== null && linkedinFile !== null;
+  const vagaTexto = vagaSelect === "Outro" ? vagaOutro : vagaSelect;
+  const formOk = vagaTexto.trim().length > 0 && curriculoFile !== null && linkedinFile !== null;
 
   /* --- render --- */
 
@@ -316,13 +323,47 @@ export default function AnalisePage() {
           <form onSubmit={handleSubmit} style={styles.form}>
             <div style={styles.card}>
               <label style={styles.label}>Que vaga você quer conseguir?</label>
-              <input
-                style={styles.input}
-                placeholder="Ex: Desenvolvedor Java Júnior"
-                value={vaga}
-                onChange={(e) => setVaga(e.target.value)}
+              <select
+                value={vagaSelect}
+                onChange={(e) => { setVagaSelect(e.target.value); setVagaOutro(""); }}
                 disabled={enviando}
-              />
+                style={{
+                  ...styles.input,
+                  appearance: "auto",
+                  cursor: enviando ? "not-allowed" : "pointer",
+                }}
+              >
+                <option value="">Selecione uma opção...</option>
+                <optgroup label="Python">
+                  <option value="Desenvolvedor Python Júnior">Desenvolvedor Python Júnior</option>
+                  <option value="Analista de Dados Júnior">Analista de Dados Júnior</option>
+                  <option value="Desenvolvedor Back-end Python Júnior">Desenvolvedor Back-end Python Júnior</option>
+                </optgroup>
+                <optgroup label="Java">
+                  <option value="Desenvolvedor Java Júnior">Desenvolvedor Java Júnior</option>
+                  <option value="Desenvolvedor Back-end Java Júnior">Desenvolvedor Back-end Java Júnior</option>
+                </optgroup>
+                <optgroup label="JavaScript">
+                  <option value="Desenvolvedor Front-end Júnior">Desenvolvedor Front-end Júnior</option>
+                  <option value="Desenvolvedor React Júnior">Desenvolvedor React Júnior</option>
+                  <option value="Desenvolvedor Full Stack Júnior">Desenvolvedor Full Stack Júnior</option>
+                </optgroup>
+                <optgroup label="Outros">
+                  <option value="Desenvolvedor Mobile Júnior">Desenvolvedor Mobile Júnior</option>
+                  <option value="QA / Testador Júnior">QA / Testador Júnior</option>
+                  <option value="Estagiário em Desenvolvimento">Estagiário em Desenvolvimento</option>
+                  <option value="Outro">Outro — digitar manualmente</option>
+                </optgroup>
+              </select>
+              {vagaSelect === "Outro" && (
+                <input
+                  style={{ ...styles.input, marginTop: 8 }}
+                  placeholder="Digite a vaga desejada"
+                  value={vagaOutro}
+                  onChange={(e) => setVagaOutro(e.target.value)}
+                  disabled={enviando}
+                />
+              )}
             </div>
 
             <div style={styles.card}>
