@@ -188,6 +188,7 @@ export async function POST(req: NextRequest) {
       github_username,
       curriculo_texto,
       linkedin_texto,
+      email_contato,
       repos_selecionados: reposEscolhidos, // opcional: nomes de repos escolhidos pelo usuário
     } = await req.json();
 
@@ -273,6 +274,7 @@ export async function POST(req: NextRequest) {
     const insertData: Record<string, any> = {
       user_id: user.id,
       status: "processando",
+      email_contato: email_contato || null,
       objetivo_vaga: objetivo_vaga || null,
       github_username: github_username || null,
       json_curriculo: curriculo_texto ? { texto: curriculo_texto } : null,

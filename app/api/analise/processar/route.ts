@@ -922,6 +922,39 @@ export async function POST(req: NextRequest) {
     await setStatus("concluido");
     console.log("🎉 Raio-X de Carreira concluído:", analiseId);
 
+    // Disparar email "Seu Raio-X está pronto" se tiver email_contato
+    try {
+      const emailContato = analise.email_contato;
+      if (emailContato) {
+        const scoreMedio = scores ? Math.round(
+          Object.values(scores).filter((s: any) => typeof s.valor === "number")
+            .reduce((a: number, s: any) => a + s.valor, 0) /
+          Object.values(scores).filter((s: any) => typeof s.valor === "number").length
+        ) : 0;
+        const veredictoMap: Record<string, string> = {
+          pronto: "Seu perfil está pronto para aplicar!",
+          quase_la: "Você está perto — com alguns ajustes, seu perfil fica pronto.",
+          precisa_evoluir: "Seu perfil tem pontos importantes para evoluir.",
+          recomecar: "Seu perfil precisa de uma reestruturação.",
+        };
+        const veredictoTexto = veredictoMap[veredicto] || "";
+
+        fetch(`${process.env.NEXT_PUBLIC_SITE_URL || "https://meupasso.vercel.app"}/api/analise/notificar`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            tipo: "pronto",
+            analise_id: analiseId,
+            email: emailContato,
+            score: scoreMedio,
+            veredicto: veredictoTexto,
+          }),
+        }).catch((e) => console.error("Erro ao enviar email pronto:", e));
+      }
+    } catch (emailErr) {
+      console.error("Erro ao disparar email de conclusão:", emailErr);
+    }
+
     return NextResponse.json({
       id: analiseId,
       status: "concluido",

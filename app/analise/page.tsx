@@ -74,6 +74,8 @@ export default function AnalisePage() {
   const [pagando, setPagando] = useState(false);
   const [popupInativo, setPopupInativo] = useState(false);
   const [pagamentoOk, setPagamentoOk] = useState(false);
+  const [emailContato, setEmailContato] = useState("");
+  const [emailReadonly, setEmailReadonly] = useState(false);
   const [vagaSelect, setVagaSelect] = useState("");
   const [vagaOutro, setVagaOutro] = useState("");
   const [mostrarSeletorRepos, setMostrarSeletorRepos] = useState(false);
@@ -142,6 +144,16 @@ export default function AnalisePage() {
       }
     }, 3000);
   }, [supabase]);
+
+  /* --- auto-preenchimento do email se logado --- */
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user?.email) {
+        setEmailContato(user.email);
+        setEmailReadonly(true);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     return () => {
@@ -228,6 +240,7 @@ export default function AnalisePage() {
       // 2. Coletar dados + GitHub
       const bodyColetar: Record<string, any> = {
         objetivo_vaga: vagaTexto,
+        email_contato: emailContato.trim() || undefined,
         github_username: github.trim() || undefined,
         curriculo_texto,
         linkedin_texto,
@@ -303,7 +316,7 @@ export default function AnalisePage() {
 
   /* --- form validation --- */
   const vagaTexto = vagaSelect === "Outro" ? vagaOutro : vagaSelect;
-  const formOk = vagaTexto.trim().length > 0 && curriculoFile !== null && linkedinFile !== null;
+  const formOk = vagaTexto.trim().length > 0 && emailContato.trim().length > 0 && curriculoFile !== null && linkedinFile !== null;
 
   /* --- render --- */
 
@@ -321,6 +334,22 @@ export default function AnalisePage() {
         {/* -------- ETAPA 1: FORMULÁRIO -------- */}
         {etapa === "form" && (
           <form onSubmit={handleSubmit} style={styles.form}>
+            <div style={styles.card}>
+              <label style={styles.label}>Seu melhor e-mail</label>
+              <input
+                type="email"
+                style={styles.input}
+                placeholder="voce@email.com"
+                value={emailContato}
+                onChange={(e) => setEmailContato(e.target.value)}
+                readOnly={emailReadonly}
+                disabled={enviando}
+              />
+              <p style={{ color: "var(--text-secondary)", fontSize: 12, marginTop: 6 }}>
+                Vamos enviar seu relatório por aqui.
+              </p>
+            </div>
+
             <div style={styles.card}>
               <label style={styles.label}>Que vaga você quer conseguir?</label>
               <select

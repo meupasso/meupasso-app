@@ -7,6 +7,10 @@
     {
       "path": "/api/cron/expirar-pro",
       "schedule": "0 4 * * *"
+    },
+    {
+      "path": "/api/analise/recuperar",
+      "schedule": "0 * * * *"
     }
   ]
 }

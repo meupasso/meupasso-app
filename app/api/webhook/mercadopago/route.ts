@@ -171,31 +171,34 @@ export async function POST(req: NextRequest) {
           console.log(`✅ Raio-X ${analiseId} pago — R$ 19,90 aprovado`);
         }
 
-        // Disparar email de notificação
+        // Disparar email de notificação (tenta email_contato primeiro, fallback pro email da conta)
         try {
-          // Buscar dados do usuário dono da análise
           const { data: analise } = await supabase
             .from("analises_empregabilidade")
-            .select("user_id")
+            .select("user_id, email_contato")
             .eq("id", analiseId)
             .single();
 
-          if (analise?.user_id) {
-            const { data: user } = await supabase.auth.admin.getUserById(analise.user_id);
-            const userEmail = user?.user?.email;
-            const userName = user?.user?.user_metadata?.nome || user?.user?.email?.split("@")[0] || "dev";
+          const userEmail = analise?.email_contato;
 
-            if (userEmail) {
+          if (!userEmail && analise?.user_id) {
+            const { data: user } = await supabase.auth.admin.getUserById(analise.user_id);
+            const authEmail = user?.user?.email;
+            const userName = user?.user?.user_metadata?.nome || authEmail?.split("@")[0] || "dev";
+
+            if (authEmail) {
               fetch(`${process.env.NEXT_PUBLIC_SITE_URL || "https://meupasso.vercel.app"}/api/analise/notificar`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  analise_id: analiseId,
-                  email: userEmail,
-                  nome: userName,
-                }),
+                body: JSON.stringify({ tipo: "pagamento", analise_id: analiseId, email: authEmail, nome: userName }),
               }).catch((e) => console.error("Erro ao chamar notificação:", e));
             }
+          } else if (userEmail) {
+            fetch(`${process.env.NEXT_PUBLIC_SITE_URL || "https://meupasso.vercel.app"}/api/analise/notificar`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ tipo: "pagamento", analise_id: analiseId, email: userEmail }),
+            }).catch((e) => console.error("Erro ao chamar notificação:", e));
           }
         } catch (emailErr) {
           console.error("Erro ao disparar email:", emailErr);
