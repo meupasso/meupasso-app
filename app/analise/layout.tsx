@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 
+const DESCRIPTION =
+  "Por que você não está sendo chamado para entrevistas? Cruzamos seu currículo, LinkedIn e GitHub e te dizemos exatamente o que está travando sua contratação.";
+
 export const metadata: Metadata = {
   title: "Raio-X de Carreira — MeuPasso",
-  description:
-    "Descubra exatamente por que você ainda não está sendo chamado para entrevistas. Análise completa de currículo, LinkedIn e GitHub.",
+  description: DESCRIPTION,
   openGraph: {
     title: "Raio-X de Carreira — MeuPasso",
-    description:
-      "Descubra exatamente por que você ainda não está sendo chamado para entrevistas. Análise completa de currículo, LinkedIn e GitHub.",
+    description: DESCRIPTION,
     url: "https://www.meupasso.com.br/analise",
     siteName: "MeuPasso",
     locale: "pt_BR",
@@ -24,8 +25,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Raio-X de Carreira — MeuPasso",
-    description:
-      "Descubra exatamente por que você ainda não está sendo chamado para entrevistas.",
+    description: DESCRIPTION,
   },
 };
 
