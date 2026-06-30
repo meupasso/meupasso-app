@@ -101,6 +101,17 @@ interface RelatorioFinal {
    Helpers
    ==================================================================== */
 
+function formatarProximoPasso(item: string | object): string {
+  if (typeof item === "string") return item;
+  if (typeof item === "object" && item !== null) {
+    const obj = item as any;
+    const acao = obj.acao || obj.texto || obj.descricao || obj.title || "";
+    const prazo = obj.prazo ? ` — ${obj.prazo}` : "";
+    return acao + prazo;
+  }
+  return "";
+}
+
 function prioridadeColor(p: string) {
   switch (p) {
     case "alto":
@@ -1312,24 +1323,11 @@ function RelatorioPage() {
                   <span style={{ marginRight: 8 }}>👣</span>Próximos passos
                 </h3>
                 <ol style={{ margin: 0, paddingLeft: 20 }}>
-                  {r.proximos_passos.map((passo, i) => {
-                    let texto: string;
-                    if (typeof passo === "string") {
-                      texto = passo;
-                    } else {
-                      const p = passo as any;
-                      if (p?.acao) {
-                        texto = p.prazo ? `${p.ordem ? `${p.ordem}. ` : ""}${p.acao} (${p.prazo})` : `${p.ordem ? `${p.ordem}. ` : ""}${p.acao}`;
-                      } else if (p?.descricao) {
-                        texto = p.descricao;
-                      } else {
-                        texto = String(p?.acao ?? p?.descricao ?? "");
-                      }
-                    }
-                    return (
-                      <li key={i} style={{ color: "var(--text-primary)", fontSize: 14, marginBottom: 8, lineHeight: 1.6 }}>{texto}</li>
-                    );
-                  })}
+                  {r.proximos_passos.map((passo, i) => (
+                    <li key={i} style={{ color: "var(--text-primary)", fontSize: 14, marginBottom: 8, lineHeight: 1.6 }}>
+                      {formatarProximoPasso(passo)}
+                    </li>
+                  ))}
                 </ol>
               </div>
             )}
