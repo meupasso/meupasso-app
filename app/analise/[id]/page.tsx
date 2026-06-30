@@ -93,7 +93,7 @@ interface RelatorioFinal {
   };
   veredicto_texto: string;
   secoes: Secao[];
-  proximos_passos: string[];
+  proximos_passos: (string | { acao: string; ordem?: number; prazo?: string; descricao?: string })[];
   mensagem_final: string;
 }
 
@@ -1313,7 +1313,19 @@ function RelatorioPage() {
                 </h3>
                 <ol style={{ margin: 0, paddingLeft: 20 }}>
                   {r.proximos_passos.map((passo, i) => {
-                    const texto = typeof passo === "string" ? passo : (passo as any)?.descricao || JSON.stringify(passo);
+                    let texto: string;
+                    if (typeof passo === "string") {
+                      texto = passo;
+                    } else {
+                      const p = passo as any;
+                      if (p?.acao) {
+                        texto = p.prazo ? `${p.ordem ? `${p.ordem}. ` : ""}${p.acao} (${p.prazo})` : `${p.ordem ? `${p.ordem}. ` : ""}${p.acao}`;
+                      } else if (p?.descricao) {
+                        texto = p.descricao;
+                      } else {
+                        texto = String(p?.acao ?? p?.descricao ?? "");
+                      }
+                    }
                     return (
                       <li key={i} style={{ color: "var(--text-primary)", fontSize: 14, marginBottom: 8, lineHeight: 1.6 }}>{texto}</li>
                     );
