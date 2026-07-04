@@ -8,8 +8,12 @@ export async function GET(req: NextRequest) {
   }
 
   const supabase = createServiceClient();
+
   const dataLimite = new Date();
   dataLimite.setDate(dataLimite.getDate() - 60);
+
+  const dataLimiteAnonimas = new Date();
+  dataLimiteAnonimas.setDate(dataLimiteAnonimas.getDate() - 7);
 
   const { data, error } = await supabase
     .from("notas")
@@ -22,8 +26,21 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ erro: error.message }, { status: 500 });
   }
 
+  const { data: anonimas, error: erroAnonimas } = await supabase
+    .from("notas")
+    .delete()
+    .is("usuario_id", null)
+    .lt("last_accessed_at", dataLimiteAnonimas.toISOString())
+    .select("id");
+
+  if (erroAnonimas) {
+    console.error("Erro ao limpar notas anônimas:", erroAnonimas);
+    return NextResponse.json({ erro: erroAnonimas.message }, { status: 500 });
+  }
+
+  const total = (data?.length ?? 0) + (anonimas?.length ?? 0);
   return NextResponse.json({
-    deletadas: data?.length ?? 0,
-    message: `${data?.length ?? 0} notas deletadas`,
+    deletadas: total,
+    message: `${total} notas deletadas`,
   });
 }

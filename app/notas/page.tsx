@@ -24,7 +24,7 @@ export default function NotasPage() {
         const { data } = await supabase
           .from("notas")
           .select("slug")
-          .or(`usuario_id.eq.${user.id},usuario_id.is.null`)
+          .eq("usuario_id", user.id)
           .not("slug", "like", "%/%")
           .order("slug");
         if (data) setRaizes(data.map((n) => ({ slug: n.slug, slug_display: n.slug })));
@@ -86,6 +86,13 @@ export default function NotasPage() {
       {!user && !carregando && (
         <p style={{ textAlign: "center", color: "var(--text-secondary)", fontSize: "0.8125rem", marginBottom: "1rem" }}>
           <Link href="/entrar" style={{ color: "var(--accent)", textDecoration: "none" }}>Faça login</Link> para ver suas notas salvas.
+        </p>
+      )}
+
+      {!user && !carregando && (
+        <p style={{ textAlign: "center", color: "var(--text-secondary)", fontSize: "0.75rem", marginBottom: "1.5rem", opacity: 0.8 }}>
+          Notas criadas sem login são removidas após 7 dias de inatividade.{" "}
+          <Link href="/entrar" style={{ color: "var(--accent)", textDecoration: "none" }}>Faça login</Link> para manter suas notas salvas sem prazo de expiração.
         </p>
       )}
 

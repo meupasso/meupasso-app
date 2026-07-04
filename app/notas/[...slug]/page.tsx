@@ -48,14 +48,6 @@ export default function NotaPage() {
         setConteudo(existente.conteudo || "");
         setTitulo(existente.titulo || "");
 
-        // Se a nota não tem usuario_id, associar ao usuário atual
-        if (!existente.usuario_id) {
-          const { data: { user } } = await supabase.auth.getUser();
-          if (user) {
-            await supabase.from("notas").update({ usuario_id: user.id }).eq("id", existente.id);
-          }
-        }
-
         await supabase
           .from("notas")
           .update({ last_accessed_at: new Date().toISOString() })

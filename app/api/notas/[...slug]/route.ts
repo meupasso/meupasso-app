@@ -17,13 +17,12 @@ export async function DELETE(
     return NextResponse.json({ error: "Slug é obrigatório" }, { status: 400 });
   }
 
-  // Usa service client (bypassa RLS) para conseguir deletar
-  // notas órfãs (usuario_id IS NULL) além das próprias notas
+  // Usa service client (bypassa RLS); restringe às notas do próprio usuário
   const service = createServiceClient();
   const { error } = await service
     .from("notas")
     .delete()
-    .or(`usuario_id.eq.${user.id},usuario_id.is.null`)
+    .eq("usuario_id", user.id)
     .or(`slug.eq.${slug},slug.like.${slug}/%`);
 
   if (error) {
