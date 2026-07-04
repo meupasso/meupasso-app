@@ -366,7 +366,19 @@ export default function Sidebar() {
           </button>
         </div>
 
-        <nav style={{ flex: 1, padding: "0.75rem 0.5rem", display: "flex", flexDirection: "column", gap: "0.25rem", overflow: "hidden" }}>
+        <nav
+          className="sidebar-nav"
+          style={{
+            flex: 1,
+            minHeight: 0,
+            padding: "0.75rem 0.5rem",
+            display: "flex",
+            flexDirection: "column",
+            gap: "0.25rem",
+            overflowY: "auto",
+            overflowX: "hidden",
+          }}
+        >
           {/* Itens sempre visíveis */}
           {linksSempreVisiveis.map((link) => {
             const active = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
@@ -388,6 +400,7 @@ export default function Sidebar() {
                   overflow: "hidden",
                   textDecoration: "none",
                   transition: "background 0.15s",
+                  flexShrink: 0,
                 }}
                 onMouseEnter={(e) => { if (!active) e.currentTarget.style.background = "var(--bg-card)"; }}
                 onMouseLeave={(e) => { if (!active) e.currentTarget.style.background = "transparent"; }}
@@ -415,6 +428,7 @@ export default function Sidebar() {
               borderRadius: "0.5rem",
               background: "linear-gradient(135deg, rgba(86,156,214,0.08), rgba(59,130,246,0.05))",
               border: "1px solid rgba(86,156,214,0.15)",
+              flexShrink: 0,
             }}>
               <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.375rem" }}>
                 <span style={{ fontSize: "1rem" }}>🚀</span>
@@ -462,6 +476,7 @@ export default function Sidebar() {
                 textAlign: "left",
                 transition: "color 0.15s",
                 marginTop: "0.125rem",
+                flexShrink: 0,
               }}
               onMouseEnter={(e) => e.currentTarget.style.color = "var(--text-primary)"}
               onMouseLeave={(e) => e.currentTarget.style.color = "var(--text-secondary)"}
@@ -479,6 +494,7 @@ export default function Sidebar() {
             maxHeight: expanded ? "400px" : "0px",
             opacity: expanded ? 1 : 0,
             transition: "max-height 0.2s ease, opacity 0.2s ease",
+            flexShrink: 0,
           }}>
             <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
               {linksRecolhiveis.map((link) => {
@@ -501,6 +517,7 @@ export default function Sidebar() {
                       overflow: "hidden",
                       textDecoration: "none",
                       transition: "background 0.15s",
+                      flexShrink: 0,
                     }}
                     onMouseEnter={(e) => { if (!active) e.currentTarget.style.background = "var(--bg-card)"; }}
                     onMouseLeave={(e) => { if (!active) e.currentTarget.style.background = "transparent"; }}
@@ -537,6 +554,7 @@ export default function Sidebar() {
                   overflow: "hidden",
                   textDecoration: "none",
                   transition: "background 0.15s",
+                  flexShrink: 0,
                 }}
                 onMouseEnter={(e) => { if (!active) e.currentTarget.style.background = "var(--bg-card)"; }}
                 onMouseLeave={(e) => { if (!active) e.currentTarget.style.background = "transparent"; }}
@@ -565,6 +583,7 @@ export default function Sidebar() {
                 overflow: "hidden",
                 textDecoration: "none",
                 transition: "background 0.15s",
+                flexShrink: 0,
               }}
               onMouseEnter={(e) => { if (!pathname.startsWith("/admin")) e.currentTarget.style.background = "var(--bg-card)"; }}
               onMouseLeave={(e) => { if (!pathname.startsWith("/admin")) e.currentTarget.style.background = "transparent"; }}
@@ -682,6 +701,23 @@ export default function Sidebar() {
       </aside>
 
       <style>{`
+        .sidebar-nav {
+          scrollbar-width: thin;
+          scrollbar-color: var(--border) transparent;
+        }
+        .sidebar-nav::-webkit-scrollbar {
+          width: 6px;
+        }
+        .sidebar-nav::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .sidebar-nav::-webkit-scrollbar-thumb {
+          background-color: var(--border);
+          border-radius: 3px;
+        }
+        .sidebar-nav::-webkit-scrollbar-thumb:hover {
+          background-color: var(--text-secondary);
+        }
         @media (max-width: 1023px) {
           .sidebar-desktop { display: none !important; }
           .sidebar-mobile { display: flex !important; animation: slideIn 0.2s ease; }
