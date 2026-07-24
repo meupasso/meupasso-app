@@ -1,0 +1,198 @@
+---
+title: 'Primeiro emprego em TI: o manual prático que ninguém te deu'
+date: '2026-06-29'
+tags: ['carreira', 'mercado de trabalho', 'iniciantes']
+description: 'Como conseguir o primeiro emprego em TI: um guia com exemplos reais de código, estratégias de portfólio e dicas de entrevista técnica.'
+---
+
+Você terminou ou está terminando um curso de programação. Sabe escrever um loop, entende funções, já fez alguns projetos pessoais. Mas a pergunta que não sai da cabeça: **como conseguir o primeiro emprego em TI?**
+
+A resposta curta: **você precisa mostrar que sabe fazer, não só que estudou.** E mostrar que sabe fazer significa ter um portfólio que resolva problemas reais, entender o processo de seleção técnica e saber se comunicar.
+
+Vou te mostrar o caminho prático, com exemplos de código que você pode usar hoje.
+
+## 1. O portfólio certo: um projeto que resolva um problema real
+
+Muitos iniciantes colocam no GitHub 10 projetos de curso (calculadora, clone do Netflix, lista de tarefas). Isso não impressiona. O que impressiona é **um projeto que mostre que você entendeu o ciclo completo de desenvolvimento**.
+
+Crie um sistema simples, mas que tenha:
+- CRUD (Create, Read, Update, Delete)
+- Autenticação
+- Testes básicos
+
+Exemplo em Python com Flask:
+
+```python
+# app.py - Sistema de cadastro de clientes
+from flask import Flask, request, jsonify
+import sqlite3
+
+app = Flask(__name__)
+
+def init_db():
+    conn = sqlite3.connect('clientes.db')
+    conn.execute('''CREATE TABLE IF NOT EXISTS clientes
+                    (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                     nome TEXT NOT NULL,
+                     email TEXT UNIQUE NOT NULL)''')
+    conn.close()
+
+@app.route('/clientes', methods=['POST'])
+def criar_cliente():
+    data = request.get_json()
+    nome = data['nome']
+    email = data['email']
+    conn = sqlite3.connect('clientes.db')
+    try:
+        conn.execute("INSERT INTO clientes (nome, email) VALUES (?, ?)", (nome, email))
+        conn.commit()
+        return jsonify({"mensagem": "Cliente criado com sucesso"}), 201
+    except:
+        return jsonify({"erro": "Email já existe"}), 400
+    finally:
+        conn.close()
+
+if __name__ == '__main__':
+    init_db()
+    app.run(debug=True)
+```
+
+Isso mostra que você sabe: lidar com banco de dados, criar API REST, tratar erros. Muito mais valor que uma calculadora.
+
+## 2. Como se preparar para a entrevista técnica
+
+A entrevista técnica geralmente tem duas partes: **desafio de lógica** e **desafio prático**.
+
+### Desafio de lógica (exemplo em JavaScript)
+
+```javascript
+// Problema: verificar se uma string é palíndromo
+function ehPalindromo(str) {
+    // Remove espaços e converte para minúsculo
+    const limpa = str.toLowerCase().replace(/\s/g, '');
+    // Inverte a string
+    const invertida = limpa.split('').reverse().join('');
+    return limpa === invertida;
+}
+
+console.log(ehPalindromo("A mala nada na lama")); // true
+console.log(ehPalindromo("Hello World")); // false
+```
+
+Geralmente o entrevistador vai pedir para você explicar seu raciocínio. Treine **falar enquanto codifica**.
+
+### Desafio prático comum: organizar dados
+
+```javascript
+// Ordenar array de objetos por idade (crescente)
+const pessoas = [
+    { nome: "João", idade: 25 },
+    { nome: "Maria", idade: 30 },
+    { nome: "Ana", idade: 22 }
+];
+
+function ordenarPorIdade(lista) {
+    return lista.sort((a, b) => a.idade - b.idade);
+}
+
+console.log(ordenarPorIdade(pessoas));
+// [{nome: "Ana", idade: 22}, {nome: "João", idade: 25}, {nome: "Maria", idade: 30}]
+```
+
+Dica: use `console.table()` para mostrar dados tabulares durante a entrevista — mostra que você conhece ferramentas de debug.
+
+## 3. O segredo que ninguém conta: documentação e GitHub estruturado
+
+Empresas contratam iniciantes que **diminuem o retrabalho**. Um GitHub bem organizado é um sinal claro disso.
+
+Estrutura mínima para seu repositório principal:
+
+```
+/
+├── README.md          # Explica o projeto, como rodar, tecnologia usada
+├── src/              # Código fonte
+├── tests/            # Testes unitários
+├── docs/             # Documentação (se houver)
+└── requirements.txt  # Dependências
+```
+
+Exemplo de **README que atrai recrutadores**:
+
+```markdown
+# Sistema de Cadastro de Clientes
+
+API REST para cadastro de clientes com autenticação JWT.
+
+## Como rodar
+1. Clone o repositório
+2. `pip install -r requirements.txt`
+3. `python app.py`
+4. Acesse `http://localhost:5000`
+
+## Funcionalidades
+- [x] Criar cliente
+- [x] Listar clientes
+- [x] Atualizar cliente
+- [ ] Excluir cliente (próxima sprint)
+
+## Tecnologias
+- Python 3.10
+- Flask
+- SQLite
+- Testes com pytest
+```
+
+## 4. Networking inteligente (sem ser chato)
+
+Não saia mandando currículo para 200 vagas por dia. Funciona? Às vezes, mas é ineficiente.
+
+A melhor estratégia: **contribua em projetos open source pequenos** e **participe de comunidades específicas**.
+
+Exemplo de contribuição real que você pode fazer hoje:
+
+```python
+# Documentação de um projeto Python que você usa
+# Antes:
+def processar_dados(lista):
+    """Processa dados"""
+    return [x*2 for x in lista]
+
+# Depois (sua contribuição):
+def processar_dados(lista):
+    """
+    Processa uma lista de números multiplicando cada elemento por 2.
+    
+    Args:
+        lista (list): Lista de números inteiros ou float
+        
+    Returns:
+        list: Lista com cada elemento multiplicado por 2
+        
+    Example:
+        >>> processar_dados([1, 2, 3])
+        [2, 4, 6]
+    """
+    return [x*2 for x in lista]
+```
+
+Contribuições de documentação são bem-vindas em qualquer projeto e mostram atenção aos detalhes.
+
+## 5. Como lidar com a síndrome do impostor (enquanto procura emprego)
+
+Você vai ver vagas pedindo "5 anos de experiência em React" sendo que React tem 10 anos. Isso é **desalinhamento do mercado**, não seu problema.
+
+O que você precisa saber para passar em entrevistas para **cargo júnior**:
+
+1. **Lógica de programação** (sabe fazer loop, condicional, array)
+2. **Estrutura de dados básicas** (lista, dicionário, fila, pilha)
+3. **Um framework/biblioteca** (React, Django, Flask — escolha um)
+4. **Banco de dados relacional** (CRUD básico em SQL)
+5. **Controle de versão** (Git commit, push, pull, branch)
+
+Isso não é exagero — é literalmente o que se pede para **estágio** e **júnior** na maioria das empresas.
+
+---
+
+**Seu próximo passo**: com base nesse conteúdo, entre no [MeuPasso](https://meupasso.com.br) e veja o plano de estudos gratuito focado em conseguir o primeiro emprego em TI. Lá você encontra desafios práticos similares aos que caem em entrevistas, com correção automática e feedback.
+
+O mercado precisa de bons profissionais iniciantes. Mostre que você é um deles — com código, não com promessas.
