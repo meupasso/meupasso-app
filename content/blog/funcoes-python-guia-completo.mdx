@@ -1,0 +1,148 @@
+---
+title: 'Funções em Python: Guia Completo para Iniciantes'
+date: '2026-07-17'
+tags: ['python', 'funções', 'iniciantes']
+description: 'Aprenda o que são funções em Python, como criá-las e usá-las com exemplos práticos. Do básico ao retorno de valores.'
+---
+
+Se você está aprendendo Python, uma hora vai bater na parede das funções. Elas são como receitas de bolo: você define os ingredientes e os passos uma vez, e depois pode chamar sempre que quiser fazer aquele bolo. Sem funções, seu código vira uma sopa de repetições, difícil de ler e de manter.
+
+A ideia é simples: isolar um bloco de código com um nome, e poder executá-lo quantas vezes precisar, com diferentes valores de entrada.
+
+## Criando sua primeira função
+
+Em Python, a palavra-chave `def` inicia a definição. Depois vem o nome, parênteses com os parâmetros (opcionais) e dois pontos. O corpo é indentado.
+
+```python
+def saudacao(nome):
+    print(f"Olá, {nome}!")
+
+saudacao("Ana")  # Saída: Olá, Ana!
+saudacao("João") # Saída: Olá, João!
+```
+
+Repare: `nome` é um parâmetro. Quando chamamos `saudacao("Ana")`, o valor "Ana" é passado como argumento. A função imprime a saudação. Simples.
+
+## Parâmetros com valor padrão
+
+E se o usuário não passar um nome? Podemos definir um valor padrão. Isso deixa a função mais flexível.
+
+```python
+def saudacao(nome="visitante"):
+    print(f"Olá, {nome}!")
+
+saudacao()         # Olá, visitante!
+saudacao("Carlos") # Olá, Carlos!
+```
+
+Cuidado com a ordem: parâmetros sem valor padrão vêm primeiro, depois os com valor padrão. Senão, Python reclama.
+
+```python
+# Isso funciona
+def exemplo(a, b=10):
+    return a + b
+
+# Isso dá erro de sintaxe
+def exemplo_errado(a=5, b):
+    return a + b
+```
+
+## Retorno de valores
+
+Nem toda função precisa imprimir. Às vezes você quer que ela calcule algo e devolva o resultado. Use `return`.
+
+```python
+def soma(a, b):
+    resultado = a + b
+    return resultado
+
+total = soma(5, 3)
+print(total)  # 8
+```
+
+Uma função pode retornar vários valores como uma tupla. Muito útil.
+
+```python
+def operacoes(a, b):
+    return a + b, a - b, a * b
+
+soma, diferenca, produto = operacoes(10, 3)
+print(f"Soma: {soma}, Diferença: {diferenca}, Produto: {produto}")
+```
+
+## Funções que chamam funções
+
+ Você pode compor funções. A saída de uma vira entrada de outra. Isso é a base de código modular.
+
+```python
+def dobro(x):
+    return x * 2
+
+def quadrado(x):
+    return x ** 2
+
+def calcular(a, b):
+    return dobro(a) + quadrado(b)
+
+resultado = calcular(3, 4)
+print(resultado)  # 6 + 16 = 22
+```
+
+Essa separação facilita testar cada parte isoladamente.
+
+## Escopo de variáveis
+
+Variáveis dentro da função não vazam para fora. E variáveis fora não são visíveis dentro, a menos que sejam passadas como argumento (ou declaradas com `global`, mas evite isso).
+
+```python
+x = 10  # variável global
+
+def funcao():
+    x = 5  # variável local, diferente da global
+    print(f"Dentro: {x}")
+
+funcao()  # Dentro: 5
+print(f"Fora: {x}")  # Fora: 10
+```
+
+Entender escopo evita bugs bizarros que parecem mágica (e não é mágica boa).
+
+## Exercício rápido para fixar
+
+Crie uma função que recebe uma lista de números e retorna a média. Se a lista for vazia, retorne 0.
+
+```python
+def media(lista):
+    if not lista:
+        return 0
+    return sum(lista) / len(lista)
+
+print(media([10, 20, 30]))  # 20.0
+print(media([]))            # 0
+```
+
+Simples, né? Agora pense: e se a lista tiver strings? A função quebraria. Tratar entradas inesperadas é o próximo passo.
+
+## Um degrau acima: type hints
+
+Python permite anotar tipos nos parâmetros e no retorno. Não é obrigatório, mas ajuda na leitura e em ferramentas de análise.
+
+```python
+def saudacao(nome: str) -> str:
+    return f"Olá, {nome}!"
+
+msg = saudacao("Ana")
+print(msg)  # Olá, Ana!
+```
+
+O tipo não é verificado em tempo de execução, mas editores como VS Code mostram erros se você passar um número onde espera string.
+
+## O que vem depois
+
+Funções são o tijolo básico. Com elas, você pode construir programas maiores sem repetir código. O próximo passo natural é aprender sobre **módulos** e como organizar funções em arquivos separados.
+
+Se quiser praticar mais, crie um pequeno programa que usa funções para calcular o IMC, converter temperaturas ou validar CPF. Cada funcionalidade vira uma função. Depois você junta tudo.
+
+E falando em praticar, o site **MeuPasso** (meupasso.com.br) tem desafios diários de Python que começam simples e aumentam gradualmente. Ideal para fixar funções sem achar que está estudando.
+
+Agora vá escrever suas próprias funções. Comece com algo que você usa no dia a dia — uma calculadora de gorjeta, um conversor de moedas. O importante é criar o hábito de quebrar problemas em partes menores.
