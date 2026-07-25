@@ -1,0 +1,128 @@
+---
+title: 'Recursão: O que é e quando usar (sem complicação)'
+date: '2026-07-Jul 8, 2026'
+tags: ['programação', 'algoritmos', 'iniciantes']
+description: 'Entenda recursão com exemplos práticos em Python, JavaScript e Java. Aprenda quando usar recursão e quando fugir dela.'
+---
+
+Recursão é uma técnica onde uma função chama a si mesma para resolver um problema dividindo-o em subproblemas menores. Parece mágica, mas é matemática pura. Se você já tentou calcular fatorial ou percorrer uma árvore de diretórios, provavelmente usou recursão sem saber.
+
+O truque? Toda recursão precisa de dois elementos: um **caso base** (para parar) e um **passo recursivo** (que se aproxima do caso base). Sem o caso base, sua função vira loop infinito — e vai estourar a pilha.
+
+## Quando usar recursão?
+
+Recursão brilha em problemas que podem ser divididos em versões menores de si mesmos. Exemplos clássicos:
+- Cálculo de fatorial e Fibonacci
+- Travessia de árvores (diretórios, XML, DOM)
+- Algoritmos de busca como Merge Sort e Quick Sort
+- Problemas de backtracking (labirintos, sudoku)
+
+Mas nem tudo é festa. Recursão consome memória (pilha de chamadas) e pode ser mais lenta que iteração. Use com moderação.
+
+## Exemplo 1: Fatorial (Python)
+
+O fatorial de um número `n` (escrito `n!`) é o produto de todos os inteiros de 1 até `n`. A definição recursiva é:
+- `0! = 1` (caso base)
+- `n! = n * (n-1)!` (passo recursivo)
+
+```python
+def fatorial(n):
+    if n == 0:  # caso base
+        return 1
+    return n * fatorial(n - 1)  # passo recursivo
+
+# Testando
+print(fatorial(5))  # 120 (5*4*3*2*1)
+```
+
+Veja como a pilha de chamadas funciona para `fatorial(3)`:
+```
+fatorial(3)
+  -> 3 * fatorial(2)
+       -> 2 * fatorial(1)
+            -> 1 * fatorial(0)
+                 -> retorna 1
+            -> retorna 1 * 1 = 1
+       -> retorna 2 * 1 = 2
+  -> retorna 3 * 2 = 6
+```
+
+## Exemplo 2: Percorrer diretórios (JavaScript)
+
+Suponha que você quer listar todos os arquivos dentro de uma estrutura de pastas. Cada pasta pode conter arquivos ou mais pastas. Recursão é a solução natural.
+
+```javascript
+const fs = require('fs');
+const path = require('path');
+
+function listarArquivos(diretorio) {
+  const arquivos = fs.readdirSync(diretorio);
+  let resultado = [];
+
+  for (const arquivo of arquivos) {
+    const caminhoCompleto = path.join(diretorio, arquivo);
+    if (fs.statSync(caminhoCompleto).isDirectory()) {
+      // Se for diretório, chama recursivamente
+      resultado = resultado.concat(listarArquivos(caminhoCompleto));
+    } else {
+      resultado.push(caminhoCompleto);
+    }
+  }
+
+  return resultado;
+}
+
+console.log(listarArquivos('./meu-projeto'));
+```
+
+Aqui o caso base é quando a pasta está vazia (então `arquivos` é um array vazio, `for` não executa). Sem recursão, você precisaria gerenciar uma pilha manualmente — mais complexo e propenso a erros.
+
+## Exemplo 3: Fibonacci (Java) — e quando NÃO usar recursão
+
+A sequência de Fibonacci é clássica: `f(0)=0, f(1)=1, f(n)=f(n-1)+f(n-2)`. Recursão ingênua é um desastre:
+
+```java
+public class Fibonacci {
+    public static int fibRecursivo(int n) {
+        if (n <= 1) return n;  // caso base
+        return fibRecursivo(n - 1) + fibRecursivo(n - 2);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(fibRecursivo(40));  // Já demora segundos
+    }
+}
+```
+
+Esse código é **exponencial** — `fibRecursivo(50)` demoraria meses para rodar. Por quê? Cada chamada gera duas novas chamadas, formando uma árvore de repetições. O mesmo valor é calculado centenas de vezes.
+
+Solução? Use iteração com programação dinâmica:
+
+```java
+public static int fibIterativo(int n) {
+    if (n <= 1) return n;
+    int a = 0, b = 1, temp;
+    for (int i = 2; i <= n; i++) {
+        temp = a + b;
+        a = b;
+        b = temp;
+    }
+    return b;
+}
+```
+
+Aqui o custo é linear O(n). Para Fibonacci, recursão serve como exemplo didático, não como solução prática.
+
+## Quando evitar recursão?
+
+- Se a profundidade máxima for imprevisível (pode estourar a pilha)
+- Se o problema tem muitas repetições de subproblemas (tipo Fibonacci)
+- Se iterativo for mais legível e eficiente
+
+Em linguagens como Python, o limite padrão de recursão é 1000. Em JavaScript, varia (geralmente ~10000). Em Java, depende da JVM.
+
+## Conclusão
+
+Recursão é uma ferramenta elegante, mas não universal. Use para problemas naturalmente recursivos (árvores, grafos, algoritmos de divisão e conquista). Evite quando iteração der conta.
+
+Se você quer praticar recursão com exercícios progressivos, o **MeuPasso** (meupasso.com.br) tem desafios que começam com fatorial e vão até backtracking. Lá você treina com exemplos reais e feedback automático — ideal para fixar o conteúdo.
