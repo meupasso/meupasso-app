@@ -76,6 +76,13 @@ const NIVEL_CORES: Record<string, { bg: string; text: string }> = {
   desafio: { bg: "#6b21a8", text: "#f3e8ff" },
 };
 
+const NIVEL_ACCENT: Record<string, string> = {
+  basico: "#22c55e",
+  intermediario: "#eab308",
+  avancado: "#ef4444",
+  desafio: "#a855f7",
+};
+
 const ORDEM_PYTHON = [
   'PYB001','PYB002','PYB003','PYB004','PYB005','PYB006','PYB007','PYB008','PYB009','PYB010',
   'PYB011','PYB012','PYB013','PYB014','PYB015','PYB016','PYB017','PYB018','PYB019','PYB020',
@@ -497,25 +504,53 @@ export default function ExercicioListClient({
                   const isExpanded = expandidoId === ex.id;
                   const mostraExemplo = ex.exemplos && !temCodigoPython(ex.exemplos);
 
+                  const corNivel = NIVEL_ACCENT[ex.nivel] || "var(--accent)";
+                  const concluido = concluidos.has(ex.id_referencia);
+
                   return (
                     <div key={ex.id}>
                       {!isExpanded && (
                         <div onClick={() => toggleCard(ex.id)}
-                          style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.625rem 0.75rem", borderRadius: "0.375rem", borderBottom: "1px solid var(--border)", cursor: "pointer", transition: "all 0.15s" }}
-                          onMouseEnter={(e) => { e.currentTarget.style.background = "var(--bg-card)"; }}
-                          onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
+                          className="exercicio-row"
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "0.875rem",
+                            padding: "0.875rem 1rem",
+                            marginBottom: "0.375rem",
+                            borderRadius: "0.5rem",
+                            background: "var(--bg-card)",
+                            border: "1px solid var(--border)",
+                            borderLeft: `3px solid ${concluido ? "#22c55e" : corNivel}`,
+                            cursor: "pointer",
+                            transition: "transform 0.15s, box-shadow 0.15s, border-color 0.15s",
+                          }}
                         >
                           <NivelBadge nivel={ex.nivel} />
                           <IdBadge id={ex.id_referencia} />
-                          {concluidos.has(ex.id_referencia) && <span style={{ fontSize: "0.8rem" }}>✅</span>}
+                          {concluido && <span style={{ fontSize: "0.9rem" }}>✅</span>}
                           <div style={{ flex: 1, minWidth: 0 }}>
-                            <p style={{ fontWeight: 600, color: "var(--text-primary)", fontSize: "0.875rem", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "100%", marginBottom: "0.125rem" }}>
+                            <p style={{ fontWeight: 600, color: "var(--text-primary)", fontSize: "0.9375rem", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "100%", marginBottom: "0.1875rem" }}>
                               {ex.titulo.length > 60 ? ex.titulo.slice(0, 60) + "…" : ex.titulo}
                             </p>
-                            <p style={{ fontSize: "0.75rem", color: "var(--text-secondary)", opacity: 0.7, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                              {ex.descricao.length > 80 ? ex.descricao.slice(0, 80) + "…" : ex.descricao}
+                            <p style={{
+                              fontSize: "0.8125rem",
+                              color: "var(--text-secondary)",
+                              lineHeight: 1.4,
+                              display: "-webkit-box",
+                              WebkitLineClamp: 2,
+                              WebkitBoxOrient: "vertical",
+                              overflow: "hidden",
+                            }}>
+                              {ex.descricao}
                             </p>
                           </div>
+                          <span
+                            className="exercicio-row-cta"
+                            style={{ fontSize: "0.75rem", color: corNivel, fontWeight: 600, opacity: 0, whiteSpace: "nowrap", flexShrink: 0 }}
+                          >
+                            Praticar →
+                          </span>
                           <span style={{ color: "var(--text-secondary)", opacity: 0.4, display: "flex", flexShrink: 0 }}>
                             <ChevronDown />
                           </span>
@@ -578,6 +613,14 @@ export default function ExercicioListClient({
       </div>
 
       <style>{`
+        .exercicio-row:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+          border-color: var(--accent);
+        }
+        .exercicio-row:hover .exercicio-row-cta {
+          opacity: 1 !important;
+        }
         @media (max-width: 1023px) {
           .filtro-sidebar { display: none !important; }
           .mobile-filtro-btn { display: flex !important; }
