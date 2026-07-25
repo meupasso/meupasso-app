@@ -1,11 +1,28 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import { createClient } from "@/lib/supabase/client";
 
 const supabase = createClient();
+
+const markdownInlineComponents = {
+  p: ({ children }: { children?: ReactNode }) => <p style={{ margin: 0 }}>{children}</p>,
+  code: ({ children }: { children?: ReactNode }) => (
+    <code
+      style={{
+        fontFamily: "monospace",
+        fontSize: "0.85em",
+        background: "var(--code-bg)",
+        padding: "0.1rem 0.35rem",
+        borderRadius: "0.25rem",
+      }}
+    >
+      {children}
+    </code>
+  ),
+};
 
 function temCodigoPython(texto: string): boolean {
   const linhas = texto.split("\n");
@@ -32,6 +49,8 @@ type Exercicio = {
   proibidos?: string[] | null;
   erros_comuns?: string[] | null;
   exemplos?: string | null;
+  introducao?: string | null;
+  explicacao_conceito?: string | null;
 };
 
 type Mensagem = {
@@ -336,9 +355,39 @@ export default function ExercicioClient({
           {exercicio.titulo}
         </h1>
 
+        {/* 1. Introdução — contexto de por que o conceito importa */}
+        {exercicio.introducao && (
+          <div
+            style={{
+              color: "var(--text-secondary)",
+              fontSize: "0.9375rem",
+              lineHeight: 1.65,
+              marginBottom: "1.5rem",
+              paddingLeft: "0.875rem",
+              borderLeft: "3px solid var(--accent)",
+            }}
+          >
+            <ReactMarkdown components={markdownInlineComponents}>
+              {exercicio.introducao}
+            </ReactMarkdown>
+          </div>
+        )}
+
+        {/* 2. Enunciado do problema */}
         <p
           style={{
+            fontSize: "0.75rem",
+            fontWeight: 600,
+            letterSpacing: "0.04em",
             color: "var(--text-secondary)",
+            marginBottom: "0.5rem",
+          }}
+        >
+          O PROBLEMA
+        </p>
+        <p
+          style={{
+            color: "var(--text-primary)",
             marginBottom: "1.5rem",
             lineHeight: 1.6,
           }}
@@ -378,6 +427,56 @@ export default function ExercicioClient({
             </pre>
           </div>
         )}
+
+        {/* 3. Explicação do conceito */}
+        {exercicio.explicacao_conceito && (
+          <div
+            style={{
+              backgroundColor: "var(--bg-secondary)",
+              border: "1px solid var(--border)",
+              borderRadius: "0.5rem",
+              padding: "1.25rem",
+              marginBottom: "2rem",
+            }}
+          >
+            <p
+              style={{
+                fontSize: "0.75rem",
+                fontWeight: 600,
+                letterSpacing: "0.04em",
+                color: "var(--accent)",
+                marginBottom: "0.625rem",
+              }}
+            >
+              SOBRE O CONCEITO
+            </p>
+            <div
+              style={{
+                color: "var(--text-primary)",
+                fontSize: "0.9375rem",
+                lineHeight: 1.65,
+              }}
+            >
+              <ReactMarkdown components={markdownInlineComponents}>
+                {exercicio.explicacao_conceito}
+              </ReactMarkdown>
+            </div>
+          </div>
+        )}
+
+        {/* 4. Área de resolução — hoje é a marcação de progresso; o código é resolvido
+            fora da página (editor externo / repo próprio) */}
+        <p
+          style={{
+            fontSize: "0.75rem",
+            fontWeight: 600,
+            letterSpacing: "0.04em",
+            color: "var(--text-secondary)",
+            marginBottom: "0.75rem",
+          }}
+        >
+          RESOLUÇÃO
+        </p>
 
         {/* Botão concluir/desmarcar exercício */}
         <div style={{ marginBottom: "1rem" }}>
