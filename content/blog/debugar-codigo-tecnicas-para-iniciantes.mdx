@@ -1,0 +1,171 @@
+---
+title: 'Debugando Código: Técnicas Práticas para Iniciantes (Que Funcionam)'
+date: '2026-07-03'
+tags: ['programação', 'iniciantes', 'debug', 'javascript', 'python']
+description: 'Aprenda técnicas reais de debugging para encontrar e corrigir bugs com confiança. Exemplos práticos em JavaScript e Python.'
+---
+
+Você escreveu um código, rodou, e deu erro. A tela preta ou o console do navegador mostra uma mensagem que parece grego. Todo programador passa por isso — a diferença entre um iniciante e um profissional é saber como resolver.
+
+Debugging não é adivinhar. É um processo sistemático de coleta de informações. Vou mostrar as técnicas que uso no dia a dia, com exemplos reais.
+
+## 1. Console.log() é seu amigo, mas use com estratégia
+
+Todo mundo começa jogando `console.log()` em qualquer lugar. O problema? Você enche o terminal de informação inútil. A técnica certa é usar logs para **testar hipóteses**, não para chorar.
+
+**Cenário:** Uma função que deveria somar números, mas retorna `NaN`.
+
+```javascript
+// Código bugado
+function calcularTotal(precos) {
+  let total = 0;
+  for (let i = 0; i < precos.length; i++) {
+    total += precos[i];
+  }
+  return total;
+}
+
+const resultado = calcularTotal(['10', '20', '30']);
+console.log(resultado); // "0102030" ou NaN
+```
+
+O bug: os valores são strings, não números. O `console.log()` estratégico seria:
+
+```javascript
+function calcularTotal(precos) {
+  let total = 0;
+  for (let i = 0; i < precos.length; i++) {
+    console.log(`[DEBUG] Índice ${i}: valor = ${precos[i]}, tipo = ${typeof precos[i]}`);
+    total += Number(precos[i]); // SOLUÇÃO: converter para número
+  }
+  return total;
+}
+```
+
+**Regra:** Nunca coloque um `console.log` sem antes se perguntar "o que exatamente quero saber aqui?"
+
+## 2. O debugger de verdade: breakpoints e step-through
+
+`console.log` é o canivete suíço, mas o depurador integrado (debugger) é a serra elétrica. Você pausa a execução no meio do código e inspeciona tudo.
+
+**Exemplo em Python com `pdb`:**
+
+```python
+def processar_pedido(itens):
+    total = 0
+    for item in itens:
+        print(item)  # vira e mexe isso não mostra o suficiente
+        total += item['preco'] * item['quantidade']
+    return total
+
+pedidos = [
+    {'preco': 10.5, 'quantidade': 2},
+    {'preco': 5.0, 'quantidade': 3},
+]
+
+resultado = processar_pedido(pedidos)
+print(resultado)  # erro? valor estranho?
+```
+
+Melhor usar o depurador real:
+
+```python
+import pdb
+
+def processar_pedido(itens):
+    total = 0
+    for i, item in enumerate(itens):
+        pdb.set_trace()  # pausa aqui
+        total += item['preco'] * item['quantidade']
+    return total
+```
+
+Quando rodar, o terminal para e você pode digitar comandos como `item`, `total`, `item.keys()` para ver o que está acontecendo. Digite `c` para continuar ou `q` para sair.
+
+No JavaScript (Node.js), use a flag `--inspect-brk` e abra Chrome DevTools:
+
+```bash
+node --inspect-brk meu_script.js
+```
+
+Depois disso, vá em `chrome://inspect` e clique em "Open dedicated DevTools for Node". Você vai ver seu código parado no início, com botões para ir linha a linha.
+
+## 3. A técnica do "binário": isole o problema
+
+Quando o bug está escondido em 200 linhas, ler tudo é ineficiente. Use a **busca binária no código**: comente metade do código, veja se o bug persiste. Se sim, o problema está na outra metade.
+
+Exemplo prático com um array de operações:
+
+```javascript
+const operacoes = [
+  () => 1 + 2,
+  () => 3 * 4,
+  () => 'texto' + 5,       // PROBLEMA: concatenação inesperada
+  () => { return { a: 1 } },
+];
+
+for (const op of operacoes) {
+  console.log(op());
+}
+```
+
+Bugs: o terceiro elemento retorna uma string, não número. Aplicando busca binária:
+
+1. Comente as últimas duas funções → o bug some (primeiros dois funcionam)
+2. Teste só a terceira e quarta → bug aparece na terceira
+3. Isole a terceira e veja o que ela retorna: `'texto5'` ao invés de erro ou número
+
+A causa? Você esperava um `TypeError`, mas JavaScript concatenou. O isolamento revelou o comportamento real.
+
+## 4. Testes pequenos (assertions) para confirmar hipóteses
+
+Nada de sair mudando código no chute. Use `assert` para verificar suas suposições.
+
+```python
+def calcular_media(notas):
+    # Suposição: notas é uma lista de números
+    assert len(notas) > 0, "Lista vazia não permitida"
+    assert all(isinstance(n, (int, float)) for n in notas), "Notas devem ser números"
+    
+    return sum(notas) / len(notas)
+
+# Teste que deveria funcionar
+print(calcular_media([7, 8, 9]))  # 8.0
+
+# Teste que revela bug
+print(calcular_media([]))  # AssertionError: Lista vazia não permitida
+```
+
+No JavaScript, faça o mesmo com `console.assert`:
+
+```javascript
+console.assert(total > 0, `Total inesperado: ${total}`);
+```
+
+Se a condição for falsa, o console mostra um aviso. É um `console.log` com inteligência.
+
+## 5. Técnica do "rubber duck debugging" (versão prática)
+
+Você explica o código para um pato de borracha (ou para um colega) e, no meio da explicação, descobre o bug. Funciona porque sua mente é forçada a organizar o raciocínio.
+
+**Na prática:** Antes de pedir ajuda a alguém, escreva em um bloco de notas (ou fale em voz alta) qual é exatamente o problema, passo a passo.
+
+Exemplo:
+
+```
+1. A função recebe um array de objetos
+2. Espero que some o campo 'preco'
+3. O resultado está vindo como string
+4. Por quê? Porque... a API retorna preco como string, não número
+5. Solução: converter com Number() antes de somar
+```
+
+Ao escrever isso, você quase sempre encontra a resposta sozinho. E quando pedir ajuda a alguém, já chega com uma pergunta clara.
+
+## Próximo passo
+
+Agora que você tem essas técnicas na manga, o próximo nível é dominar o depurador do seu editor (VSCode tem um excelente) e aprender a ler stack traces sem pânico.
+
+Se quiser praticar debugging em cenários reais com projetos guiados, o **MeuPasso (meupasso.com.br)** tem desafios interativos que simulam bugs comuns do dia a dia. Lá você aplica essas técnicas sem o medo de quebrar algo de verdade.
+
+Lembre-se: debuggar não é sobre não cometer erros, mas sim sobre ter um processo para encontrá-los rápido. Cada bug resolvido é um novo padrão mental que você construiu.
