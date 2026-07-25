@@ -1,0 +1,216 @@
+---
+title: '5 Erros Comuns em Java que Estão Quebrando Seu Código (e Como Corrigir)'
+date: '2026-07-06'
+tags: ['java', 'iniciantes', 'debugging', 'erros-comuns']
+description: 'Pare de perder horas com NullPointerException e outros erros clássicos. Veja os 5 erros mais frequentes em Java para iniciantes e aprenda a corrigi-los rapidamente com exemplos práticos.'
+---
+
+Se você está começando em Java e já viu o console ficar vermelho com `NullPointerException` ou `ArrayIndexOutOfBoundsException`, saiba que não está sozinho. Esses erros são tão comuns que todo programador Java já perdeu pelo menos uma tarde debugando eles.
+
+Vamos direto aos 5 erros que mais pegam iniciantes — com código real e a solução na prática.
+
+## 1. NullPointerException: O Rei dos Erros
+
+O erro mais famoso de Java acontece quando você tenta chamar um método ou acessar um atributo de uma referência que está `null`.
+
+```java
+public class Usuario {
+    String nome;
+    
+    void exibirNome() {
+        System.out.println(nome.toUpperCase()); // Perigo: nome pode ser null
+    }
+    
+    public static void main(String[] args) {
+        Usuario u = new Usuario();
+        u.exibirNome(); // NullPointerException! nome é null
+    }
+}
+```
+
+**Por que acontece?** O atributo `nome` nunca foi inicializado. Em Java, variáveis de instância não inicializadas recebem `null` por padrão.
+
+**Solução:** Sempre verifique se o objeto não é nulo antes de usar, ou inicialize com um valor padrão.
+
+```java
+public class Usuario {
+    String nome = ""; // Valor padrão seguro
+    
+    void exibirNome() {
+        if (nome != null && !nome.isEmpty()) {
+            System.out.println(nome.toUpperCase());
+        } else {
+            System.out.println("Nome inválido");
+        }
+    }
+}
+```
+
+Use `Optional` do Java 8+ para casos mais complexos, mas para iniciantes: a verificação explícita com `if` já resolve 90% dos casos.
+
+## 2. ArrayIndexOutOfBoundsException: O Erro do "Um a Mais"
+
+Você cria um array com 5 posições e tenta acessar a posição 5. Lembre-se: arrays em Java começam no índice 0.
+
+```java
+public class ArrayErro {
+    public static void main(String[] args) {
+        int[] numeros = {10, 20, 30, 40, 50}; // índices: 0,1,2,3,4
+        
+        for (int i = 0; i <= numeros.length; i++) { // Erro: <= em vez de <
+            System.out.println(numeros[i]); // Estoura no índice 5
+        }
+    }
+}
+```
+
+**O problema:** `numeros.length` retorna 5, mas o último índice válido é 4. O loop vai até `i = 5`, que não existe.
+
+**Solução:** Use `<` em vez de `<=` no loop.
+
+```java
+public class ArrayCorreto {
+    public static void main(String[] args) {
+        int[] numeros = {10, 20, 30, 40, 50};
+        
+        for (int i = 0; i < numeros.length; i++) { // < em vez de <=
+            System.out.println(numeros[i]); // Funciona perfeitamente
+        }
+    }
+}
+```
+
+Dica profissional: sempre que escrever um loop com array, escreva `i < array.length` automaticamente. Isso vira hábito.
+
+## 3. String Comparison com == em vez de .equals()
+
+Comparar strings com `==` é o erro que mais faz iniciante chorar. `==` compara referências de memória, não o conteúdo.
+
+```java
+public class ComparacaoErrada {
+    public static void main(String[] args) {
+        String senha = "1234";
+        String input = new String("1234"); // Nova string, mesmo conteúdo
+        
+        if (senha == input) { // false! São objetos diferentes
+            System.out.println("Senha correta");
+        } else {
+            System.out.println("Senha incorreta"); // Sempre cai aqui
+        }
+    }
+}
+```
+
+**Solução:** Sempre use `.equals()` para comparar conteúdo de strings.
+
+```java
+public class ComparacaoCorreta {
+    public static void main(String[] args) {
+        String senha = "1234";
+        String input = new String("1234");
+        
+        if (senha.equals(input)) { // true! Compara conteúdo
+            System.out.println("Senha correta");
+        }
+    }
+}
+```
+
+Para ignorar maiúsculas/minúsculas, use `equalsIgnoreCase()`. E lembre-se: com literais string (`"texto"`), chame `.equals()` na string que **não** pode ser nula para evitar NullPointerException.
+
+## 4. Esquecer o break no switch
+
+Antigo `switch` do Java sem `break` causa um comportamento chamado *fall-through* — o código continua executando os cases seguintes.
+
+```java
+public class DiaSemana {
+    public static void main(String[] args) {
+        int dia = 2;
+        String nomeDia;
+        
+        switch (dia) {
+            case 1:
+                nomeDia = "Domingo";
+            case 2:
+                nomeDia = "Segunda"; // Esse executa
+            case 3:
+                nomeDia = "Terça";   // E esse também! Fall-through
+        }
+        
+        System.out.println(nomeDia); // "Terça" — não é o que queríamos
+    }
+}
+```
+
+**Solução:** Coloque `break` no final de cada case (ou use o novo `switch` expression do Java 14+).
+
+```java
+public class DiaSemanaCorreto {
+    public static void main(String[] args) {
+        int dia = 2;
+        String nomeDia;
+        
+        switch (dia) {
+            case 1:
+                nomeDia = "Domingo";
+                break;
+            case 2:
+                nomeDia = "Segunda";
+                break;
+            case 3:
+                nomeDia = "Terça";
+                break;
+            default:
+                nomeDia = "Inválido";
+        }
+        
+        System.out.println(nomeDia); // "Segunda"
+    }
+}
+```
+
+Se estiver usando Java 14+, prefira a sintaxe mais limpa: `String nomeDia = switch(dia) { case 1 -> "Domingo"; ... };`
+
+## 5. Confundir Atribuição com Comparação no if
+
+Um erro sutil que compila mas não faz o que parece:
+
+```java
+public class AtribuicaoErro {
+    public static void main(String[] args) {
+        boolean ativo = false;
+        
+        if (ativo = true) { // Atenção: UM =, não ==
+            System.out.println("Está ativo"); // Sempre executa!
+        }
+    }
+}
+```
+
+**O que acontece:** `ativo = true` é uma **atribuição**, não uma comparação. Ela retorna `true`, então o bloco sempre executa.
+
+**Solução:** Use `==` para comparação. E uma dica de ouro: coloque a constante do lado esquerdo — se você errar, o compilador avisa.
+
+```java
+public class ComparacaoCorreta {
+    public static void main(String[] args) {
+        boolean ativo = false;
+        
+        if (ativo == true) {  // ou simplesmente if (ativo)
+            System.out.println("Está ativo");
+        }
+        
+        // Técnica defensiva: if (true == ativo) — se esquecer um =, erro de compilação
+    }
+}
+```
+
+Para booleanos, nem precisa de `== true` — `if (ativo)` já basta.
+
+---
+
+## Conclusão: Errar é Humano, Depurar é Divino
+
+Esses 5 erros cobrem uns 80% dos problemas que iniciantes enfrentam em Java. Grave bem: `equals` para strings, `<` para loops de array, `break` no switch, verificação de null, e `==` vs `=` no if.
+
+Quer praticar esses conceitos com exercícios corrigidos automaticamente? No **MeuPasso** (meupasso.com.br) você encontra desafios de Java que testam exatamente esses erros clássicos — com feedback na hora. É a maneira mais rápida de transformar esses aprendizados em reflexo.
