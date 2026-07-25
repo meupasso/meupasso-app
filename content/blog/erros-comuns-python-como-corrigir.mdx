@@ -1,0 +1,157 @@
+---
+title: 'Erros Comuns em Python e Como Corrigi-los'
+date: '2026-07-10'
+tags: ['python', 'iniciantes', 'debug']
+description: 'Os 4 erros mais frequentes que travam iniciantes em Python e soluções práticas com exemplos de código.'
+---
+
+Você está escrevendo código Python, tudo parece certo, mas o programa simplesmente não funciona. O erro aparece, você lê a mensagem, e nada faz sentido. Isso é normal. Vou mostrar os 4 erros mais comuns que vejo alunos cometendo e como corrigir cada um com exemplos reais.
+
+## 1. NameError: nome não definido
+
+Esse erro aparece quando você tenta usar uma variável antes de criá-la. Parece óbvio, mas em scripts maiores é fácil escapar.
+
+```python
+# Erro comum
+total = preco + imposto  # NameError: name 'preco' is not defined
+```
+
+O problema é que `preco` e `imposto` não existem ainda. A solução é simples: defina antes de usar.
+
+```python
+# Correção
+preco = 100
+imposto = 15
+total = preco + imposto
+print(total)  # 115
+```
+
+Outra variação perigosa é quando você tenta usar uma variável de dentro de uma função fora dela. Lembre-se: variáveis criadas dentro de funções são locais.
+
+```python
+def calcular_total():
+    desconto = 10
+    return 200 - desconto
+
+print(desconto)  # NameError: name 'desconto' is not defined
+```
+
+Para acessar `desconto` fora da função, você precisa retorná-lo ou declará-lo global (o que geralmente é má prática). Melhor: refatore o código.
+
+## 2. TypeError: argumentos com tipos incompatíveis
+
+Python é dinamicamente tipado, mas isso não significa que você pode misturar qualquer coisa. Um erro clássico é somar string com número.
+
+```python
+# Erro comum
+idade = 25
+mensagem = "Minha idade é " + idade  # TypeError: can only concatenate str (not "int") to str
+```
+
+A correção é converter explicitamente:
+
+```python
+# Correção
+idade = 25
+mensagem = "Minha idade é " + str(idade)
+print(mensagem)  # Minha idade é 25
+```
+
+Ou use f-strings, que já tratam a conversão automaticamente:
+
+```python
+# Forma mais elegante
+idade = 25
+mensagem = f"Minha idade é {idade}"
+print(mensagem)  # Minha idade é 25
+```
+
+Outro exemplo comum é quando você tenta fazer operações matemáticas com listas:
+
+```python
+numeros = [10, 20, 30]
+soma = numeros + 5  # TypeError: can only concatenate list (not "int") to list
+```
+
+Nesse caso, você quer somar um valor a cada elemento:
+
+```python
+numeros = [10, 20, 30]
+soma = [n + 5 for n in numeros]
+print(soma)  # [15, 25, 35]
+```
+
+## 3. IndexError: índice de lista fora do alcance
+
+Esse erro acontece quando você tenta acessar uma posição que não existe na lista. Lembre-se: listas começam no índice 0.
+
+```python
+# Erro comum
+frutas = ["maçã", "banana", "laranja"]
+print(frutas[3])  # IndexError: list index out of range
+```
+
+A lista tem índices 0, 1 e 2. O índice 3 não existe. A correção é verificar o tamanho antes de acessar:
+
+```python
+# Correção com verificação
+frutas = ["maçã", "banana", "laranja"]
+if len(frutas) > 3:
+    print(frutas[3])
+else:
+    print("Índice inválido")
+```
+
+Mas o erro mais comum é em loops. Veja este exemplo típico:
+
+```python
+# Erro comum em loop
+lista = [1, 2, 3]
+for i in range(len(lista)):
+    print(lista[i + 1])  # IndexError na última iteração
+```
+
+Quando `i` chega a 2, `i + 1` vale 3, que está fora da lista. A correção é ajustar o intervalo:
+
+```python
+# Correção
+lista = [1, 2, 3]
+for i in range(len(lista) - 1):
+    print(lista[i + 1])  # 2, 3
+```
+
+## 4. AttributeError: objeto não tem atributo
+
+Esse erro é famoso em bibliotecas como pandas e requests. Você tenta usar um método ou propriedade que não existe no objeto.
+
+```python
+# Erro comum com pandas
+import pandas as pd
+
+dados = pd.DataFrame({"nome": ["Ana", "João"], "idade": [25, 30]})
+media = dados.media()  # AttributeError: 'DataFrame' object has no attribute 'media'
+```
+
+O erro é um simples erro de digitação. O método correto é `mean()`:
+
+```python
+# Correção
+media = dados["idade"].mean()
+print(media)  # 27.5
+```
+
+Outro exemplo com strings:
+
+```python
+# Erro comum
+texto = "python"
+texto.upper_snake()  # AttributeError: 'str' object has no attribute 'upper_snake'
+```
+
+Nesse caso, o método correto é `upper()` ou `replace()`. Sempre consulte a documentação da biblioteca que você está usando.
+
+## Conclusão
+
+Erros em Python são ótimos professores. Cada NameError, TypeError ou IndexError te ensina algo sobre como a linguagem funciona. A dica mais importante é: leia a mensagem de erro inteira. Ela sempre diz qual linha deu problema e qual é o tipo de erro.
+
+Para aprofundar seus conhecimentos e praticar esses conceitos com exercícios corrigidos, visite [MeuPasso](https://meupasso.com.br). Lá você encontra desafios práticos que simulam situações reais de programação, com feedback automático para cada erro que você cometer.
