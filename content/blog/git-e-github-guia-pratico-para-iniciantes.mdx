@@ -1,0 +1,164 @@
+---
+title: 'Comece a usar Git e GitHub sem medo (guia prático)'
+date: '2026-07-15'
+tags: ['git', 'github', 'iniciantes', 'controle de versão']
+description: 'Aprenda git e GitHub na prática com exemplos de código reais. Do init ao push, sem enrolação.'
+---
+
+Você já perdeu código? Já sobrescreveu um arquivo que estava funcionando? Pois é. Git resolve isso. E GitHub é onde você guarda esse histórico na nuvem para não depender só do seu computador.
+
+Esse guia é prático: você vai aprender os comandos essenciais que uso todo dia como desenvolvedor. Sem teoria inútil.
+
+## 1. O que é git e por que você precisa
+
+Git é um sistema de controle de versão. Ele registra cada alteração que você faz nos arquivos. Se algo quebrar, você volta no tempo como se fosse um "Ctrl+Z" profissional.
+
+Diferente de salvar cópias tipo `projeto-final.rar`, `projeto-final2.rar`, `projeto-final3.rar` (sim, todo mundo já fez isso), git organiza tudo em _commits_: momentos específicos do seu código.
+
+Você instala o git no seu computador. O GitHub é um site que hospeda seus repositórios git. Ambos funcionam juntos, mas não são a mesma coisa.
+
+## 2. Configuração inicial: só uma vez
+
+Instale o git pelo site oficial (git-scm.com) ou pelo gerenciador de pacotes do seu sistema. Depois, configure nome e email — isso vai aparecer em cada commit:
+
+```bash
+# Configura seu nome de usuário
+git config --global user.name "Seu Nome"
+
+# Configura seu email (use o mesmo do GitHub)
+git config --global user.email "seu@email.com"
+
+# Verifica a configuração
+git config --list
+```
+
+Essa configuração é global, ou seja, vale para todos os repositórios. Você pode mudar por projeto se quiser.
+
+## 3. Criando seu primeiro repositório e fazendo commits
+
+Um repositório é uma pasta monitorada pelo git. Vamos criar um:
+
+```bash
+# Cria uma pasta para o projeto
+mkdir meu-projeto
+cd meu-projeto
+
+# Inicia o repositório git
+git init
+
+# Cria um arquivo
+echo "# Meu Projeto" > README.md
+
+# Mostra o status (arquivos não rastreados)
+git status
+
+# Adiciona o arquivo à área de preparação (staging)
+git add README.md
+
+# Faz o primeiro commit
+git commit -m "Commit inicial: adiciona README"
+```
+
+O `git add` escolhe quais mudanças vão para o próximo commit. O `git commit` salva essas mudanças com uma mensagem. Sempre escreva mensagens claras.
+
+Depois de alguns commits, você pode ver o histórico:
+
+```bash
+# Modifica o README
+echo "## Como usar" >> README.md
+git add README.md
+git commit -m "Adiciona seção de uso"
+
+# Altera outro arquivo
+touch index.html
+echo "<h1>Olá</h1>" > index.html
+git add index.html
+git commit -m "Adiciona página inicial"
+
+# Vê o histórico de commits
+git log --oneline
+```
+
+A saída vai ser algo como:
+```
+abc1234 Adiciona página inicial
+def5678 Adiciona seção de uso
+ghi9012 Commit inicial: adiciona README
+```
+
+Cada hash (abc1234) identifica o commit. Com ele, você pode voltar no tempo:
+
+```bash
+# Volta para o estado do commit "Adiciona seção de uso"
+git checkout def5678
+```
+
+Depois de visualizar, volte para a versão mais recente:
+```bash
+git checkout main
+```
+
+## 4. Conectando com GitHub e fazendo push
+
+No GitHub, crie um repositório novo (sem README, sem .gitignore, sem licença). Copie a URL fornecida. Agora conecte seu repositório local ao remoto:
+
+```bash
+# Adiciona a URL do GitHub como "origin" (nome padrão do remoto)
+git remote add origin https://github.com/seu-usuario/meu-projeto.git
+
+# Verifica os remotos configurados
+git remote -v
+
+# Envia (push) seus commits para o GitHub
+# -u significa "upstream": define o branch remoto padrão
+git push -u origin main
+```
+
+Se for seu primeiro push, o git vai pedir seu usuário e senha do GitHub (ou token). Depois de configurado, para enviar alterações futuras:
+
+```bash
+# Depois de fazer commits novos
+git push
+```
+
+Para baixar um repositório do GitHub para seu computador (se não existir localmente):
+
+```bash
+# Clona um repositório remoto
+git clone https://github.com/alguem/outro-projeto.git
+```
+
+Isso cria a pasta `outro-projeto` com todo o histórico.
+
+## 5. Ciclo básico de trabalho diário
+
+No dia a dia, vou usar sempre esses comandos:
+
+```bash
+# 1. Ver o que mudou desde o último commit
+git status
+
+# 2. Adicionar arquivos específicos
+git add app.js
+git add style.css
+
+# Ou adicionar tudo de uma vez (cuidado com lixo)
+git add -A
+
+# 3. Commitar com mensagem descritiva
+git commit -m "Corrige bug no cálculo de frete"
+
+# 4. Puxar alterações dos outros (se tiver colaboradores)
+git pull
+
+# 5. Subir as minhas
+git push
+```
+
+Sempre puxe antes de empurrar (`git pull` antes de `git push`), especialmente em projetos com mais pessoas. Isso evita conflitos.
+
+## Conclusão
+
+Você aprendeu o essencial: configurar git, criar repositório, commitar, conectar ao GitHub e enviar código. Isso já cobre 90% do uso diário.
+
+Dominar ferramentas como git é um dos pilares para se destacar como desenvolvedor. Mas a jornada não para por aí. No **meupasso.com.br**, você encontra planos de estudo práticos que te guiam do zero até projetos reais, exatamente como esse guia fez com git.
