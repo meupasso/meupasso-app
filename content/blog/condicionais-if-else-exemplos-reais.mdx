@@ -1,0 +1,188 @@
+---
+title: 'Condicionais if/else: Decisões Reais no Código do Dia a Dia'
+date: '2026-07-Jul 13, 2026'
+tags: ['programação', 'iniciantes', 'lógica']
+description: 'Aprenda a usar if/else com exemplos práticos de validação de formulários, controle de acesso e menus interativos.'
+---
+
+Seu código precisa tomar decisões. O usuário digitou uma senha correta? O saldo é suficiente? O arquivo existe?  
+Sem condicionais, seu programa é uma receita de bolo linear — executa tudo na mesma ordem, sem adaptação.  
+`if/else` é a estrutura que permite ao seu programa escolher um caminho baseado em condições reais.
+
+Vamos direto aos exemplos.
+
+## 1. Validação de Formulário (JavaScript)
+
+O caso mais comum: impedir que dados inválidos sejam processados.
+
+```javascript
+function validarLogin(email, senha) {
+  if (!email.includes('@')) {
+    return 'Erro: email inválido - falta @';
+  }
+  
+  if (senha.length < 6) {
+    return 'Erro: senha deve ter pelo menos 6 caracteres';
+  }
+  
+  // Se passou pelos ifs, está ok
+  return 'Login válido';
+}
+
+// Testando
+console.log(validarLogin('joao@email.com', '12345'));
+// "Erro: senha deve ter pelo menos 6 caracteres"
+
+console.log(validarLogin('joaoemail.com', 'senhaForte'));
+// "Erro: email inválido - falta @"
+
+console.log(validarLogin('maria@email.com', 'senha123'));
+// "Login válido"
+```
+
+Perceba que usei `if` sem `else` porque cada condição é independente e interrompe a execução com `return`. Isso evita aninhamento desnecessário.
+
+## 2. Controle de Acesso com Níveis de Permissão (Python)
+
+Sistemas reais têm hierarquia: admin, moderador, usuário comum.
+
+```python
+def verificar_acesso(nivel_usuario, recurso_solicitado):
+    recursos_admin = ['relatorios', 'usuarios', 'configuracoes']
+    recursos_mod = ['posts', 'comentarios', 'denuncias']
+    recursos_user = ['perfil', 'mensagens']
+    
+    if nivel_usuario == 'admin':
+        return True  # admin acessa tudo
+    
+    elif nivel_usuario == 'moderador':
+        if recurso_solicitado in recursos_admin:
+            return False
+        return True  # acesso aos demais
+    
+    elif nivel_usuario == 'usuario':
+        if recurso_solicitado in recursos_user:
+            return True
+        return False
+    
+    else:
+        return False  # nível desconhecido
+
+# Testes
+print(verificar_acesso('moderador', 'relatorios'))  # False
+print(verificar_acesso('usuario', 'perfil'))        # True
+print(verificar_acesso('admin', 'configuracoes'))   # True
+```
+
+Aqui usamos `elif` (else if) para encadear várias condições sem criar uma escadinha feia de `if/else` aninhados.
+
+## 3. Sistema de Cache com Ternário (Java)
+
+Nem sempre você precisa de `if` completo. Às vezes é uma decisão binária (sim/não). Use operador ternário para legibilidade.
+
+```java
+import java.time.Instant;
+
+public class CacheManager {
+    private String dadosEmCache = null;
+    private long timestampCache = 0;
+    private static final long TEMPO_EXPIRACAO = 300; // 5 minutos em segundos
+    
+    public String obterDados() {
+        long agora = Instant.now().getEpochSecond();
+        long idadeCache = agora - timestampCache;
+        
+        // Se cache expirou ou não existe, busca dados novos
+        if (dadosEmCache == null || idadeCache > TEMPO_EXPIRACAO) {
+            dadosEmCache = buscarDoBanco();
+            timestampCache = agora;
+        }
+        
+        // A variável status usa ternário:
+        String status = (dadosEmCache != null) ? "cache válido" : "sem cache";
+        System.out.println("Status: " + status);
+        
+        return dadosEmCache;
+    }
+    
+    private String buscarDoBanco() {
+        // simulação de consulta lenta
+        try { Thread.sleep(200); } catch (InterruptedException e) {}
+        return "dados frescos do banco";
+    }
+    
+    public static void main(String[] args) {
+        CacheManager cache = new CacheManager();
+        System.out.println(cache.obterDados());
+    }
+}
+```
+
+O ternário `(condicao) ? valorSeTrue : valorSeFalse` substitui um `if/else` simples. Use com moderação — se a condição for complexa, o `if` tradicional é mais legível.
+
+## 4. Navegação por Menu (Python com Loop)
+
+Menus interativos exigem múltiplas opções. Use `if/elif/else` dentro de um loop.
+
+```python
+def menu_principal():
+    while True:
+        print("\n--- MENU PRINCIPAL ---")
+        print("1 - Cadastrar cliente")
+        print("2 - Listar clientes")
+        print("3 - Gerar relatório")
+        print("0 - Sair")
+        
+        opcao = input("Escolha uma opção: ")
+        
+        if opcao == '1':
+            nome = input("Nome do cliente: ")
+            print(f"Cliente {nome} cadastrado!")
+            
+        elif opcao == '2':
+            print("Listando clientes... (função seria chamada aqui)")
+            
+        elif opcao == '3':
+            print("Gerando relatório...")
+            
+        elif opcao == '0':
+            print("Saindo...")
+            break
+            
+        else:
+            print("Opção inválida! Tente novamente.")
+```
+
+Sem `if/elif/else`, esse menu seria impossível. Cada opção é uma decisão que seu programa precisa tomar baseada na entrada do usuário.
+
+## 5. Tratamento de Erros com if (JavaScript)
+
+Nem todo erro precisa de `try/catch`. Às vezes um simples `if` resolve antes da operação falhar.
+
+```javascript
+function dividir(a, b) {
+  if (b === 0) {
+    return 'Erro: divisão por zero não permitida';
+  }
+  
+  if (typeof a !== 'number' || typeof b !== 'number') {
+    return 'Erro: ambos os valores devem ser números';
+  }
+  
+  return a / b;
+}
+
+console.log(dividir(10, 0));    // "Erro: divisão por zero não permitida"
+console.log(dividir('10', 2));  // "Erro: ambos os valores devem ser números"
+console.log(dividir(15, 3));    // 5
+```
+
+Isso é chamado de "defensive programming": você verifica as condições adversas antes de executar a operação principal.
+
+## Conclusão
+
+`if/else` não é teoria acadêmica — é a estrutura que dá inteligência ao seu código. Desde validar um formulário até decidir se um cache expirou, você usa condicionais em toda aplicação real.
+
+O segredo: comece com `if` simples, adicione `else` quando houver caminho alternativo, e use `elif` para múltiplas opções. Pratique refatorando blocos grandes em funções menores.
+
+Quer mais exemplos práticos para seu próximo projeto? No **MeuPasso (meupasso.com.br)** você encontra desafios guiados que vão desde condicionais até sistemas completos. É grátis.
