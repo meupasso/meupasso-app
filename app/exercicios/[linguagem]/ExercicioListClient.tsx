@@ -510,7 +510,7 @@ export default function ExercicioListClient({
                   return (
                     <div key={ex.id}>
                       {!isExpanded && (
-                        <div onClick={() => toggleCard(ex.id)}
+                        <Link href={`/exercicios/${linguagem}/${ex.slug}`}
                           className="exercicio-row"
                           style={{
                             display: "flex",
@@ -523,6 +523,7 @@ export default function ExercicioListClient({
                             border: "1px solid var(--border)",
                             borderLeft: `3px solid ${concluido ? "#22c55e" : corNivel}`,
                             cursor: "pointer",
+                            textDecoration: "none",
                             transition: "transform 0.15s, box-shadow 0.15s, border-color 0.15s",
                           }}
                         >
@@ -551,10 +552,17 @@ export default function ExercicioListClient({
                           >
                             Praticar →
                           </span>
-                          <span style={{ color: "var(--text-secondary)", opacity: 0.4, display: "flex", flexShrink: 0 }}>
+                          <span
+                            role="button"
+                            aria-label="Ver prévia do exercício"
+                            tabIndex={0}
+                            onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleCard(ex.id); }}
+                            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.stopPropagation(); toggleCard(ex.id); } }}
+                            style={{ color: "var(--text-secondary)", opacity: 0.5, display: "flex", flexShrink: 0, cursor: "pointer", padding: "0.25rem" }}
+                          >
                             <ChevronDown />
                           </span>
-                        </div>
+                        </Link>
                       )}
 
                       {isExpanded && (
