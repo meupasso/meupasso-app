@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "guias:generate": "node scripts/generate-guias-registry.js",
-    "blog:generate": "node scripts/generate-blog-registry.mjs"
+    "blog:generate": "node scripts/generate-blog-registry.mjs",
+    "seo:check": "node scripts/check-search-console.mjs"
   },
   "dependencies": {
     "@codemirror/lang-python": "^6.2.1",
@@ -21,6 +22,7 @@
     "@tailwindcss/typography": "^0.5.19",
     "@uiw/react-textarea-code-editor": "^3.1.1",
     "codemirror": "^6.0.2",
+    "googleapis": "^173.0.0",
     "gray-matter": "^4.0.3",
     "mammoth": "^1.12.0",
     "next": "^14.2.0",

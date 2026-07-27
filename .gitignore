@@ -43,3 +43,7 @@ coverage/
 
 .vercel
 .env*.local
+
+# secrets / service account keys
+secrets/
+*.serviceaccount.json
