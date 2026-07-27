@@ -9,7 +9,8 @@
     "lint": "next lint",
     "guias:generate": "node scripts/generate-guias-registry.js",
     "blog:generate": "node scripts/generate-blog-registry.mjs",
-    "seo:check": "node scripts/check-search-console.mjs"
+    "seo:check": "node scripts/check-search-console.mjs",
+    "adsense:check": "node scripts/check-adsense.mjs"
   },
   "dependencies": {
     "@codemirror/lang-python": "^6.2.1",
